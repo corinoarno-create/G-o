@@ -94,8 +94,8 @@ describe('evaluateAnswer', () => {
       message: 'Bravo !',
     });
     const wrong = evaluateAnswer('locate-country', entity('fr'), { kind: 'pin', entityId: 'be', lonLat: [4.5, 50.5] }, world);
-    expect(wrong).toMatchObject({ correct: false, chosenEntityId: 'be' });
-    expect(wrong.message).toContain('Belgique');
+    expect(wrong).toMatchObject({ correct: false, chosenEntityId: 'be', answerLabel: 'France' });
+    expect(wrong.message).toBe('Presque ! Tu as touché : Belgique (juste à côté).');
   });
 
   it('Placer les capitales : juste dans la tolérance, avec la distance', () => {
@@ -117,18 +117,26 @@ describe('evaluateAnswer', () => {
     expect(evaluateAnswer('name-capital', entity('bo'), { kind: 'type', text: 'la paz' }, world).correct).toBe(true);
     const confused = evaluateAnswer('name-country', entity('ng'), { kind: 'type', text: 'Niger' }, world);
     expect(confused.correct).toBe(false);
-    expect(confused.message).toBe('« Niger », c\'est un autre pays : la réponse était « Nigeria ».');
+    expect(confused.message).toBe("« Niger » : c'est un autre pays.");
+    expect(confused.answerLabel).toBe('Nigeria');
   });
 
   it('Drapeaux : choix ou clic sur la carte', () => {
     expect(evaluateAnswer('country-to-flag', entity('fr'), { kind: 'choice', entityId: 'fr' }, world).correct).toBe(true);
-    expect(evaluateAnswer('country-to-flag', entity('fr'), { kind: 'choice', entityId: 'it' }, world).message).toContain('Italie');
+    expect(evaluateAnswer('country-to-flag', entity('fr'), { kind: 'choice', entityId: 'it' }, world).message).toBe(
+      'Ce drapeau-là : Italie.',
+    );
     expect(evaluateAnswer('flag-to-country', entity('jp'), { kind: 'pin', entityId: 'jp', lonLat: [139, 36] }, world).correct).toBe(true);
   });
 
   it('« Je ne sais pas » montre simplement la réponse', () => {
-    expect(evaluateAnswer('name-country', entity('pe'), { kind: 'type', text: '' }, world).message).toBe('La réponse était « Pérou ».');
-    expect(evaluateAnswer('locate-capital', entity('pe'), { kind: 'pin', entityId: null, lonLat: null }, world).message).toBe('Voici Lima.');
+    expect(evaluateAnswer('name-country', entity('pe'), { kind: 'type', text: '' }, world)).toMatchObject({
+      message: 'Voici la bonne réponse.',
+      answerLabel: 'Pérou',
+    });
+    expect(evaluateAnswer('locate-capital', entity('pe'), { kind: 'pin', entityId: null, lonLat: null }, world).answerLabel).toBe(
+      'Lima (Pérou)',
+    );
   });
 });
 

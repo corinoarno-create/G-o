@@ -47,6 +47,12 @@ export interface MapPick {
   lonLat: [number, number] | null;
 }
 
+/** Marges (px) occupées par des éléments posés sur la carte (question en haut, réponse en bas). */
+export interface MapInsets {
+  top: number;
+  bottom: number;
+}
+
 export interface WorldMapOptions {
   onPick?: (pick: MapPick) => void;
 }
@@ -65,6 +71,7 @@ export class WorldMap {
   private width = 0;
   private height = 0;
   private zone: Zone | null = null;
+  private insets: MapInsets = { top: 0, bottom: 0 };
   private readonly shapes = new Map<string, SVGPathElement>();
   private readonly markers = new Map<string, { element: SVGGElement; area: number; anchor: [number, number] }>();
   private highlights = new Map<string, HighlightKind>();
@@ -114,6 +121,16 @@ export class WorldMap {
     this.render();
   }
 
+  /**
+   * Indique la place prise par les éléments posés sur la carte : la zone est alors cadrée dans
+   * l'espace libre, pour qu'aucun pays ne se retrouve caché sous la question ou sous la réponse.
+   */
+  setInsets(insets: MapInsets): void {
+    if (Math.abs(insets.top - this.insets.top) < 4 && Math.abs(insets.bottom - this.insets.bottom) < 4) return;
+    this.insets = insets;
+    this.render();
+  }
+
   /** Met en évidence des entités (sélection, cible à trouver, bonne ou mauvaise réponse). */
   setHighlights(highlights: Map<string, HighlightKind>): void {
     const previous = this.highlights;
@@ -154,12 +171,17 @@ export class WorldMap {
       ...pointBounds,
     ]);
     if (!bounds) return;
-    const { k, x, y } = fitTransform(bounds, this.width, this.height, {
-      padding: MAP_SETTINGS.padding * 4,
+    // On cadre dans l'espace libre entre la question et la réponse.
+    const freeHeight = Math.max(this.height - this.insets.top - this.insets.bottom, 80);
+    const { k, x, y } = fitTransform(bounds, this.width, freeHeight, {
+      padding: MAP_SETTINGS.padding * 2,
       maxScale: MAP_SETTINGS.maxZoom,
       minSize: 40,
     });
-    this.svg.transition().duration(duration).call(this.zoomBehavior.transform, zoomIdentity.translate(x, y).scale(k));
+    this.svg
+      .transition()
+      .duration(duration)
+      .call(this.zoomBehavior.transform, zoomIdentity.translate(x, y + this.insets.top).scale(k));
   }
 
   zoomBy(factor: number): void {
@@ -190,9 +212,11 @@ export class WorldMap {
   }
 
   private configureProjection(zone: Zone): void {
+    const top = MAP_SETTINGS.padding + this.insets.top;
+    const bottom = Math.max(this.height - MAP_SETTINGS.padding - this.insets.bottom, top + 80);
     const extent: Bounds = [
-      [MAP_SETTINGS.padding, MAP_SETTINGS.padding],
-      [this.width - MAP_SETTINGS.padding, this.height - MAP_SETTINGS.padding],
+      [MAP_SETTINGS.padding, top],
+      [this.width - MAP_SETTINGS.padding, bottom],
     ];
     const box = zone.view.box;
     if (zone.view.projection === 'natural-earth' || !box) {

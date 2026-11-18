@@ -72,7 +72,12 @@ export interface Evaluation {
   mode: AnswerMode;
   /** Bonne réponse, telle qu'on l'affiche. */
   expected: string;
-  /** Message affiché, toujours bienveillant. */
+  /** Bonne réponse avec son contexte (« Lima (Pérou) »), affichée sous le message après une erreur. */
+  answerLabel: string;
+  /**
+   * Message affiché, toujours bienveillant. Les noms de pays sont cités sans article (« Tu as touché :
+   * Venezuela »), car les données ne disent pas s'il faut « le », « la », « les » ou « l' ».
+   */
   message: string;
   closeness?: PinCloseness;
   distanceKm?: number;
@@ -104,14 +109,15 @@ export function evaluateAnswer(
     const clicked = nameOf(input.entityId);
     let message = praise;
     if (!result.correct) {
-      if (clicked && result.closeness === 'near') message = `Presque ! Ici, c'est ${clicked}, juste à côté. Voici ${entity.name}.`;
-      else if (clicked) message = `Ici, c'est ${clicked}. Voici ${entity.name}.`;
-      else message = `Voici où se trouve ${entity.name}.`;
+      if (clicked && result.closeness === 'near') message = `Presque ! Tu as touché : ${clicked} (juste à côté).`;
+      else if (clicked) message = `Tu as touché : ${clicked}.`;
+      else message = 'Voici la bonne réponse.';
     }
     return {
       correct: result.correct,
       mode: 'pin',
       expected: entity.name,
+      answerLabel: entity.name,
       message,
       closeness: result.closeness,
       distanceKm: result.distanceKm,
@@ -122,8 +128,9 @@ export function evaluateAnswer(
   // Placer une capitale : distance au point exact.
   if (input.kind === 'pin') {
     const capital = entity.capital!;
+    const answerLabel = `${capital.name} (${entity.name})`;
     if (!input.lonLat) {
-      return { correct: false, mode: 'pin', expected: capital.name, message: `Voici ${capital.name}.` };
+      return { correct: false, mode: 'pin', expected: capital.name, answerLabel, message: 'Voici la bonne réponse.' };
     }
     const result = judgePointPin(input.lonLat, [capital.lon, capital.lat], entity.areaKm2);
     const distance = formatKm(result.distanceKm);
@@ -132,12 +139,13 @@ export function evaluateAnswer(
         ? `${praise} En plein dessus !`
         : `${praise} À ${distance} près.`
       : result.closeness === 'near'
-        ? `Presque ! À ${distance}. Voici ${capital.name} (${entity.name}).`
-        : `Raté de ${distance} : voici ${capital.name} (${entity.name}).`;
+        ? `Presque ! À ${distance}.`
+        : `Raté de ${distance}.`;
     return {
       correct: result.correct,
       mode: 'pin',
       expected: capital.name,
+      answerLabel,
       message,
       closeness: result.closeness,
       distanceKm: result.distanceKm,
@@ -151,11 +159,12 @@ export function evaluateAnswer(
       correct,
       mode: 'choice',
       expected: entity.name,
+      answerLabel: entity.name,
       message: correct
         ? praise
         : input.entityId
-          ? `Ce drapeau est celui de ${nameOf(input.entityId) ?? '?'}. Voici celui de ${entity.name}.`
-          : `Voici le drapeau de ${entity.name}.`,
+          ? `Ce drapeau-là : ${nameOf(input.entityId) ?? '?'}.`
+          : 'Voici le bon drapeau.',
       chosenEntityId: input.entityId,
     };
   }
@@ -171,12 +180,13 @@ export function evaluateAnswer(
   if (match.status === 'exact') message = praise;
   else if (match.status === 'close') message = `${praise} On écrit « ${match.matched} ».`;
   else if (match.confusedWith) {
-    message = `« ${match.confusedWith} », c'est ${capitalQuestion ? 'une autre capitale' : 'un autre pays'} : la réponse était « ${expected} ».`;
-  } else message = `La réponse était « ${expected} ».`;
+    message = `« ${match.confusedWith} » : c'est ${capitalQuestion ? 'une autre capitale' : 'un autre pays'}.`;
+  } else message = input.text.trim() ? 'Pas tout à fait.' : 'Voici la bonne réponse.';
   return {
     correct: match.status !== 'wrong',
     mode: 'type',
     expected,
+    answerLabel: capitalQuestion ? `${expected} (${entity.name})` : expected,
     message,
     typed: input.text,
     answerLength,

@@ -1,6 +1,6 @@
 // Écran de jeu : une question à la fois, réponse par clic, saisie ou choix, retour immédiat,
 // et boucle de consolidation (un élément raté revient quelques questions plus tard).
-import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { flagUrl } from '../data/flags.ts';
 import type { WorldData } from '../data/world.ts';
 import {
@@ -13,7 +13,7 @@ import {
 } from '../engine/consolidation.ts';
 import { suggest } from '../engine/text-match.ts';
 import { detectDevice } from '../lib/device.ts';
-import type { HighlightKind, MapPick, MapPin, WorldMap } from '../map/world-map.ts';
+import type { HighlightKind, MapInsets, MapPick, MapPin, WorldMap } from '../map/world-map.ts';
 import { WorldMapView } from '../map/WorldMapView.tsx';
 import { putSetting } from '../storage/db.ts';
 import { progressDb } from '../storage/progress-db.ts';
@@ -63,6 +63,30 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
   const mapRef = useRef<WorldMap | null>(null);
   const flew = useRef(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const mapAreaRef = useRef<HTMLElement>(null);
+  const promptRef = useRef<HTMLElement>(null);
+  const panelRef = useRef<HTMLElement>(null);
+  const [insets, setInsets] = useState<MapInsets | undefined>(undefined);
+
+  // Place prise par la question et le panneau de réponse, mesurée au début et quand l'écran change de taille
+  // (pas à chaque question, pour ne pas recadrer la carte sans arrêt).
+  useLayoutEffect(() => {
+    const area = mapAreaRef.current;
+    if (!area) return undefined;
+    const measure = () => {
+      const prompt = promptRef.current;
+      const panel = panelRef.current;
+      if (!prompt || !panel) return;
+      setInsets({
+        top: prompt.offsetTop + prompt.offsetHeight + 8,
+        bottom: area.clientHeight - panel.offsetTop + 8,
+      });
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(area);
+    return () => observer.disconnect();
+  }, []);
   const continueRef = useRef<HTMLButtonElement>(null);
 
   const entityId = currentItem(consolidation);
@@ -270,26 +294,32 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
         </span>
       </header>
 
-      <main class="game__map">
+      <main class="game__map" ref={mapAreaRef}>
         <WorldMapView
           world={world}
           zone={zone}
           highlights={highlights}
           pins={pins}
+          insets={insets}
           onPick={onPick}
           onReady={(map) => (mapRef.current = map)}
         />
 
-        <section class="game__prompt" aria-live="polite">
+        <section class="game__prompt" aria-live="polite" ref={promptRef}>
           <Prompt exerciseId={exercise.id} entityName={entity.name} capitalName={entity.capital?.name ?? ''} flag={flag} noun={entityNoun(entity)} />
           {hint && !feedback && <p class="game__hint">💡 {hint.text}</p>}
         </section>
 
-        <section class="game__panel">
+        <section class="game__panel" ref={panelRef}>
           {feedback ? (
             <div class={`game__feedback ${feedback.evaluation.correct ? 'is-correct' : 'is-wrong'}`} role="status">
               {exercise.id === 'country-to-flag' && flag && <img class="game__answer-flag" src={flag} alt={`Drapeau de ${entity.name}`} />}
               <p class="game__message">{feedback.evaluation.message}</p>
+              {!feedback.evaluation.correct && (
+                <p class="game__answer">
+                  Réponse : <strong>{feedback.evaluation.answerLabel}</strong>
+                </p>
+              )}
               {retryText && <p class="game__retry">{retryText}</p>}
               <button type="button" class="game__button" ref={continueRef} onClick={goNext}>
                 Continuer
