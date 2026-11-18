@@ -8,8 +8,8 @@ import type { HighlightKind, MapPick } from '../map/world-map.ts';
 import { WorldMapView } from '../map/WorldMapView.tsx';
 import { buildZones } from '../map/zones.ts';
 import type { GameConfig } from '../game/start.ts';
+import { SessionBuilder } from '../builder/SessionBuilder.tsx';
 import { BackupButtons } from './BackupButtons.tsx';
-import { Launcher } from './Launcher.tsx';
 import './sandbox.css';
 
 /** « 48,86° N, 2,35° E » */
@@ -28,7 +28,7 @@ interface Props {
 export function Sandbox({ world, zoneId, onZoneChange, onPlay }: Props) {
   const zones = useMemo(() => buildZones(world), [world]);
   const [pick, setPick] = useState<MapPick | null>(null);
-  const [launcherOpen, setLauncherOpen] = useState(false);
+  const [builderOpen, setBuilderOpen] = useState(false);
   const [focusIds, setFocusIds] = useState<string[] | null>(null);
   const zone = zones.find((z) => z.id === zoneId) ?? zones[0]!;
 
@@ -61,7 +61,7 @@ export function Sandbox({ world, zoneId, onZoneChange, onPlay }: Props) {
           </select>
         </label>
         <span class="sandbox__count">{zone.entityIds.length} entités</span>
-        <button type="button" class="sandbox__play" onClick={() => setLauncherOpen(true)}>
+        <button type="button" class="sandbox__play" onClick={() => setBuilderOpen(true)}>
           Jouer
         </button>
         <BackupButtons />
@@ -71,13 +71,20 @@ export function Sandbox({ world, zoneId, onZoneChange, onPlay }: Props) {
         <WorldMapView world={world} zone={zone} highlights={highlights} onPick={setPick} focusIds={focusIds} />
       </main>
 
-      {launcherOpen && (
-        <aside class="sandbox__card sandbox__card--launcher">
-          <Launcher zone={zone} onStart={onPlay} onClose={() => setLauncherOpen(false)} />
+      {builderOpen && (
+        <aside class="sandbox__card sandbox__card--builder">
+          <SessionBuilder
+            world={world}
+            zones={zones}
+            zoneId={zone.id}
+            onZoneChange={onZoneChange}
+            onStart={onPlay}
+            onClose={() => setBuilderOpen(false)}
+          />
         </aside>
       )}
 
-      <aside class="sandbox__card" aria-live="polite" hidden={launcherOpen}>
+      <aside class="sandbox__card" aria-live="polite" hidden={builderOpen}>
         {!pick && <p class="sandbox__hint">Clique ou touche un pays pour voir sa fiche.</p>}
         {pick && !entity && (
           <p class="sandbox__hint">

@@ -203,64 +203,25 @@
   cursor: pointer;
 }
 
-.sandbox__card--launcher {
+.sandbox__card--builder {
+  top: 16px;
   width: min(420px, calc(100vw - 32px));
-  max-height: calc(100% - 32px);
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
-.launcher__head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.launcher__head h2 {
-  margin: 0;
-  font-size: 1.1rem;
-}
-
-.launcher__exercises {
-  display: grid;
-  gap: 6px;
-  margin: 10px 0;
-  padding: 0;
-  border: none;
-}
-
-.launcher__option {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  padding: 8px 10px;
-  border-radius: 10px;
-  border: 1.5px solid rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-}
-
-.launcher__option.is-checked {
-  border-color: var(--color-accent);
-}
-
-.launcher__option span {
-  display: grid;
-}
-
-.launcher__option small {
-  color: var(--color-muted);
-}
-
-.launcher__footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.launcher__footer select {
-  font: inherit;
-  padding: 4px 6px;
-  border-radius: 8px;
+/* Sur téléphone, le constructeur occupe le bas de l'écran ; la carte de la zone reste visible au-dessus. */
+@media (max-width: 520px) {
+  .sandbox__card--builder {
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    max-height: 72%;
+    border-radius: 18px 18px 0 0;
+    padding-bottom: max(14px, env(safe-area-inset-bottom));
+  }
 }
 
 @media (max-width: 520px) {

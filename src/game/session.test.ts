@@ -1,11 +1,9 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { State } from 'ts-fsrs';
 import { describe, expect, it } from 'vitest';
 import { buildWorldData, countries } from '../data/world.ts';
-import type { CardRecord } from '../storage/schema.ts';
 import { capitalAnswers, EXERCISES, hasOwnFlag, hintFor, rivalAnswers } from './exercises.ts';
-import { buildFlagChoices, evaluateAnswer, pickItems, shuffle, summarize, type SessionLogEntry } from './session.ts';
+import { buildFlagChoices, evaluateAnswer, summarize, type SessionLogEntry } from './session.ts';
 
 const topology = JSON.parse(readFileSync(join(import.meta.dirname, '../../data/world/world.topo.json'), 'utf8'));
 const world = buildWorldData(topology, countries);
@@ -45,34 +43,6 @@ describe('exercices', () => {
     const hint = hintFor('country-to-flag', entity('fr'), ['de', 'fr', 'it', 'be']);
     expect(hint.eliminate).toHaveLength(2);
     expect(hint.eliminate).not.toContain('fr');
-  });
-});
-
-describe('pickItems', () => {
-  const now = new Date('2026-11-18T09:00:00Z');
-  const card = (id: string, dueAt: string, reps = 1): [string, CardRecord] => [
-    `${id}:flag`,
-    {
-      key: `${id}:flag`,
-      entityId: id,
-      skill: 'flag',
-      card: { state: State.Review, reps, dueAt: new Date(dueAt), stability: 5 } as CardRecord['card'],
-    },
-  ];
-  const cards = new Map([
-    card('a', '2026-11-10T00:00:00Z'), // due depuis 8 jours
-    card('b', '2026-11-17T00:00:00Z'), // due depuis 1 jour
-    card('c', '2026-12-30T00:00:00Z'), // pas due
-  ]);
-
-  it('prend d’abord les révisions dues, puis les nouveautés, puis le reste', () => {
-    const picked = pickItems(['a', 'b', 'c', 'd', 'e'], 'flag', cards, 3, now, seeded());
-    expect(new Set(picked)).toEqual(new Set(['a', 'b', picked.find((id) => id === 'd' || id === 'e')!]));
-    expect(picked).not.toContain('c');
-  });
-
-  it('prend tout si on le demande', () => {
-    expect(pickItems(['a', 'b', 'c', 'd'], 'flag', cards, 'all', now, seeded()).sort()).toEqual(['a', 'b', 'c', 'd']);
   });
 });
 
@@ -156,14 +126,5 @@ describe('summarize', () => {
       missed: ['pe'],
       promoted: [{ entityId: 'fr', level: 'acquired' }],
     });
-  });
-});
-
-describe('shuffle', () => {
-  it('garde tous les éléments sans modifier l’original', () => {
-    const items = [1, 2, 3, 4, 5];
-    const mixed = shuffle(items, seeded());
-    expect(mixed.sort()).toEqual([1, 2, 3, 4, 5]);
-    expect(items).toEqual([1, 2, 3, 4, 5]);
   });
 });

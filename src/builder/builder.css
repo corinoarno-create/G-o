@@ -1,0 +1,226 @@
+/* Constructeur de session : panneau posé sur la carte (à gauche sur PC, en bas sur téléphone). */
+.builder {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.builder__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.builder__head h2 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.builder__close {
+  border: none;
+  background: none;
+  color: var(--color-muted);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.builder__section h3 {
+  margin: 0 0 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-muted);
+}
+
+.builder__select {
+  width: 100%;
+  font: inherit;
+  padding: 7px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.builder__segments {
+  display: flex;
+  padding: 3px;
+  gap: 3px;
+  border-radius: 11px;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.builder__segments button {
+  flex: 1;
+  font: inherit;
+  font-size: 0.92rem;
+  padding: 6px 4px;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.builder__segments button.is-active {
+  background: var(--color-bg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  font-weight: 600;
+}
+
+.builder__help {
+  margin: 6px 0 0;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.builder__contents {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.builder__content {
+  display: grid;
+  gap: 2px;
+  padding: 8px 10px;
+  border: 1.5px solid rgba(0, 0, 0, 0.12);
+  border-radius: 10px;
+  background: none;
+  color: var(--color-text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.builder__content.is-active {
+  border-color: var(--color-accent);
+  background: rgba(31, 111, 92, 0.06);
+}
+
+.builder__content strong {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  font-size: 0.95rem;
+}
+
+.builder__content small {
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  line-height: 1.3;
+}
+
+.builder__badge {
+  min-width: 1.6em;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.07);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.builder__favorites {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.builder__favorites li {
+  display: flex;
+  align-items: stretch;
+  border-radius: 999px;
+  background: rgba(31, 111, 92, 0.1);
+}
+
+.builder__favorite {
+  font: inherit;
+  font-size: 0.88rem;
+  padding: 5px 4px 5px 12px;
+  border: none;
+  background: none;
+  color: var(--color-accent);
+  cursor: pointer;
+}
+
+.builder__remove {
+  padding: 0 10px 0 6px;
+  border: none;
+  background: none;
+  color: var(--color-muted);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.builder__save {
+  display: flex;
+  gap: 8px;
+}
+
+.builder__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 4px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.builder__summary {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+.builder__buttons {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.builder__start,
+.builder__secondary {
+  font: inherit;
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.builder__start {
+  border: none;
+  background: var(--color-accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+.builder__start:disabled,
+.builder__secondary:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.builder__secondary {
+  border: 1.5px solid var(--color-accent);
+  background: none;
+  color: var(--color-accent);
+}
+
+@media (prefers-color-scheme: dark) {
+  .builder__segments {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .builder__badge {
+    background: rgba(255, 255, 255, 0.12);
+  }
+}

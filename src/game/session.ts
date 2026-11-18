@@ -1,48 +1,13 @@
-// Logique d'une manche, sans affichage : choix des éléments, propositions de drapeaux,
+// Logique d'une manche, sans affichage : propositions de drapeaux,
 // évaluation des réponses (avec des messages positifs) et bilan de fin de manche.
 import type { CountryEntity } from '../data/types.ts';
 import type { WorldData } from '../data/world.ts';
 import { judgeAreaPin, judgePointPin, type PinCloseness } from '../engine/geo.ts';
 import type { AnswerMode } from '../engine/grading.ts';
-import { cardKey, isDue, type MasteryLevel, type Skill } from '../engine/srs.ts';
+import type { MasteryLevel } from '../engine/srs.ts';
 import { matchAnswer, normalize } from '../engine/text-match.ts';
-import type { CardRecord } from '../storage/schema.ts';
 import { capitalAnswers, countryAnswers, EXERCISES, rivalAnswers, type ExerciseId } from './exercises.ts';
-
-export type Rng = () => number;
-
-/** Mélange (Fisher-Yates) sans modifier le tableau d'origine. */
-export function shuffle<T>(items: readonly T[], rng: Rng = Math.random): T[] {
-  const copy = [...items];
-  for (let i = copy.length - 1; i > 0; i--) {
-    const j = Math.floor(rng() * (i + 1));
-    [copy[i], copy[j]] = [copy[j]!, copy[i]!];
-  }
-  return copy;
-}
-
-/**
- * Choisit les éléments d'une manche : d'abord les révisions dues (les plus en retard d'abord),
- * puis les éléments jamais vus, puis les autres (les plus proches de leur révision d'abord).
- * L'ordre des questions est ensuite mélangé.
- */
-export function pickItems(
-  eligibleIds: string[],
-  skill: Skill,
-  cards: Map<string, CardRecord>,
-  count: number | 'all',
-  now: Date,
-  rng: Rng = Math.random,
-): string[] {
-  const card = (id: string) => cards.get(cardKey(id, skill))?.card;
-  const byDue = (a: string, b: string) => card(a)!.dueAt.getTime() - card(b)!.dueAt.getTime();
-  const mixed = shuffle(eligibleIds, rng);
-  const due = mixed.filter((id) => card(id) && isDue(card(id)!, now)).sort(byDue);
-  const fresh = mixed.filter((id) => !card(id) || card(id)!.reps === 0);
-  const others = mixed.filter((id) => card(id) && card(id)!.reps > 0 && !isDue(card(id)!, now)).sort(byDue);
-  const ordered = [...due, ...fresh, ...others];
-  return shuffle(count === 'all' ? ordered : ordered.slice(0, count), rng);
-}
+import { shuffle, type Rng } from './selection.ts';
 
 /**
  * Quatre drapeaux à proposer : le bon et trois autres, de préférence de la même sous-région

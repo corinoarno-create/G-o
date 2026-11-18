@@ -192,7 +192,7 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 - [ ] Données Monde : pays, territoires, capitales, drapeaux, population.
 - [x] Carte Monde zoomable, PC et mobile.
 - [x] Modes : Épingler (pays, capitales), Saisir (pays, capitales), Drapeaux.
-- [ ] Constructeur de session (zone, catégorie, mode, nombre).
+- [x] Constructeur de session (zone, catégorie, mode, nombre).
 - [x] Boucle de consolidation façon Seterra.
 - [x] FSRS avec note automatique (justesse, distance, temps).
 - [ ] Accueil « ce que je peux travailler ».
@@ -207,7 +207,7 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 - [x] **3. Moteur pédagogique** (pur, testé) : tolérance de saisie, distance, note automatique, boucle de consolidation, FSRS. *(`src/engine/`, réglages dans `src/engine/settings.ts` ; branché sur l'interface à l'étape 5.)*
 - [x] **4. Stockage** : IndexedDB + export/import JSON versionné. *(`src/storage/` : base `geo` v1 avec cartes, journal des réponses, temps, réglages, favoris ; une réponse s'enregistre en une seule transaction. Fichier `geo-progression-AAAA-MM-JJ.json` versionné ; import par fusion (la carte révisée le plus récemment l'emporte, journaux réunis) ou remplacement. Boutons provisoires dans le bac à sable.)*
 - [x] **5. Modes** : Épingler, Saisir, Drapeaux + fin de session. *(`src/game/` : 6 exercices — placer pays / capitales, nommer pays, donner capitales, drapeau → pays, pays → drapeau parmi 4 voisins ; indice générique et « Je ne sais pas » ; lanceur provisoire « Jouer » dans le bac à sable.)*
-- [ ] **6. Constructeur de session** + favoris.
+- [x] **6. Constructeur de session** + favoris. *(`src/builder/` : zone (Monde, continent, sous-région), catégorie (pays, capitales, drapeaux), mode, contenu (mélange, à réviser, nouveaux, points faibles) avec compteurs, nombre ; favoris nommés ; derniers réglages retenus. Pas de plafond de nouveautés pour les pays du Monde, déjà connus.)*
 - [ ] **7. Accueil** (le défi du jour reste en V3).
 - [ ] **8. PWA** hors ligne, installation Android, finitions tactiles, page Crédits.
 
