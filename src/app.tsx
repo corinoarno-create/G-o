@@ -1,15 +1,20 @@
-import { APP_VERSION } from './lib/version';
+import { useEffect, useState } from 'preact/hooks';
+import { loadWorld, type WorldData } from './data/world.ts';
+import { Sandbox } from './sandbox/Sandbox.tsx';
 
-// Écran provisoire de l'étape 0 : il prouve que le socle (build, déploiement) fonctionne.
+// Pour l'instant, l'app ouvre le bac à sable de la carte (étape 2).
 // Il sera remplacé par l'accueil « ce que je peux travailler » à l'étape 7.
 export function App() {
-  return (
-    <main class="placeholder">
-      <img class="placeholder__logo" src={`${import.meta.env.BASE_URL}favicon.svg`} alt="" width={96} height={96} />
-      <h1>Géo</h1>
-      <p class="placeholder__tagline">Apprendre la géographie en s'amusant.</p>
-      <p class="placeholder__status">Le socle est en place. La carte arrive bientôt !</p>
-      <p class="placeholder__version">v{APP_VERSION}</p>
-    </main>
-  );
+  const [world, setWorld] = useState<WorldData | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    loadWorld()
+      .then(setWorld)
+      .catch((reason: unknown) => setError(reason instanceof Error ? reason.message : String(reason)));
+  }, []);
+
+  if (error) return <p class="placeholder">Impossible de charger la carte : {error}</p>;
+  if (!world) return <p class="placeholder">Chargement de la carte…</p>;
+  return <Sandbox world={world} />;
 }

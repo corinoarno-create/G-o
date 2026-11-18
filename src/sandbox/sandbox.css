@@ -1,0 +1,132 @@
+/* Mise en page du bac à sable : barre en haut, carte plein écran, fiche flottante. */
+.sandbox {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.sandbox__bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  padding-top: max(8px, env(safe-area-inset-top));
+  background: var(--color-bg);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.sandbox__title {
+  margin: 0;
+  font-size: 1.3rem;
+  color: var(--color-accent);
+}
+
+.sandbox__zone select {
+  font: inherit;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background: var(--color-bg);
+  color: var(--color-text);
+  max-width: 55vw;
+}
+
+.sandbox__count {
+  margin-left: auto;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.sandbox__map {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
+.sandbox__card {
+  position: absolute;
+  left: 16px;
+  bottom: max(16px, env(safe-area-inset-bottom));
+  width: min(340px, calc(100vw - 32px));
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--color-bg);
+  color: var(--color-text);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
+}
+
+.sandbox__hint {
+  margin: 0;
+  color: var(--color-muted);
+}
+
+.sandbox__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sandbox__flag {
+  border-radius: 3px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+  object-fit: cover;
+}
+
+.sandbox__name {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.sandbox__meta {
+  margin: 2px 0 0;
+  color: var(--color-muted);
+  font-size: 0.85rem;
+}
+
+.sandbox__close {
+  margin-left: auto;
+  align-self: flex-start;
+  border: none;
+  background: none;
+  color: var(--color-muted);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.sandbox__facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 12px;
+  margin: 10px 0;
+  font-size: 0.92rem;
+}
+
+.sandbox__facts dt {
+  color: var(--color-muted);
+}
+
+.sandbox__facts dd {
+  margin: 0;
+}
+
+.sandbox__action {
+  font: inherit;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 8px;
+  background: var(--color-accent);
+  color: #fff;
+  cursor: pointer;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

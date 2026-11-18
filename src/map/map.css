@@ -1,0 +1,196 @@
+/* Carte du monde. Les couleurs sont des variables, redéfinies en mode sombre. */
+:root {
+  --map-ocean: #cfe6f2;
+  --map-land: #f3efe4;
+  --map-land-hover: #e6dcc3;
+  --map-inactive: #e4e1d9;
+  --map-border: #8a8475;
+  --map-neutral: #c9c6bf;
+  --map-selected: #2f8f6f;
+  --map-target: #e8a33d;
+  --map-correct: #3fae63;
+  --map-wrong: #d9534f;
+  --map-marker: #ffffff;
+  --map-marker-stroke: #5f5a4f;
+  --map-control-bg: rgba(255, 255, 255, 0.92);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --map-ocean: #173040;
+    --map-land: #3b4a44;
+    --map-land-hover: #4d5f57;
+    --map-inactive: #2c3632;
+    --map-border: #8fa39a;
+    --map-neutral: #55605b;
+    --map-selected: #5cc4a6;
+    --map-target: #f0b55a;
+    --map-correct: #5fcf83;
+    --map-wrong: #f07672;
+    --map-marker: #e6efeb;
+    --map-marker-stroke: #121a17;
+    --map-control-bg: rgba(30, 40, 36, 0.92);
+  }
+}
+
+.map-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--map-ocean);
+}
+
+.map-canvas {
+  position: absolute;
+  inset: 0;
+}
+
+.world-map {
+  display: block;
+  /* La carte gère elle-même glisser et pincer : le navigateur ne doit ni défiler ni zoomer la page. */
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  cursor: grab;
+}
+
+.world-map:active {
+  cursor: grabbing;
+}
+
+/* Vue Monde : la mer se limite à l'ovale du globe. */
+.world-map.is-world {
+  background: var(--color-bg);
+}
+
+.map-sphere {
+  fill: var(--map-ocean);
+  stroke: none;
+}
+
+/* Les surfaces n'ont pas de contour : frontières et côtes sont deux tracés à part (voir world-map.ts). */
+.map-entity,
+.map-neutral {
+  stroke: none;
+}
+
+.map-borders,
+.map-coastline {
+  fill: none;
+  stroke: var(--map-border);
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+
+.map-borders {
+  stroke-width: 0.7px;
+}
+
+.map-coastline {
+  stroke-width: 0.5px;
+}
+
+.map-entity {
+  fill: var(--map-land);
+  cursor: pointer;
+  transition: fill 120ms ease;
+}
+
+.map-entity.is-inactive {
+  fill: var(--map-inactive);
+}
+
+.map-neutral {
+  fill: var(--map-neutral);
+}
+
+@media (hover: hover) {
+  .map-entity:hover {
+    fill: var(--map-land-hover);
+  }
+}
+
+.map-entity.is-selected {
+  fill: var(--map-selected);
+}
+
+.map-entity.is-target {
+  fill: var(--map-target);
+}
+
+.map-entity.is-correct {
+  fill: var(--map-correct);
+}
+
+.map-entity.is-wrong {
+  fill: var(--map-wrong);
+}
+
+/* Cercles de repère des micro-États (taille constante à l'écran). */
+.map-marker {
+  cursor: pointer;
+}
+
+.map-marker__hit {
+  fill: transparent;
+}
+
+.map-marker__dot {
+  fill: var(--map-marker);
+  stroke: var(--map-marker-stroke);
+  stroke-width: 1.2px;
+  transition: fill 120ms ease;
+}
+
+@media (hover: hover) {
+  .map-marker:hover .map-marker__dot {
+    fill: var(--map-land-hover);
+  }
+}
+
+.map-marker.is-selected .map-marker__dot {
+  fill: var(--map-selected);
+}
+
+.map-marker.is-target .map-marker__dot {
+  fill: var(--map-target);
+}
+
+.map-marker.is-correct .map-marker__dot {
+  fill: var(--map-correct);
+}
+
+.map-marker.is-wrong .map-marker__dot {
+  fill: var(--map-wrong);
+}
+
+/* Boutons de zoom */
+.map-controls {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.map-controls button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  background: var(--map-control-bg);
+  color: var(--color-text);
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+}
+
+.map-controls button:hover {
+  filter: brightness(0.95);
+}

@@ -9,6 +9,11 @@ const base = process.env.BASE_PATH ?? '/';
 export default defineConfig({
   base,
   plugins: [preact()],
+  build: {
+    // Les drapeaux restent des fichiers à part : sinon Vite intègre les plus petits au JavaScript
+    // (en base64), ce qui alourdit le premier chargement pour des images qu'on n'affiche qu'à la demande.
+    assetsInlineLimit: (filePath) => (filePath.replace(/\\/g, '/').includes('/data/flags/') ? false : undefined),
+  },
   test: {
     include: ['src/**/*.test.ts', 'src/**/*.test.tsx', 'scripts/**/*.test.ts'],
   },
