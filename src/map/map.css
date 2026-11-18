@@ -194,3 +194,70 @@
 .map-controls button:hover {
   filter: brightness(0.95);
 }
+
+/* Repères ponctuels (point cliqué, position exacte d'une capitale) */
+.map-pin {
+  pointer-events: none;
+}
+
+.map-pin__halo {
+  fill: none;
+  stroke-width: 2px;
+  opacity: 0.8;
+}
+
+.map-pin__dot {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+.map-pin.is-selected .map-pin__dot {
+  fill: var(--map-selected);
+}
+
+.map-pin.is-selected .map-pin__halo {
+  stroke: var(--map-selected);
+}
+
+.map-pin.is-correct .map-pin__dot {
+  fill: var(--map-correct);
+}
+
+.map-pin.is-correct .map-pin__halo {
+  stroke: var(--map-correct);
+  animation: map-pin-pulse 1.2s ease-out 2;
+}
+
+.map-pin.is-wrong .map-pin__dot {
+  fill: var(--map-wrong);
+}
+
+.map-pin.is-wrong .map-pin__halo {
+  stroke: none;
+}
+
+.map-pin.is-target .map-pin__dot {
+  fill: var(--map-target);
+}
+
+.map-pin.is-target .map-pin__halo {
+  stroke: var(--map-target);
+  animation: map-pin-pulse 1.2s ease-out 2;
+}
+
+@keyframes map-pin-pulse {
+  from {
+    transform: scale(0.6);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-pin__halo {
+    animation: none !important;
+  }
+}

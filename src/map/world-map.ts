@@ -34,6 +34,12 @@ export const MAP_SETTINGS = {
 
 export type HighlightKind = 'selected' | 'target' | 'correct' | 'wrong';
 
+/** Repère ponctuel sur la carte : point cliqué, bonne position d'une capitale… */
+export interface MapPin {
+  lonLat: [number, number];
+  kind: 'selected' | 'correct' | 'wrong' | 'target';
+}
+
 export interface MapPick {
   /** Entité cliquée (forme ou cercle de repère), ou null pour un clic sur la mer ou une zone neutre. */
   entityId: string | null;
@@ -50,6 +56,7 @@ export class WorldMap {
   private readonly svg: Selection<SVGSVGElement, unknown, null, undefined>;
   private readonly viewport: SVGGElement;
   private readonly markerLayer: SVGGElement;
+  private readonly pinLayer: SVGGElement;
   private readonly zoomBehavior: ZoomBehavior<SVGSVGElement, unknown>;
   private readonly resizeObserver: ResizeObserver;
   private projection: GeoProjection = geoNaturalEarth1();
@@ -61,6 +68,7 @@ export class WorldMap {
   private readonly shapes = new Map<string, SVGPathElement>();
   private readonly markers = new Map<string, { element: SVGGElement; area: number; anchor: [number, number] }>();
   private highlights = new Map<string, HighlightKind>();
+  private pins: Array<{ pin: MapPin; element: SVGGElement; base: [number, number] | null }> = [];
   private resizeFrame = 0;
 
   constructor(
@@ -75,6 +83,8 @@ export class WorldMap {
     this.viewport = this.element.appendChild(document.createElementNS(SVG_NS, 'g'));
     this.markerLayer = this.element.appendChild(document.createElementNS(SVG_NS, 'g'));
     this.markerLayer.setAttribute('class', 'map-markers');
+    this.pinLayer = this.element.appendChild(document.createElementNS(SVG_NS, 'g'));
+    this.pinLayer.setAttribute('class', 'map-pins');
     container.appendChild(this.element);
 
     this.svg = select(this.element);
@@ -85,6 +95,7 @@ export class WorldMap {
         this.transform = event.transform;
         this.viewport.setAttribute('transform', event.transform.toString());
         this.updateMarkers();
+        this.updatePins();
       });
     // Pas de zoom au double-clic : en jeu, deux clics rapides doivent rester deux réponses possibles.
     this.svg.call(this.zoomBehavior).on('dblclick.zoom', null);
@@ -110,14 +121,38 @@ export class WorldMap {
     for (const id of new Set([...previous.keys(), ...highlights.keys()])) this.applyClasses(id);
   }
 
-  /** Zoome en douceur sur des entités (leur partie principale). */
-  flyTo(ids: string[], duration = MAP_SETTINGS.flyDuration): void {
-    const bounds = unionBounds(
-      ids
+  /** Affiche des repères ponctuels (taille constante à l'écran). Une liste vide les efface. */
+  setPins(pins: MapPin[]): void {
+    this.pinLayer.replaceChildren();
+    this.pins = pins.map((pin) => {
+      const element = document.createElementNS(SVG_NS, 'g');
+      element.setAttribute('class', `map-pin is-${pin.kind}`);
+      const halo = document.createElementNS(SVG_NS, 'circle');
+      halo.setAttribute('class', 'map-pin__halo');
+      halo.setAttribute('r', '11');
+      const dot = document.createElementNS(SVG_NS, 'circle');
+      dot.setAttribute('class', 'map-pin__dot');
+      dot.setAttribute('r', '5');
+      element.append(halo, dot);
+      this.pinLayer.appendChild(element);
+      return { pin, element, base: null };
+    });
+    this.projectPins();
+  }
+
+  /** Zoome en douceur sur des entités (leurs terres principales) et, si besoin, sur des points. */
+  flyTo(ids: string[], duration = MAP_SETTINGS.flyDuration, points: [number, number][] = []): void {
+    const pointBounds = points
+      .map((point) => this.projection(point))
+      .filter((p): p is [number, number] => p !== null)
+      .map((p): Bounds => [p, p]);
+    const bounds = unionBounds([
+      ...ids
         .map((id) => this.world.mainShapes.get(id))
         .filter((shape) => shape !== undefined)
         .map((shape) => this.path.bounds(shape) as Bounds),
-    );
+      ...pointBounds,
+    ]);
     if (!bounds) return;
     const { k, x, y } = fitTransform(bounds, this.width, this.height, {
       padding: MAP_SETTINGS.padding * 4,
@@ -247,6 +282,21 @@ export class WorldMap {
             ],
       );
     this.svg.interrupt().call(this.zoomBehavior.transform, zoomIdentity);
+    this.projectPins();
+  }
+
+  private projectPins(): void {
+    for (const entry of this.pins) entry.base = this.projection(entry.pin.lonLat);
+    this.updatePins();
+  }
+
+  private updatePins(): void {
+    for (const { element, base } of this.pins) {
+      element.style.display = base ? '' : 'none';
+      if (!base) continue;
+      const [x, y] = this.transform.apply(base);
+      element.setAttribute('transform', `translate(${x.toFixed(1)},${y.toFixed(1)})`);
+    }
   }
 
   private createMarker(id: string): SVGGElement {

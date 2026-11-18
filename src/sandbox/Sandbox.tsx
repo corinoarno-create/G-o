@@ -1,5 +1,5 @@
-// Bac à sable de la carte (étape 2) : choisir une zone, cliquer sur un pays et voir sa fiche.
-// Il sert à vérifier la carte sur PC et sur téléphone ; l'accueil le remplacera à l'étape 7.
+// Bac à sable de la carte (étape 2) : choisir une zone, cliquer sur un pays et voir sa fiche,
+// ou lancer une manche (étape 5). L'accueil le remplacera à l'étape 7.
 import { useMemo, useState } from 'preact/hooks';
 import { flagUrl } from '../data/flags.ts';
 import { CONTINENT_LABELS, STATUS_LABELS, SUBREGION_LABELS } from '../data/labels.ts';
@@ -7,7 +7,9 @@ import type { WorldData } from '../data/world.ts';
 import type { HighlightKind, MapPick } from '../map/world-map.ts';
 import { WorldMapView } from '../map/WorldMapView.tsx';
 import { buildZones } from '../map/zones.ts';
+import type { GameConfig } from '../game/start.ts';
 import { BackupButtons } from './BackupButtons.tsx';
+import { Launcher } from './Launcher.tsx';
 import './sandbox.css';
 
 /** « 48,86° N, 2,35° E » */
@@ -16,10 +18,17 @@ function formatLonLat([lon, lat]: [number, number]): string {
   return `${fmt(lat)}° ${lat >= 0 ? 'N' : 'S'}, ${fmt(lon)}° ${lon >= 0 ? 'E' : 'O'}`;
 }
 
-export function Sandbox({ world }: { world: WorldData }) {
+interface Props {
+  world: WorldData;
+  zoneId: string;
+  onZoneChange: (zoneId: string) => void;
+  onPlay: (config: GameConfig) => void;
+}
+
+export function Sandbox({ world, zoneId, onZoneChange, onPlay }: Props) {
   const zones = useMemo(() => buildZones(world), [world]);
-  const [zoneId, setZoneId] = useState('world');
   const [pick, setPick] = useState<MapPick | null>(null);
+  const [launcherOpen, setLauncherOpen] = useState(false);
   const [focusIds, setFocusIds] = useState<string[] | null>(null);
   const zone = zones.find((z) => z.id === zoneId) ?? zones[0]!;
 
@@ -40,7 +49,7 @@ export function Sandbox({ world }: { world: WorldData }) {
           <select
             value={zoneId}
             onChange={(event) => {
-              setZoneId(event.currentTarget.value);
+              onZoneChange(event.currentTarget.value);
               setPick(null);
             }}
           >
@@ -52,6 +61,9 @@ export function Sandbox({ world }: { world: WorldData }) {
           </select>
         </label>
         <span class="sandbox__count">{zone.entityIds.length} entités</span>
+        <button type="button" class="sandbox__play" onClick={() => setLauncherOpen(true)}>
+          Jouer
+        </button>
         <BackupButtons />
       </header>
 
@@ -59,7 +71,13 @@ export function Sandbox({ world }: { world: WorldData }) {
         <WorldMapView world={world} zone={zone} highlights={highlights} onPick={setPick} focusIds={focusIds} />
       </main>
 
-      <aside class="sandbox__card" aria-live="polite">
+      {launcherOpen && (
+        <aside class="sandbox__card sandbox__card--launcher">
+          <Launcher zone={zone} onStart={onPlay} onClose={() => setLauncherOpen(false)} />
+        </aside>
+      )}
+
+      <aside class="sandbox__card" aria-live="polite" hidden={launcherOpen}>
         {!pick && <p class="sandbox__hint">Clique ou touche un pays pour voir sa fiche.</p>}
         {pick && !entity && (
           <p class="sandbox__hint">
