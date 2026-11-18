@@ -159,7 +159,7 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 ## 11. Choix techniques (confirmés le 18/11/2026)
 
 - **Vite + TypeScript + Preact** (avec `@preact/signals` pour l'état partagé). Preact est léger (~4 Ko) et évite de réécrire un mini-framework pour les 5 à 6 écrans.
-- **Carte** : d3-geo + rendu **SVG** (Canvas seulement si le mobile rame), avec zoom/déplacement (d3-zoom). Projection adaptée à la zone (Natural Earth pour le Monde, Conic Conformal pour la France, Albers USA pour les États-Unis).
+- **Carte** : d3-geo + rendu **SVG** (Canvas seulement si le mobile rame), avec zoom/déplacement (d3-zoom). Projection adaptée à la zone : Natural Earth pour le Monde (plus large que l'écran en portrait), azimutale équivalente centrée pour les continents et sous-régions ; plus tard Conic Conformal pour la France et Albers USA pour les États-Unis. Pas de zoom au double-clic (deux clics = deux réponses). Les réglages (seuil des cercles de repère, zoom max…) sont dans `MAP_SETTINGS`.
 - **Données Monde** : `npm run data:download` (sources brutes dans `data/raw/`, ignoré par git) puis `npm run data:world`, qui produit `data/world/world.topo.json`, `data/world/countries.json`, `data/flags/` et le rapport de relecture `data/world/RAPPORT.md`. Les corrections manuelles vont dans `data/sources/overrides-monde.json`, jamais dans les fichiers générés.
 - **Frontières Monde** : Natural Earth 1:10m « map units », simplifiées île par île avec mapshaper (8 % des points, `explode` + `keep-shapes` pour ne perdre aucune île). Frontières « de facto », sauf la Crimée (→ Ukraine) et le Sahara occidental (territoire entier), qui suivent les frontières reconnues par l'ONU. Identifiants : code ISO alpha-2 en minuscules, `cyn` (Chypre du Nord) et `sol` (Somaliland).
 - **Déploiement** : GitHub Actions (`.github/workflows/deploy.yml`) construit et publie `dist/` à chaque push sur `main`. Le chemin de base vient de la variable `BASE_PATH` ; les URL de données passent par `assetUrl()` (`src/lib/assets.ts`).
@@ -173,7 +173,7 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 
 ### V1 — jouable rapidement (priorité absolue)
 - [ ] Données Monde : pays, territoires, capitales, drapeaux, population.
-- [ ] Carte Monde zoomable, PC et mobile.
+- [x] Carte Monde zoomable, PC et mobile.
 - [ ] Modes : Épingler (pays, capitales), Saisir (pays, capitales), Drapeaux.
 - [ ] Constructeur de session (zone, catégorie, mode, nombre).
 - [ ] Boucle de consolidation façon Seterra.
@@ -186,7 +186,7 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 #### Plan de réalisation de la V1 (validé le 18/11/2026)
 - [x] **0. Socle** : Vite + Preact + TS, Vitest, workflow GitHub Pages. Dépôt : https://github.com/corinoarno-create/G-o — app en ligne : https://corinoarno-create.github.io/G-o/
 - [x] **1. Données Monde** : 252 entités, frontières (568 Ko), capitales, population, drapeaux, contrôles et tests. *(Rapport `data/world/RAPPORT.md` à relire par Arno.)*
-- [ ] **2. Carte** : rendu Monde, zoom/pincer, cadrage auto, cercles des micro-États, surbrillance, clic.
+- [x] **2. Carte** : rendu Monde, zoom/pincer, cadrage auto, cercles des micro-États, surbrillance, clic. *(Moteur `src/map/world-map.ts`, zones `src/map/zones.ts` ; l'app ouvre pour l'instant un bac à sable, remplacé à l'étape 7.)*
 - [ ] **3. Moteur pédagogique** (pur, testé) : tolérance de saisie, distance, note automatique, boucle de consolidation, FSRS.
 - [ ] **4. Stockage** : IndexedDB + export/import JSON versionné.
 - [ ] **5. Modes** : Épingler, Saisir, Drapeaux + fin de session.
