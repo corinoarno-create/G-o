@@ -64,9 +64,9 @@ export function SessionBuilder({ world, zones, zoneId, onZoneChange, onStart, on
   // La zone suit la carte (et inversement).
   useEffect(() => setChoice((current) => ({ ...current, zoneId })), [zoneId]);
 
+  // Mise à jour à partir de l'état le plus récent (deux clics rapides ne s'écrasent pas).
   const update = (patch: Partial<BuilderChoice>) => {
-    const next = sanitizeChoice({ ...choice, ...patch });
-    setChoice(next);
+    setChoice((current) => sanitizeChoice({ ...current, ...patch }));
     if (patch.zoneId) onZoneChange(patch.zoneId);
   };
 
