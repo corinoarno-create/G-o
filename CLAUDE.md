@@ -180,7 +180,7 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 **Règle : une fois la V1 terminée, je l'utilise pendant au moins 2 semaines avant d'ajouter des fonctionnalités.**
 
 #### Plan de réalisation de la V1 (validé le 18/11/2026)
-- [ ] **0. Socle** : Vite + Preact + TS, Vitest, workflow GitHub Pages. *(Local fait ; reste à créer le dépôt GitHub et vérifier le déploiement.)*
+- [x] **0. Socle** : Vite + Preact + TS, Vitest, workflow GitHub Pages. Dépôt : https://github.com/corinoarno-create/G-o — app en ligne : https://corinoarno-create.github.io/G-o/
 - [ ] **1. Données Monde** : scripts `scripts/` → `data/world.topo.json` + `data/countries.json`, corrections dans `data/sources/overrides.json`, script de contrôle.
 - [ ] **2. Carte** : rendu Monde, zoom/pincer, cadrage auto, cercles des micro-États, surbrillance, clic.
 - [ ] **3. Moteur pédagogique** (pur, testé) : tolérance de saisie, distance, note automatique, boucle de consolidation, FSRS.
