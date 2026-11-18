@@ -93,6 +93,14 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 - **Une « carte mémoire » par couple élément × compétence.** Exemple : « Lyon — placer » et « Lyon — nommer » sont suivis séparément, tout comme « France — drapeau » et « France — capitale ».
 - On enregistre chaque réponse (horodatage, mode, justesse, distance, temps, indice). L'historique sert aux stats et pourra servir à recalibrer.
 
+### 5.4 Choix d'implémentation (étape 3)
+- **FSRS-7** via `DefaultScheduler` de ts-fsrs 6, rétention visée 0,9, variation aléatoire des intervalles activée. Compétences V1 : `locate-country`, `name-country`, `locate-capital`, `name-capital`, `flag` ; clé de carte `<id>:<compétence>`.
+- **Niveaux de maîtrise** selon la stabilité FSRS : « acquis » à partir de 7 jours, « maîtrisé » à partir de 30 jours.
+- **Saisie** : accents, casse, ponctuation, « St »/« Ste », article ou « Îles » de tête facultatifs ; fautes tolérées selon la longueur (0 jusqu'à 4 lettres, puis 1, 2, 3). Si la saisie ressemble autant à une autre réponse connue (« Niger » pour « Nigeria »), c'est une confusion, donc fausse.
+- **Épingler un point** : rayon accepté = 0,08 × √(superficie du pays), entre 20 et 250 km ; jusqu'à 2,5 × ce rayon, c'est « presque ».
+- **Temps** : médiane par appareil × façon de répondre (clic, saisie, choix), sur les 60 dernières réponses justes sans indice ; la vitesse n'est jugée qu'à partir de 5 mesures. En saisie, temps divisé par (8 + longueur) / 16.
+- **Consolidation** : un élément raté revient après 3 autres questions (ou tout de suite s'il est le dernier).
+
 ## 6. Choisir ce que je travaille
 
 - Un **constructeur de session** combine les filtres :
@@ -187,7 +195,7 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 - [x] **0. Socle** : Vite + Preact + TS, Vitest, workflow GitHub Pages. Dépôt : https://github.com/corinoarno-create/G-o — app en ligne : https://corinoarno-create.github.io/G-o/
 - [x] **1. Données Monde** : 252 entités, frontières (568 Ko), capitales, population, drapeaux, contrôles et tests. *(Rapport `data/world/RAPPORT.md` à relire par Arno.)*
 - [x] **2. Carte** : rendu Monde, zoom/pincer, cadrage auto, cercles des micro-États, surbrillance, clic. *(Moteur `src/map/world-map.ts`, zones `src/map/zones.ts` ; l'app ouvre pour l'instant un bac à sable, remplacé à l'étape 7.)*
-- [ ] **3. Moteur pédagogique** (pur, testé) : tolérance de saisie, distance, note automatique, boucle de consolidation, FSRS.
+- [x] **3. Moteur pédagogique** (pur, testé) : tolérance de saisie, distance, note automatique, boucle de consolidation, FSRS. *(`src/engine/`, réglages dans `src/engine/settings.ts` ; branché sur l'interface à l'étape 5.)*
 - [ ] **4. Stockage** : IndexedDB + export/import JSON versionné.
 - [ ] **5. Modes** : Épingler, Saisir, Drapeaux + fin de session.
 - [ ] **6. Constructeur de session** + favoris.

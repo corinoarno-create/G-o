@@ -20,7 +20,8 @@
     "d3-transition": "^3.0.2",
     "d3-zoom": "^3.0.1",
     "preact": "^11.2.0",
-    "topojson-client": "^3.1.0"
+    "topojson-client": "^3.1.0",
+    "ts-fsrs": "^6.0.0"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.10.6",

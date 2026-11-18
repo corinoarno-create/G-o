@@ -7,7 +7,8 @@ import { feature } from 'topojson-client';
 import type { FeatureCollection, Geometry } from 'geojson';
 import type { GeometryCollection, Topology } from 'topojson-specification';
 import { describe, expect, it } from 'vitest';
-import { distanceToShapeKm, normalizeName } from '../../scripts/world/checks.ts';
+import { distanceToShapeKm } from '../engine/geo.ts';
+import { normalize as normalizeName } from '../engine/text-match.ts';
 import type { CountryEntity } from './types.ts';
 
 const root = join(import.meta.dirname, '..', '..');

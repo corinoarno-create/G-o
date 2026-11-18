@@ -1,46 +1,13 @@
 // Contrôles de cohérence des données du Monde. Ils produisent des remarques pour le rapport ;
 // les erreurs graves (identifiants en double…) font échouer la construction.
-import { geoContains, geoDistance } from 'd3-geo';
-import type { Feature, FeatureCollection, Geometry, Position } from 'geojson';
+import type { FeatureCollection, Geometry } from 'geojson';
+import { distanceToShapeKm } from '../../src/engine/geo.ts';
+// Comparaison des noms : la même normalisation que la saisie dans l'app.
+import { normalize as normalizeName } from '../../src/engine/text-match.ts';
 import type { CountryEntity } from '../../src/data/types.ts';
-
-const EARTH_RADIUS_KM = 6371.0088;
 
 /** Distance maximale tolérée entre une capitale et la frontière simplifiée de son entité (côte, île). */
 const CAPITAL_MAX_DISTANCE_KM = 25;
-
-/** Normalisation simple pour comparer des noms (casse, accents, ponctuation). */
-export function normalizeName(name: string): string {
-  return name
-    .normalize('NFD')
-    .replace(/\p{M}/gu, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, ' ')
-    .trim();
-}
-
-function* positions(geometry: Geometry): Generator<Position> {
-  switch (geometry.type) {
-    case 'Polygon':
-      for (const ring of geometry.coordinates) yield* ring;
-      break;
-    case 'MultiPolygon':
-      for (const polygon of geometry.coordinates) for (const ring of polygon) yield* ring;
-      break;
-    default:
-      break;
-  }
-}
-
-/** Distance (km) d'un point à l'entité : 0 s'il est dedans, sinon distance au sommet le plus proche. */
-export function distanceToShapeKm(shape: Feature<Geometry>, lon: number, lat: number): number {
-  if (geoContains(shape, [lon, lat])) return 0;
-  let best = Infinity;
-  for (const position of positions(shape.geometry)) {
-    best = Math.min(best, geoDistance([lon, lat], [position[0]!, position[1]!]));
-  }
-  return best * EARTH_RADIUS_KM;
-}
 
 export function checkEntities(
   entities: CountryEntity[],
