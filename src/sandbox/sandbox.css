@@ -22,6 +22,11 @@
   color: var(--color-accent);
 }
 
+.sandbox__zone {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
 .sandbox__zone select {
   font: inherit;
   padding: 6px 8px;
@@ -29,7 +34,8 @@
   border: 1px solid rgba(0, 0, 0, 0.2);
   background: var(--color-bg);
   color: var(--color-text);
-  max-width: 55vw;
+  width: 100%;
+  max-width: 260px;
 }
 
 .sandbox__count {
@@ -125,6 +131,7 @@
 .backup {
   position: relative;
   display: flex;
+  flex: none;
   gap: 6px;
 }
 
@@ -162,6 +169,16 @@
 
   .backup {
     margin-left: auto;
+  }
+
+  .sandbox__bar {
+    gap: 8px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .backup__button {
+    padding: 5px 8px;
   }
 }
 
