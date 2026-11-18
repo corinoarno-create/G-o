@@ -128,7 +128,7 @@ export function EndScreen({ world, config, summary, onReplayMissed, onRestart, o
         <div class="end__actions">
           {summary.missed.length > 0 && (
             <button type="button" class="game__button" onClick={onReplayMissed}>
-              Revoir ces {summary.missed.length} élément{summary.missed.length > 1 ? 's' : ''}
+              {summary.missed.length === 1 ? 'Revoir cet élément' : `Revoir ces ${summary.missed.length} éléments`}
             </button>
           )}
           <button type="button" class="game__button game__button--secondary" onClick={onRestart}>

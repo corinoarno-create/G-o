@@ -101,6 +101,15 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 - **Temps** : médiane par appareil × façon de répondre (clic, saisie, choix), sur les 60 dernières réponses justes sans indice ; la vitesse n'est jugée qu'à partir de 5 mesures. En saisie, temps divisé par (8 + longueur) / 16.
 - **Consolidation** : un élément raté revient après 3 autres questions (ou tout de suite s'il est le dernier).
 
+### 5.5 Choix d'implémentation (étape 5)
+- **Messages** : toujours positifs ; les noms de pays sont cités **sans article** (« Tu as touché : Venezuela »), les données ne disant pas « le », « la » ou « l' ». Après une erreur, une ligne « Réponse : … » donne la bonne réponse et la carte zoome dessus.
+- **Sur téléphone**, le panneau de validation n'affiche jamais le nom du pays touché (« Ce pays ? ») : il donnerait la réponse.
+- **Couleurs** : sélection en bleu, bonne réponse en vert, bonne réponse après une erreur en orange, erreur en rouge.
+- **Indice générique (V1)** : région pour placer un pays, nom du pays pour placer une capitale, première lettre et nombre de lettres pour la saisie, deux drapeaux retirés pour le choix. Il note la réponse « Difficile » au mieux.
+- **Bonne réponse** : on passe seul à la suivante après 1,1 s ; **erreur** : on attend « Continuer ».
+- **Choix des éléments** (en attendant le constructeur) : révisions dues d'abord, puis nouveautés, puis les autres, ordre mélangé.
+- La carte est cadrée dans l'espace libre entre la question et le panneau de réponse (`WorldMap.setInsets`).
+
 ## 6. Choisir ce que je travaille
 
 - Un **constructeur de session** combine les filtres :
@@ -182,10 +191,10 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 ### V1 — jouable rapidement (priorité absolue)
 - [ ] Données Monde : pays, territoires, capitales, drapeaux, population.
 - [x] Carte Monde zoomable, PC et mobile.
-- [ ] Modes : Épingler (pays, capitales), Saisir (pays, capitales), Drapeaux.
+- [x] Modes : Épingler (pays, capitales), Saisir (pays, capitales), Drapeaux.
 - [ ] Constructeur de session (zone, catégorie, mode, nombre).
-- [ ] Boucle de consolidation façon Seterra.
-- [ ] FSRS avec note automatique (justesse, distance, temps).
+- [x] Boucle de consolidation façon Seterra.
+- [x] FSRS avec note automatique (justesse, distance, temps).
 - [ ] Accueil « ce que je peux travailler ».
 - [ ] PWA installable, export/import de la progression.
 
@@ -197,7 +206,7 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 - [x] **2. Carte** : rendu Monde, zoom/pincer, cadrage auto, cercles des micro-États, surbrillance, clic. *(Moteur `src/map/world-map.ts`, zones `src/map/zones.ts` ; l'app ouvre pour l'instant un bac à sable, remplacé à l'étape 7.)*
 - [x] **3. Moteur pédagogique** (pur, testé) : tolérance de saisie, distance, note automatique, boucle de consolidation, FSRS. *(`src/engine/`, réglages dans `src/engine/settings.ts` ; branché sur l'interface à l'étape 5.)*
 - [x] **4. Stockage** : IndexedDB + export/import JSON versionné. *(`src/storage/` : base `geo` v1 avec cartes, journal des réponses, temps, réglages, favoris ; une réponse s'enregistre en une seule transaction. Fichier `geo-progression-AAAA-MM-JJ.json` versionné ; import par fusion (la carte révisée le plus récemment l'emporte, journaux réunis) ou remplacement. Boutons provisoires dans le bac à sable.)*
-- [ ] **5. Modes** : Épingler, Saisir, Drapeaux + fin de session.
+- [x] **5. Modes** : Épingler, Saisir, Drapeaux + fin de session. *(`src/game/` : 6 exercices — placer pays / capitales, nommer pays, donner capitales, drapeau → pays, pays → drapeau parmi 4 voisins ; indice générique et « Je ne sais pas » ; lanceur provisoire « Jouer » dans le bac à sable.)*
 - [ ] **6. Constructeur de session** + favoris.
 - [ ] **7. Accueil** (le défi du jour reste en V3).
 - [ ] **8. PWA** hors ligne, installation Android, finitions tactiles, page Crédits.

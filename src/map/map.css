@@ -6,7 +6,7 @@
   --map-inactive: #e4e1d9;
   --map-border: #8a8475;
   --map-neutral: #c9c6bf;
-  --map-selected: #2f8f6f;
+  --map-selected: #3b7dd8;
   --map-target: #e8a33d;
   --map-correct: #3fae63;
   --map-wrong: #d9534f;
@@ -23,7 +23,7 @@
     --map-inactive: #2c3632;
     --map-border: #8fa39a;
     --map-neutral: #55605b;
-    --map-selected: #5cc4a6;
+    --map-selected: #6ea6f0;
     --map-target: #f0b55a;
     --map-correct: #5fcf83;
     --map-wrong: #f07672;

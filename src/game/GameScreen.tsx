@@ -387,7 +387,8 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
 
               {pending && (
                 <div class="game__confirm">
-                  <span>{pending.entityId && exercise.id !== 'locate-capital' ? world.byId.get(pending.entityId)?.name ?? '' : 'Ce point ?'}</span>
+                  {/* Surtout pas le nom du pays touché : il donnerait la réponse. */}
+                  <span>{exercise.id === 'locate-capital' ? 'Ce point ?' : `Ce ${entityNoun(entity)} ?`}</span>
                   <button type="button" class="game__button" onClick={confirmPending}>
                     Valider
                   </button>
