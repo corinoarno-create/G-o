@@ -1,10 +1,10 @@
 // Bac à sable de la carte (étape 2) : choisir une zone, cliquer sur un pays et voir sa fiche,
 // ou lancer une manche (étape 5). L'accueil le remplacera à l'étape 7.
-import { useMemo, useState } from 'preact/hooks';
+import { useLayoutEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { flagUrl } from '../data/flags.ts';
 import { CONTINENT_LABELS, STATUS_LABELS, SUBREGION_LABELS } from '../data/labels.ts';
 import type { WorldData } from '../data/world.ts';
-import type { HighlightKind, MapPick } from '../map/world-map.ts';
+import type { HighlightKind, MapInsets, MapPick } from '../map/world-map.ts';
 import { WorldMapView } from '../map/WorldMapView.tsx';
 import { buildZones } from '../map/zones.ts';
 import type { GameConfig } from '../game/start.ts';
@@ -29,6 +29,35 @@ export function Sandbox({ world, zoneId, onZoneChange, onPlay }: Props) {
   const zones = useMemo(() => buildZones(world), [world]);
   const [pick, setPick] = useState<MapPick | null>(null);
   const [builderOpen, setBuilderOpen] = useState(false);
+  const mapAreaRef = useRef<HTMLElement>(null);
+  const builderRef = useRef<HTMLElement>(null);
+  const [insets, setInsets] = useState<MapInsets>({ top: 0, bottom: 0 });
+
+  // Quand le constructeur est ouvert, la zone est cadrée dans la partie visible de la carte :
+  // au-dessus du panneau sur téléphone, à sa droite sur PC.
+  useLayoutEffect(() => {
+    const area = mapAreaRef.current;
+    const panel = builderRef.current;
+    if (!builderOpen || !area || !panel) {
+      setInsets({ top: 0, bottom: 0 });
+      return undefined;
+    }
+    const measure = () => {
+      const map = area.getBoundingClientRect();
+      const box = panel.getBoundingClientRect();
+      const fullWidth = box.width > map.width * 0.8;
+      setInsets(
+        fullWidth
+          ? { top: 0, bottom: Math.max(0, map.bottom - box.top) + 8 }
+          : { top: 0, bottom: 0, left: Math.max(0, box.right - map.left) + 8 },
+      );
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(area);
+    observer.observe(panel); // le panneau grandit quand les favoris arrivent
+    return () => observer.disconnect();
+  }, [builderOpen]);
   const [focusIds, setFocusIds] = useState<string[] | null>(null);
   const zone = zones.find((z) => z.id === zoneId) ?? zones[0]!;
 
@@ -67,12 +96,19 @@ export function Sandbox({ world, zoneId, onZoneChange, onPlay }: Props) {
         <BackupButtons />
       </header>
 
-      <main class="sandbox__map">
-        <WorldMapView world={world} zone={zone} highlights={highlights} onPick={setPick} focusIds={focusIds} />
+      <main class="sandbox__map" ref={mapAreaRef}>
+        <WorldMapView
+          world={world}
+          zone={zone}
+          highlights={highlights}
+          insets={insets}
+          onPick={setPick}
+          focusIds={focusIds}
+        />
       </main>
 
       {builderOpen && (
-        <aside class="sandbox__card sandbox__card--builder">
+        <aside class="sandbox__card sandbox__card--builder" ref={builderRef}>
           <SessionBuilder
             world={world}
             zones={zones}

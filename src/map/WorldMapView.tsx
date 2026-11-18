@@ -41,7 +41,7 @@ export function WorldMapView({ world, zone, highlights, pins, insets, onPick, fo
   // Les marges d'abord : setZone cadre la zone avec elles.
   useEffect(() => {
     if (insets) mapRef.current?.setInsets(insets);
-  }, [world, insets?.top, insets?.bottom]);
+  }, [world, insets?.top, insets?.bottom, insets?.left, insets?.right]);
   useEffect(() => mapRef.current?.setZone(zone), [world, zone]);
   useEffect(() => mapRef.current?.setHighlights(highlights ?? new Map()), [world, zone, highlights]);
   useEffect(() => mapRef.current?.setPins(pins ?? []), [world, zone, pins]);
