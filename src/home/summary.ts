@@ -84,9 +84,11 @@ export function buildHomeSummary(
     }
   }
 
-  // Découvertes : pour chaque catégorie, la sous-région où il reste le plus d'éléments jamais vus.
+  // Découvertes : pour chaque catégorie, la sous-région où il reste le plus d'éléments jamais vus
+  // (une sous-région différente pour chaque catégorie, pour varier).
   const today = dayKey(now);
   const discoveries: Discovery[] = [];
+  const usedZones = new Set<string>();
   for (const category of DISCOVERY_CATEGORIES) {
     const exercise = EXERCISES[category.exercise];
     const candidates = zones
@@ -100,8 +102,11 @@ export function buildHomeSummary(
       }))
       .filter((candidate) => candidate.unseen > 0)
       .sort((a, b) => b.unseen - a.unseen || hash(today + a.zone.id) - hash(today + b.zone.id));
-    const best = candidates[0];
-    if (best) discoveries.push({ categoryLabel: category.label, exercise: category.exercise, zone: best.zone, unseen: best.unseen });
+    const best = candidates.find((candidate) => !usedZones.has(candidate.zone.id)) ?? candidates[0];
+    if (best) {
+      usedZones.add(best.zone.id);
+      discoveries.push({ categoryLabel: category.label, exercise: category.exercise, zone: best.zone, unseen: best.unseen });
+    }
   }
   discoveries.sort((a, b) => b.unseen - a.unseen);
 

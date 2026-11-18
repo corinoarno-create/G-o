@@ -57,6 +57,7 @@ describe('buildHomeSummary', () => {
   it('propose de découvrir la sous-région où il reste le plus à voir', () => {
     const { discoveries } = buildHomeSummary(world, zones, new Map(), new Map(), now);
     expect(discoveries).toHaveLength(2);
+    expect(discoveries[0]!.zone.id).not.toBe(discoveries[1]!.zone.id);
     for (const discovery of discoveries) {
       expect(discovery.zone.kind).toBe('subregion');
       expect(discovery.unseen).toBeGreaterThan(10);
