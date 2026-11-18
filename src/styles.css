@@ -1,0 +1,70 @@
+/* Thème de base : couleurs en variables pour gérer clair et sombre. */
+:root {
+  --color-bg: #f5f8f6;
+  --color-text: #1c2b26;
+  --color-muted: #5b6e67;
+  --color-accent: #1f6f5c;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #121a17;
+    --color-text: #e6efeb;
+    --color-muted: #9fb3ab;
+    --color-accent: #5cc4a6;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+#app {
+  min-height: 100%;
+}
+
+.placeholder {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  text-align: center;
+}
+
+.placeholder h1 {
+  margin: 0.5rem 0 0;
+  font-size: 2.5rem;
+  color: var(--color-accent);
+}
+
+.placeholder__tagline {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.placeholder__status {
+  margin: 1rem 0 0;
+  color: var(--color-muted);
+}
+
+.placeholder__version {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--color-muted);
+}

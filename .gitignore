@@ -1,0 +1,9 @@
+node_modules/
+dist/
+coverage/
+*.local
+.DS_Store
+Thumbs.db
+
+# Téléchargements bruts des scripts de données (lourds, régénérables)
+data/raw/

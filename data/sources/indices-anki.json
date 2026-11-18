@@ -1,0 +1,602 @@
+[
+ {
+  "ville": "Adélaïde",
+  "pays": "Australie",
+  "continent": "Océanie",
+  "indice": "Cité des églises et des festivals"
+ },
+ {
+  "ville": "Alice Springs",
+  "pays": "Australie",
+  "continent": "Océanie",
+  "indice": "Ville rouge, au coeur du désert"
+ },
+ {
+  "ville": "Brisbane",
+  "pays": "Australie",
+  "continent": "Océanie",
+  "indice": "Capitale du Queensland, traversée par un fleuve"
+ },
+ {
+  "ville": "Cairns",
+  "pays": "Australie",
+  "continent": "Océanie",
+  "indice": "Ville principale pour explorer la grande barrière de corail"
+ },
+ {
+  "ville": "Canberra",
+  "pays": "Australie",
+  "continent": "Océanie",
+  "indice": "Capitale, ville-jardin"
+ },
+ {
+  "ville": "Darwin",
+  "pays": "Australie",
+  "continent": "Océanie",
+  "indice": "Ville tropicale, marquée par la culture et l'histoire aborigène"
+ },
+ {
+  "ville": "Hobart",
+  "pays": "Australie",
+  "continent": "Océanie",
+  "indice": "Port historique de Tasmanie, au pied de la montagne"
+ },
+ {
+  "ville": "Melbourne",
+  "pays": "Australie",
+  "continent": "Océanie",
+  "indice": "Capitale de la culture australienne et du café"
+ },
+ {
+  "ville": "Perth",
+  "pays": "Australie",
+  "continent": "Océanie",
+  "indice": "Ville isolée, bordée par l'océan indien"
+ },
+ {
+  "ville": "Sydney",
+  "pays": "Australie",
+  "continent": "Océanie",
+  "indice": "Opéra, Harbour Bridge, Némo"
+ },
+ {
+  "ville": "Bari",
+  "pays": "Italie",
+  "continent": "Europe",
+  "indice": "Grand port des pouilles"
+ },
+ {
+  "ville": "Bologne",
+  "pays": "Italie",
+  "continent": "Europe",
+  "indice": "La ville grasse, la ville rouge"
+ },
+ {
+  "ville": "Messine",
+  "pays": "Italie",
+  "continent": "Europe",
+  "indice": "Gardienne du détroit, entre la sicile et le continent"
+ },
+ {
+  "ville": "Milan",
+  "pays": "Italie",
+  "continent": "Europe",
+  "indice": "Capitale de la mode et de la finance"
+ },
+ {
+  "ville": "Naples",
+  "pays": "Italie",
+  "continent": "Europe",
+  "indice": "Berceau de la pizza, au pied du Vésuve"
+ },
+ {
+  "ville": "Palerme",
+  "pays": "Italie",
+  "continent": "Europe",
+  "indice": "Carrefour culturel de la sicile"
+ },
+ {
+  "ville": "Rome",
+  "pays": "Italie",
+  "continent": "Europe",
+  "indice": "Ville éternelle, coeur de l'empire"
+ },
+ {
+  "ville": "Tarente",
+  "pays": "Italie",
+  "continent": "Europe",
+  "indice": "La cité des deux mers"
+ },
+ {
+  "ville": "Turin",
+  "pays": "Italie",
+  "continent": "Europe",
+  "indice": "Ville du chocolat, de l'automobile et des Corino"
+ },
+ {
+  "ville": "Venise",
+  "pays": "Italie",
+  "continent": "Europe",
+  "indice": "La Sérénissime, cité lagunaire de renom"
+ },
+ {
+  "ville": "Abuja",
+  "pays": "Nigeria",
+  "continent": "Afrique",
+  "indice": "Capitale, construite dans les années 80"
+ },
+ {
+  "ville": "Benin City",
+  "pays": "Nigeria",
+  "continent": "Afrique",
+  "indice": "Au XVème, capitale du Royaume du Bénin"
+ },
+ {
+  "ville": "Enugu",
+  "pays": "Nigeria",
+  "continent": "Afrique",
+  "indice": "\"Ville du charbon\", Coeur historique de l'ethnie Igbo"
+ },
+ {
+  "ville": "Ibadan",
+  "pays": "Nigeria",
+  "continent": "Afrique",
+  "indice": "Une des plus grandes villes d'Afrique de l'Ouest, centre intellectuel majeur"
+ },
+ {
+  "ville": "Ilorin",
+  "pays": "Nigeria",
+  "continent": "Afrique",
+  "indice": "Pont culturel entre le nord musulman et le sud du pays"
+ },
+ {
+  "ville": "Jos",
+  "pays": "Nigeria",
+  "continent": "Afrique",
+  "indice": "Ville située sur un plateau d'altitude"
+ },
+ {
+  "ville": "Kaduna",
+  "pays": "Nigeria",
+  "continent": "Afrique",
+  "indice": "Carrefour industriel et politique du centre-nord"
+ },
+ {
+  "ville": "Kano",
+  "pays": "Nigeria",
+  "continent": "Afrique",
+  "indice": "Ancienne cité commerçante du nord, connue pour son commerce du cuir"
+ },
+ {
+  "ville": "Lagos",
+  "pays": "Nigeria",
+  "continent": "Afrique",
+  "indice": "Centre économique et coeur de l'industrie musicale (Afrobeats)"
+ },
+ {
+  "ville": "Port Harcourt",
+  "pays": "Nigeria",
+  "continent": "Afrique",
+  "indice": "Poumon pétrolier du pays"
+ },
+ {
+  "ville": "Acapulco",
+  "pays": "Mexique",
+  "continent": "Amérique du Nord",
+  "indice": "Baie mythique, falaise de la Quebrada"
+ },
+ {
+  "ville": "Cancún",
+  "pays": "Mexique",
+  "continent": "Amérique du Nord",
+  "indice": "Porte d'entrée du monde maya dans les caraïbes"
+ },
+ {
+  "ville": "Chihuahua",
+  "pays": "Mexique",
+  "continent": "Amérique du Nord",
+  "indice": "Plus grande ville au nord du Mexique"
+ },
+ {
+  "ville": "Guadalajara",
+  "pays": "Mexique",
+  "continent": "Amérique du Nord",
+  "indice": "Terre des mariachis et de la tequila"
+ },
+ {
+  "ville": "Mérida",
+  "pays": "Mexique",
+  "continent": "Amérique du Nord",
+  "indice": "La ville blanche"
+ },
+ {
+  "ville": "Mexico",
+  "pays": "Mexique",
+  "continent": "Amérique du Nord",
+  "indice": "Capitale, construite sur les ruines de la cité aztèque Tenochtitlan"
+ },
+ {
+  "ville": "Monterrey",
+  "pays": "Mexique",
+  "continent": "Amérique du Nord",
+  "indice": "Puissance économique et industrielle au pied des montagnes"
+ },
+ {
+  "ville": "Oaxaca",
+  "pays": "Mexique",
+  "continent": "Amérique du Nord",
+  "indice": "Ville de la gastronomie et de l'artisanat"
+ },
+ {
+  "ville": "Puebla",
+  "pays": "Mexique",
+  "continent": "Amérique du Nord",
+  "indice": "Ville historique des églises baroques et de la cuisine raffinée (le Mole)"
+ },
+ {
+  "ville": "Veracruz",
+  "pays": "Mexique",
+  "continent": "Amérique du Nord",
+  "indice": "Le plus grand port historique du pays"
+ },
+ {
+  "ville": "Fukuoka",
+  "pays": "Japon",
+  "continent": "Asie",
+  "indice": "Célèbre pour ses stands de nourriture (yatai)"
+ },
+ {
+  "ville": "Hiroshima",
+  "pays": "Japon",
+  "continent": "Asie",
+  "indice": "Symbole de l'histoire nucléaire"
+ },
+ {
+  "ville": "Kobe",
+  "pays": "Japon",
+  "continent": "Asie",
+  "indice": "Port d'exception réputé pour son boeuf"
+ },
+ {
+  "ville": "Kyoto",
+  "pays": "Japon",
+  "continent": "Asie",
+  "indice": "Coeur historique, célèbre pour ses pavillons d'or et ses jardins"
+ },
+ {
+  "ville": "Nagoya",
+  "pays": "Japon",
+  "continent": "Asie",
+  "indice": "Berceau de l'automobile japonaise"
+ },
+ {
+  "ville": "Nara",
+  "pays": "Japon",
+  "continent": "Asie",
+  "indice": "Ancienne capitale imperiale"
+ },
+ {
+  "ville": "Osaka",
+  "pays": "Japon",
+  "continent": "Asie",
+  "indice": "Capitale de la cuisine de rue (le ventre du japon)"
+ },
+ {
+  "ville": "Sapporo",
+  "pays": "Japon",
+  "continent": "Asie",
+  "indice": "Connu pour sa bière et son festival de neige"
+ },
+ {
+  "ville": "Tokyo",
+  "pays": "Japon",
+  "continent": "Asie",
+  "indice": "Carrefour mondial de la tech et des néons"
+ },
+ {
+  "ville": "Yokohama",
+  "pays": "Japon",
+  "continent": "Asie",
+  "indice": "Grand port cosmopolite, voisin de Tokyo"
+ },
+ {
+  "ville": "Belo Horizonte",
+  "pays": "Brésil",
+  "continent": "Amérique du Sud",
+  "indice": "Ville étape, entourée de cités coloniales baroques"
+ },
+ {
+  "ville": "Brasilia",
+  "pays": "Brésil",
+  "continent": "Amérique du Sud",
+  "indice": "Capitale, ville en forme d'avion"
+ },
+ {
+  "ville": "Curitiba",
+  "pays": "Brésil",
+  "continent": "Amérique du Sud",
+  "indice": "Modèle mondial d'urbanisme vert"
+ },
+ {
+  "ville": "Fortaleza",
+  "pays": "Brésil",
+  "continent": "Amérique du Sud",
+  "indice": "Centre touristique et économique du Nordeste"
+ },
+ {
+  "ville": "Manaus",
+  "pays": "Brésil",
+  "continent": "Amérique du Sud",
+  "indice": "Métropole au coeur de la forêt amazonienne"
+ },
+ {
+  "ville": "Porto Alegre",
+  "pays": "Brésil",
+  "continent": "Amérique du Sud",
+  "indice": "Capitale de la culture \"gaúcha\" (élevage)"
+ },
+ {
+  "ville": "Recife",
+  "pays": "Brésil",
+  "continent": "Amérique du Sud",
+  "indice": "La venise brésilienne"
+ },
+ {
+  "ville": "Rio de Janeiro",
+  "pays": "Brésil",
+  "continent": "Amérique du Sud",
+  "indice": "Carnaval, Corcovado, Christ rédempteur"
+ },
+ {
+  "ville": "Salvador",
+  "pays": "Brésil",
+  "continent": "Amérique du Sud",
+  "indice": "Berceau de la culture afro-brésilienne"
+ },
+ {
+  "ville": "São Paulo",
+  "pays": "Brésil",
+  "continent": "Amérique du Sud",
+  "indice": "Locomotive économique et culturelle"
+ },
+ {
+  "ville": "Boston",
+  "pays": "Etats Unis",
+  "continent": "Amérique du Nord",
+  "indice": "Harvard, berceau intellectuel du pays"
+ },
+ {
+  "ville": "Chicago",
+  "pays": "Etats Unis",
+  "continent": "Amérique du Nord",
+  "indice": "La ville des vents"
+ },
+ {
+  "ville": "Houston",
+  "pays": "Etats Unis",
+  "continent": "Amérique du Nord",
+  "indice": "Centre mondial de l'exploration spatiale et de l'energie"
+ },
+ {
+  "ville": "Las Vegas",
+  "pays": "Etats Unis",
+  "continent": "Amérique du Nord",
+  "indice": "Sin city"
+ },
+ {
+  "ville": "Los Angeles",
+  "pays": "Etats Unis",
+  "continent": "Amérique du Nord",
+  "indice": "Hollywood, coeur du rêve californien"
+ },
+ {
+  "ville": "Miami",
+  "pays": "Etats Unis",
+  "continent": "Amérique du Nord",
+  "indice": "Climat tropical, culture sud-américaine"
+ },
+ {
+  "ville": "New Orleans",
+  "pays": "Etats Unis",
+  "continent": "Amérique du Nord",
+  "indice": "Berceau du Jazz"
+ },
+ {
+  "ville": "New York",
+  "pays": "Etats Unis",
+  "continent": "Amérique du Nord",
+  "indice": "La grosse pomme"
+ },
+ {
+  "ville": "Washington DC",
+  "pays": "Etats Unis",
+  "continent": "Amérique du Nord",
+  "indice": "Capitale, maison blanche"
+ },
+ {
+  "ville": "San Francisco",
+  "pays": "Etats Unis",
+  "continent": "Amérique du Nord",
+  "indice": "Golden Gate Bridge"
+ },
+ {
+  "ville": "Buenos Aires",
+  "pays": "Argentine",
+  "continent": "Amérique du Sud",
+  "indice": "Capitale, Le \"Paris de l'Amérique du Sud\""
+ },
+ {
+  "ville": "Córdoba",
+  "pays": "Argentine",
+  "continent": "Amérique du Sud",
+  "indice": "Le centre intellectuel du pays, avec l'une des plus anciennes universités du continent"
+ },
+ {
+  "ville": "Rosario",
+  "pays": "Argentine",
+  "continent": "Amérique du Sud",
+  "indice": "Plus grande ville de la province de Santa Fe"
+ },
+ {
+  "ville": "Mendoza",
+  "pays": "Argentine",
+  "continent": "Amérique du Sud",
+  "indice": "Capitale mondiale du vin, au pied de la cordillère des Andes"
+ },
+ {
+  "ville": "Salta",
+  "pays": "Argentine",
+  "continent": "Amérique du Sud",
+  "indice": "Surnommée \"La Linda\""
+ },
+ {
+  "ville": "Ushuaïa",
+  "pays": "Argentine",
+  "continent": "Amérique du Sud",
+  "indice": "Ville la plus australe du monde"
+ },
+ {
+  "ville": "San Carlos de Bariloche",
+  "pays": "Argentine",
+  "continent": "Amérique du Sud",
+  "indice": "La suisse argentine"
+ },
+ {
+  "ville": "Mar del Plata",
+  "pays": "Argentine",
+  "continent": "Amérique du Sud",
+  "indice": "Principale station balnéaire du pays"
+ },
+ {
+  "ville": "San Miguel de Tucumán",
+  "pays": "Argentine",
+  "continent": "Amérique du Sud",
+  "indice": "Berceau de l'indépendance argentine"
+ },
+ {
+  "ville": "Neuquén",
+  "pays": "Argentine",
+  "continent": "Amérique du Sud",
+  "indice": "Capitale de la patagonie du nord"
+ },
+ {
+  "ville": "Alexandrie",
+  "pays": "Egypte",
+  "continent": "Afrique",
+  "indice": "Phare antique, Bibliothèque"
+ },
+ {
+  "ville": "Assouan",
+  "pays": "Egypte",
+  "continent": "Afrique",
+  "indice": "Temple Nubiens, grand barrage"
+ },
+ {
+  "ville": "Charm el-Cheikh",
+  "pays": "Egypte",
+  "continent": "Afrique",
+  "indice": "Joyau de la mer rouge, plongée"
+ },
+ {
+  "ville": "Gizeh",
+  "pays": "Egypte",
+  "continent": "Afrique",
+  "indice": "Ville des pyramides et du sphinx"
+ },
+ {
+  "ville": "Hurghada",
+  "pays": "Egypte",
+  "continent": "Afrique",
+  "indice": "Ancien village de pêcheurs devenu station balnéaire"
+ },
+ {
+  "ville": "Le Caire",
+  "pays": "Egypte",
+  "continent": "Afrique",
+  "indice": "Capitale, mégalopole antique"
+ },
+ {
+  "ville": "Louxor",
+  "pays": "Egypte",
+  "continent": "Afrique",
+  "indice": "Plus grand musée à ciel ouvert (Thèbes antique)"
+ },
+ {
+  "ville": "Mansourah",
+  "pays": "Egypte",
+  "continent": "Afrique",
+  "indice": "Centre agricole fertile du delta du nil"
+ },
+ {
+  "ville": "Port Saïd",
+  "pays": "Egypte",
+  "continent": "Afrique",
+  "indice": "Sentinelle nord du canal de Suez"
+ },
+ {
+  "ville": "Suez",
+  "pays": "Egypte",
+  "continent": "Afrique",
+  "indice": "Canal, ville charnière entre l'Afrique et l'Asie"
+ },
+ {
+  "ville": "Canton",
+  "pays": "Chine",
+  "continent": "Asie",
+  "indice": "Capitale de la gastronomie et de l'industrie"
+ },
+ {
+  "ville": "Chengdu",
+  "pays": "Chine",
+  "continent": "Asie",
+  "indice": "Célèbre pour ses pandas et sa culture détendue"
+ },
+ {
+  "ville": "Hangzhou",
+  "pays": "Chine",
+  "continent": "Asie",
+  "indice": "Cité lacustre, célèbre pour son lac de l'Ouest et son thé"
+ },
+ {
+  "ville": "Lhassa",
+  "pays": "Chine",
+  "continent": "Asie",
+  "indice": "Centre spirituel du tibet"
+ },
+ {
+  "ville": "Macao",
+  "pays": "Chine",
+  "continent": "Asie",
+  "indice": "Le \"Las Vegas\" de l'Asie"
+ },
+ {
+  "ville": "Nankin",
+  "pays": "Chine",
+  "continent": "Asie",
+  "indice": "Ancienne résidence impériale, sur les rives du Yangtsé"
+ },
+ {
+  "ville": "Pékin",
+  "pays": "Chine",
+  "continent": "Asie",
+  "indice": "Cité interdite, point d'accès à la grande muraille"
+ },
+ {
+  "ville": "Shanghai",
+  "pays": "Chine",
+  "continent": "Asie",
+  "indice": "Plus grand port mondial, poumon financier"
+ },
+ {
+  "ville": "Taipei",
+  "pays": "Chine",
+  "continent": "Asie",
+  "indice": "Capitale de Taiwan, célèbre pour ses marchés de nuit"
+ },
+ {
+  "ville": "Xi'an",
+  "pays": "Chine",
+  "continent": "Asie",
+  "indice": "Ancienne capitale, point de départ de la route de la soie"
+ }
+]
