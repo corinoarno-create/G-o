@@ -145,6 +145,15 @@ export class WorldMap {
 
   // -------------------------------------------------------------------------------------------
 
+  /**
+   * Largeur sur laquelle on dessine la carte du Monde. Sur un écran en portrait, le planisphère tiendrait
+   * dans une bande minuscule : on le dessine plus large que l'écran (jusqu'à 2,2 fois) et on le fait glisser.
+   */
+  private worldWidth(): number {
+    const naturalEarthRatio = 1.9; // largeur / hauteur du planisphère Natural Earth
+    return Math.max(this.width, Math.min(2.2 * this.width, naturalEarthRatio * this.height));
+  }
+
   private configureProjection(zone: Zone): void {
     const extent: Bounds = [
       [MAP_SETTINGS.padding, MAP_SETTINGS.padding],
@@ -152,7 +161,14 @@ export class WorldMap {
     ];
     const box = zone.view.box;
     if (zone.view.projection === 'natural-earth' || !box) {
-      this.projection = geoNaturalEarth1().fitExtent(extent, { type: 'Sphere' });
+      const offset = (this.worldWidth() - this.width) / 2;
+      this.projection = geoNaturalEarth1().fitExtent(
+        [
+          [extent[0][0] - offset, extent[0][1]],
+          [extent[1][0] + offset, extent[1][1]],
+        ],
+        { type: 'Sphere' },
+      );
     } else {
       const [lon, lat] = boxCenter(box);
       // Projection azimutale équivalente centrée sur la zone : peu de déformation à l'échelle d'un continent.
@@ -210,18 +226,20 @@ export class WorldMap {
     for (const id of this.shapes.keys()) this.applyClasses(id, active);
 
     // Zoom : au moins le cadrage de la zone ; on peut sortir un peu du cadre pour voir les voisins.
+    // Pour le Monde, on reste dans le planisphère, et on peut dézoomer pour le voir en entier sur un téléphone.
     const world = this.zone.view.projection === 'natural-earth';
+    const offset = (this.worldWidth() - width) / 2;
     this.zoomBehavior
       .extent([
         [0, 0],
         [width, height],
       ])
-      .scaleExtent([world ? 1 : 0.6, MAP_SETTINGS.maxZoom])
+      .scaleExtent([world ? width / this.worldWidth() : 0.6, MAP_SETTINGS.maxZoom])
       .translateExtent(
         world
           ? [
-              [0, 0],
-              [width, height],
+              [-offset, 0],
+              [width + offset, height],
             ]
           : [
               [-width, -height],
