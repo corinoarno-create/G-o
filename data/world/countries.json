@@ -1,0 +1,7017 @@
+[
+  {
+    "id": "af",
+    "iso3": "AFG",
+    "name": "Afghanistan",
+    "aliases": [],
+    "capital": {
+      "name": "Kaboul",
+      "aliases": [],
+      "lon": 69.165833333,
+      "lat": 34.532777777
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "southern-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 43844111,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 642469.22,
+    "anchor": [
+      66.4966,
+      34.1643
+    ],
+    "flag": "af.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "za",
+    "iso3": "ZAF",
+    "name": "Afrique du Sud",
+    "aliases": [],
+    "capital": {
+      "name": "Pretoria",
+      "aliases": [],
+      "lon": 28.188055555,
+      "lat": -25.746388888
+    },
+    "otherCapitals": [
+      {
+        "name": "Le Cap",
+        "aliases": [
+          "Cape Town"
+        ],
+        "lat": -33.925277777,
+        "lon": 18.423888888
+      },
+      {
+        "name": "Bloemfontein",
+        "aliases": [],
+        "lon": 26.216666666,
+        "lat": -29.1
+      }
+    ],
+    "continent": "africa",
+    "subregion": "southern-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 64747319,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 1221841.67,
+    "anchor": [
+      23.6657,
+      -29.7088
+    ],
+    "flag": "za.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ax",
+    "iso3": "ALA",
+    "name": "Åland",
+    "aliases": [
+      "Îles Åland",
+      "Ahvenanmaa"
+    ],
+    "capital": {
+      "name": "Mariehamn",
+      "aliases": [],
+      "lon": 19.94444444,
+      "lat": 60.09861111
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "northern-europe",
+    "status": "dependency",
+    "sovereign": "fi",
+    "population": 30836,
+    "populationYear": 2025,
+    "populationSource": "wikidata",
+    "areaKm2": 761.83,
+    "anchor": [
+      19.8697,
+      60.1565
+    ],
+    "flag": "ax.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "al",
+    "iso3": "ALB",
+    "name": "Albanie",
+    "aliases": [],
+    "capital": {
+      "name": "Tirana",
+      "aliases": [],
+      "lon": 19.818055555,
+      "lat": 41.328333333
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "southeast-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 2349580,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 28075.98,
+    "anchor": [
+      20.1138,
+      40.6549
+    ],
+    "flag": "al.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "dz",
+    "iso3": "DZA",
+    "name": "Algérie",
+    "aliases": [],
+    "capital": {
+      "name": "Alger",
+      "aliases": [],
+      "lon": 3.058611111,
+      "lat": 36.776388888
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "northern-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 47435312,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 2312443.78,
+    "anchor": [
+      2.8082,
+      27.3974
+    ],
+    "flag": "dz.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "de",
+    "iso3": "DEU",
+    "name": "Allemagne",
+    "aliases": [],
+    "capital": {
+      "name": "Berlin",
+      "aliases": [],
+      "lon": 13.383333333,
+      "lat": 52.516666666
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "western-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 83491249,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 355769.12,
+    "anchor": [
+      9.6783,
+      50.9617
+    ],
+    "flag": "de.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ad",
+    "iso3": "AND",
+    "name": "Andorre",
+    "aliases": [],
+    "capital": {
+      "name": "Andorre-la-Vieille",
+      "aliases": [],
+      "lon": 1.522222222,
+      "lat": 42.507222222
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "southern-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 82904,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 393.56,
+    "anchor": [
+      1.5394,
+      42.5476
+    ],
+    "flag": "ad.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ao",
+    "iso3": "AGO",
+    "name": "Angola",
+    "aliases": [],
+    "capital": {
+      "name": "Luanda",
+      "aliases": [],
+      "lon": 13.23,
+      "lat": -8.815
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "middle-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 39040039,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 1249200.61,
+    "anchor": [
+      17.9842,
+      -12.1828
+    ],
+    "flag": "ao.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ai",
+    "iso3": "AIA",
+    "name": "Anguilla",
+    "aliases": [],
+    "capital": {
+      "name": "The Valley",
+      "aliases": [],
+      "lon": -63.051666666,
+      "lat": 18.220833333
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "caribbean",
+    "status": "dependency",
+    "sovereign": "gb",
+    "population": 16293,
+    "populationYear": 2025,
+    "populationSource": "wikidata",
+    "areaKm2": 35.31,
+    "anchor": [
+      -63.0264,
+      18.243
+    ],
+    "flag": "ai.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "aq",
+    "iso3": "ATA",
+    "name": "Antarctique",
+    "aliases": [],
+    "capital": null,
+    "otherCapitals": [],
+    "continent": "antarctica",
+    "subregion": "antarctica",
+    "status": "other",
+    "sovereign": null,
+    "population": null,
+    "populationYear": null,
+    "populationSource": null,
+    "areaKm2": 12253029.75,
+    "anchor": [
+      35.8855,
+      -79.8432
+    ],
+    "flag": "aq.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ag",
+    "iso3": "ATG",
+    "name": "Antigua-et-Barbuda",
+    "aliases": [
+      "Antigua",
+      "Antigua et Barbuda"
+    ],
+    "capital": {
+      "name": "Saint John's",
+      "aliases": [],
+      "lon": -61.844722222,
+      "lat": 17.121111111
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "caribbean",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 94209,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 298.61,
+    "anchor": [
+      -61.8068,
+      17.0764
+    ],
+    "flag": "ag.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "sa",
+    "iso3": "SAU",
+    "name": "Arabie saoudite",
+    "aliases": [],
+    "capital": {
+      "name": "Riyad",
+      "aliases": [
+        "Riyadh"
+      ],
+      "lon": 46.715,
+      "lat": 24.638333333
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "western-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 36973555,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 1925044.85,
+    "anchor": [
+      44.6996,
+      23.8069
+    ],
+    "flag": "sa.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ar",
+    "iso3": "ARG",
+    "name": "Argentine",
+    "aliases": [],
+    "capital": {
+      "name": "Buenos Aires",
+      "aliases": [],
+      "lon": -58.381944444,
+      "lat": -34.599722222
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "south-america",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 45851378,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 2783110.23,
+    "anchor": [
+      -64.1733,
+      -33.5012
+    ],
+    "flag": "ar.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "am",
+    "iso3": "ARM",
+    "name": "Arménie",
+    "aliases": [],
+    "capital": {
+      "name": "Erevan",
+      "aliases": [
+        "Yerevan"
+      ],
+      "lon": 44.514444444,
+      "lat": 40.181388888
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "western-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 3086700,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 29780.38,
+    "anchor": [
+      44.8006,
+      40.4591
+    ],
+    "flag": "am.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "aw",
+    "iso3": "ABW",
+    "name": "Aruba",
+    "aliases": [],
+    "capital": {
+      "name": "Oranjestad",
+      "aliases": [],
+      "lon": -70.035833333,
+      "lat": 12.518611111
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "caribbean",
+    "status": "dependency",
+    "sovereign": "nl",
+    "population": 108785,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 118.57,
+    "anchor": [
+      -69.9728,
+      12.5174
+    ],
+    "flag": "aw.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "au",
+    "iso3": "AUS",
+    "name": "Australie",
+    "aliases": [],
+    "capital": {
+      "name": "Canberra",
+      "aliases": [],
+      "lon": 149.126944444,
+      "lat": -35.293055555
+    },
+    "otherCapitals": [],
+    "continent": "oceania",
+    "subregion": "australia-new-zealand",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 27614411,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 7704044.13,
+    "anchor": [
+      134.0497,
+      -24.1295
+    ],
+    "flag": "au.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "at",
+    "iso3": "AUT",
+    "name": "Autriche",
+    "aliases": [],
+    "capital": {
+      "name": "Vienne",
+      "aliases": [],
+      "lon": 16.3725,
+      "lat": 48.208333333
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "central-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 9208163,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 83862.33,
+    "anchor": [
+      14.1305,
+      47.5189
+    ],
+    "flag": "at.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "az",
+    "iso3": "AZE",
+    "name": "Azerbaïdjan",
+    "aliases": [],
+    "capital": {
+      "name": "Bakou",
+      "aliases": [],
+      "lon": 49.835183333,
+      "lat": 40.366655555
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "western-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 10246996,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 85886.88,
+    "anchor": [
+      47.211,
+      40.4024
+    ],
+    "flag": "az.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "bs",
+    "iso3": "BHS",
+    "name": "Bahamas",
+    "aliases": [],
+    "capital": {
+      "name": "Nassau",
+      "aliases": [],
+      "lon": -77.338611111,
+      "lat": 25.078055555
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "caribbean",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 403033,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 10347.06,
+    "anchor": [
+      -77.1467,
+      26.4018
+    ],
+    "flag": "bs.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "bh",
+    "iso3": "BHR",
+    "name": "Bahreïn",
+    "aliases": [],
+    "capital": {
+      "name": "Manama",
+      "aliases": [],
+      "lon": 50.583333333,
+      "lat": 26.216666666
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "western-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 1600366,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 508.95,
+    "anchor": [
+      50.5548,
+      26.056
+    ],
+    "flag": "bh.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "bd",
+    "iso3": "BGD",
+    "name": "Bangladesh",
+    "aliases": [],
+    "capital": {
+      "name": "Dacca",
+      "aliases": [
+        "Dhaka"
+      ],
+      "lon": 90.394444444,
+      "lat": 23.728888888
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "southern-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 175686899,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 137147.78,
+    "anchor": [
+      89.685,
+      24.215
+    ],
+    "flag": "bd.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "bb",
+    "iso3": "BRB",
+    "name": "Barbade",
+    "aliases": [],
+    "capital": {
+      "name": "Bridgetown",
+      "aliases": [],
+      "lon": -59.616666666,
+      "lat": 13.0975
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "caribbean",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 282623,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 328.94,
+    "anchor": [
+      -59.569,
+      13.1637
+    ],
+    "flag": "bb.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "be",
+    "iso3": "BEL",
+    "name": "Belgique",
+    "aliases": [],
+    "capital": {
+      "name": "Bruxelles",
+      "aliases": [],
+      "lon": 4.351666666,
+      "lat": 50.846666666
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "western-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 11941781,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 30580.52,
+    "anchor": [
+      5.3684,
+      50.2558
+    ],
+    "flag": "be.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "bz",
+    "iso3": "BLZ",
+    "name": "Belize",
+    "aliases": [],
+    "capital": {
+      "name": "Belmopan",
+      "aliases": [],
+      "lon": -88.7675,
+      "lat": 17.25
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "central-america",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 422924,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 22121.01,
+    "anchor": [
+      -88.713,
+      17.2021
+    ],
+    "flag": "bz.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "bj",
+    "iso3": "BEN",
+    "name": "Bénin",
+    "aliases": [],
+    "capital": {
+      "name": "Porto-Novo",
+      "aliases": [],
+      "lon": 2.616666666,
+      "lat": 6.483333333
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "western-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 14814460,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 116601.84,
+    "anchor": [
+      2.352,
+      10.3248
+    ],
+    "flag": "bj.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "bm",
+    "iso3": "BMU",
+    "name": "Bermudes",
+    "aliases": [],
+    "capital": {
+      "name": "Hamilton",
+      "aliases": [],
+      "lon": -64.783055555,
+      "lat": 32.295
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "northern-america",
+    "status": "dependency",
+    "sovereign": "gb",
+    "population": 64555,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 21.22,
+    "anchor": [
+      -64.7636,
+      32.2966
+    ],
+    "flag": "bm.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "bt",
+    "iso3": "BTN",
+    "name": "Bhoutan",
+    "aliases": [],
+    "capital": {
+      "name": "Thimphou",
+      "aliases": [
+        "Thimphu"
+      ],
+      "lon": 89.63367,
+      "lat": 27.47135
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "southern-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 796682,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 40451.87,
+    "anchor": [
+      90.0403,
+      27.5367
+    ],
+    "flag": "bt.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "by",
+    "iso3": "BLR",
+    "name": "Biélorussie",
+    "aliases": [
+      "Bélarus"
+    ],
+    "capital": {
+      "name": "Minsk",
+      "aliases": [],
+      "lon": 27.561837,
+      "lat": 53.902246
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "eastern-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 9085991,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 206582.54,
+    "anchor": [
+      28.4177,
+      53.8219
+    ],
+    "flag": "by.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "mm",
+    "iso3": "MMR",
+    "name": "Birmanie",
+    "aliases": [
+      "Myanmar"
+    ],
+    "capital": {
+      "name": "Naypyidaw",
+      "aliases": [
+        "Naypyitaw",
+        "Nay Pyi Taw"
+      ],
+      "lon": 96.115,
+      "lat": 19.7475
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "south-eastern-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 54850648,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 665452.35,
+    "anchor": [
+      95.8045,
+      21.5739
+    ],
+    "flag": "mm.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "bo",
+    "iso3": "BOL",
+    "name": "Bolivie",
+    "aliases": [],
+    "capital": {
+      "name": "Sucre",
+      "aliases": [],
+      "lon": -65.26,
+      "lat": -19.0475
+    },
+    "otherCapitals": [
+      {
+        "name": "La Paz",
+        "aliases": [],
+        "lon": -68.133333333,
+        "lat": -16.495833333
+      }
+    ],
+    "continent": "americas",
+    "subregion": "south-america",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 12581843,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 1090627.77,
+    "anchor": [
+      -64.5934,
+      -16.666
+    ],
+    "flag": "bo.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ba",
+    "iso3": "BIH",
+    "name": "Bosnie-Herzégovine",
+    "aliases": [
+      "Bosnie"
+    ],
+    "capital": {
+      "name": "Sarajevo",
+      "aliases": [],
+      "lon": 18.413055555,
+      "lat": 43.856388888
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "southeast-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 3140095,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 51865.61,
+    "anchor": [
+      17.6703,
+      43.7921
+    ],
+    "flag": "ba.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "bw",
+    "iso3": "BWA",
+    "name": "Botswana",
+    "aliases": [],
+    "capital": {
+      "name": "Gaborone",
+      "aliases": [],
+      "lon": 25.908611111,
+      "lat": -24.656944444
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "southern-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 2562122,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 580288.4,
+    "anchor": [
+      24.1792,
+      -22.1026
+    ],
+    "flag": "bw.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "br",
+    "iso3": "BRA",
+    "name": "Brésil",
+    "aliases": [],
+    "capital": {
+      "name": "Brasilia",
+      "aliases": [
+        "Brasília"
+      ],
+      "lon": -47.882777777,
+      "lat": -15.793888888
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "south-america",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 212812405,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 8506195.85,
+    "anchor": [
+      -49.5594,
+      -12.0987
+    ],
+    "flag": "br.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "bn",
+    "iso3": "BRN",
+    "name": "Brunei",
+    "aliases": [],
+    "capital": {
+      "name": "Bandar Seri Begawan",
+      "aliases": [],
+      "lon": 114.916666666,
+      "lat": 4.916666666
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "south-eastern-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 466330,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 5662.15,
+    "anchor": [
+      114.5519,
+      4.4483
+    ],
+    "flag": "bn.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "bg",
+    "iso3": "BGR",
+    "name": "Bulgarie",
+    "aliases": [],
+    "capital": {
+      "name": "Sofia",
+      "aliases": [],
+      "lon": 23.321726,
+      "lat": 42.697886
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "southeast-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 6433302,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 112464.82,
+    "anchor": [
+      25.1571,
+      42.5088
+    ],
+    "flag": "bg.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "bf",
+    "iso3": "BFA",
+    "name": "Burkina Faso",
+    "aliases": [],
+    "capital": {
+      "name": "Ouagadougou",
+      "aliases": [],
+      "lon": -1.5275,
+      "lat": 12.368611111
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "western-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 24074580,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 273603.13,
+    "anchor": [
+      -1.3639,
+      12.673
+    ],
+    "flag": "bf.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "bi",
+    "iso3": "BDI",
+    "name": "Burundi",
+    "aliases": [],
+    "capital": {
+      "name": "Gitega",
+      "aliases": [],
+      "lon": 29.925,
+      "lat": -3.428333333
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "eastern-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 14390003,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 26979.92,
+    "anchor": [
+      29.9171,
+      -3.3328
+    ],
+    "flag": "bi.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "kh",
+    "iso3": "KHM",
+    "name": "Cambodge",
+    "aliases": [],
+    "capital": {
+      "name": "Phnom Penh",
+      "aliases": [],
+      "lon": 104.921027777,
+      "lat": 11.569583333
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "south-eastern-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 17847982,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 181812.28,
+    "anchor": [
+      104.5049,
+      12.6476
+    ],
+    "flag": "kh.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "cm",
+    "iso3": "CMR",
+    "name": "Cameroun",
+    "aliases": [],
+    "capital": {
+      "name": "Yaoundé",
+      "aliases": [],
+      "lon": 11.518055555,
+      "lat": 3.857777777
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "middle-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 29879337,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 466643.52,
+    "anchor": [
+      12.4735,
+      4.585
+    ],
+    "flag": "cm.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ca",
+    "iso3": "CAN",
+    "name": "Canada",
+    "aliases": [],
+    "capital": {
+      "name": "Ottawa",
+      "aliases": [],
+      "lon": -75.695,
+      "lat": 45.424722222
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "northern-america",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 41651653,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 9923065.73,
+    "anchor": [
+      -101.9107,
+      60.3243
+    ],
+    "flag": "ca.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "cv",
+    "iso3": "CPV",
+    "name": "Cap-Vert",
+    "aliases": [
+      "Îles du Cap-Vert",
+      "Cabo Verde"
+    ],
+    "capital": {
+      "name": "Praia",
+      "aliases": [],
+      "lon": -23.509155555,
+      "lat": 14.917719444
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "western-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 527326,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 3403.76,
+    "anchor": [
+      -23.6394,
+      15.0748
+    ],
+    "flag": "cv.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "cl",
+    "iso3": "CHL",
+    "name": "Chili",
+    "aliases": [],
+    "capital": {
+      "name": "Santiago",
+      "aliases": [],
+      "lon": -70.65,
+      "lat": -33.4375
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "south-america",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 19859921,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 736836.65,
+    "anchor": [
+      -72.3189,
+      -38.1518
+    ],
+    "flag": "cl.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "cn",
+    "iso3": "CHN",
+    "name": "Chine",
+    "aliases": [],
+    "capital": {
+      "name": "Pékin",
+      "aliases": [
+        "Beijing"
+      ],
+      "lon": 116.407526,
+      "lat": 39.90403
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "eastern-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 1406585000,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 9374045.77,
+    "anchor": [
+      106.3373,
+      32.4982
+    ],
+    "flag": "cn.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "cy",
+    "iso3": "CYP",
+    "name": "Chypre",
+    "aliases": [],
+    "capital": {
+      "name": "Nicosie",
+      "aliases": [],
+      "lon": 33.365,
+      "lat": 35.1725
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "southern-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 1370754,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 5218.65,
+    "anchor": [
+      33.0842,
+      34.9133
+    ],
+    "flag": "cy.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "cyn",
+    "iso3": null,
+    "name": "Chypre du Nord",
+    "aliases": [
+      "République turque de Chypre du Nord",
+      "RTCN"
+    ],
+    "capital": {
+      "name": "Nicosie-Nord",
+      "aliases": [
+        "Nicosie",
+        "Lefkoşa"
+      ],
+      "lat": 35.19,
+      "lon": 33.363611111
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "southern-europe",
+    "status": "limited-recognition",
+    "sovereign": null,
+    "population": 489308,
+    "populationYear": 2024,
+    "populationSource": "wikidata",
+    "areaKm2": 3347.47,
+    "anchor": [
+      33.6924,
+      35.2161
+    ],
+    "flag": "cyn.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "co",
+    "iso3": "COL",
+    "name": "Colombie",
+    "aliases": [],
+    "capital": {
+      "name": "Bogota",
+      "aliases": [
+        "Bogotá"
+      ],
+      "lon": -74.08175,
+      "lat": 4.60971
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "south-america",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 53425635,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 1140133.76,
+    "anchor": [
+      -73.1743,
+      3.3731
+    ],
+    "flag": "co.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "km",
+    "iso3": "COM",
+    "name": "Comores",
+    "aliases": [],
+    "capital": {
+      "name": "Moroni",
+      "aliases": [],
+      "lon": 43.253611111,
+      "lat": -11.703611111
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "eastern-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 882847,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 1243.82,
+    "anchor": [
+      43.3181,
+      -11.7277
+    ],
+    "flag": "km.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "kp",
+    "iso3": "PRK",
+    "name": "Corée du Nord",
+    "aliases": [],
+    "capital": {
+      "name": "Pyongyang",
+      "aliases": [],
+      "lon": 125.7475,
+      "lat": 39.016666666
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "eastern-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 26571036,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 121496.07,
+    "anchor": [
+      126.4445,
+      39.8853
+    ],
+    "flag": "kp.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "kr",
+    "iso3": "KOR",
+    "name": "Corée du Sud",
+    "aliases": [],
+    "capital": {
+      "name": "Séoul",
+      "aliases": [],
+      "lon": 126.99,
+      "lat": 37.56
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "eastern-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 51684564,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 97150.83,
+    "anchor": [
+      128.1295,
+      36.3849
+    ],
+    "flag": "kr.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "cr",
+    "iso3": "CRI",
+    "name": "Costa Rica",
+    "aliases": [],
+    "capital": {
+      "name": "San José",
+      "aliases": [],
+      "lon": -84.079613888,
+      "lat": 9.932738888
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "central-america",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 5152950,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 51522.39,
+    "anchor": [
+      -84.0779,
+      10.0651
+    ],
+    "flag": "cr.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ci",
+    "iso3": "CIV",
+    "name": "Côte d'Ivoire",
+    "aliases": [],
+    "capital": {
+      "name": "Yamoussoukro",
+      "aliases": [],
+      "lon": -5.274166666,
+      "lat": 6.816111111
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "western-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 32711547,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 322496.57,
+    "anchor": [
+      -5.5686,
+      7.4914
+    ],
+    "flag": "ci.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "hr",
+    "iso3": "HRV",
+    "name": "Croatie",
+    "aliases": [],
+    "capital": {
+      "name": "Zagreb",
+      "aliases": [],
+      "lon": 15.977222222,
+      "lat": 45.813055555
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "southeast-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 3876200,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 53569.69,
+    "anchor": [
+      16.3724,
+      45.8058
+    ],
+    "flag": "hr.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "cu",
+    "iso3": "CUB",
+    "name": "Cuba",
+    "aliases": [],
+    "capital": {
+      "name": "La Havane",
+      "aliases": [
+        "Havane"
+      ],
+      "lon": -82.358888888,
+      "lat": 23.136666666
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "caribbean",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 10937203,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 109146.89,
+    "anchor": [
+      -77.9759,
+      21.334
+    ],
+    "flag": "cu.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "cw",
+    "iso3": "CUW",
+    "name": "Curaçao",
+    "aliases": [],
+    "capital": {
+      "name": "Willemstad",
+      "aliases": [],
+      "lon": -68.935,
+      "lat": 12.108
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "caribbean",
+    "status": "dependency",
+    "sovereign": "nl",
+    "population": 156263,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 438.07,
+    "anchor": [
+      -68.9206,
+      12.145
+    ],
+    "flag": "cw.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "dk",
+    "iso3": "DNK",
+    "name": "Danemark",
+    "aliases": [],
+    "capital": {
+      "name": "Copenhague",
+      "aliases": [],
+      "lon": 12.568888888,
+      "lat": 55.676111111
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "northern-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 6009169,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 41513.55,
+    "anchor": [
+      9.0182,
+      55.967
+    ],
+    "flag": "dk.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "dj",
+    "iso3": "DJI",
+    "name": "Djibouti",
+    "aliases": [],
+    "capital": {
+      "name": "Djibouti",
+      "aliases": [],
+      "lon": 43.148055555,
+      "lat": 11.595
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "eastern-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 1184076,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 21923.24,
+    "anchor": [
+      42.4988,
+      11.9763
+    ],
+    "flag": "dj.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "dm",
+    "iso3": "DMA",
+    "name": "Dominique",
+    "aliases": [],
+    "capital": {
+      "name": "Roseau",
+      "aliases": [],
+      "lon": -61.383333333,
+      "lat": 15.3
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "caribbean",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 65871,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 705.36,
+    "anchor": [
+      -61.345,
+      15.4588
+    ],
+    "flag": "dm.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "eg",
+    "iso3": "EGY",
+    "name": "Égypte",
+    "aliases": [],
+    "capital": {
+      "name": "Le Caire",
+      "aliases": [],
+      "lon": 31.235833333,
+      "lat": 30.044444444
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "northern-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 118365995,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 1002700.03,
+    "anchor": [
+      29.4458,
+      26.1862
+    ],
+    "flag": "eg.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ae",
+    "iso3": "ARE",
+    "name": "Émirats arabes unis",
+    "aliases": [
+      "Émirats",
+      "EAU"
+    ],
+    "capital": {
+      "name": "Abou Dabi",
+      "aliases": [
+        "Abu Dhabi"
+      ],
+      "lon": 54.396944444,
+      "lat": 24.451111111
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "western-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 11513149,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 71061.48,
+    "anchor": [
+      54.5473,
+      23.4663
+    ],
+    "flag": "ae.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ec",
+    "iso3": "ECU",
+    "name": "Équateur",
+    "aliases": [],
+    "capital": {
+      "name": "Quito",
+      "aliases": [],
+      "lon": -78.5125,
+      "lat": -0.22
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "south-america",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 18289896,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 256012.04,
+    "anchor": [
+      -78.1884,
+      -1.2591
+    ],
+    "flag": "ec.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "er",
+    "iso3": "ERI",
+    "name": "Érythrée",
+    "aliases": [],
+    "capital": {
+      "name": "Asmara",
+      "aliases": [],
+      "lon": 38.916666666,
+      "lat": 15.333333333
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "eastern-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 3607003,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 123198,
+    "anchor": [
+      38.2856,
+      15.7874
+    ],
+    "flag": "er.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "es",
+    "iso3": "ESP",
+    "name": "Espagne",
+    "aliases": [],
+    "capital": {
+      "name": "Madrid",
+      "aliases": [],
+      "lon": -3.703333333,
+      "lat": 40.416944444
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "southern-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 49355143,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 506205.87,
+    "anchor": [
+      -3.4647,
+      40.091
+    ],
+    "flag": "es.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ee",
+    "iso3": "EST",
+    "name": "Estonie",
+    "aliases": [],
+    "capital": {
+      "name": "Tallinn",
+      "aliases": [],
+      "lon": 24.745,
+      "lat": 59.437222222
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "northern-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 1366475,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 45194.44,
+    "anchor": [
+      25.8671,
+      58.7249
+    ],
+    "flag": "ee.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "sz",
+    "iso3": "SWZ",
+    "name": "Eswatini",
+    "aliases": [
+      "Swaziland"
+    ],
+    "capital": {
+      "name": "Mbabane",
+      "aliases": [],
+      "lon": 31.133333333,
+      "lat": -26.316666666
+    },
+    "otherCapitals": [
+      {
+        "name": "Lobamba",
+        "aliases": [],
+        "lon": 31.206411,
+        "lat": -26.44648
+      }
+    ],
+    "continent": "africa",
+    "subregion": "southern-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 1256174,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 17124.63,
+    "anchor": [
+      31.4673,
+      -26.5337
+    ],
+    "flag": "sz.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "us",
+    "iso3": "USA",
+    "name": "États-Unis",
+    "aliases": [
+      "États-Unis d'Amérique",
+      "USA"
+    ],
+    "capital": {
+      "name": "Washington",
+      "aliases": [
+        "Washington D.C."
+      ],
+      "lon": -77.036666666,
+      "lat": 38.895
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "northern-america",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 341784857,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 9452599.42,
+    "anchor": [
+      -97.4826,
+      39.5385
+    ],
+    "flag": "us.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "et",
+    "iso3": "ETH",
+    "name": "Éthiopie",
+    "aliases": [],
+    "capital": {
+      "name": "Addis-Abeba",
+      "aliases": [],
+      "lon": 38.7525,
+      "lat": 9.035833333
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "eastern-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 135472051,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 1131989.73,
+    "anchor": [
+      39.0886,
+      8.0328
+    ],
+    "flag": "et.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "fj",
+    "iso3": "FJI",
+    "name": "Fidji",
+    "aliases": [],
+    "capital": {
+      "name": "Suva",
+      "aliases": [],
+      "lon": 178.44,
+      "lat": -18.126666666
+    },
+    "otherCapitals": [],
+    "continent": "oceania",
+    "subregion": "melanesia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 933154,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 18052.4,
+    "anchor": [
+      177.9754,
+      -17.8261
+    ],
+    "flag": "fj.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "fi",
+    "iso3": "FIN",
+    "name": "Finlande",
+    "aliases": [],
+    "capital": {
+      "name": "Helsinki",
+      "aliases": [],
+      "lon": 24.9375,
+      "lat": 60.170833333
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "northern-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 5646436,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 330445.58,
+    "anchor": [
+      27.2764,
+      63.2524
+    ],
+    "flag": "fi.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "fr",
+    "iso3": "FRA",
+    "name": "France",
+    "aliases": [],
+    "capital": {
+      "name": "Paris",
+      "aliases": [],
+      "lon": 2.352222222,
+      "lat": 48.856666666
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "western-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 68720337,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 546798.04,
+    "anchor": [
+      2.5523,
+      46.6961
+    ],
+    "flag": "fr.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ga",
+    "iso3": "GAB",
+    "name": "Gabon",
+    "aliases": [],
+    "capital": {
+      "name": "Libreville",
+      "aliases": [],
+      "lon": 9.440277777,
+      "lat": 0.407777777
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "middle-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 2593130,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 261517.86,
+    "anchor": [
+      11.8359,
+      -0.4377
+    ],
+    "flag": "ga.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "gm",
+    "iso3": "GMB",
+    "name": "Gambie",
+    "aliases": [],
+    "capital": {
+      "name": "Banjul",
+      "aliases": [],
+      "lon": -16.5775,
+      "lat": 13.453055555
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "western-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 2822093,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 10806.69,
+    "anchor": [
+      -14.9983,
+      13.6417
+    ],
+    "flag": "gm.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ge",
+    "iso3": "GEO",
+    "name": "Géorgie",
+    "aliases": [],
+    "capital": {
+      "name": "Tbilissi",
+      "aliases": [],
+      "lon": 44.7925,
+      "lat": 41.7225
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "western-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 3935766,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 69390.73,
+    "anchor": [
+      43.7357,
+      41.8701
+    ],
+    "flag": "ge.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "gs",
+    "iso3": "SGS",
+    "name": "Géorgie du Sud-et-les Îles Sandwich du Sud",
+    "aliases": [
+      "Géorgie du Sud"
+    ],
+    "capital": {
+      "name": "King Edward Point",
+      "aliases": [],
+      "lon": -36.48714,
+      "lat": -54.282264
+    },
+    "otherCapitals": [
+      {
+        "name": "Grytviken",
+        "aliases": [],
+        "lon": -36.508028,
+        "lat": -54.281472
+      }
+    ],
+    "continent": "antarctica",
+    "subregion": "antarctica",
+    "status": "dependency",
+    "sovereign": "gb",
+    "population": 35,
+    "populationYear": 2019,
+    "populationSource": "wikidata",
+    "areaKm2": 3760.73,
+    "anchor": [
+      -31.0632,
+      -55.6834
+    ],
+    "flag": "gs.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "gh",
+    "iso3": "GHA",
+    "name": "Ghana",
+    "aliases": [],
+    "capital": {
+      "name": "Accra",
+      "aliases": [],
+      "lon": -0.1969,
+      "lat": 5.55602
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "western-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 35064272,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 239718.76,
+    "anchor": [
+      -1.0369,
+      7.7176
+    ],
+    "flag": "gh.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "gi",
+    "iso3": "GIB",
+    "name": "Gibraltar",
+    "aliases": [],
+    "capital": {
+      "name": "Gibraltar",
+      "aliases": [],
+      "lon": -5.35,
+      "lat": 36.14
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "southern-europe",
+    "status": "dependency",
+    "sovereign": "gb",
+    "population": 40126,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 3.09,
+    "anchor": [
+      -5.3467,
+      36.1294
+    ],
+    "flag": "gi.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "gr",
+    "iso3": "GRC",
+    "name": "Grèce",
+    "aliases": [],
+    "capital": {
+      "name": "Athènes",
+      "aliases": [],
+      "lon": 23.728055555,
+      "lat": 37.984166666
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "southern-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 10413962,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 129008.1,
+    "anchor": [
+      21.7257,
+      39.4928
+    ],
+    "flag": "gr.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "gd",
+    "iso3": "GRD",
+    "name": "Grenade",
+    "aliases": [],
+    "capital": {
+      "name": "Saint-Georges",
+      "aliases": [
+        "St. George's"
+      ],
+      "lon": -61.753055555,
+      "lat": 12.0525
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "caribbean",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 117303,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 270.59,
+    "anchor": [
+      -61.6805,
+      12.1132
+    ],
+    "flag": "gd.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "gl",
+    "iso3": "GRL",
+    "name": "Groenland",
+    "aliases": [],
+    "capital": {
+      "name": "Nuuk",
+      "aliases": [],
+      "lon": -51.733333333,
+      "lat": 64.175
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "northern-america",
+    "status": "dependency",
+    "sovereign": "dk",
+    "population": 56831,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 2155229.29,
+    "anchor": [
+      -39.3353,
+      74.3194
+    ],
+    "flag": "gl.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "gp",
+    "iso3": "GLP",
+    "name": "Guadeloupe",
+    "aliases": [],
+    "capital": {
+      "name": "Basse-Terre",
+      "aliases": [],
+      "lon": -61.732777777,
+      "lat": 15.996944444
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "caribbean",
+    "status": "overseas-region",
+    "sovereign": "fr",
+    "population": 384160,
+    "populationYear": 2023,
+    "populationSource": "wikidata",
+    "areaKm2": 1515.55,
+    "anchor": [
+      -61.4336,
+      16.2993
+    ],
+    "flag": "gp.svg",
+    "flagSameAs": "fr"
+  },
+  {
+    "id": "gu",
+    "iso3": "GUM",
+    "name": "Guam",
+    "aliases": [],
+    "capital": {
+      "name": "Hagåtña",
+      "aliases": [
+        "Agana"
+      ],
+      "lon": 144.75,
+      "lat": 13.483333333
+    },
+    "otherCapitals": [],
+    "continent": "oceania",
+    "subregion": "micronesia",
+    "status": "dependency",
+    "sovereign": "us",
+    "population": 168999,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 449.26,
+    "anchor": [
+      144.7036,
+      13.3542
+    ],
+    "flag": "gu.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "gt",
+    "iso3": "GTM",
+    "name": "Guatemala",
+    "aliases": [],
+    "capital": {
+      "name": "Guatemala",
+      "aliases": [
+        "Guatemala City",
+        "Ciudad de Guatemala"
+      ],
+      "lon": -90.513333333,
+      "lat": 14.641666666
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "central-america",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 18687881,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 109297.08,
+    "anchor": [
+      -90.4971,
+      14.9821
+    ],
+    "flag": "gt.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "gg",
+    "iso3": "GGY",
+    "name": "Guernesey",
+    "aliases": [],
+    "capital": {
+      "name": "Saint-Pierre-Port",
+      "aliases": [],
+      "lon": -2.55194,
+      "lat": 49.46
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "northern-europe",
+    "status": "dependency",
+    "sovereign": "gb",
+    "population": 67787,
+    "populationYear": 2024,
+    "populationSource": "wikidata",
+    "areaKm2": 37.85,
+    "anchor": [
+      -2.5617,
+      49.4635
+    ],
+    "flag": "gg.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "gn",
+    "iso3": "GIN",
+    "name": "Guinée",
+    "aliases": [],
+    "capital": {
+      "name": "Conakry",
+      "aliases": [],
+      "lon": -13.712222222,
+      "lat": 9.509166666
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "western-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 15099727,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 245463.46,
+    "anchor": [
+      -10.0164,
+      10.6185
+    ],
+    "flag": "gn.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "gq",
+    "iso3": "GNQ",
+    "name": "Guinée équatoriale",
+    "aliases": [],
+    "capital": {
+      "name": "Ciudad de la Paz",
+      "aliases": [],
+      "lon": 10.822222222,
+      "lat": 1.591666666
+    },
+    "otherCapitals": [
+      {
+        "name": "Malabo",
+        "aliases": [],
+        "lat": 3.7523,
+        "lon": 8.7741
+      }
+    ],
+    "continent": "africa",
+    "subregion": "middle-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 1938431,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 26881.42,
+    "anchor": [
+      8.9902,
+      2.333
+    ],
+    "flag": "gq.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "gw",
+    "iso3": "GNB",
+    "name": "Guinée-Bissau",
+    "aliases": [],
+    "capital": {
+      "name": "Bissau",
+      "aliases": [],
+      "lon": -15.583333333,
+      "lat": 11.86
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "western-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 2249515,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 33535.24,
+    "anchor": [
+      -14.5241,
+      12.1637
+    ],
+    "flag": "gw.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "gy",
+    "iso3": "GUY",
+    "name": "Guyana",
+    "aliases": [],
+    "capital": {
+      "name": "Georgetown",
+      "aliases": [],
+      "lon": -58.150833333,
+      "lat": 6.805833333
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "south-america",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 835986,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 212049.28,
+    "anchor": [
+      -58.9426,
+      5.1243
+    ],
+    "flag": "gy.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "gf",
+    "iso3": "GUF",
+    "name": "Guyane",
+    "aliases": [
+      "Guyane française"
+    ],
+    "capital": {
+      "name": "Cayenne",
+      "aliases": [],
+      "lon": -52.335,
+      "lat": 4.938611111
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "south-america",
+    "status": "overseas-region",
+    "sovereign": "fr",
+    "population": 293996,
+    "populationYear": 2023,
+    "populationSource": "wikidata",
+    "areaKm2": 83575.69,
+    "anchor": [
+      -53.0683,
+      3.9992
+    ],
+    "flag": "gf.svg",
+    "flagSameAs": "fr"
+  },
+  {
+    "id": "ht",
+    "iso3": "HTI",
+    "name": "Haïti",
+    "aliases": [],
+    "capital": {
+      "name": "Port-au-Prince",
+      "aliases": [],
+      "lon": -72.340277777,
+      "lat": 18.546944444
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "caribbean",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 11906095,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 26696.24,
+    "anchor": [
+      -72.2241,
+      19.2638
+    ],
+    "flag": "ht.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "hn",
+    "iso3": "HND",
+    "name": "Honduras",
+    "aliases": [],
+    "capital": {
+      "name": "Tegucigalpa",
+      "aliases": [],
+      "lon": -87.204705555,
+      "lat": 14.105783333
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "central-america",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 11005850,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 112936.86,
+    "anchor": [
+      -86.8876,
+      14.7948
+    ],
+    "flag": "hn.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "hk",
+    "iso3": "HKG",
+    "name": "Hong Kong",
+    "aliases": [
+      "Hongkong"
+    ],
+    "capital": null,
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "eastern-asia",
+    "status": "dependency",
+    "sovereign": "cn",
+    "population": 7498900,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 870.11,
+    "anchor": [
+      114.0978,
+      22.4488
+    ],
+    "flag": "hk.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "hu",
+    "iso3": "HUN",
+    "name": "Hongrie",
+    "aliases": [],
+    "capital": {
+      "name": "Budapest",
+      "aliases": [],
+      "lon": 19.040833333,
+      "lat": 47.498333333
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "central-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 9514251,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 93012.1,
+    "anchor": [
+      19.4479,
+      47.0868
+    ],
+    "flag": "hu.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "bv",
+    "iso3": "BVT",
+    "name": "Île Bouvet",
+    "aliases": [],
+    "capital": null,
+    "otherCapitals": [],
+    "continent": "antarctica",
+    "subregion": "antarctica",
+    "status": "dependency",
+    "sovereign": "no",
+    "population": 0,
+    "populationYear": 2025,
+    "populationSource": "manual",
+    "areaKm2": 39.92,
+    "anchor": [
+      3.4145,
+      -54.4153
+    ],
+    "flag": "bv.svg",
+    "flagSameAs": "no"
+  },
+  {
+    "id": "cx",
+    "iso3": "CXR",
+    "name": "Île Christmas",
+    "aliases": [],
+    "capital": {
+      "name": "Flying Fish Cove",
+      "aliases": [],
+      "lon": 105.678055555,
+      "lat": -10.421666666
+    },
+    "otherCapitals": [],
+    "continent": "oceania",
+    "subregion": "australia-new-zealand",
+    "status": "dependency",
+    "sovereign": "au",
+    "population": 1692,
+    "populationYear": 2021,
+    "populationSource": "wikidata",
+    "areaKm2": 41.16,
+    "anchor": [
+      105.6726,
+      -10.4908
+    ],
+    "flag": "cx.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "im",
+    "iso3": "IMN",
+    "name": "Île de Man",
+    "aliases": [],
+    "capital": {
+      "name": "Douglas",
+      "aliases": [],
+      "lon": -4.4775,
+      "lat": 54.15
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "northern-europe",
+    "status": "dependency",
+    "sovereign": "gb",
+    "population": 84118,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 574.5,
+    "anchor": [
+      -4.5301,
+      54.2208
+    ],
+    "flag": "im.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "nf",
+    "iso3": "NFK",
+    "name": "Île Norfolk",
+    "aliases": [],
+    "capital": {
+      "name": "Kingston",
+      "aliases": [],
+      "lon": 167.966666666,
+      "lat": -29.05
+    },
+    "otherCapitals": [],
+    "continent": "oceania",
+    "subregion": "australia-new-zealand",
+    "status": "dependency",
+    "sovereign": "au",
+    "population": 2188,
+    "populationYear": 2021,
+    "populationSource": "wikidata",
+    "areaKm2": 35.08,
+    "anchor": [
+      167.9545,
+      -29.033
+    ],
+    "flag": "nf.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ky",
+    "iso3": "CYM",
+    "name": "Îles Caïmans",
+    "aliases": [],
+    "capital": {
+      "name": "George Town",
+      "aliases": [],
+      "lon": -81.381666666,
+      "lat": 19.296388888
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "caribbean",
+    "status": "dependency",
+    "sovereign": "gb",
+    "population": 75844,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 153.05,
+    "anchor": [
+      -81.2405,
+      19.3199
+    ],
+    "flag": "ky.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "cc",
+    "iso3": "CCK",
+    "name": "Îles Cocos",
+    "aliases": [],
+    "capital": {
+      "name": "West Island",
+      "aliases": [],
+      "lon": 96.828333333,
+      "lat": -12.186944444
+    },
+    "otherCapitals": [],
+    "continent": "oceania",
+    "subregion": "australia-new-zealand",
+    "status": "dependency",
+    "sovereign": "au",
+    "population": 602,
+    "populationYear": 2021,
+    "populationSource": "wikidata",
+    "areaKm2": 9.95,
+    "anchor": [
+      96.8301,
+      -12.1596
+    ],
+    "flag": "cc.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ck",
+    "iso3": "COK",
+    "name": "Îles Cook",
+    "aliases": [],
+    "capital": {
+      "name": "Avarua",
+      "aliases": [],
+      "lon": -159.771,
+      "lat": -21.207
+    },
+    "otherCapitals": [],
+    "continent": "oceania",
+    "subregion": "polynesia",
+    "status": "dependency",
+    "sovereign": "nz",
+    "population": 14222,
+    "populationYear": 2023,
+    "populationSource": "wikidata",
+    "areaKm2": 118.63,
+    "anchor": [
+      -159.7857,
+      -21.216
+    ],
+    "flag": "ck.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "fo",
+    "iso3": "FRO",
+    "name": "Îles Féroé",
+    "aliases": [],
+    "capital": {
+      "name": "Tórshavn",
+      "aliases": [],
+      "lon": -6.77135,
+      "lat": 62.00981
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "northern-europe",
+    "status": "dependency",
+    "sovereign": "dk",
+    "population": 54900,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 972.05,
+    "anchor": [
+      -7.0584,
+      62.1856
+    ],
+    "flag": "fo.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "hm",
+    "iso3": "HMD",
+    "name": "Îles Heard-et-MacDonald",
+    "aliases": [],
+    "capital": null,
+    "otherCapitals": [],
+    "continent": "antarctica",
+    "subregion": "antarctica",
+    "status": "dependency",
+    "sovereign": "au",
+    "population": 0,
+    "populationYear": 2025,
+    "populationSource": "manual",
+    "areaKm2": 290.64,
+    "anchor": [
+      73.5052,
+      -53.1035
+    ],
+    "flag": "hm.svg",
+    "flagSameAs": "au"
+  },
+  {
+    "id": "fk",
+    "iso3": "FLK",
+    "name": "Îles Malouines",
+    "aliases": [
+      "Malouines",
+      "Îles Falkland",
+      "Falkland"
+    ],
+    "capital": {
+      "name": "Port Stanley",
+      "aliases": [
+        "Stanley"
+      ],
+      "lon": -57.849556,
+      "lat": -51.693861
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "south-america",
+    "status": "dependency",
+    "sovereign": "gb",
+    "population": 3662,
+    "populationYear": 2021,
+    "populationSource": "wikidata",
+    "areaKm2": 11359.45,
+    "anchor": [
+      -58.7386,
+      -51.6089
+    ],
+    "flag": "fk.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "mp",
+    "iso3": "MNP",
+    "name": "Îles Mariannes du Nord",
+    "aliases": [],
+    "capital": {
+      "name": "Saïpan",
+      "aliases": [],
+      "lon": 145.7545,
+      "lat": 15.21233
+    },
+    "otherCapitals": [],
+    "continent": "oceania",
+    "subregion": "micronesia",
+    "status": "dependency",
+    "sovereign": "us",
+    "population": 43541,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 296.98,
+    "anchor": [
+      145.7344,
+      15.1882
+    ],
+    "flag": "mp.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "mh",
+    "iso3": "MHL",
+    "name": "Îles Marshall",
+    "aliases": [],
+    "capital": {
+      "name": "Majuro",
+      "aliases": [],
+      "lon": 171.3802,
+      "lat": 7.0918
+    },
+    "otherCapitals": [],
+    "continent": "oceania",
+    "subregion": "micronesia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 36282,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 99.31,
+    "anchor": [
+      171.1936,
+      7.0826
+    ],
+    "flag": "mh.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "um",
+    "iso3": "UMI",
+    "name": "Îles mineures éloignées des États-Unis",
+    "aliases": [],
+    "capital": null,
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "northern-america",
+    "status": "dependency",
+    "sovereign": "us",
+    "population": 190,
+    "populationYear": 2010,
+    "populationSource": "wikidata",
+    "areaKm2": 16.67,
+    "anchor": [
+      -162.0738,
+      5.8772
+    ],
+    "flag": "um.svg",
+    "flagSameAs": "us"
+  },
+  {
+    "id": "pn",
+    "iso3": "PCN",
+    "name": "Îles Pitcairn",
+    "aliases": [],
+    "capital": {
+      "name": "Adamstown",
+      "aliases": [],
+      "lon": -130.1,
+      "lat": -25.066666666
+    },
+    "otherCapitals": [],
+    "continent": "oceania",
+    "subregion": "polynesia",
+    "status": "dependency",
+    "sovereign": "gb",
+    "population": 47,
+    "populationYear": 2021,
+    "populationSource": "wikidata",
+    "areaKm2": 31.29,
+    "anchor": [
+      -128.3175,
+      -24.3646
+    ],
+    "flag": "pn.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "sb",
+    "iso3": "SLB",
+    "name": "Îles Salomon",
+    "aliases": [
+      "Salomon"
+    ],
+    "capital": {
+      "name": "Honiara",
+      "aliases": [],
+      "lon": 159.95,
+      "lat": -9.433333
+    },
+    "otherCapitals": [],
+    "continent": "oceania",
+    "subregion": "melanesia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 838645,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 25235.22,
+    "anchor": [
+      159.1705,
+      -8.0295
+    ],
+    "flag": "sb.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "tc",
+    "iso3": "TCA",
+    "name": "Îles Turques-et-Caïques",
+    "aliases": [],
+    "capital": {
+      "name": "Cockburn Town",
+      "aliases": [],
+      "lon": -71.141388888,
+      "lat": 21.460277777
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "caribbean",
+    "status": "dependency",
+    "sovereign": "gb",
+    "population": 46855,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 235.87,
+    "anchor": [
+      -71.7527,
+      21.8166
+    ],
+    "flag": "tc.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "vg",
+    "iso3": "VGB",
+    "name": "Îles Vierges britanniques",
+    "aliases": [],
+    "capital": {
+      "name": "Road Town",
+      "aliases": [],
+      "lon": -64.616666666,
+      "lat": 18.433333333
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "caribbean",
+    "status": "dependency",
+    "sovereign": "gb",
+    "population": 39732,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 66.34,
+    "anchor": [
+      -64.6366,
+      18.4266
+    ],
+    "flag": "vg.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "vi",
+    "iso3": "VIR",
+    "name": "Îles Vierges des États-Unis",
+    "aliases": [],
+    "capital": {
+      "name": "Charlotte-Amélie",
+      "aliases": [],
+      "lon": -64.95,
+      "lat": 18.35
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "caribbean",
+    "status": "dependency",
+    "sovereign": "us",
+    "population": 103792,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 222.17,
+    "anchor": [
+      -64.7792,
+      17.7467
+    ],
+    "flag": "vi.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "in",
+    "iso3": "IND",
+    "name": "Inde",
+    "aliases": [],
+    "capital": {
+      "name": "New Delhi",
+      "aliases": [],
+      "lon": 77.208888888,
+      "lat": 28.613888888
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "southern-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 1463865525,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 3159904.85,
+    "anchor": [
+      79.3581,
+      22.6869
+    ],
+    "flag": "in.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "id",
+    "iso3": "IDN",
+    "name": "Indonésie",
+    "aliases": [],
+    "capital": {
+      "name": "Jakarta",
+      "aliases": [],
+      "lon": 106.826944444,
+      "lat": -6.175277777
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "south-eastern-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 285721236,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 1880306.72,
+    "anchor": [
+      101.8929,
+      -0.9544
+    ],
+    "flag": "id.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "iq",
+    "iso3": "IRQ",
+    "name": "Irak",
+    "aliases": [],
+    "capital": {
+      "name": "Bagdad",
+      "aliases": [],
+      "lon": 44.366111111,
+      "lat": 33.315277777
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "western-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 47020774,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 437768.89,
+    "anchor": [
+      43.2611,
+      33.1048
+    ],
+    "flag": "iq.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ir",
+    "iso3": "IRN",
+    "name": "Iran",
+    "aliases": [],
+    "capital": {
+      "name": "Téhéran",
+      "aliases": [],
+      "lon": 51.389722222,
+      "lat": 35.688888888
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "western-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 92417681,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 1622921.34,
+    "anchor": [
+      54.9315,
+      32.1662
+    ],
+    "flag": "ir.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ie",
+    "iso3": "IRL",
+    "name": "Irlande",
+    "aliases": [],
+    "capital": {
+      "name": "Dublin",
+      "aliases": [],
+      "lon": -6.260277777,
+      "lat": 53.349722222
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "northern-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 5484367,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 69509.33,
+    "anchor": [
+      -7.7986,
+      53.0787
+    ],
+    "flag": "ie.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "is",
+    "iso3": "ISL",
+    "name": "Islande",
+    "aliases": [],
+    "capital": {
+      "name": "Reykjavik",
+      "aliases": [],
+      "lon": -21.935,
+      "lat": 64.1475
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "northern-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 392404,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 103846.36,
+    "anchor": [
+      -18.6737,
+      64.7793
+    ],
+    "flag": "is.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "il",
+    "iso3": "ISR",
+    "name": "Israël",
+    "aliases": [],
+    "capital": {
+      "name": "Jérusalem",
+      "aliases": [],
+      "lon": 35.234156,
+      "lat": 31.776679
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "western-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 10122800,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 22043.03,
+    "anchor": [
+      34.8479,
+      30.9111
+    ],
+    "flag": "il.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "it",
+    "iso3": "ITA",
+    "name": "Italie",
+    "aliases": [],
+    "capital": {
+      "name": "Rome",
+      "aliases": [],
+      "lon": 12.482777777,
+      "lat": 41.893055555
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "southern-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 58915656,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 300417.73,
+    "anchor": [
+      11.0769,
+      44.7325
+    ],
+    "flag": "it.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "jm",
+    "iso3": "JAM",
+    "name": "Jamaïque",
+    "aliases": [],
+    "capital": {
+      "name": "Kingston",
+      "aliases": [],
+      "lon": -76.793055555,
+      "lat": 17.971388888
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "caribbean",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 2837077,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 10961.39,
+    "anchor": [
+      -77.3188,
+      18.1371
+    ],
+    "flag": "jm.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "jp",
+    "iso3": "JPN",
+    "name": "Japon",
+    "aliases": [],
+    "capital": {
+      "name": "Tokyo",
+      "aliases": [],
+      "lon": 139.691666666,
+      "lat": 35.689444444
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "eastern-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 123366734,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 370304.67,
+    "anchor": [
+      138.4422,
+      36.1425
+    ],
+    "flag": "jp.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "je",
+    "iso3": "JEY",
+    "name": "Jersey",
+    "aliases": [],
+    "capital": {
+      "name": "Saint-Hélier",
+      "aliases": [],
+      "lon": -2.11,
+      "lat": 49.185833333
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "northern-europe",
+    "status": "dependency",
+    "sovereign": "gb",
+    "population": 103267,
+    "populationYear": 2021,
+    "populationSource": "wikidata",
+    "areaKm2": 97.09,
+    "anchor": [
+      -2.0901,
+      49.2208
+    ],
+    "flag": "je.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "jo",
+    "iso3": "JOR",
+    "name": "Jordanie",
+    "aliases": [],
+    "capital": {
+      "name": "Amman",
+      "aliases": [],
+      "lon": 35.933333333,
+      "lat": 31.95
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "western-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 11520684,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 88869.53,
+    "anchor": [
+      36.376,
+      30.805
+    ],
+    "flag": "jo.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "kz",
+    "iso3": "KAZ",
+    "name": "Kazakhstan",
+    "aliases": [],
+    "capital": {
+      "name": "Astana",
+      "aliases": [],
+      "lon": 71.433333333,
+      "lat": 51.133333333
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "central-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 20843754,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 2712503.25,
+    "anchor": [
+      68.6855,
+      49.0541
+    ],
+    "flag": "kz.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ke",
+    "iso3": "KEN",
+    "name": "Kenya",
+    "aliases": [],
+    "capital": {
+      "name": "Nairobi",
+      "aliases": [],
+      "lon": 36.817222222,
+      "lat": -1.286388888
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "eastern-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 57532493,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 588505.07,
+    "anchor": [
+      37.9076,
+      0.549
+    ],
+    "flag": "ke.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "kg",
+    "iso3": "KGZ",
+    "name": "Kirghizistan",
+    "aliases": [
+      "Kirghizstan"
+    ],
+    "capital": {
+      "name": "Bichkek",
+      "aliases": [],
+      "lon": 74.566666666,
+      "lat": 42.866666666
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "central-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 7343064,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 199008.74,
+    "anchor": [
+      74.5326,
+      41.6685
+    ],
+    "flag": "kg.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ki",
+    "iso3": "KIR",
+    "name": "Kiribati",
+    "aliases": [],
+    "capital": {
+      "name": "Tarawa-Sud",
+      "aliases": [
+        "Tarawa"
+      ],
+      "lon": 172.966666666,
+      "lat": 1.333333333
+    },
+    "otherCapitals": [],
+    "continent": "oceania",
+    "subregion": "micronesia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 136488,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 410.64,
+    "anchor": [
+      -157.3846,
+      1.8204
+    ],
+    "flag": "ki.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "xk",
+    "iso3": "UNK",
+    "name": "Kosovo",
+    "aliases": [],
+    "capital": {
+      "name": "Pristina",
+      "aliases": [],
+      "lon": 21.166666666,
+      "lat": 42.666666666
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "southeast-europe",
+    "status": "limited-recognition",
+    "sovereign": null,
+    "population": 1576876,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 10974.17,
+    "anchor": [
+      20.8607,
+      42.5936
+    ],
+    "flag": "xk.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "kw",
+    "iso3": "KWT",
+    "name": "Koweït",
+    "aliases": [],
+    "capital": {
+      "name": "Koweït",
+      "aliases": [
+        "Koweït City"
+      ],
+      "lon": 47.98,
+      "lat": 29.375
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "western-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 4865298,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 17364.9,
+    "anchor": [
+      47.314,
+      29.4136
+    ],
+    "flag": "kw.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "re",
+    "iso3": "REU",
+    "name": "La Réunion",
+    "aliases": [
+      "Réunion"
+    ],
+    "capital": {
+      "name": "Saint-Denis",
+      "aliases": [],
+      "lon": 55.448055555,
+      "lat": -20.878888888
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "eastern-africa",
+    "status": "overseas-region",
+    "sovereign": "fr",
+    "population": 889679,
+    "populationYear": 2023,
+    "populationSource": "wikidata",
+    "areaKm2": 2581.88,
+    "anchor": [
+      55.5357,
+      -21.1135
+    ],
+    "flag": "re.svg",
+    "flagSameAs": "fr"
+  },
+  {
+    "id": "la",
+    "iso3": "LAO",
+    "name": "Laos",
+    "aliases": [],
+    "capital": {
+      "name": "Vientiane",
+      "aliases": [],
+      "lon": 102.63,
+      "lat": 17.98
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "south-eastern-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 7873046,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 228986.4,
+    "anchor": [
+      102.5339,
+      19.4318
+    ],
+    "flag": "la.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ls",
+    "iso3": "LSO",
+    "name": "Lesotho",
+    "aliases": [],
+    "capital": {
+      "name": "Maseru",
+      "aliases": [],
+      "lon": 27.48,
+      "lat": -29.31
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "southern-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 2363325,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 30206.48,
+    "anchor": [
+      28.2466,
+      -29.4802
+    ],
+    "flag": "ls.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "lv",
+    "iso3": "LVA",
+    "name": "Lettonie",
+    "aliases": [],
+    "capital": {
+      "name": "Riga",
+      "aliases": [],
+      "lon": 24.106944444,
+      "lat": 56.9475
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "northern-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 1847785,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 64220.15,
+    "anchor": [
+      25.4587,
+      57.0669
+    ],
+    "flag": "lv.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "lb",
+    "iso3": "LBN",
+    "name": "Liban",
+    "aliases": [],
+    "capital": {
+      "name": "Beyrouth",
+      "aliases": [],
+      "lon": 35.513055555,
+      "lat": 33.886944444
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "western-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 5849421,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 9810.64,
+    "anchor": [
+      35.9929,
+      34.1334
+    ],
+    "flag": "lb.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "lr",
+    "iso3": "LBR",
+    "name": "Liberia",
+    "aliases": [],
+    "capital": {
+      "name": "Monrovia",
+      "aliases": [],
+      "lon": -10.804722222,
+      "lat": 6.310555555
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "western-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 5731206,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 95959.19,
+    "anchor": [
+      -9.4604,
+      6.4472
+    ],
+    "flag": "lr.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ly",
+    "iso3": "LBY",
+    "name": "Libye",
+    "aliases": [],
+    "capital": {
+      "name": "Tripoli",
+      "aliases": [],
+      "lon": 13.1875,
+      "lat": 32.8875
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "northern-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 7458555,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 1626399.63,
+    "anchor": [
+      18.011,
+      26.6389
+    ],
+    "flag": "ly.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "li",
+    "iso3": "LIE",
+    "name": "Liechtenstein",
+    "aliases": [],
+    "capital": {
+      "name": "Vaduz",
+      "aliases": [],
+      "lon": 9.522222222,
+      "lat": 47.140555555
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "western-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 41024,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 97.97,
+    "anchor": [
+      9.5594,
+      47.1114
+    ],
+    "flag": "li.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "lt",
+    "iso3": "LTU",
+    "name": "Lituanie",
+    "aliases": [],
+    "capital": {
+      "name": "Vilnius",
+      "aliases": [],
+      "lon": 25.28,
+      "lat": 54.687222222
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "northern-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 2888774,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 64643.25,
+    "anchor": [
+      24.0899,
+      55.1037
+    ],
+    "flag": "lt.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "lu",
+    "iso3": "LUX",
+    "name": "Luxembourg",
+    "aliases": [],
+    "capital": {
+      "name": "Luxembourg",
+      "aliases": [],
+      "lon": 6.13,
+      "lat": 49.611388888
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "western-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 686970,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 2633.96,
+    "anchor": [
+      6.0776,
+      49.7337
+    ],
+    "flag": "lu.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "mo",
+    "iso3": "MAC",
+    "name": "Macao",
+    "aliases": [
+      "Macau"
+    ],
+    "capital": null,
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "eastern-asia",
+    "status": "dependency",
+    "sovereign": "cn",
+    "population": 685900,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 19.39,
+    "anchor": [
+      113.556,
+      22.1297
+    ],
+    "flag": "mo.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "mk",
+    "iso3": "MKD",
+    "name": "Macédoine du Nord",
+    "aliases": [
+      "Macédoine"
+    ],
+    "capital": {
+      "name": "Skopje",
+      "aliases": [],
+      "lon": 21.431666666,
+      "lat": 41.996111111
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "southeast-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 1820909,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 25362.78,
+    "anchor": [
+      21.5558,
+      41.5582
+    ],
+    "flag": "mk.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "mg",
+    "iso3": "MDG",
+    "name": "Madagascar",
+    "aliases": [],
+    "capital": {
+      "name": "Antananarivo",
+      "aliases": [],
+      "lon": 47.525,
+      "lat": -18.91
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "eastern-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 32740678,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 594927.13,
+    "anchor": [
+      46.7042,
+      -18.6283
+    ],
+    "flag": "mg.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "my",
+    "iso3": "MYS",
+    "name": "Malaisie",
+    "aliases": [],
+    "capital": {
+      "name": "Kuala Lumpur",
+      "aliases": [],
+      "lon": 101.695277777,
+      "lat": 3.147777777
+    },
+    "otherCapitals": [
+      {
+        "name": "Putrajaya",
+        "aliases": [],
+        "lon": 101.69,
+        "lat": 2.93
+      }
+    ],
+    "continent": "asia",
+    "subregion": "south-eastern-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 35977838,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 329603.57,
+    "anchor": [
+      113.8371,
+      2.5287
+    ],
+    "flag": "my.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "mw",
+    "iso3": "MWI",
+    "name": "Malawi",
+    "aliases": [],
+    "capital": {
+      "name": "Lilongwe",
+      "aliases": [],
+      "lon": 33.768055555,
+      "lat": -13.986388888
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "eastern-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 22216120,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 119522.31,
+    "anchor": [
+      33.6081,
+      -13.3867
+    ],
+    "flag": "mw.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "mv",
+    "iso3": "MDV",
+    "name": "Maldives",
+    "aliases": [],
+    "capital": {
+      "name": "Malé",
+      "aliases": [],
+      "lon": 73.508333333,
+      "lat": 4.175
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "southern-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 529676,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 63.41,
+    "anchor": [
+      73.5076,
+      4.1744
+    ],
+    "flag": "mv.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ml",
+    "iso3": "MLI",
+    "name": "Mali",
+    "aliases": [],
+    "capital": {
+      "name": "Bamako",
+      "aliases": [],
+      "lon": -7.992222222,
+      "lat": 12.645833333
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "western-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 25198821,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 1256807.21,
+    "anchor": [
+      -2.0385,
+      18.6927
+    ],
+    "flag": "ml.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "mt",
+    "iso3": "MLT",
+    "name": "Malte",
+    "aliases": [],
+    "capital": {
+      "name": "La Valette",
+      "aliases": [],
+      "lon": 14.5125,
+      "lat": 35.897777777
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "southern-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 579704,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 199.28,
+    "anchor": [
+      14.433,
+      35.8929
+    ],
+    "flag": "mt.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ma",
+    "iso3": "MAR",
+    "name": "Maroc",
+    "aliases": [],
+    "capital": {
+      "name": "Rabat",
+      "aliases": [],
+      "lon": -6.841388888,
+      "lat": 34.021111111
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "northern-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 38430770,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 414007.31,
+    "anchor": [
+      -7.1873,
+      31.6507
+    ],
+    "flag": "ma.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "mq",
+    "iso3": "MTQ",
+    "name": "Martinique",
+    "aliases": [],
+    "capital": {
+      "name": "Fort-de-France",
+      "aliases": [],
+      "lon": -61.066666666,
+      "lat": 14.6
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "caribbean",
+    "status": "overseas-region",
+    "sovereign": "fr",
+    "population": 360630,
+    "populationYear": 2023,
+    "populationSource": "wikidata",
+    "areaKm2": 1019.97,
+    "anchor": [
+      -61.0557,
+      14.712
+    ],
+    "flag": "mq.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "mu",
+    "iso3": "MUS",
+    "name": "Maurice",
+    "aliases": [
+      "Île Maurice"
+    ],
+    "capital": {
+      "name": "Port-Louis",
+      "aliases": [],
+      "lon": 57.498888888,
+      "lat": -20.161944444
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "eastern-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 1243741,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 1887,
+    "anchor": [
+      57.5658,
+      -20.2995
+    ],
+    "flag": "mu.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "mr",
+    "iso3": "MRT",
+    "name": "Mauritanie",
+    "aliases": [],
+    "capital": {
+      "name": "Nouakchott",
+      "aliases": [],
+      "lon": -15.9785,
+      "lat": 18.08581
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "western-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 5315065,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 1039446.21,
+    "anchor": [
+      -9.7403,
+      19.5871
+    ],
+    "flag": "mr.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "yt",
+    "iso3": "MYT",
+    "name": "Mayotte",
+    "aliases": [],
+    "capital": {
+      "name": "Mamoudzou",
+      "aliases": [],
+      "lon": 45.231666666,
+      "lat": -12.781388888
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "eastern-africa",
+    "status": "overseas-region",
+    "sovereign": "fr",
+    "population": 320901,
+    "populationYear": 2024,
+    "populationSource": "wikidata",
+    "areaKm2": 247.07,
+    "anchor": [
+      45.1513,
+      -12.7748
+    ],
+    "flag": "yt.svg",
+    "flagSameAs": "fr"
+  },
+  {
+    "id": "mx",
+    "iso3": "MEX",
+    "name": "Mexique",
+    "aliases": [],
+    "capital": {
+      "name": "Mexico",
+      "aliases": [],
+      "lon": -99.13589,
+      "lat": 19.353773
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "northern-america",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 131946900,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 1961998.77,
+    "anchor": [
+      -102.2894,
+      23.92
+    ],
+    "flag": "mx.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "fm",
+    "iso3": "FSM",
+    "name": "Micronésie",
+    "aliases": [
+      "États fédérés de Micronésie"
+    ],
+    "capital": {
+      "name": "Palikir",
+      "aliases": [],
+      "lon": 158.185,
+      "lat": 6.917777777
+    },
+    "otherCapitals": [],
+    "continent": "oceania",
+    "subregion": "micronesia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 113683,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 484.4,
+    "anchor": [
+      158.234,
+      6.8876
+    ],
+    "flag": "fm.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "md",
+    "iso3": "MDA",
+    "name": "Moldavie",
+    "aliases": [],
+    "capital": {
+      "name": "Chișinău",
+      "aliases": [],
+      "lon": 28.835277777,
+      "lat": 47.022777777
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "eastern-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 2360527,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 33134.32,
+    "anchor": [
+      28.4879,
+      47.435
+    ],
+    "flag": "md.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "mc",
+    "iso3": "MCO",
+    "name": "Monaco",
+    "aliases": [],
+    "capital": {
+      "name": "Monaco",
+      "aliases": [],
+      "lon": 7.42,
+      "lat": 43.731111111
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "western-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 38341,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 9.78,
+    "anchor": [
+      7.3983,
+      43.7397
+    ],
+    "flag": "mc.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "mn",
+    "iso3": "MNG",
+    "name": "Mongolie",
+    "aliases": [],
+    "capital": {
+      "name": "Oulan-Bator",
+      "aliases": [
+        "Ulaanbaatar"
+      ],
+      "lon": 106.905515,
+      "lat": 47.921357
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "eastern-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 3568978,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 1560183.01,
+    "anchor": [
+      104.1504,
+      45.9975
+    ],
+    "flag": "mn.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "me",
+    "iso3": "MNE",
+    "name": "Monténégro",
+    "aliases": [],
+    "capital": {
+      "name": "Podgorica",
+      "aliases": [],
+      "lon": 19.262777777,
+      "lat": 42.441388888
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "southeast-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 623129,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 13844.34,
+    "anchor": [
+      19.1437,
+      42.8031
+    ],
+    "flag": "me.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ms",
+    "iso3": "MSR",
+    "name": "Montserrat",
+    "aliases": [],
+    "capital": {
+      "name": "Brades",
+      "aliases": [],
+      "lon": -62.210555555,
+      "lat": 16.792777777
+    },
+    "otherCapitals": [
+      {
+        "name": "Plymouth",
+        "aliases": [],
+        "lon": -62.215838888,
+        "lat": 16.706416666
+      }
+    ],
+    "continent": "americas",
+    "subregion": "caribbean",
+    "status": "dependency",
+    "sovereign": "gb",
+    "population": 5440,
+    "populationYear": 2023,
+    "populationSource": "wikidata",
+    "areaKm2": 41.8,
+    "anchor": [
+      -62.1883,
+      16.7372
+    ],
+    "flag": "ms.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "mz",
+    "iso3": "MOZ",
+    "name": "Mozambique",
+    "aliases": [],
+    "capital": {
+      "name": "Maputo",
+      "aliases": [],
+      "lon": 32.573333333,
+      "lat": -25.968888888
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "eastern-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 35631653,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 792334.16,
+    "anchor": [
+      37.8379,
+      -13.9432
+    ],
+    "flag": "mz.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "na",
+    "iso3": "NAM",
+    "name": "Namibie",
+    "aliases": [],
+    "capital": {
+      "name": "Windhoek",
+      "aliases": [],
+      "lon": 17.083611111,
+      "lat": -22.57
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "southern-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 3092816,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 824785.5,
+    "anchor": [
+      17.1082,
+      -20.5753
+    ],
+    "flag": "na.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "nr",
+    "iso3": "NRU",
+    "name": "Nauru",
+    "aliases": [],
+    "capital": {
+      "name": "Yaren",
+      "aliases": [],
+      "lon": 166.920867,
+      "lat": -0.5477
+    },
+    "otherCapitals": [],
+    "continent": "oceania",
+    "subregion": "micronesia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 12025,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 18.03,
+    "anchor": [
+      166.9326,
+      -0.5203
+    ],
+    "flag": "nr.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "np",
+    "iso3": "NPL",
+    "name": "Népal",
+    "aliases": [],
+    "capital": {
+      "name": "Katmandou",
+      "aliases": [
+        "Kathmandu"
+      ],
+      "lon": 85.32,
+      "lat": 27.71
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "southern-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 29618118,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 147231.68,
+    "anchor": [
+      83.6399,
+      28.2979
+    ],
+    "flag": "np.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ni",
+    "iso3": "NIC",
+    "name": "Nicaragua",
+    "aliases": [],
+    "capital": {
+      "name": "Managua",
+      "aliases": [],
+      "lon": -86.273725,
+      "lat": 12.154680555
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "central-america",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 7007502,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 129022.14,
+    "anchor": [
+      -85.0693,
+      12.6707
+    ],
+    "flag": "ni.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ne",
+    "iso3": "NER",
+    "name": "Niger",
+    "aliases": [],
+    "capital": {
+      "name": "Niamey",
+      "aliases": [],
+      "lon": 2.1175,
+      "lat": 13.515
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "western-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 27917831,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 1185287.92,
+    "anchor": [
+      9.5044,
+      17.4462
+    ],
+    "flag": "ne.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ng",
+    "iso3": "NGA",
+    "name": "Nigeria",
+    "aliases": [
+      "Nigéria"
+    ],
+    "capital": {
+      "name": "Abuja",
+      "aliases": [],
+      "lon": 7.491388888,
+      "lat": 9.055555555
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "western-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 237527782,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 912474.79,
+    "anchor": [
+      7.5032,
+      9.4398
+    ],
+    "flag": "ng.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "nu",
+    "iso3": "NIU",
+    "name": "Niue",
+    "aliases": [],
+    "capital": {
+      "name": "Alofi",
+      "aliases": [],
+      "lon": -169.921,
+      "lat": -19.056
+    },
+    "otherCapitals": [],
+    "continent": "oceania",
+    "subregion": "polynesia",
+    "status": "dependency",
+    "sovereign": "nz",
+    "population": 1821,
+    "populationYear": 2025,
+    "populationSource": "wikidata",
+    "areaKm2": 151.92,
+    "anchor": [
+      -169.8626,
+      -19.046
+    ],
+    "flag": "nu.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "no",
+    "iso3": "NOR",
+    "name": "Norvège",
+    "aliases": [],
+    "capital": {
+      "name": "Oslo",
+      "aliases": [],
+      "lon": 10.738888888,
+      "lat": 59.913333333
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "northern-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 5610870,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 321809.18,
+    "anchor": [
+      9.68,
+      61.3571
+    ],
+    "flag": "no.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "nc",
+    "iso3": "NCL",
+    "name": "Nouvelle-Calédonie",
+    "aliases": [],
+    "capital": {
+      "name": "Nouméa",
+      "aliases": [],
+      "lon": 166.45,
+      "lat": -22.266666666
+    },
+    "otherCapitals": [],
+    "continent": "oceania",
+    "subregion": "melanesia",
+    "status": "dependency",
+    "sovereign": "fr",
+    "population": 295333,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 18720.09,
+    "anchor": [
+      165.084,
+      -21.0647
+    ],
+    "flag": "nc.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "nz",
+    "iso3": "NZL",
+    "name": "Nouvelle-Zélande",
+    "aliases": [],
+    "capital": {
+      "name": "Wellington",
+      "aliases": [],
+      "lon": 174.777222222,
+      "lat": -41.288888888
+    },
+    "otherCapitals": [],
+    "continent": "oceania",
+    "subregion": "australia-new-zealand",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 5324700,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 268424.87,
+    "anchor": [
+      172.787,
+      -39.759
+    ],
+    "flag": "nz.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "om",
+    "iso3": "OMN",
+    "name": "Oman",
+    "aliases": [],
+    "capital": {
+      "name": "Mascate",
+      "aliases": [
+        "Muscat"
+      ],
+      "lon": 58.592222222,
+      "lat": 23.613888888
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "western-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 5494691,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 311907.6,
+    "anchor": [
+      57.3366,
+      22.1204
+    ],
+    "flag": "om.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ug",
+    "iso3": "UGA",
+    "name": "Ouganda",
+    "aliases": [],
+    "capital": {
+      "name": "Kampala",
+      "aliases": [],
+      "lon": 32.581111111,
+      "lat": 0.313611111
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "eastern-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 51384894,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 243052.71,
+    "anchor": [
+      32.9486,
+      1.9726
+    ],
+    "flag": "ug.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "uz",
+    "iso3": "UZB",
+    "name": "Ouzbékistan",
+    "aliases": [],
+    "capital": {
+      "name": "Tachkent",
+      "aliases": [],
+      "lon": 69.279722222,
+      "lat": 41.311111111
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "central-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 37053428,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 447054.2,
+    "anchor": [
+      64.0054,
+      41.6936
+    ],
+    "flag": "uz.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "pk",
+    "iso3": "PAK",
+    "name": "Pakistan",
+    "aliases": [],
+    "capital": {
+      "name": "Islamabad",
+      "aliases": [],
+      "lon": 73.036944444,
+      "lat": 33.698888888
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "southern-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 255219554,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 873951.27,
+    "anchor": [
+      68.5456,
+      29.3284
+    ],
+    "flag": "pk.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "pw",
+    "iso3": "PLW",
+    "name": "Palaos",
+    "aliases": [
+      "Palau"
+    ],
+    "capital": {
+      "name": "Ngerulmud",
+      "aliases": [],
+      "lon": 134.624167,
+      "lat": 7.500556
+    },
+    "otherCapitals": [],
+    "continent": "oceania",
+    "subregion": "micronesia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 17663,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 351.36,
+    "anchor": [
+      134.5802,
+      7.5183
+    ],
+    "flag": "pw.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ps",
+    "iso3": "PSE",
+    "name": "Palestine",
+    "aliases": [
+      "État de Palestine"
+    ],
+    "capital": {
+      "name": "Ramallah",
+      "aliases": [],
+      "lon": 35.201666666,
+      "lat": 31.896944444
+    },
+    "otherCapitals": [
+      {
+        "name": "Jérusalem-Est",
+        "aliases": [],
+        "lon": 35.23388,
+        "lat": 31.78336
+      }
+    ],
+    "continent": "asia",
+    "subregion": "western-asia",
+    "status": "un-observer",
+    "sovereign": null,
+    "population": 5413596,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 6259.22,
+    "anchor": [
+      35.2836,
+      32.2254
+    ],
+    "flag": "ps.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "pa",
+    "iso3": "PAN",
+    "name": "Panama",
+    "aliases": [],
+    "capital": {
+      "name": "Panama",
+      "aliases": [
+        "Panama City"
+      ],
+      "lon": -79.534722222,
+      "lat": 8.971111111
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "central-america",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 4571189,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 74129.19,
+    "anchor": [
+      -80.3521,
+      8.722
+    ],
+    "flag": "pa.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "pg",
+    "iso3": "PNG",
+    "name": "Papouasie-Nouvelle-Guinée",
+    "aliases": [],
+    "capital": {
+      "name": "Port Moresby",
+      "aliases": [],
+      "lon": 147.149444444,
+      "lat": -9.478888888
+    },
+    "otherCapitals": [],
+    "continent": "oceania",
+    "subregion": "melanesia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 10762817,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 464447.42,
+    "anchor": [
+      143.9102,
+      -5.6953
+    ],
+    "flag": "pg.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "py",
+    "iso3": "PRY",
+    "name": "Paraguay",
+    "aliases": [],
+    "capital": {
+      "name": "Asunción",
+      "aliases": [
+        "Asuncion"
+      ],
+      "lat": -25.28,
+      "lon": -57.634444444
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "south-america",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 7013078,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 400940.64,
+    "anchor": [
+      -60.1464,
+      -21.6745
+    ],
+    "flag": "py.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "nl",
+    "iso3": "NLD",
+    "name": "Pays-Bas",
+    "aliases": [
+      "Hollande"
+    ],
+    "capital": {
+      "name": "Amsterdam",
+      "aliases": [],
+      "lon": 4.883333333,
+      "lat": 52.366666666
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "western-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 18087633,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 36867.42,
+    "anchor": [
+      5.6114,
+      52.4222
+    ],
+    "flag": "nl.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "bq",
+    "iso3": "BES",
+    "name": "Pays-Bas caribéens",
+    "aliases": [
+      "Bonaire, Saint-Eustache et Saba",
+      "Bonaire"
+    ],
+    "capital": {
+      "name": "Kralendijk",
+      "aliases": [],
+      "lat": 12.1443,
+      "lon": -68.2655
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "caribbean",
+    "status": "dependency",
+    "sovereign": "nl",
+    "population": 29418,
+    "populationYear": 2023,
+    "populationSource": "wikidata",
+    "areaKm2": 128.85,
+    "anchor": [
+      -63.1334,
+      17.5438
+    ],
+    "flag": "bq.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "pe",
+    "iso3": "PER",
+    "name": "Pérou",
+    "aliases": [],
+    "capital": {
+      "name": "Lima",
+      "aliases": [],
+      "lon": -77.0375,
+      "lat": -12.06
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "south-america",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 34576665,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 1294952.24,
+    "anchor": [
+      -72.9002,
+      -12.9767
+    ],
+    "flag": "pe.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ph",
+    "iso3": "PHL",
+    "name": "Philippines",
+    "aliases": [],
+    "capital": {
+      "name": "Manille",
+      "aliases": [],
+      "lon": 120.977222222,
+      "lat": 14.595833333
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "south-eastern-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 116786962,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 290671.27,
+    "anchor": [
+      122.465,
+      11.198
+    ],
+    "flag": "ph.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "pl",
+    "iso3": "POL",
+    "name": "Pologne",
+    "aliases": [],
+    "capital": {
+      "name": "Varsovie",
+      "aliases": [],
+      "lon": 21.011111111,
+      "lat": 52.23
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "central-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 36435861,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 312318.65,
+    "anchor": [
+      19.4905,
+      51.9903
+    ],
+    "flag": "pl.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "pf",
+    "iso3": "PYF",
+    "name": "Polynésie française",
+    "aliases": [
+      "Polynésie"
+    ],
+    "capital": {
+      "name": "Papeete",
+      "aliases": [],
+      "lon": -149.568888888,
+      "lat": -17.539722222
+    },
+    "otherCapitals": [],
+    "continent": "oceania",
+    "subregion": "polynesia",
+    "status": "dependency",
+    "sovereign": "fr",
+    "population": 282465,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 2390.97,
+    "anchor": [
+      -149.4616,
+      -17.6281
+    ],
+    "flag": "pf.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "pr",
+    "iso3": "PRI",
+    "name": "Porto Rico",
+    "aliases": [],
+    "capital": {
+      "name": "San Juan",
+      "aliases": [],
+      "lon": -66.116666666,
+      "lat": 18.465277777
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "caribbean",
+    "status": "dependency",
+    "sovereign": "us",
+    "population": 3184835,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 8900.54,
+    "anchor": [
+      -66.4811,
+      18.2347
+    ],
+    "flag": "pr.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "pt",
+    "iso3": "PRT",
+    "name": "Portugal",
+    "aliases": [],
+    "capital": {
+      "name": "Lisbonne",
+      "aliases": [],
+      "lon": -9.139016,
+      "lat": 38.708042
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "southern-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 10804871,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 90777.08,
+    "anchor": [
+      -8.2717,
+      39.6067
+    ],
+    "flag": "pt.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "qa",
+    "iso3": "QAT",
+    "name": "Qatar",
+    "aliases": [],
+    "capital": {
+      "name": "Doha",
+      "aliases": [],
+      "lon": 51.529444444,
+      "lat": 25.286111111
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "western-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 2972215,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 11273.72,
+    "anchor": [
+      51.1435,
+      25.2374
+    ],
+    "flag": "qa.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "cf",
+    "iso3": "CAF",
+    "name": "République centrafricaine",
+    "aliases": [
+      "Centrafrique"
+    ],
+    "capital": {
+      "name": "Bangui",
+      "aliases": [],
+      "lon": 18.562833333,
+      "lat": 4.37325
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "middle-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 5513282,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 620629.3,
+    "anchor": [
+      20.9069,
+      6.9897
+    ],
+    "flag": "cf.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "cd",
+    "iso3": "COD",
+    "name": "République démocratique du Congo",
+    "aliases": [
+      "RDC",
+      "RD Congo",
+      "Congo-Kinshasa",
+      "Congo (RDC)",
+      "Congo démocratique"
+    ],
+    "capital": {
+      "name": "Kinshasa",
+      "aliases": [],
+      "lon": 15.311944444,
+      "lat": -4.321944444
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "middle-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 112832473,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 2335457.06,
+    "anchor": [
+      23.4588,
+      -1.8582
+    ],
+    "flag": "cd.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "do",
+    "iso3": "DOM",
+    "name": "République dominicaine",
+    "aliases": [],
+    "capital": {
+      "name": "Saint-Domingue",
+      "aliases": [
+        "Santo Domingo"
+      ],
+      "lon": -69.936111111,
+      "lat": 18.4625
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "caribbean",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 11520487,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 48351.23,
+    "anchor": [
+      -70.654,
+      19.1041
+    ],
+    "flag": "do.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "cg",
+    "iso3": "COG",
+    "name": "République du Congo",
+    "aliases": [
+      "Congo",
+      "Congo-Brazzaville"
+    ],
+    "capital": {
+      "name": "Brazzaville",
+      "aliases": [],
+      "lon": 15.271111111,
+      "lat": -4.269444444
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "middle-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 6484437,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 346465.65,
+    "anchor": [
+      15.9005,
+      0.1423
+    ],
+    "flag": "cg.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ro",
+    "iso3": "ROU",
+    "name": "Roumanie",
+    "aliases": [],
+    "capital": {
+      "name": "Bucarest",
+      "aliases": [],
+      "lon": 26.097777777,
+      "lat": 44.413361111
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "southeast-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 19020271,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 236170.73,
+    "anchor": [
+      24.9726,
+      45.7332
+    ],
+    "flag": "ro.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "gb",
+    "iso3": "GBR",
+    "name": "Royaume-Uni",
+    "aliases": [
+      "Grande-Bretagne"
+    ],
+    "capital": {
+      "name": "Londres",
+      "aliases": [],
+      "lon": -0.1275,
+      "lat": 51.507222222
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "northern-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 69487000,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 243265.6,
+    "anchor": [
+      -1.402,
+      52.6098
+    ],
+    "flag": "gb.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ru",
+    "iso3": "RUS",
+    "name": "Russie",
+    "aliases": [],
+    "capital": {
+      "name": "Moscou",
+      "aliases": [],
+      "lon": 37.6175,
+      "lat": 55.750555555
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "eastern-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 143513328,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 16860363.61,
+    "anchor": [
+      44.6865,
+      58.2494
+    ],
+    "flag": "ru.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "rw",
+    "iso3": "RWA",
+    "name": "Rwanda",
+    "aliases": [],
+    "capital": {
+      "name": "Kigali",
+      "aliases": [],
+      "lon": 30.115,
+      "lat": -1.9525
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "eastern-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 14569341,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 25471.14,
+    "anchor": [
+      30.1039,
+      -1.8972
+    ],
+    "flag": "rw.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "eh",
+    "iso3": "ESH",
+    "name": "Sahara occidental",
+    "aliases": [],
+    "capital": {
+      "name": "Laâyoune",
+      "aliases": [
+        "El Aaiún",
+        "El Ayoun",
+        "Laayoune"
+      ],
+      "lat": 27.1536,
+      "lon": -13.2033
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "northern-africa",
+    "status": "disputed-territory",
+    "sovereign": null,
+    "population": 612000,
+    "populationYear": 2021,
+    "populationSource": "wikidata",
+    "areaKm2": 268918.85,
+    "anchor": [
+      -12.9,
+      24.6
+    ],
+    "flag": "eh.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "bl",
+    "iso3": "BLM",
+    "name": "Saint-Barthélemy",
+    "aliases": [],
+    "capital": {
+      "name": "Gustavia",
+      "aliases": [],
+      "lon": -62.849166666,
+      "lat": 17.898611111
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "caribbean",
+    "status": "dependency",
+    "sovereign": "fr",
+    "population": 10124,
+    "populationYear": 2018,
+    "populationSource": "wikidata",
+    "areaKm2": 15.83,
+    "anchor": [
+      -62.8332,
+      17.902
+    ],
+    "flag": "bl.svg",
+    "flagSameAs": "fr"
+  },
+  {
+    "id": "kn",
+    "iso3": "KNA",
+    "name": "Saint-Christophe-et-Niévès",
+    "aliases": [],
+    "capital": {
+      "name": "Basseterre",
+      "aliases": [],
+      "lon": -62.734166666,
+      "lat": 17.298333333
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "caribbean",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 46922,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 183.59,
+    "anchor": [
+      -62.758,
+      17.3366
+    ],
+    "flag": "kn.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "sm",
+    "iso3": "SMR",
+    "name": "Saint-Marin",
+    "aliases": [],
+    "capital": {
+      "name": "Saint-Marin",
+      "aliases": [],
+      "lon": 12.44845,
+      "lat": 43.932011111
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "southern-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 34109,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 34.94,
+    "anchor": [
+      12.4412,
+      43.9339
+    ],
+    "flag": "sm.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "mf",
+    "iso3": "MAF",
+    "name": "Saint-Martin",
+    "aliases": [
+      "Saint-Martin (partie française)"
+    ],
+    "capital": {
+      "name": "Marigot",
+      "aliases": [],
+      "lon": -63.084722222,
+      "lat": 18.066666666
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "caribbean",
+    "status": "dependency",
+    "sovereign": "fr",
+    "population": 24941,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 45.91,
+    "anchor": [
+      -63.0494,
+      18.0813
+    ],
+    "flag": "mf.svg",
+    "flagSameAs": "fr"
+  },
+  {
+    "id": "pm",
+    "iso3": "SPM",
+    "name": "Saint-Pierre-et-Miquelon",
+    "aliases": [],
+    "capital": {
+      "name": "Saint-Pierre",
+      "aliases": [],
+      "lon": -56.177777777,
+      "lat": 46.777777777
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "northern-america",
+    "status": "dependency",
+    "sovereign": "fr",
+    "population": 5974,
+    "populationYear": 2019,
+    "populationSource": "wikidata",
+    "areaKm2": 117.32,
+    "anchor": [
+      -56.3324,
+      47.0403
+    ],
+    "flag": "pm.svg",
+    "flagSameAs": "fr"
+  },
+  {
+    "id": "vc",
+    "iso3": "VCT",
+    "name": "Saint-Vincent-et-les-Grenadines",
+    "aliases": [],
+    "capital": {
+      "name": "Kingstown",
+      "aliases": [],
+      "lon": -61.22742,
+      "lat": 13.15527
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "caribbean",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 99924,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 252.28,
+    "anchor": [
+      -61.3359,
+      13.0879
+    ],
+    "flag": "vc.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "sh",
+    "iso3": "SHN",
+    "name": "Sainte-Hélène",
+    "aliases": [
+      "Sainte-Hélène, Ascension et Tristan da Cunha"
+    ],
+    "capital": {
+      "name": "Jamestown",
+      "aliases": [],
+      "lon": -5.717916666,
+      "lat": -15.925138888
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "western-africa",
+    "status": "dependency",
+    "sovereign": "gb",
+    "population": 5633,
+    "populationYear": 2016,
+    "populationSource": "wikidata",
+    "areaKm2": 222.86,
+    "anchor": [
+      -5.7126,
+      -15.9505
+    ],
+    "flag": "sh.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "lc",
+    "iso3": "LCA",
+    "name": "Sainte-Lucie",
+    "aliases": [],
+    "capital": {
+      "name": "Castries",
+      "aliases": [],
+      "lon": -60.989444444,
+      "lat": 14.010833333
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "caribbean",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 180149,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 556.99,
+    "anchor": [
+      -60.9801,
+      13.8924
+    ],
+    "flag": "lc.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "sv",
+    "iso3": "SLV",
+    "name": "Salvador",
+    "aliases": [],
+    "capital": {
+      "name": "San Salvador",
+      "aliases": [],
+      "lon": -89.191155555,
+      "lat": 13.697597222
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "central-america",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 6365503,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 20606.83,
+    "anchor": [
+      -88.8901,
+      13.6854
+    ],
+    "flag": "sv.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ws",
+    "iso3": "WSM",
+    "name": "Samoa",
+    "aliases": [],
+    "capital": {
+      "name": "Apia",
+      "aliases": [],
+      "lon": -171.833333333,
+      "lat": -13.833333333
+    },
+    "otherCapitals": [],
+    "continent": "oceania",
+    "subregion": "polynesia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 219306,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 2644.65,
+    "anchor": [
+      -172.4382,
+      -13.6391
+    ],
+    "flag": "ws.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "as",
+    "iso3": "ASM",
+    "name": "Samoa américaines",
+    "aliases": [],
+    "capital": {
+      "name": "Pago Pago",
+      "aliases": [],
+      "lon": -170.700555555,
+      "lat": -14.279444444
+    },
+    "otherCapitals": [],
+    "continent": "oceania",
+    "subregion": "polynesia",
+    "status": "dependency",
+    "sovereign": "us",
+    "population": 46029,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 159.32,
+    "anchor": [
+      -170.7472,
+      -14.3267
+    ],
+    "flag": "as.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "st",
+    "iso3": "STP",
+    "name": "Sao Tomé-et-Principe",
+    "aliases": [
+      "São Tomé-et-Príncipe",
+      "Sao Tomé et Principe"
+    ],
+    "capital": {
+      "name": "São Tomé",
+      "aliases": [],
+      "lon": 6.728333333,
+      "lat": 0.3375
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "middle-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 240254,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 978.14,
+    "anchor": [
+      7.021,
+      0.9709
+    ],
+    "flag": "st.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "sn",
+    "iso3": "SEN",
+    "name": "Sénégal",
+    "aliases": [],
+    "capital": {
+      "name": "Dakar",
+      "aliases": [],
+      "lon": -17.432,
+      "lat": 14.672555555
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "western-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 18931966,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 197995.23,
+    "anchor": [
+      -14.7786,
+      15.1381
+    ],
+    "flag": "sn.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "rs",
+    "iso3": "SRB",
+    "name": "Serbie",
+    "aliases": [],
+    "capital": {
+      "name": "Belgrade",
+      "aliases": [],
+      "lon": 20.456944444,
+      "lat": 44.817777777
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "southeast-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 6549143,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 77120.43,
+    "anchor": [
+      21.4215,
+      43.8495
+    ],
+    "flag": "rs.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "sc",
+    "iso3": "SYC",
+    "name": "Seychelles",
+    "aliases": [],
+    "capital": {
+      "name": "Victoria",
+      "aliases": [],
+      "lon": 55.454444444,
+      "lat": -4.623611111
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "eastern-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 122730,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 236.01,
+    "anchor": [
+      55.4802,
+      -4.6767
+    ],
+    "flag": "sc.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "sl",
+    "iso3": "SLE",
+    "name": "Sierra Leone",
+    "aliases": [],
+    "capital": {
+      "name": "Freetown",
+      "aliases": [],
+      "lon": -13.235555555,
+      "lat": 8.487222222
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "western-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 8819794,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 72078.06,
+    "anchor": [
+      -11.7637,
+      8.6174
+    ],
+    "flag": "sl.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "sg",
+    "iso3": "SGP",
+    "name": "Singapour",
+    "aliases": [],
+    "capital": {
+      "name": "Singapour",
+      "aliases": [],
+      "lon": 103.8,
+      "lat": 1.3
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "south-eastern-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 6111175,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 482.62,
+    "anchor": [
+      103.8169,
+      1.3666
+    ],
+    "flag": "sg.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "sx",
+    "iso3": "SXM",
+    "name": "Sint Maarten",
+    "aliases": [
+      "Saint-Martin (partie néerlandaise)"
+    ],
+    "capital": {
+      "name": "Philipsburg",
+      "aliases": [],
+      "lon": -63.043333333,
+      "lat": 18.024166666
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "caribbean",
+    "status": "dependency",
+    "sovereign": "nl",
+    "population": 43923,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 12.29,
+    "anchor": [
+      -63.0701,
+      18.0409
+    ],
+    "flag": "sx.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "sk",
+    "iso3": "SVK",
+    "name": "Slovaquie",
+    "aliases": [],
+    "capital": {
+      "name": "Bratislava",
+      "aliases": [],
+      "lon": 17.1093063,
+      "lat": 48.1516988
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "central-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 5413813,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 48375.47,
+    "anchor": [
+      19.0499,
+      48.734
+    ],
+    "flag": "sk.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "si",
+    "iso3": "SVN",
+    "name": "Slovénie",
+    "aliases": [],
+    "capital": {
+      "name": "Ljubljana",
+      "aliases": [],
+      "lon": 14.506111111,
+      "lat": 46.051388888
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "central-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 2130986,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 20379.46,
+    "anchor": [
+      14.9153,
+      46.0608
+    ],
+    "flag": "si.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "so",
+    "iso3": "SOM",
+    "name": "Somalie",
+    "aliases": [],
+    "capital": {
+      "name": "Mogadiscio",
+      "aliases": [],
+      "lon": 45.341944444,
+      "lat": 2.039166666
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "eastern-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 19654739,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 474042.92,
+    "anchor": [
+      43.935,
+      3.1601
+    ],
+    "flag": "so.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "sol",
+    "iso3": null,
+    "name": "Somaliland",
+    "aliases": [],
+    "capital": {
+      "name": "Hargeisa",
+      "aliases": [
+        "Hargeysa"
+      ],
+      "lat": 9.565556,
+      "lon": 44.060556
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "eastern-africa",
+    "status": "limited-recognition",
+    "sovereign": null,
+    "population": 6500000,
+    "populationYear": 2024,
+    "populationSource": "wikidata",
+    "areaKm2": 168074.24,
+    "anchor": [
+      46.7316,
+      9.4439
+    ],
+    "flag": "sol.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "sd",
+    "iso3": "SDN",
+    "name": "Soudan",
+    "aliases": [],
+    "capital": {
+      "name": "Khartoum",
+      "aliases": [],
+      "lon": 32.52654,
+      "lat": 15.60308
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "northern-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 51662147,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 1861593.86,
+    "anchor": [
+      29.2607,
+      16.3307
+    ],
+    "flag": "sd.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ss",
+    "iso3": "SSD",
+    "name": "Soudan du Sud",
+    "aliases": [],
+    "capital": {
+      "name": "Djouba",
+      "aliases": [
+        "Juba"
+      ],
+      "lon": 31.5825,
+      "lat": 4.853888888
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "middle-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 12188788,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 629636.22,
+    "anchor": [
+      30.3902,
+      7.2305
+    ],
+    "flag": "ss.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "lk",
+    "iso3": "LKA",
+    "name": "Sri Lanka",
+    "aliases": [],
+    "capital": {
+      "name": "Sri Jayawardenapura Kotte",
+      "aliases": [
+        "Kotte",
+        "Sri Jayawardenepura Kotte",
+        "Sri Jayawardenapura"
+      ],
+      "lat": 6.9,
+      "lon": 79.916388888
+    },
+    "otherCapitals": [
+      {
+        "name": "Colombo",
+        "aliases": [],
+        "lon": 79.860555555,
+        "lat": 6.926666666
+      }
+    ],
+    "continent": "asia",
+    "subregion": "southern-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 21756000,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 66594.18,
+    "anchor": [
+      80.7048,
+      7.5811
+    ],
+    "flag": "lk.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "se",
+    "iso3": "SWE",
+    "name": "Suède",
+    "aliases": [],
+    "capital": {
+      "name": "Stockholm",
+      "aliases": [],
+      "lon": 18.068611111,
+      "lat": 59.329444444
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "northern-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 10596620,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 442829.8,
+    "anchor": [
+      19.0171,
+      65.8592
+    ],
+    "flag": "se.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ch",
+    "iso3": "CHE",
+    "name": "Suisse",
+    "aliases": [],
+    "capital": {
+      "name": "Berne",
+      "aliases": [],
+      "lon": 7.44743,
+      "lat": 46.94798
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "western-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 9092436,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 41178.97,
+    "anchor": [
+      7.464,
+      46.7191
+    ],
+    "flag": "ch.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "sr",
+    "iso3": "SUR",
+    "name": "Suriname",
+    "aliases": [
+      "Surinam"
+    ],
+    "capital": {
+      "name": "Paramaribo",
+      "aliases": [],
+      "lon": -55.166666666,
+      "lat": 5.866666666
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "south-america",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 639850,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 146053.63,
+    "anchor": [
+      -55.9109,
+      4.144
+    ],
+    "flag": "sr.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "sj",
+    "iso3": "SJM",
+    "name": "Svalbard et Jan Mayen",
+    "aliases": [],
+    "capital": {
+      "name": "Longyearbyen",
+      "aliases": [],
+      "lat": 78.2232,
+      "lon": 15.6267
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "northern-europe",
+    "status": "dependency",
+    "sovereign": "no",
+    "population": 2905,
+    "populationYear": 2022,
+    "populationSource": "wikidata",
+    "areaKm2": 63173.08,
+    "anchor": [
+      18.0807,
+      78.7783
+    ],
+    "flag": "sj.svg",
+    "flagSameAs": "no"
+  },
+  {
+    "id": "sy",
+    "iso3": "SYR",
+    "name": "Syrie",
+    "aliases": [],
+    "capital": {
+      "name": "Damas",
+      "aliases": [],
+      "lon": 36.291944444,
+      "lat": 33.513055555
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "western-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 25620427,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 185897.68,
+    "anchor": [
+      38.2816,
+      35.0076
+    ],
+    "flag": "sy.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "tj",
+    "iso3": "TJK",
+    "name": "Tadjikistan",
+    "aliases": [],
+    "capital": {
+      "name": "Douchanbé",
+      "aliases": [],
+      "lon": 68.786388888,
+      "lat": 38.573055555
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "central-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 10786734,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 141907.32,
+    "anchor": [
+      72.5873,
+      38.1998
+    ],
+    "flag": "tj.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "tw",
+    "iso3": "TWN",
+    "name": "Taïwan",
+    "aliases": [],
+    "capital": {
+      "name": "Taipei",
+      "aliases": [],
+      "lon": 121.5625,
+      "lat": 25.0375
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "eastern-asia",
+    "status": "limited-recognition",
+    "sovereign": null,
+    "population": 23262544,
+    "populationYear": 2026,
+    "populationSource": "wikidata",
+    "areaKm2": 36010.22,
+    "anchor": [
+      120.8682,
+      23.6524
+    ],
+    "flag": "tw.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "tz",
+    "iso3": "TZA",
+    "name": "Tanzanie",
+    "aliases": [],
+    "capital": {
+      "name": "Dodoma",
+      "aliases": [],
+      "lon": 35.746,
+      "lat": -6.1835
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "eastern-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 70545865,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 945390.64,
+    "anchor": [
+      34.9592,
+      -6.0519
+    ],
+    "flag": "tz.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "td",
+    "iso3": "TCD",
+    "name": "Tchad",
+    "aliases": [],
+    "capital": {
+      "name": "N'Djaména",
+      "aliases": [],
+      "lon": 15.05,
+      "lat": 12.11
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "middle-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 21003705,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 1270846.68,
+    "anchor": [
+      18.645,
+      15.143
+    ],
+    "flag": "td.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "cz",
+    "iso3": "CZE",
+    "name": "Tchéquie",
+    "aliases": [
+      "République tchèque"
+    ],
+    "capital": {
+      "name": "Prague",
+      "aliases": [],
+      "lon": 14.421388888,
+      "lat": 50.0875
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "central-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 10886878,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 78541.18,
+    "anchor": [
+      15.3776,
+      49.8824
+    ],
+    "flag": "cz.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "tf",
+    "iso3": "ATF",
+    "name": "Terres australes et antarctiques françaises",
+    "aliases": [
+      "TAAF",
+      "Terres australes françaises"
+    ],
+    "capital": {
+      "name": "Port-aux-Français",
+      "aliases": [],
+      "lon": 70.216666666,
+      "lat": -49.35
+    },
+    "otherCapitals": [],
+    "continent": "antarctica",
+    "subregion": "antarctica",
+    "status": "dependency",
+    "sovereign": "fr",
+    "population": 196,
+    "populationYear": 2012,
+    "populationSource": "wikidata",
+    "areaKm2": 7346.84,
+    "anchor": [
+      69.1221,
+      -49.3037
+    ],
+    "flag": "tf.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "io",
+    "iso3": "IOT",
+    "name": "Territoire britannique de l'océan Indien",
+    "aliases": [
+      "Archipel des Chagos",
+      "Chagos"
+    ],
+    "capital": {
+      "name": "Diego Garcia",
+      "aliases": [],
+      "lon": 72.411111111,
+      "lat": -7.313333333
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "eastern-africa",
+    "status": "dependency",
+    "sovereign": "gb",
+    "population": 3000,
+    "populationYear": 2018,
+    "populationSource": "wikidata",
+    "areaKm2": 31.9,
+    "anchor": [
+      71.3483,
+      -6.1908
+    ],
+    "flag": "io.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "th",
+    "iso3": "THA",
+    "name": "Thaïlande",
+    "aliases": [],
+    "capital": {
+      "name": "Bangkok",
+      "aliases": [],
+      "lon": 100.516666666,
+      "lat": 13.75
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "south-eastern-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 71619863,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 515889.42,
+    "anchor": [
+      101.0732,
+      15.4597
+    ],
+    "flag": "th.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "tl",
+    "iso3": "TLS",
+    "name": "Timor oriental",
+    "aliases": [
+      "Timor-Leste",
+      "Timor"
+    ],
+    "capital": {
+      "name": "Dili",
+      "aliases": [],
+      "lon": 125.578333333,
+      "lat": -8.553611111
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "south-eastern-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 1418517,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 15027.4,
+    "anchor": [
+      125.8547,
+      -8.8037
+    ],
+    "flag": "tl.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "tg",
+    "iso3": "TGO",
+    "name": "Togo",
+    "aliases": [],
+    "capital": {
+      "name": "Lomé",
+      "aliases": [],
+      "lon": 1.215833333,
+      "lat": 6.13
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "western-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 8591626,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 57212.28,
+    "anchor": [
+      1.0581,
+      8.8072
+    ],
+    "flag": "tg.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "tk",
+    "iso3": "TKL",
+    "name": "Tokelau",
+    "aliases": [],
+    "capital": null,
+    "otherCapitals": [],
+    "continent": "oceania",
+    "subregion": "polynesia",
+    "status": "dependency",
+    "sovereign": "nz",
+    "population": 1499,
+    "populationYear": 2016,
+    "populationSource": "wikidata",
+    "areaKm2": 1.99,
+    "anchor": [
+      -172.4863,
+      -8.5618
+    ],
+    "flag": "tk.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "to",
+    "iso3": "TON",
+    "name": "Tonga",
+    "aliases": [],
+    "capital": {
+      "name": "Nukuʻalofa",
+      "aliases": [],
+      "lon": -175.201808,
+      "lat": -21.1343401
+    },
+    "otherCapitals": [],
+    "continent": "oceania",
+    "subregion": "polynesia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 103742,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 434.52,
+    "anchor": [
+      -175.163,
+      -21.21
+    ],
+    "flag": "to.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "tt",
+    "iso3": "TTO",
+    "name": "Trinité-et-Tobago",
+    "aliases": [],
+    "capital": {
+      "name": "Port-d'Espagne",
+      "aliases": [
+        "Port of Spain"
+      ],
+      "lon": -61.516666666,
+      "lat": 10.666666666
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "caribbean",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 1367764,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 4858.43,
+    "anchor": [
+      -60.9184,
+      10.9989
+    ],
+    "flag": "tt.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "tn",
+    "iso3": "TUN",
+    "name": "Tunisie",
+    "aliases": [],
+    "capital": {
+      "name": "Tunis",
+      "aliases": [],
+      "lon": 10.18,
+      "lat": 36.800833333
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "northern-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 12348573,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 156501.98,
+    "anchor": [
+      9.0079,
+      33.6873
+    ],
+    "flag": "tn.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "tm",
+    "iso3": "TKM",
+    "name": "Turkménistan",
+    "aliases": [],
+    "capital": {
+      "name": "Achgabat",
+      "aliases": [
+        "Achkhabad",
+        "Ashgabat"
+      ],
+      "lon": 58.383333333,
+      "lat": 37.95
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "central-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 7618847,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 470261.67,
+    "anchor": [
+      58.6766,
+      39.8552
+    ],
+    "flag": "tm.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "tr",
+    "iso3": "TUR",
+    "name": "Turquie",
+    "aliases": [
+      "Türkiye"
+    ],
+    "capital": {
+      "name": "Ankara",
+      "aliases": [],
+      "lon": 32.83869,
+      "lat": 39.93576
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "western-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 85878556,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 779648.05,
+    "anchor": [
+      34.5083,
+      39.3454
+    ],
+    "flag": "tr.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "tv",
+    "iso3": "TUV",
+    "name": "Tuvalu",
+    "aliases": [],
+    "capital": {
+      "name": "Funafuti",
+      "aliases": [],
+      "lon": 179.117361111,
+      "lat": -8.504777777
+    },
+    "otherCapitals": [],
+    "continent": "oceania",
+    "subregion": "polynesia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 9492,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 10.24,
+    "anchor": [
+      179.2096,
+      -8.5137
+    ],
+    "flag": "tv.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ua",
+    "iso3": "UKR",
+    "name": "Ukraine",
+    "aliases": [],
+    "capital": {
+      "name": "Kiev",
+      "aliases": [
+        "Kyiv"
+      ],
+      "lon": 30.523611111,
+      "lat": 50.45
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "eastern-europe",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 38980376,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 597321.55,
+    "anchor": [
+      32.1409,
+      49.7247
+    ],
+    "flag": "ua.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "uy",
+    "iso3": "URY",
+    "name": "Uruguay",
+    "aliases": [],
+    "capital": {
+      "name": "Montevideo",
+      "aliases": [],
+      "lon": -56.191311111,
+      "lat": -34.905916666
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "south-america",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 3384688,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 177641.84,
+    "anchor": [
+      -55.9669,
+      -32.9611
+    ],
+    "flag": "uy.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "vu",
+    "iso3": "VUT",
+    "name": "Vanuatu",
+    "aliases": [],
+    "capital": {
+      "name": "Port-Vila",
+      "aliases": [],
+      "lon": 168.316667,
+      "lat": -17.73333
+    },
+    "otherCapitals": [],
+    "continent": "oceania",
+    "subregion": "melanesia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 335169,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 11064.41,
+    "anchor": [
+      166.9088,
+      -15.3715
+    ],
+    "flag": "vu.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "va",
+    "iso3": "VAT",
+    "name": "Vatican",
+    "aliases": [
+      "Cité du Vatican",
+      "Saint-Siège"
+    ],
+    "capital": {
+      "name": "Vatican",
+      "aliases": [],
+      "lon": 12.453,
+      "lat": 41.904
+    },
+    "otherCapitals": [],
+    "continent": "europe",
+    "subregion": "southern-europe",
+    "status": "un-observer",
+    "sovereign": null,
+    "population": 949,
+    "populationYear": 2024,
+    "populationSource": "wikidata",
+    "areaKm2": 0,
+    "anchor": [
+      12.4534,
+      41.9033
+    ],
+    "flag": "va.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "ve",
+    "iso3": "VEN",
+    "name": "Venezuela",
+    "aliases": [],
+    "capital": {
+      "name": "Caracas",
+      "aliases": [],
+      "lon": -66.914444444,
+      "lat": 10.506111111
+    },
+    "otherCapitals": [],
+    "continent": "americas",
+    "subregion": "south-america",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 28516896,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 916791.43,
+    "anchor": [
+      -64.5994,
+      7.1825
+    ],
+    "flag": "ve.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "vn",
+    "iso3": "VNM",
+    "name": "Viêt Nam",
+    "aliases": [
+      "Vietnam"
+    ],
+    "capital": {
+      "name": "Hanoï",
+      "aliases": [],
+      "lon": 105.84117,
+      "lat": 21.0245
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "south-eastern-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 101598527,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 330357.59,
+    "anchor": [
+      105.3873,
+      21.7154
+    ],
+    "flag": "vn.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "wf",
+    "iso3": "WLF",
+    "name": "Wallis-et-Futuna",
+    "aliases": [],
+    "capital": {
+      "name": "Mata Utu",
+      "aliases": [],
+      "lon": -176.1737,
+      "lat": -13.2827
+    },
+    "otherCapitals": [],
+    "continent": "oceania",
+    "subregion": "polynesia",
+    "status": "dependency",
+    "sovereign": "fr",
+    "population": 11558,
+    "populationYear": 2018,
+    "populationSource": "wikidata",
+    "areaKm2": 95.48,
+    "anchor": [
+      -178.1374,
+      -14.2864
+    ],
+    "flag": "wf.svg",
+    "flagSameAs": "fr"
+  },
+  {
+    "id": "ye",
+    "iso3": "YEM",
+    "name": "Yémen",
+    "aliases": [],
+    "capital": {
+      "name": "Sanaa",
+      "aliases": [],
+      "lon": 44.2,
+      "lat": 15.35
+    },
+    "otherCapitals": [],
+    "continent": "asia",
+    "subregion": "western-asia",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 41773878,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 454297.91,
+    "anchor": [
+      45.8744,
+      15.3282
+    ],
+    "flag": "ye.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "zm",
+    "iso3": "ZMB",
+    "name": "Zambie",
+    "aliases": [],
+    "capital": {
+      "name": "Lusaka",
+      "aliases": [],
+      "lon": 28.283333333,
+      "lat": -15.416666666
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "eastern-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 21913874,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 755217.38,
+    "anchor": [
+      26.3953,
+      -14.6608
+    ],
+    "flag": "zm.svg",
+    "flagSameAs": null
+  },
+  {
+    "id": "zw",
+    "iso3": "ZWE",
+    "name": "Zimbabwe",
+    "aliases": [],
+    "capital": {
+      "name": "Harare",
+      "aliases": [],
+      "lon": 31.052222222,
+      "lat": -17.829166666
+    },
+    "otherCapitals": [],
+    "continent": "africa",
+    "subregion": "eastern-africa",
+    "status": "un-member",
+    "sovereign": null,
+    "population": 16950795,
+    "populationYear": 2025,
+    "populationSource": "world-bank",
+    "areaKm2": 390300.59,
+    "anchor": [
+      29.9254,
+      -18.9116
+    ],
+    "flag": "zw.svg",
+    "flagSameAs": null
+  }
+]

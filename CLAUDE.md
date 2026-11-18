@@ -140,10 +140,13 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 
 ## 10. Données (open data, licences à respecter et créditer)
 
-| Besoin | Source envisagée | Licence |
+| Besoin | Source | Licence |
 |---|---|---|
-| Frontières des pays et territoires | Natural Earth (admin 0, map units) ou world-atlas TopoJSON | Domaine public |
-| Infos pays (noms FR, capitales, codes, population) | mledoze/countries, à croiser avec les données Banque mondiale / ONU | ODbL / à vérifier |
+| Frontières des pays et territoires | Natural Earth v5.1.2 (admin 0 map units + zones disputées, 1:10m) | Domaine public |
+| Liste, codes, régions, noms FR des pays | mledoze/countries | ODbL 1.0 |
+| Capitales (noms FR, coordonnées), population de secours | Wikidata (requête SPARQL) | CC0 |
+| Population | Banque mondiale (SP.POP.TOTL) | CC BY 4.0 |
+| Drapeaux de Chypre du Nord et du Somaliland | Wikimedia Commons | Domaine public |
 | Villes (coordonnées, population) | GeoNames `cities15000` | CC BY 4.0 |
 | Drapeaux | `flag-icons` (SVG) | MIT |
 | Départements français | `gregoiredavid/france-geojson` (version simplifiée) | Licence Ouverte |
@@ -157,7 +160,8 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 
 - **Vite + TypeScript + Preact** (avec `@preact/signals` pour l'état partagé). Preact est léger (~4 Ko) et évite de réécrire un mini-framework pour les 5 à 6 écrans.
 - **Carte** : d3-geo + rendu **SVG** (Canvas seulement si le mobile rame), avec zoom/déplacement (d3-zoom). Projection adaptée à la zone (Natural Earth pour le Monde, Conic Conformal pour la France, Albers USA pour les États-Unis).
-- **Frontières Monde** : Natural Earth 1:10m « map units », simplifiées avec mapshaper (`keep-shapes`, pour ne perdre aucune petite île). Les cas particuliers sont corrigés dans `data/sources/overrides.json`.
+- **Données Monde** : `npm run data:download` (sources brutes dans `data/raw/`, ignoré par git) puis `npm run data:world`, qui produit `data/world/world.topo.json`, `data/world/countries.json`, `data/flags/` et le rapport de relecture `data/world/RAPPORT.md`. Les corrections manuelles vont dans `data/sources/overrides-monde.json`, jamais dans les fichiers générés.
+- **Frontières Monde** : Natural Earth 1:10m « map units », simplifiées île par île avec mapshaper (8 % des points, `explode` + `keep-shapes` pour ne perdre aucune île). Frontières « de facto », sauf la Crimée (→ Ukraine) et le Sahara occidental (territoire entier), qui suivent les frontières reconnues par l'ONU. Identifiants : code ISO alpha-2 en minuscules, `cyn` (Chypre du Nord) et `sol` (Somaliland).
 - **Déploiement** : GitHub Actions (`.github/workflows/deploy.yml`) construit et publie `dist/` à chaque push sur `main`. Le chemin de base vient de la variable `BASE_PATH` ; les URL de données passent par `assetUrl()` (`src/lib/assets.ts`).
 - **Répétition espacée** : `ts-fsrs`.
 - **Stockage** : IndexedDB (via `idb`).
@@ -181,7 +185,7 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 
 #### Plan de réalisation de la V1 (validé le 18/11/2026)
 - [x] **0. Socle** : Vite + Preact + TS, Vitest, workflow GitHub Pages. Dépôt : https://github.com/corinoarno-create/G-o — app en ligne : https://corinoarno-create.github.io/G-o/
-- [ ] **1. Données Monde** : scripts `scripts/` → `data/world.topo.json` + `data/countries.json`, corrections dans `data/sources/overrides.json`, script de contrôle.
+- [x] **1. Données Monde** : 252 entités, frontières (568 Ko), capitales, population, drapeaux, contrôles et tests. *(Rapport `data/world/RAPPORT.md` à relire par Arno.)*
 - [ ] **2. Carte** : rendu Monde, zoom/pincer, cadrage auto, cercles des micro-États, surbrillance, clic.
 - [ ] **3. Moteur pédagogique** (pur, testé) : tolérance de saisie, distance, note automatique, boucle de consolidation, FSRS.
 - [ ] **4. Stockage** : IndexedDB + export/import JSON versionné.

@@ -1,0 +1,589 @@
+{
+  "_lisezmoi": [
+    "Corrections manuelles appliquées par scripts/build-world.ts par-dessus les sources automatiques.",
+    "Clé = identifiant de l'entité (code ISO alpha-2 en minuscules, ou code maison : cyn = Chypre du Nord, sol = Somaliland).",
+    "name / aliases : nom français affiché et variantes acceptées en saisie.",
+    "capital : null (pas de capitale), une chaîne (nom Wikidata à retenir parmi plusieurs),",
+    "  ou un objet { pick?, name?, aliases?, lat?, lon? } : pick = nom Wikidata à reprendre, name = nom affiché à la place.",
+    "otherCapitals : autres capitales officielles, acceptées comme bonnes réponses en saisie (même format).",
+    "status, sovereign, continent, subregion, anchor ([lon, lat]), population ({ value, year }) : remplacent la valeur calculée.",
+    "capitalAliases : variantes du nom de la capitale. flagSameAs : drapeau identique à celui d'une autre entité (même dessin, fichier différent)."
+  ],
+  "ae": {
+    "aliases": [
+      "Émirats",
+      "EAU"
+    ],
+    "capitalAliases": [
+      "Abu Dhabi"
+    ]
+  },
+  "ag": {
+    "aliases": [
+      "Antigua",
+      "Antigua et Barbuda"
+    ]
+  },
+  "am": {
+    "capitalAliases": [
+      "Yerevan"
+    ]
+  },
+  "aq": {
+    "capital": null,
+    "status": "other",
+    "population": null
+  },
+  "ax": {
+    "name": "Åland",
+    "aliases": [
+      "Îles Åland",
+      "Ahvenanmaa"
+    ]
+  },
+  "ba": {
+    "aliases": [
+      "Bosnie"
+    ]
+  },
+  "bd": {
+    "capitalAliases": [
+      "Dhaka"
+    ]
+  },
+  "bj": {
+    "capital": "Porto-Novo"
+  },
+  "bl": {
+    "flagSameAs": "fr"
+  },
+  "bo": {
+    "capital": "Sucre",
+    "otherCapitals": [
+      "La Paz"
+    ]
+  },
+  "bq": {
+    "aliases": [
+      "Bonaire, Saint-Eustache et Saba",
+      "Bonaire"
+    ],
+    "capital": {
+      "name": "Kralendijk",
+      "lat": 12.1443,
+      "lon": -68.2655
+    }
+  },
+  "br": {
+    "capitalAliases": [
+      "Brasília"
+    ]
+  },
+  "bt": {
+    "capitalAliases": [
+      "Thimphu"
+    ]
+  },
+  "bv": {
+    "capital": null,
+    "flagSameAs": "no",
+    "population": {
+      "value": 0,
+      "year": 2025
+    }
+  },
+  "by": {
+    "aliases": [
+      "Bélarus"
+    ]
+  },
+  "cd": {
+    "name": "République démocratique du Congo",
+    "aliases": [
+      "RDC",
+      "RD Congo",
+      "Congo-Kinshasa",
+      "Congo (RDC)",
+      "Congo démocratique"
+    ]
+  },
+  "cf": {
+    "aliases": [
+      "Centrafrique"
+    ]
+  },
+  "cg": {
+    "name": "République du Congo",
+    "aliases": [
+      "Congo",
+      "Congo-Brazzaville"
+    ]
+  },
+  "cn": {
+    "capitalAliases": [
+      "Beijing"
+    ]
+  },
+  "co": {
+    "capitalAliases": [
+      "Bogotá"
+    ]
+  },
+  "cu": {
+    "capitalAliases": [
+      "Havane"
+    ]
+  },
+  "cv": {
+    "name": "Cap-Vert",
+    "aliases": [
+      "Îles du Cap-Vert",
+      "Cabo Verde"
+    ]
+  },
+  "cz": {
+    "aliases": [
+      "République tchèque"
+    ]
+  },
+  "do": {
+    "capitalAliases": [
+      "Santo Domingo"
+    ]
+  },
+  "eh": {
+    "name": "Sahara occidental",
+    "status": "disputed-territory",
+    "capital": {
+      "name": "Laâyoune",
+      "aliases": [
+        "El Aaiún",
+        "El Ayoun",
+        "Laayoune"
+      ],
+      "lat": 27.1536,
+      "lon": -13.2033
+    },
+    "anchor": [
+      -12.9,
+      24.6
+    ]
+  },
+  "fk": {
+    "aliases": [
+      "Malouines",
+      "Îles Falkland",
+      "Falkland"
+    ],
+    "capitalAliases": [
+      "Stanley"
+    ]
+  },
+  "fm": {
+    "aliases": [
+      "États fédérés de Micronésie"
+    ]
+  },
+  "gb": {
+    "aliases": [
+      "Grande-Bretagne"
+    ]
+  },
+  "gd": {
+    "capitalAliases": [
+      "St. George's"
+    ]
+  },
+  "gf": {
+    "status": "overseas-region",
+    "sovereign": "fr",
+    "aliases": [
+      "Guyane française"
+    ],
+    "flagSameAs": "fr"
+  },
+  "gp": {
+    "status": "overseas-region",
+    "sovereign": "fr",
+    "flagSameAs": "fr"
+  },
+  "gq": {
+    "otherCapitals": [
+      {
+        "name": "Malabo",
+        "lat": 3.7523,
+        "lon": 8.7741
+      }
+    ]
+  },
+  "gs": {
+    "aliases": [
+      "Géorgie du Sud"
+    ],
+    "capital": "King Edward Point",
+    "otherCapitals": [
+      "Grytviken"
+    ]
+  },
+  "gt": {
+    "capitalAliases": [
+      "Guatemala City",
+      "Ciudad de Guatemala"
+    ]
+  },
+  "gu": {
+    "capitalAliases": [
+      "Agana"
+    ]
+  },
+  "hk": {
+    "capital": null,
+    "aliases": [
+      "Hongkong"
+    ]
+  },
+  "hm": {
+    "capital": null,
+    "population": {
+      "value": 0,
+      "year": 2025
+    }
+  },
+  "io": {
+    "aliases": [
+      "Archipel des Chagos",
+      "Chagos"
+    ]
+  },
+  "ir": {
+    "continent": "asia",
+    "subregion": "western-asia"
+  },
+  "kg": {
+    "aliases": [
+      "Kirghizstan"
+    ]
+  },
+  "ki": {
+    "capitalAliases": [
+      "Tarawa"
+    ]
+  },
+  "kw": {
+    "capitalAliases": [
+      "Koweït City"
+    ]
+  },
+  "lk": {
+    "capital": {
+      "pick": "Sri Jayawardenapura",
+      "name": "Sri Jayawardenapura Kotte",
+      "aliases": [
+        "Kotte",
+        "Sri Jayawardenepura Kotte"
+      ]
+    },
+    "otherCapitals": [
+      "Colombo"
+    ]
+  },
+  "mf": {
+    "aliases": [
+      "Saint-Martin (partie française)"
+    ],
+    "flagSameAs": "fr"
+  },
+  "mk": {
+    "aliases": [
+      "Macédoine"
+    ]
+  },
+  "mm": {
+    "aliases": [
+      "Myanmar"
+    ],
+    "capitalAliases": [
+      "Naypyitaw",
+      "Nay Pyi Taw"
+    ]
+  },
+  "mn": {
+    "capitalAliases": [
+      "Ulaanbaatar"
+    ]
+  },
+  "mo": {
+    "capital": null,
+    "aliases": [
+      "Macau"
+    ]
+  },
+  "mq": {
+    "status": "overseas-region",
+    "sovereign": "fr"
+  },
+  "ms": {
+    "capital": "Brades",
+    "otherCapitals": [
+      "Plymouth"
+    ]
+  },
+  "mu": {
+    "name": "Maurice",
+    "aliases": [
+      "Île Maurice"
+    ]
+  },
+  "my": {
+    "capital": "Kuala Lumpur",
+    "otherCapitals": [
+      "Putrajaya"
+    ]
+  },
+  "ng": {
+    "name": "Nigeria",
+    "aliases": [
+      "Nigéria"
+    ]
+  },
+  "nl": {
+    "aliases": [
+      "Hollande"
+    ]
+  },
+  "np": {
+    "capitalAliases": [
+      "Kathmandu"
+    ]
+  },
+  "om": {
+    "capitalAliases": [
+      "Muscat"
+    ]
+  },
+  "pa": {
+    "capitalAliases": [
+      "Panama City"
+    ]
+  },
+  "pf": {
+    "aliases": [
+      "Polynésie"
+    ]
+  },
+  "pm": {
+    "flagSameAs": "fr"
+  },
+  "ps": {
+    "status": "un-observer",
+    "aliases": [
+      "État de Palestine"
+    ],
+    "capital": "Ramallah",
+    "otherCapitals": [
+      "Jérusalem-Est"
+    ]
+  },
+  "pw": {
+    "name": "Palaos",
+    "aliases": [
+      "Palau"
+    ]
+  },
+  "py": {
+    "capital": {
+      "pick": "Asuncion",
+      "name": "Asunción"
+    }
+  },
+  "re": {
+    "name": "La Réunion",
+    "aliases": [
+      "Réunion"
+    ],
+    "status": "overseas-region",
+    "sovereign": "fr",
+    "flagSameAs": "fr"
+  },
+  "sa": {
+    "name": "Arabie saoudite",
+    "capitalAliases": [
+      "Riyadh"
+    ]
+  },
+  "sb": {
+    "aliases": [
+      "Salomon"
+    ]
+  },
+  "sh": {
+    "name": "Sainte-Hélène",
+    "aliases": [
+      "Sainte-Hélène, Ascension et Tristan da Cunha"
+    ]
+  },
+  "sj": {
+    "capital": {
+      "name": "Longyearbyen",
+      "lat": 78.2232,
+      "lon": 15.6267
+    },
+    "flagSameAs": "no"
+  },
+  "sr": {
+    "name": "Suriname",
+    "aliases": [
+      "Surinam"
+    ]
+  },
+  "ss": {
+    "capitalAliases": [
+      "Juba"
+    ]
+  },
+  "st": {
+    "name": "Sao Tomé-et-Principe",
+    "aliases": [
+      "São Tomé-et-Príncipe",
+      "Sao Tomé et Principe"
+    ]
+  },
+  "sx": {
+    "name": "Sint Maarten",
+    "aliases": [
+      "Saint-Martin (partie néerlandaise)"
+    ]
+  },
+  "sz": {
+    "aliases": [
+      "Swaziland"
+    ],
+    "capital": "Mbabane",
+    "otherCapitals": [
+      "Lobamba"
+    ]
+  },
+  "tf": {
+    "aliases": [
+      "TAAF",
+      "Terres australes françaises"
+    ]
+  },
+  "tk": {
+    "capital": null
+  },
+  "tl": {
+    "aliases": [
+      "Timor-Leste",
+      "Timor"
+    ]
+  },
+  "tm": {
+    "capitalAliases": [
+      "Achkhabad",
+      "Ashgabat"
+    ]
+  },
+  "tr": {
+    "aliases": [
+      "Türkiye"
+    ]
+  },
+  "tt": {
+    "capitalAliases": [
+      "Port of Spain"
+    ]
+  },
+  "tw": {
+    "status": "limited-recognition"
+  },
+  "ua": {
+    "capitalAliases": [
+      "Kyiv"
+    ]
+  },
+  "um": {
+    "capital": null,
+    "flagSameAs": "us"
+  },
+  "us": {
+    "aliases": [
+      "États-Unis d'Amérique",
+      "USA"
+    ],
+    "capitalAliases": [
+      "Washington D.C."
+    ]
+  },
+  "va": {
+    "name": "Vatican",
+    "aliases": [
+      "Cité du Vatican",
+      "Saint-Siège"
+    ],
+    "status": "un-observer"
+  },
+  "vn": {
+    "aliases": [
+      "Vietnam"
+    ]
+  },
+  "wf": {
+    "flagSameAs": "fr"
+  },
+  "xk": {
+    "status": "limited-recognition"
+  },
+  "ye": {
+    "capital": "Sanaa"
+  },
+  "yt": {
+    "status": "overseas-region",
+    "sovereign": "fr",
+    "flagSameAs": "fr"
+  },
+  "za": {
+    "capital": "Pretoria",
+    "otherCapitals": [
+      {
+        "pick": "Le Cap",
+        "aliases": [
+          "Cape Town"
+        ]
+      },
+      "Bloemfontein"
+    ]
+  },
+  "cyn": {
+    "name": "Chypre du Nord",
+    "aliases": [
+      "République turque de Chypre du Nord",
+      "RTCN"
+    ],
+    "iso3": null,
+    "status": "limited-recognition",
+    "continent": "europe",
+    "subregion": "southern-europe",
+    "capital": {
+      "name": "Nicosie-Nord",
+      "aliases": [
+        "Nicosie",
+        "Lefkoşa"
+      ]
+    }
+  },
+  "sol": {
+    "name": "Somaliland",
+    "aliases": [],
+    "iso3": null,
+    "status": "limited-recognition",
+    "continent": "africa",
+    "subregion": "eastern-africa",
+    "capital": {
+      "name": "Hargeisa",
+      "aliases": [
+        "Hargeysa"
+      ]
+    }
+  }
+}
