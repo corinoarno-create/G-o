@@ -195,7 +195,7 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 - [x] Constructeur de session (zone, catégorie, mode, nombre).
 - [x] Boucle de consolidation façon Seterra.
 - [x] FSRS avec note automatique (justesse, distance, temps).
-- [ ] Accueil « ce que je peux travailler ».
+- [x] Accueil « ce que je peux travailler ».
 - [ ] PWA installable, export/import de la progression.
 
 **Règle : une fois la V1 terminée, je l'utilise pendant au moins 2 semaines avant d'ajouter des fonctionnalités.**
@@ -208,7 +208,7 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 - [x] **4. Stockage** : IndexedDB + export/import JSON versionné. *(`src/storage/` : base `geo` v1 avec cartes, journal des réponses, temps, réglages, favoris ; une réponse s'enregistre en une seule transaction. Fichier `geo-progression-AAAA-MM-JJ.json` versionné ; import par fusion (la carte révisée le plus récemment l'emporte, journaux réunis) ou remplacement. Boutons provisoires dans le bac à sable.)*
 - [x] **5. Modes** : Épingler, Saisir, Drapeaux + fin de session. *(`src/game/` : 6 exercices — placer pays / capitales, nommer pays, donner capitales, drapeau → pays, pays → drapeau parmi 4 voisins ; indice générique et « Je ne sais pas » ; lanceur provisoire « Jouer » dans le bac à sable.)*
 - [x] **6. Constructeur de session** + favoris. *(`src/builder/` : zone (Monde, continent, sous-région), catégorie (pays, capitales, drapeaux), mode, contenu (mélange, à réviser, nouveaux, points faibles) avec compteurs, nombre ; favoris nommés ; derniers réglages retenus. Pas de plafond de nouveautés pour les pays du Monde, déjà connus.)*
-- [ ] **7. Accueil** (le défi du jour reste en V3).
+- [x] **7. Accueil** (le défi du jour reste en V3). *(`src/home/` : révisions du jour (durée estimée d'après mes temps, séries de 50), entretien rapide (10 questions mêlées), 2 suggestions de découverte dans des sous-régions différentes, composer une manche et favoris, progression, sauvegarde. Les manches peuvent mélanger les exercices : une question = un élément × un exercice, `src/game/questions.ts`.)*
 - [ ] **8. PWA** hors ligne, installation Android, finitions tactiles, page Crédits.
 
 #### Décisions prises

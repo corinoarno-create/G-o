@@ -16,9 +16,18 @@ import {
 
 export type GeoDatabase = IDBPDatabase<GeoDB>;
 
-/** Ouvre (et crée ou met à niveau si besoin) la base. */
-export function openGeoDb(name: string = DB_NAME): Promise<GeoDatabase> {
+/**
+ * Ouvre (et crée ou met à niveau si besoin) la base.
+ * @param onClosed appelé quand la connexion est fermée pour laisser passer une mise à niveau
+ *                 (nouvelle version de l'app ouverte dans un autre onglet) ou une suppression.
+ */
+export function openGeoDb(name: string = DB_NAME, onClosed?: () => void): Promise<GeoDatabase> {
   return openDB<GeoDB>(name, DB_VERSION, {
+    blocking(_currentVersion, _blockedVersion, event) {
+      // On ne bloque jamais une mise à niveau : on ferme, et la prochaine opération rouvrira la base.
+      (event.target as IDBDatabase).close();
+      onClosed?.();
+    },
     upgrade(db, oldVersion) {
       // Migrations successives : chaque bloc fait passer de la version N à N + 1.
       if (oldVersion < 1) {

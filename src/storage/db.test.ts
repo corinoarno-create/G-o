@@ -103,3 +103,18 @@ describe('contenu complet', () => {
     expect(copy.settings).toEqual([{ key: 'theme', value: 'sombre' }]);
   });
 });
+
+describe('connexion', () => {
+  it('se ferme pour laisser passer une suppression de la base', async () => {
+    const name = uniqueDbName();
+    let closed = false;
+    await openGeoDb(name, () => (closed = true));
+    await new Promise<void>((resolve, reject) => {
+      const request = indexedDB.deleteDatabase(name);
+      request.onsuccess = () => resolve();
+      request.onerror = () => reject(request.error);
+      request.onblocked = () => reject(new Error('suppression bloquée'));
+    });
+    expect(closed).toBe(true);
+  });
+});
