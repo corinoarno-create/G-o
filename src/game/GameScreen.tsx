@@ -27,6 +27,7 @@ import {
   type SessionLogEntry,
   type SessionSummary,
 } from './session.ts';
+import { parseQuestionKey, questionKey } from './questions.ts';
 import type { PreparedGame } from './start.ts';
 import './game.css';
 
@@ -48,10 +49,9 @@ interface Feedback {
 }
 
 export function GameScreen({ world, game, onFinish, onQuit }: Props) {
-  const exercise = EXERCISES[game.config.exercise];
-  const zone = game.config.zone;
+  const zone = game.zone;
   const device = useMemo(() => detectDevice(), []);
-  const [consolidation, setConsolidation] = useState<ConsolidationState>(() => createConsolidation(game.items));
+  const [consolidation, setConsolidation] = useState<ConsolidationState>(() => createConsolidation(game.questions.map(questionKey)));
   const [feedback, setFeedback] = useState<Feedback | null>(null);
   const [hint, setHint] = useState<Hint | null>(null);
   const [pending, setPending] = useState<MapPick | null>(null);
@@ -89,8 +89,11 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
   }, []);
   const continueRef = useRef<HTMLButtonElement>(null);
 
+  // Question en cours : un élément et un exercice (une manche peut mélanger les exercices).
   const entityId = currentItem(consolidation);
-  const entity = entityId ? world.byId.get(entityId) : undefined;
+  const question = entityId ? parseQuestionKey(entityId) : null;
+  const exercise = EXERCISES[question?.exercise ?? 'locate-country'];
+  const entity = question ? world.byId.get(question.entityId) : undefined;
 
   // Propositions de drapeaux : fixées par élément, pour qu'un nouvel essai montre les mêmes.
   const flagPool = useMemo(() => world.countries.filter(hasOwnFlag), [world]);
@@ -121,10 +124,8 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
 
   // Fin de la manche.
   useEffect(() => {
-    if (!isFinished(consolidation) || game.items.length === 0) return;
-    void game.recorder.flush().then(() =>
-      onFinish(summarize(exercise.id, log.current, performance.now() - startedAt.current)),
-    );
+    if (!isFinished(consolidation) || game.questions.length === 0) return;
+    void game.recorder.flush().then(() => onFinish(summarize(log.current, performance.now() - startedAt.current)));
   }, [consolidation]);
 
   const answer = (input: AnswerInput) => {
@@ -145,6 +146,7 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
       typed: evaluation.typed,
     });
     log.current.push({
+      exercise: exercise.id,
       entityId: entity.id,
       correct: evaluation.correct,
       firstAttempt: next.outcome.firstAttempt,
@@ -265,7 +267,7 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
   if (!entity) {
     return (
       <div class="game game--empty">
-        <p>Rien à demander dans cette zone pour cet exercice.</p>
+        <p>Rien à demander pour l’instant.</p>
         <button type="button" class="game__button" onClick={onQuit}>
           Retour
         </button>

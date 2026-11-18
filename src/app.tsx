@@ -1,24 +1,26 @@
-import { useEffect, useState } from 'preact/hooks';
+import { useEffect, useMemo, useState } from 'preact/hooks';
 import { loadWorld, type WorldData } from './data/world.ts';
 import { EndScreen } from './game/EndScreen.tsx';
 import { GameScreen } from './game/GameScreen.tsx';
 import type { SessionSummary } from './game/session.ts';
-import { prepareGame, type GameConfig, type PreparedGame } from './game/start.ts';
+import { prepareGame, type GameRequest, type PreparedGame } from './game/start.ts';
+import { HomeScreen } from './home/HomeScreen.tsx';
+import { buildZones } from './map/zones.ts';
 import { Sandbox } from './sandbox/Sandbox.tsx';
 
 type Screen =
-  | { kind: 'sandbox' }
+  | { kind: 'home' }
+  | { kind: 'explore'; withBuilder: boolean }
   | { kind: 'loading' }
   | { kind: 'game'; game: PreparedGame }
-  | { kind: 'end'; config: GameConfig; summary: SessionSummary };
+  | { kind: 'end'; game: PreparedGame; summary: SessionSummary };
 
-// Pour l'instant, l'app ouvre le bac à sable de la carte, d'où l'on lance une manche.
-// Il sera remplacé par l'accueil « ce que je peux travailler » à l'étape 7.
 export function App() {
   const [world, setWorld] = useState<WorldData | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [screen, setScreen] = useState<Screen>({ kind: 'sandbox' });
+  const [screen, setScreen] = useState<Screen>({ kind: 'home' });
   const [zoneId, setZoneId] = useState('world');
+  const zones = useMemo(() => (world ? buildZones(world) : []), [world]);
 
   useEffect(() => {
     loadWorld()
@@ -26,12 +28,13 @@ export function App() {
       .catch((reason: unknown) => setError(reason instanceof Error ? reason.message : String(reason)));
   }, []);
 
-  if (error) return <p class="placeholder">Impossible de charger la carte : {error}</p>;
-  if (!world) return <p class="placeholder">Chargement de la carte…</p>;
+  if (error) return <p class="placeholder">Oups, quelque chose s’est mal passé : {error}</p>;
+  if (!world || zones.length === 0) return <p class="placeholder">Chargement de la carte…</p>;
 
-  const play = (config: GameConfig) => {
+  const home = () => setScreen({ kind: 'home' });
+  const play = (request: GameRequest) => {
     setScreen({ kind: 'loading' });
-    prepareGame(world, config)
+    prepareGame(world, zones[0]!, request)
       .then((game) => setScreen({ kind: 'game', game }))
       .catch((reason: unknown) => {
         console.error(reason);
@@ -47,22 +50,35 @@ export function App() {
         <GameScreen
           world={world}
           game={screen.game}
-          onFinish={(summary) => setScreen({ kind: 'end', config: screen.game.config, summary })}
-          onQuit={() => void screen.game.recorder.flush().then(() => setScreen({ kind: 'sandbox' }))}
+          onFinish={(summary) => setScreen({ kind: 'end', game: screen.game, summary })}
+          onQuit={() => void screen.game.recorder.flush().then(home)}
         />
       );
     case 'end':
       return (
         <EndScreen
           world={world}
-          config={screen.config}
+          title={screen.game.title}
           summary={screen.summary}
-          onReplayMissed={() => play({ ...screen.config, items: screen.summary.missed })}
-          onRestart={() => play({ ...screen.config, items: undefined })}
-          onExit={() => setScreen({ kind: 'sandbox' })}
+          onReplayMissed={() =>
+            play({ kind: 'questions', title: `À revoir · ${screen.game.title}`, zone: screen.game.zone, questions: screen.summary.missed })
+          }
+          onRestart={() => play(screen.game.request)}
+          onExit={home}
+        />
+      );
+    case 'explore':
+      return (
+        <Sandbox
+          world={world}
+          zoneId={zoneId}
+          onZoneChange={setZoneId}
+          onPlay={play}
+          onHome={home}
+          initialBuilderOpen={screen.withBuilder}
         />
       );
     default:
-      return <Sandbox world={world} zoneId={zoneId} onZoneChange={setZoneId} onPlay={play} />;
+      return <HomeScreen world={world} zones={zones} onPlay={play} onExplore={(withBuilder) => setScreen({ kind: 'explore', withBuilder })} />;
   }
 }

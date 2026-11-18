@@ -1,5 +1,5 @@
-// Bac à sable de la carte (étape 2) : choisir une zone, cliquer sur un pays et voir sa fiche,
-// ou lancer une manche (étape 5). L'accueil le remplacera à l'étape 7.
+// Carte à explorer : choisir une zone, toucher un pays pour voir sa fiche,
+// et composer une manche avec le constructeur de session.
 import { useLayoutEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { flagUrl } from '../data/flags.ts';
 import { CONTINENT_LABELS, STATUS_LABELS, SUBREGION_LABELS } from '../data/labels.ts';
@@ -7,9 +7,8 @@ import type { WorldData } from '../data/world.ts';
 import type { HighlightKind, MapInsets, MapPick } from '../map/world-map.ts';
 import { WorldMapView } from '../map/WorldMapView.tsx';
 import { buildZones } from '../map/zones.ts';
-import type { GameConfig } from '../game/start.ts';
+import type { GameRequest } from '../game/start.ts';
 import { SessionBuilder } from '../builder/SessionBuilder.tsx';
-import { BackupButtons } from './BackupButtons.tsx';
 import './sandbox.css';
 
 /** « 48,86° N, 2,35° E » */
@@ -22,13 +21,16 @@ interface Props {
   world: WorldData;
   zoneId: string;
   onZoneChange: (zoneId: string) => void;
-  onPlay: (config: GameConfig) => void;
+  onPlay: (request: GameRequest) => void;
+  onHome: () => void;
+  /** Ouvrir directement le constructeur de session. */
+  initialBuilderOpen?: boolean;
 }
 
-export function Sandbox({ world, zoneId, onZoneChange, onPlay }: Props) {
+export function Sandbox({ world, zoneId, onZoneChange, onPlay, onHome, initialBuilderOpen = false }: Props) {
   const zones = useMemo(() => buildZones(world), [world]);
   const [pick, setPick] = useState<MapPick | null>(null);
-  const [builderOpen, setBuilderOpen] = useState(false);
+  const [builderOpen, setBuilderOpen] = useState(initialBuilderOpen);
   const mapAreaRef = useRef<HTMLElement>(null);
   const builderRef = useRef<HTMLElement>(null);
   const [insets, setInsets] = useState<MapInsets>({ top: 0, bottom: 0 });
@@ -72,6 +74,9 @@ export function Sandbox({ world, zoneId, onZoneChange, onPlay }: Props) {
   return (
     <div class="sandbox">
       <header class="sandbox__bar">
+        <button type="button" class="sandbox__home" onClick={onHome} aria-label="Retour à l’accueil" title="Accueil">
+          ←
+        </button>
         <h1 class="sandbox__title">Géo</h1>
         <label class="sandbox__zone">
           <span class="visually-hidden">Zone</span>
@@ -93,7 +98,6 @@ export function Sandbox({ world, zoneId, onZoneChange, onPlay }: Props) {
         <button type="button" class="sandbox__play" onClick={() => setBuilderOpen(true)}>
           Jouer
         </button>
-        <BackupButtons />
       </header>
 
       <main class="sandbox__map" ref={mapAreaRef}>

@@ -6,7 +6,8 @@ import { judgeAreaPin, judgePointPin, type PinCloseness } from '../engine/geo.ts
 import type { AnswerMode } from '../engine/grading.ts';
 import type { MasteryLevel } from '../engine/srs.ts';
 import { matchAnswer, normalize } from '../engine/text-match.ts';
-import { capitalAnswers, countryAnswers, EXERCISES, rivalAnswers, type ExerciseId } from './exercises.ts';
+import { capitalAnswers, countryAnswers, rivalAnswers, type ExerciseId } from './exercises.ts';
+import type { QuestionRef } from './questions.ts';
 import { shuffle, type Rng } from './selection.ts';
 
 /**
@@ -160,6 +161,7 @@ export function evaluateAnswer(
 
 /** Une ligne du journal de la manche (en mémoire, pour le bilan). */
 export interface SessionLogEntry {
+  exercise: ExerciseId;
   entityId: string;
   correct: boolean;
   firstAttempt: boolean;
@@ -178,25 +180,25 @@ export interface SessionSummary {
   durationMs: number;
   /** Distance moyenne au but (km) pour les capitales placées, sinon null. */
   averageDistanceKm: number | null;
-  /** Éléments ratés au premier essai, à revoir. */
-  missed: string[];
+  /** Questions ratées au premier essai, à revoir. */
+  missed: QuestionRef[];
   /** Éléments passés à « acquis » ou « maîtrisé » pendant la manche. */
-  promoted: Array<{ entityId: string; level: MasteryLevel }>;
+  promoted: Array<QuestionRef & { level: MasteryLevel }>;
 }
 
 const MASTERY_RANK: Record<MasteryLevel, number> = { new: 0, learning: 1, acquired: 2, mastered: 3 };
 
-export function summarize(exercise: ExerciseId, log: SessionLogEntry[], durationMs: number): SessionSummary {
+export function summarize(log: SessionLogEntry[], durationMs: number): SessionSummary {
   const first = log.filter((entry) => entry.firstAttempt);
   const firstTryCorrect = first.filter((entry) => entry.correct).length;
-  const distances =
-    EXERCISES[exercise].id === 'locate-capital'
-      ? first.map((entry) => entry.distanceKm).filter((d): d is number => d !== undefined && Number.isFinite(d))
-      : [];
+  const distances = first
+    .filter((entry) => entry.exercise === 'locate-capital')
+    .map((entry) => entry.distanceKm)
+    .filter((d): d is number => d !== undefined && Number.isFinite(d));
   const promoted = first.flatMap((entry) => {
     const { masteryBefore: before, masteryAfter: after } = entry;
     if (!before || !after || MASTERY_RANK[after] <= MASTERY_RANK[before] || MASTERY_RANK[after] < 2) return [];
-    return [{ entityId: entry.entityId, level: after }];
+    return [{ exercise: entry.exercise, entityId: entry.entityId, level: after }];
   });
   return {
     total: first.length,
@@ -204,7 +206,7 @@ export function summarize(exercise: ExerciseId, log: SessionLogEntry[], duration
     accuracy: first.length ? firstTryCorrect / first.length : 0,
     durationMs,
     averageDistanceKm: distances.length ? distances.reduce((sum, d) => sum + d, 0) / distances.length : null,
-    missed: first.filter((entry) => !entry.correct).map((entry) => entry.entityId),
+    missed: first.filter((entry) => !entry.correct).map(({ exercise, entityId }) => ({ exercise, entityId })),
     promoted,
   };
 }

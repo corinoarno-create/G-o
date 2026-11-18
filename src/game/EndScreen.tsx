@@ -3,13 +3,12 @@
 import { useMemo } from 'preact/hooks';
 import type { WorldData } from '../data/world.ts';
 import { MASTERY_LABELS } from '../engine/srs.ts';
-import { EXERCISES } from './exercises.ts';
+import type { QuestionRef } from './questions.ts';
 import type { SessionSummary } from './session.ts';
-import type { GameConfig } from './start.ts';
 
 interface Props {
   world: WorldData;
-  config: GameConfig;
+  title: string;
   summary: SessionSummary;
   onReplayMissed: () => void;
   onRestart: () => void;
@@ -23,7 +22,7 @@ function formatDuration(ms: number): string {
 }
 
 /** Titre selon le résultat, toujours positif. */
-function title(accuracy: number): string {
+function headline(accuracy: number): string {
   if (accuracy === 1) return 'Sans faute !';
   if (accuracy >= 0.8) return 'Très belle manche !';
   if (accuracy >= 0.5) return 'Belle progression !';
@@ -32,15 +31,14 @@ function title(accuracy: number): string {
 
 const CONFETTI_COLORS = ['#2f8f6f', '#e8a33d', '#3fae63', '#4c8ed9', '#d9534f', '#a66cd9'];
 
-export function EndScreen({ world, config, summary, onReplayMissed, onRestart, onExit }: Props) {
-  const exercise = EXERCISES[config.exercise];
-  const nameOf = (id: string) => world.byId.get(id)?.name ?? id;
-  const answerOf = (id: string) => {
-    const entity = world.byId.get(id);
-    if (!entity) return '';
-    return config.exercise === 'name-capital' || config.exercise === 'locate-capital'
-      ? `${entity.capital?.name ?? '—'} (${entity.name})`
-      : entity.name;
+export function EndScreen({ world, title, summary, onReplayMissed, onRestart, onExit }: Props) {
+  /** Ce qu'il fallait répondre, selon l'exercice : « Lima (Pérou) », « Pérou »… */
+  const answerOf = ({ exercise, entityId }: QuestionRef) => {
+    const entity = world.byId.get(entityId);
+    if (!entity) return entityId;
+    if (exercise === 'name-capital' || exercise === 'locate-capital') return `${entity.capital?.name ?? '—'} (${entity.name})`;
+    if (exercise === 'flag-to-country' || exercise === 'country-to-flag') return `${entity.name} (drapeau)`;
+    return entity.name;
   };
   // Confettis légers, calculés une fois.
   const confetti = useMemo(
@@ -73,10 +71,8 @@ export function EndScreen({ world, config, summary, onReplayMissed, onRestart, o
       </div>
 
       <div class="end__card">
-        <p class="end__kicker">
-          {exercise.label} · {config.zone.label}
-        </p>
-        <h1 class="end__title">{title(summary.accuracy)}</h1>
+        <p class="end__kicker">{title}</p>
+        <h1 class="end__title">{headline(summary.accuracy)}</h1>
 
         <dl class="end__stats">
           <div>
@@ -105,9 +101,9 @@ export function EndScreen({ world, config, summary, onReplayMissed, onRestart, o
           <section class="end__section">
             <h2>🎉 Nouveaux acquis</h2>
             <ul class="end__list">
-              {summary.promoted.map(({ entityId, level }) => (
-                <li key={entityId}>
-                  {nameOf(entityId)} <span class={`end__badge is-${level}`}>{MASTERY_LABELS[level]}</span>
+              {summary.promoted.map((item) => (
+                <li key={`${item.exercise}|${item.entityId}`}>
+                  {answerOf(item)} <span class={`end__badge is-${item.level}`}>{MASTERY_LABELS[item.level]}</span>
                 </li>
               ))}
             </ul>
@@ -118,8 +114,8 @@ export function EndScreen({ world, config, summary, onReplayMissed, onRestart, o
           <section class="end__section">
             <h2>À revoir bientôt</h2>
             <ul class="end__list">
-              {summary.missed.map((id) => (
-                <li key={id}>{answerOf(id)}</li>
+              {summary.missed.map((item) => (
+                <li key={`${item.exercise}|${item.entityId}`}>{answerOf(item)}</li>
               ))}
             </ul>
           </section>
@@ -135,7 +131,7 @@ export function EndScreen({ world, config, summary, onReplayMissed, onRestart, o
             Nouvelle manche
           </button>
           <button type="button" class="game__link" onClick={onExit}>
-            Retour à la carte
+            Retour à l’accueil
           </button>
         </div>
       </div>

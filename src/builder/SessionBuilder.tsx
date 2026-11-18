@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'preact/hooks';
 import type { WorldData } from '../data/world.ts';
 import { EXERCISES } from '../game/exercises.ts';
 import { availableFor, contentCounts, type ContentType } from '../game/selection.ts';
-import { eligibleIds, loadCards, type GameConfig } from '../game/start.ts';
+import { eligibleIds, loadCards, type GameRequest } from '../game/start.ts';
 import type { Zone } from '../map/zones.ts';
 import { deleteFavorite, getFavorites, getSetting, putFavorite, putSetting } from '../storage/db.ts';
 import { progressDb } from '../storage/progress-db.ts';
@@ -28,7 +28,7 @@ interface Props {
   zones: Zone[];
   zoneId: string;
   onZoneChange: (zoneId: string) => void;
-  onStart: (config: GameConfig) => void;
+  onStart: (request: GameRequest) => void;
   onClose: () => void;
 }
 
@@ -80,7 +80,8 @@ export function SessionBuilder({ world, zones, zoneId, onZoneChange, onStart, on
   const available = counts ? availableFor(choice.content, counts) : 0;
   const questions = choice.count === 'all' ? available : Math.min(choice.count, available);
 
-  const configFor = (selected: BuilderChoice): GameConfig => ({
+  const configFor = (selected: BuilderChoice): GameRequest => ({
+    kind: 'builder',
     exercise: modeOf(selected).exercise,
     zone: zones.find((z) => z.id === selected.zoneId) ?? zones[0]!,
     count: selected.count,

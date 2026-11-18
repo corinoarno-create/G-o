@@ -113,18 +113,19 @@ describe('evaluateAnswer', () => {
 describe('summarize', () => {
   it('compte les réussites du premier coup, les erreurs et les nouveaux acquis', () => {
     const log: SessionLogEntry[] = [
-      { entityId: 'fr', correct: true, firstAttempt: true, responseMs: 2000, distanceKm: 10, masteryBefore: 'learning', masteryAfter: 'acquired' },
-      { entityId: 'pe', correct: false, firstAttempt: true, responseMs: 4000, distanceKm: 300, masteryBefore: 'new', masteryAfter: 'learning' },
-      { entityId: 'pe', correct: true, firstAttempt: false, responseMs: 1500, distanceKm: 5 },
+      { exercise: 'locate-capital', entityId: 'fr', correct: true, firstAttempt: true, responseMs: 2000, distanceKm: 10, masteryBefore: 'learning', masteryAfter: 'acquired' },
+      { exercise: 'locate-capital', entityId: 'pe', correct: false, firstAttempt: true, responseMs: 4000, distanceKm: 300, masteryBefore: 'new', masteryAfter: 'learning' },
+      { exercise: 'locate-capital', entityId: 'pe', correct: true, firstAttempt: false, responseMs: 1500, distanceKm: 5 },
+      { exercise: 'flag-to-country', entityId: 'jp', correct: true, firstAttempt: true, responseMs: 900, distanceKm: 4000 },
     ];
-    expect(summarize('locate-capital', log, 60_000)).toEqual({
-      total: 2,
-      firstTryCorrect: 1,
-      accuracy: 0.5,
+    expect(summarize(log, 60_000)).toEqual({
+      total: 3,
+      firstTryCorrect: 2,
+      accuracy: 2 / 3,
       durationMs: 60_000,
-      averageDistanceKm: 155,
-      missed: ['pe'],
-      promoted: [{ entityId: 'fr', level: 'acquired' }],
+      averageDistanceKm: 155, // seules les capitales placées comptent
+      missed: [{ exercise: 'locate-capital', entityId: 'pe' }],
+      promoted: [{ exercise: 'locate-capital', entityId: 'fr', level: 'acquired' }],
     });
   });
 });
