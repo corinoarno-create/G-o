@@ -366,13 +366,34 @@ export class WorldMap {
     this.markers.get(id)?.element.setAttribute('class', classes('map-marker'));
   }
 
+  /**
+   * Cercle de repère visible le plus proche du point cliqué (dans son rayon cliquable).
+   * Quand des cercles se chevauchent (Liban, Chypre, Israël… en vue Monde), on prend le plus
+   * proche du doigt, et non celui qui est dessiné par-dessus.
+   */
+  private nearestMarker(px: number, py: number): string | null {
+    let best: string | null = null;
+    let bestDistance = MAP_SETTINGS.markerHitRadius;
+    for (const [id, { element, anchor }] of this.markers) {
+      if (element.style.display === 'none') continue;
+      const [x, y] = this.transform.apply(anchor);
+      const distance = Math.hypot(x - px, y - py);
+      if (distance <= bestDistance) {
+        best = id;
+        bestDistance = distance;
+      }
+    }
+    return best;
+  }
+
   private handleClick(event: MouseEvent): void {
     const target = event.target instanceof Element ? event.target.closest('[data-id]') : null;
     const [px, py] = pointer(event, this.element);
     const [x, y] = this.transform.invert([px, py]);
     const lonLat = this.projection.invert?.([x, y]) ?? null;
+    const onMarker = target !== null && this.markerLayer.contains(target);
     this.options.onPick?.({
-      entityId: target?.getAttribute('data-id') ?? null,
+      entityId: onMarker ? this.nearestMarker(px, py) : (target?.getAttribute('data-id') ?? null),
       lonLat: lonLat ? [lonLat[0], lonLat[1]] : null,
     });
   }
