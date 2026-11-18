@@ -196,7 +196,7 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 - [x] **1. Données Monde** : 252 entités, frontières (568 Ko), capitales, population, drapeaux, contrôles et tests. *(Rapport `data/world/RAPPORT.md` à relire par Arno.)*
 - [x] **2. Carte** : rendu Monde, zoom/pincer, cadrage auto, cercles des micro-États, surbrillance, clic. *(Moteur `src/map/world-map.ts`, zones `src/map/zones.ts` ; l'app ouvre pour l'instant un bac à sable, remplacé à l'étape 7.)*
 - [x] **3. Moteur pédagogique** (pur, testé) : tolérance de saisie, distance, note automatique, boucle de consolidation, FSRS. *(`src/engine/`, réglages dans `src/engine/settings.ts` ; branché sur l'interface à l'étape 5.)*
-- [ ] **4. Stockage** : IndexedDB + export/import JSON versionné.
+- [x] **4. Stockage** : IndexedDB + export/import JSON versionné. *(`src/storage/` : base `geo` v1 avec cartes, journal des réponses, temps, réglages, favoris ; une réponse s'enregistre en une seule transaction. Fichier `geo-progression-AAAA-MM-JJ.json` versionné ; import par fusion (la carte révisée le plus récemment l'emporte, journaux réunis) ou remplacement. Boutons provisoires dans le bac à sable.)*
 - [ ] **5. Modes** : Épingler, Saisir, Drapeaux + fin de session.
 - [ ] **6. Constructeur de session** + favoris.
 - [ ] **7. Accueil** (le défi du jour reste en V3).

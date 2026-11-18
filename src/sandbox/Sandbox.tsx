@@ -7,6 +7,7 @@ import type { WorldData } from '../data/world.ts';
 import type { HighlightKind, MapPick } from '../map/world-map.ts';
 import { WorldMapView } from '../map/WorldMapView.tsx';
 import { buildZones } from '../map/zones.ts';
+import { BackupButtons } from './BackupButtons.tsx';
 import './sandbox.css';
 
 /** « 48,86° N, 2,35° E » */
@@ -51,6 +52,7 @@ export function Sandbox({ world }: { world: WorldData }) {
           </select>
         </label>
         <span class="sandbox__count">{zone.entityIds.length} entités</span>
+        <BackupButtons />
       </header>
 
       <main class="sandbox__map">
