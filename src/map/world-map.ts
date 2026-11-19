@@ -64,6 +64,14 @@ export interface MapPin {
   kind: 'selected' | 'correct' | 'wrong' | 'target';
 }
 
+/** Étiquette posée sur la carte (nom d'un élément qu'on découvre), taille constante à l'écran. */
+export interface MapLabel {
+  lonLat: [number, number];
+  text: string;
+  /** current : l'élément qu'on regarde ; seen : déjà vu (plus discret). */
+  kind: 'current' | 'seen';
+}
+
 export interface MapPick {
   /** Entité cliquée (forme ou cercle de repère), ou null pour un clic sur la mer ou une zone neutre. */
   entityId: string | null;
@@ -115,6 +123,8 @@ export class WorldMap {
   private fills = new Map<string, MapFill>();
   private pins: Array<{ pin: MapPin; element: SVGGElement; base: [number, number] | null }> = [];
   private lines: Array<{ line: MapLine; element: SVGGElement }> = [];
+  private labels: Array<{ label: MapLabel; element: SVGTextElement; base: [number, number] | null }> = [];
+  private readonly labelLayer: SVGGElement;
   private lineCount = 0;
   /** Emprise (lon/lat) de chaque entité, pour ne mesurer la distance qu'aux pays proches d'un clic. */
   private geoBoxes: Map<string, [[number, number], [number, number]]> | null = null;
@@ -134,6 +144,8 @@ export class WorldMap {
     this.markerLayer.setAttribute('class', 'map-markers');
     this.pinLayer = this.element.appendChild(document.createElementNS(SVG_NS, 'g'));
     this.pinLayer.setAttribute('class', 'map-pins');
+    this.labelLayer = this.element.appendChild(document.createElementNS(SVG_NS, 'g'));
+    this.labelLayer.setAttribute('class', 'map-labels');
     container.appendChild(this.element);
 
     this.svg = select(this.element);
@@ -146,6 +158,7 @@ export class WorldMap {
         this.updateMarkers();
         this.updatePins();
         this.updateLines();
+        this.updateLabels();
       });
     // Pas de zoom au double-clic : en jeu, deux clics rapides doivent rester deux réponses possibles.
     if (options.interactive === false) {
@@ -207,6 +220,19 @@ export class WorldMap {
       element.append(halo, dot);
       this.pinLayer.appendChild(element);
       return { pin, element, base: null };
+    });
+    this.projectPins();
+  }
+
+  /** Affiche des étiquettes de noms (au-dessus de tout). Une liste vide les efface. */
+  setLabels(labels: MapLabel[]): void {
+    this.labelLayer.replaceChildren();
+    this.labels = labels.map((label) => {
+      const element = document.createElementNS(SVG_NS, 'text');
+      element.setAttribute('class', `map-label is-${label.kind}`);
+      element.textContent = label.text;
+      this.labelLayer.appendChild(element);
+      return { label, element, base: null };
     });
     this.projectPins();
   }
@@ -401,8 +427,21 @@ export class WorldMap {
 
   private projectPins(): void {
     for (const entry of this.pins) entry.base = this.projection(entry.pin.lonLat);
+    for (const entry of this.labels) entry.base = this.projection(entry.label.lonLat);
     this.updatePins();
     this.updateLines();
+    this.updateLabels();
+  }
+
+  private updateLabels(): void {
+    for (const { element, base } of this.labels) {
+      element.style.display = base ? '' : 'none';
+      if (!base) continue;
+      const [x, y] = this.transform.apply(base);
+      element.setAttribute('x', x.toFixed(1));
+      // Au-dessus du point, pour ne pas cacher le pays ou la capitale.
+      element.setAttribute('y', (y - 14).toFixed(1));
+    }
   }
 
   private updateLines(): void {

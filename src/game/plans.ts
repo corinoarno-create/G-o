@@ -40,7 +40,10 @@ export type GameRequest =
   | { kind: 'builder'; exercise: ExerciseId; zone: Zone; count: number | 'all'; content: ContentType }
   | { kind: 'review' }
   | { kind: 'quick'; exercise?: ExerciseId }
-  | { kind: 'questions'; title: string; zone: Zone; questions: QuestionRef[] };
+  /** Découverte en 3 temps d'éléments jamais vus (voir src/discovery/). */
+  | { kind: 'discovery'; exercise: ExerciseId; zone: Zone }
+  /** Questions fixées d'avance ; `restart` est la manche proposée ensuite (« 5 de plus »). */
+  | { kind: 'questions'; title: string; zone: Zone; questions: QuestionRef[]; restart?: GameRequest };
 
 /** L'élément peut-il être demandé dans cet exercice ? */
 const eligible = (world: WorldData, question: QuestionRef) => {
@@ -143,6 +146,8 @@ export function requestTitle(request: GameRequest): string {
       return 'Révisions du jour';
     case 'quick':
       return request.exercise ? `Entretien rapide · ${EXERCISES[request.exercise].label}` : 'Entretien rapide';
+    case 'discovery':
+      return `Découverte · ${EXERCISES[request.exercise].label} · ${request.zone.label}`;
     case 'questions':
       return request.title;
   }

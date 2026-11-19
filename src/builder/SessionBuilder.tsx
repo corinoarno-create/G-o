@@ -7,6 +7,7 @@ import { availableFor, contentCounts, type ContentType } from '../game/selection
 import { eligibleIds, loadCards, type GameRequest } from '../game/start.ts';
 import type { Zone } from '../map/zones.ts';
 import { deleteFavorite, getFavorites, getSetting, putFavorite, putSetting } from '../storage/db.ts';
+import { DISCOVERY_SIZE } from '../discovery/discovery.ts';
 import { progressDb } from '../storage/progress-db.ts';
 import type { CardRecord, FavoriteRecord } from '../storage/schema.ts';
 import {
@@ -41,7 +42,10 @@ const EMPTY_MESSAGES: Record<ContentType, string> = {
 };
 
 export function SessionBuilder({ world, zones, zoneId, onZoneChange, onStart, onClose }: Props) {
-  const [choice, setChoice] = useState<BuilderChoice>({ ...sanitizeChoice(null), zoneId });
+  const [choice, setChoice] = useState<BuilderChoice>({
+    ...sanitizeChoice(null),
+    zoneId,
+  });
   const [cards, setCards] = useState<Map<string, CardRecord> | null>(null);
   const [favorites, setFavorites] = useState<FavoriteRecord[]>([]);
   const [favoriteName, setFavoriteName] = useState<string | null>(null);
@@ -57,7 +61,11 @@ export function SessionBuilder({ world, zones, zoneId, onZoneChange, onStart, on
       ]);
       setCards(loadedCards);
       setFavorites(loadedFavorites.sort((a, b) => a.name.localeCompare(b.name, 'fr')));
-      if (last) setChoice((current) => ({ ...sanitizeChoice(last), zoneId: current.zoneId }));
+      if (last)
+        setChoice((current) => ({
+          ...sanitizeChoice(last),
+          zoneId: current.zoneId,
+        }));
     })();
   }, []);
 
@@ -78,15 +86,26 @@ export function SessionBuilder({ world, zones, zoneId, onZoneChange, onStart, on
     [cards, world, exercise, zone],
   );
   const available = counts ? availableFor(choice.content, counts) : 0;
-  const questions = choice.count === 'all' ? available : Math.min(choice.count, available);
+  // Les nouveautés se découvrent en 3 temps, par groupes de 5.
+  const discovering = choice.content === 'new';
+  const questions = discovering
+    ? Math.min(DISCOVERY_SIZE, available)
+    : choice.count === 'all'
+      ? available
+      : Math.min(choice.count, available);
 
-  const configFor = (selected: BuilderChoice): GameRequest => ({
-    kind: 'builder',
-    exercise: modeOf(selected).exercise,
-    zone: zones.find((z) => z.id === selected.zoneId) ?? zones[0]!,
-    count: selected.count,
-    content: selected.content,
-  });
+  const configFor = (selected: BuilderChoice): GameRequest => {
+    const exercise = modeOf(selected).exercise;
+    const zone = zones.find((z) => z.id === selected.zoneId) ?? zones[0]!;
+    if (selected.content === 'new') return { kind: 'discovery', exercise, zone };
+    return {
+      kind: 'builder',
+      exercise,
+      zone,
+      count: selected.count,
+      content: selected.content,
+    };
+  };
 
   const start = (selected: BuilderChoice) => {
     void progressDb().then((db) => putSetting(db, LAST_CHOICE_KEY, selected));
@@ -236,23 +255,30 @@ export function SessionBuilder({ world, zones, zoneId, onZoneChange, onStart, on
         </div>
       </section>
 
-      <section class="builder__section">
-        <h3>Nombre</h3>
-        <div class="builder__segments" role="radiogroup" aria-label="Nombre de questions">
-          {COUNTS.map((count) => (
-            <button
-              type="button"
-              key={String(count)}
-              role="radio"
-              aria-checked={choice.count === count}
-              class={choice.count === count ? 'is-active' : ''}
-              onClick={() => update({ count })}
-            >
-              {count === 'all' ? 'Tout' : count}
-            </button>
-          ))}
-        </div>
-      </section>
+      {discovering ? (
+        <p class="builder__help">
+          Découverte en 3 temps, par groupes de 5 : tu observes chaque élément sur la carte, tu le reconnais parmi quatre propositions, puis
+          tu le retrouves pour de vrai.
+        </p>
+      ) : (
+        <section class="builder__section">
+          <h3>Nombre</h3>
+          <div class="builder__segments" role="radiogroup" aria-label="Nombre de questions">
+            {COUNTS.map((count) => (
+              <button
+                type="button"
+                key={String(count)}
+                role="radio"
+                aria-checked={choice.count === count}
+                class={choice.count === count ? 'is-active' : ''}
+                onClick={() => update({ count })}
+              >
+                {count === 'all' ? 'Tout' : count}
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
 
       {favoriteName !== null && (
         <div class="builder__save">
@@ -279,7 +305,9 @@ export function SessionBuilder({ world, zones, zoneId, onZoneChange, onStart, on
           {cards === null
             ? 'Chargement…'
             : questions > 0
-              ? `${questions} question${questions > 1 ? 's' : ''} · ${zone.label}`
+              ? discovering
+                ? `${questions} à découvrir · ${zone.label}`
+                : `${questions} question${questions > 1 ? 's' : ''} · ${zone.label}`
               : EMPTY_MESSAGES[choice.content]}
         </p>
         <div class="builder__buttons">

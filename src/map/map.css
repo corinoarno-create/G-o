@@ -294,6 +294,34 @@
   }
 }
 
+/* Étiquettes de noms (découverte), à l'encre avec un liseré de papier. */
+.map-label {
+  pointer-events: none;
+  text-anchor: middle;
+  paint-order: stroke;
+  stroke: var(--paper-light);
+  stroke-linejoin: round;
+  fill: var(--ink);
+}
+
+.map-label.is-current {
+  font: 700 22px var(--font-hand);
+  stroke-width: 5px;
+  animation: map-label-in 400ms ease-out;
+}
+
+.map-label.is-seen {
+  font: 700 13px var(--font-body);
+  stroke-width: 3.5px;
+  fill: var(--ink-soft);
+}
+
+@keyframes map-label-in {
+  from {
+    opacity: 0;
+  }
+}
+
 /* Trait en pointillé de mon clic jusqu'à la vraie position : il se dessine en 0,6 s. */
 .map-line {
   pointer-events: none;

@@ -203,18 +203,16 @@ export function HomeScreen({ world, zones, onPlay, onExplore }: Props) {
                       <strong>
                         {summary.discoveries[0].categoryLabel} · {summary.discoveries[0].zone.label}
                       </strong>{' '}
-                      — {summary.discoveries[0].unseen} à découvrir
+                      — {summary.discoveries[0].unseen} à découvrir, 5 par 5 : observer, reconnaître, retrouver
                     </p>
                     <button
                       type="button"
                       class="btn btn--gold"
                       onClick={() =>
                         onPlay({
-                          kind: 'builder',
+                          kind: 'discovery',
                           exercise: summary.discoveries[0]!.exercise,
                           zone: summary.discoveries[0]!.zone,
-                          count: 10,
-                          content: 'new',
                         })
                       }
                     >
