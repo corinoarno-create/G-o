@@ -207,6 +207,11 @@
   transition: fill 150ms ease;
 }
 
+/* Petit rond qui reste une fois le territoire assez grand pour être touché : il aide à le repérer. */
+.map-marker.is-small .map-marker__dot {
+  stroke-width: 1.1px;
+}
+
 @media (hover: hover) {
   .map-marker:hover .map-marker__dot {
     fill: var(--paper-dark);

@@ -12,8 +12,10 @@ import { geoAzimuthalEqualArea, geoBounds, geoCircle, geoGraticule10, geoPath, t
 import { pointer, select, type Selection } from 'd3-selection';
 import 'd3-transition';
 import { zoom, zoomIdentity, type D3ZoomEvent, type ZoomBehavior, type ZoomTransform } from 'd3-zoom';
+import type { MultiLineString, MultiPolygon, Polygon } from 'geojson';
 import type { WorldData } from '../data/world.ts';
 import { distanceKm, distanceToShapeKm } from '../engine/geo.ts';
+import { chunkLines, chunkPolygons } from './chunks.ts';
 import { geoPatterson, WORLD_CROP_POINTS, WORLD_RATIO } from './patterson.ts';
 import { fitTransform, needsMarker, relativeAffine, unionBounds, type Affine, type Bounds } from './view-math.ts';
 import { boxCenter, boxSamplePoints, type Zone } from './zones.ts';
@@ -36,6 +38,12 @@ export const MAP_SETTINGS = {
   /** Rayon cliquable autour du cercle (plus large, pour le doigt). */
   markerHitRadius: COARSE ? 20 : 14,
   /**
+   * Une fois zoomé, le micro-territoire est assez grand pour être touché, mais on garde un petit rond
+   * pour le repérer dans l'espace (îles des Caraïbes, du Pacifique…).
+   */
+  smallMarkerRadius: COARSE ? 3.5 : 3,
+  smallMarkerHitRadius: COARSE ? 12 : 8,
+  /**
    * Clic tolérant : un clic dans la mer à moins de tant de pixels d'un pays compte comme un clic sur ce pays
    * (le plus proche). Les petites îles deviennent touchables sans viser au pixel près.
    */
@@ -55,6 +63,30 @@ export const MAP_SETTINGS = {
 };
 
 const KM_PER_DEGREE = 111.195;
+
+/** Tracés découpés en morceaux compacts (voir chunks.ts), calculés une fois par jeu de données. */
+interface ChunkedWorld {
+  graticule: MultiLineString[];
+  coastlines: MultiLineString[];
+  borders: MultiLineString[];
+  shapes: Map<string, Array<Polygon | MultiPolygon>>;
+}
+
+const chunkCache = new WeakMap<WorldData, ChunkedWorld>();
+
+function chunkedWorld(world: WorldData): ChunkedWorld {
+  let chunked = chunkCache.get(world);
+  if (!chunked) {
+    chunked = {
+      graticule: chunkLines(geoGraticule10()),
+      coastlines: chunkLines(world.coastlines),
+      borders: chunkLines(world.borders),
+      shapes: new Map([...world.shapes].map(([id, shape]) => [id, chunkPolygons(shape.geometry)])),
+    };
+    chunkCache.set(world, chunked);
+  }
+  return chunked;
+}
 
 /** Trait en pointillé entre deux points (mon clic → la vraie position), qui se dessine à l'apparition. */
 export interface MapLine {
@@ -139,8 +171,9 @@ export class WorldMap {
   private height = 0;
   private zone: Zone | null = null;
   private insets: Required<MapInsets> = { top: 0, bottom: 0, left: 0, right: 0 };
-  private readonly shapes = new Map<string, SVGPathElement>();
-  private readonly markers = new Map<string, { element: SVGGElement; area: number; anchor: [number, number] }>();
+  /** Tracés de chaque entité (plusieurs quand ses îles sont éloignées, voir chunks.ts). */
+  private readonly shapes = new Map<string, SVGPathElement[]>();
+  private readonly markers = new Map<string, { element: SVGGElement; area: number; anchor: [number, number]; small: boolean }>();
   private highlights = new Map<string, HighlightKind>();
   /** Couleurs imposées par entité (carte de conquête : couleur selon la maîtrise). */
   private fills = new Map<string, MapFill>();
@@ -488,24 +521,30 @@ export class WorldMap {
       fragment.appendChild(element);
       return element;
     };
+    const chunked = chunkedWorld(this.world);
     addPath(this.path({ type: 'Sphere' }), 'map-sphere');
     // Quadrillage en pointillés, façon carte marine.
-    addPath(this.path(geoGraticule10()), 'map-graticule');
+    for (const chunk of chunked.graticule) addPath(this.path(chunk), 'map-graticule');
     for (const shape of this.world.neutral) addPath(this.path(shape), 'map-neutral');
     this.shapes.clear();
     this.geometryAreas.clear();
     for (const [id, shape] of this.world.shapes) {
-      const element = addPath(this.path(shape), 'map-entity', id);
-      if (!element) continue; // entité hors du champ de la projection
       // Couleur d'aquarelle du continent (voir map.css).
       const continent = this.world.byId.get(id)?.continent;
-      if (continent) element.setAttribute('data-continent', continent);
-      this.shapes.set(id, element);
+      const elements: SVGPathElement[] = [];
+      for (const chunk of chunked.shapes.get(id) ?? []) {
+        const element = addPath(this.path(chunk), 'map-entity', id);
+        if (!element) continue; // partie hors du champ de la projection
+        if (continent) element.setAttribute('data-continent', continent);
+        elements.push(element);
+      }
+      if (elements.length === 0) continue;
+      this.shapes.set(id, elements);
       this.geometryAreas.set(id, this.path.area(shape));
     }
     // Traits par-dessus les surfaces : frontières et côtes, sans les lignes de découpe des données.
-    addPath(this.path(this.world.coastlines), 'map-coastline');
-    addPath(this.path(this.world.borders), 'map-borders');
+    for (const chunk of chunked.coastlines) addPath(this.path(chunk), 'map-coastline');
+    for (const chunk of chunked.borders) addPath(this.path(chunk), 'map-borders');
     this.viewport.replaceChildren(fragment);
   }
 
@@ -520,7 +559,7 @@ export class WorldMap {
       const anchor = this.world.byId.get(id)?.anchor;
       const anchorPx = anchor ? this.projection(anchor) : null;
       if (active.has(id) && anchorPx && needsMarker(area, 1, MAP_SETTINGS.markerAreaThreshold)) {
-        this.markers.set(id, { element: this.createMarker(id), area, anchor: anchorPx });
+        this.markers.set(id, { element: this.createMarker(id), area, anchor: anchorPx, small: false });
       }
     }
   }
@@ -594,13 +633,26 @@ export class WorldMap {
     return group;
   }
 
+  /**
+   * Les cercles suivent la carte. Ils restent toujours affichés : en grand tant que le territoire est trop
+   * petit pour être touché, puis en petit rond pour le repérer. Ceux qui sont hors de l'écran sont masqués.
+   */
   private updateMarkers(): void {
-    for (const { element, area, anchor } of this.markers.values()) {
-      const visible = needsMarker(area, this.transform.k, MAP_SETTINGS.markerAreaThreshold);
-      element.style.display = visible ? '' : 'none';
-      if (visible) {
-        const [x, y] = this.transform.apply(anchor);
-        element.setAttribute('transform', `translate(${x.toFixed(1)},${y.toFixed(1)})`);
+    const margin = 40;
+    for (const entry of this.markers.values()) {
+      const { element, area, anchor } = entry;
+      const [x, y] = this.transform.apply(anchor);
+      const onScreen = x > -margin && x < this.width + margin && y > -margin && y < this.height + margin;
+      element.style.display = onScreen ? '' : 'none';
+      if (!onScreen) continue;
+      element.setAttribute('transform', `translate(${x.toFixed(1)},${y.toFixed(1)})`);
+      const small = !needsMarker(area, this.transform.k, MAP_SETTINGS.markerAreaThreshold);
+      if (small !== entry.small) {
+        entry.small = small;
+        element.classList.toggle('is-small', small);
+        const [hit, dot] = element.children;
+        hit?.setAttribute('r', String(small ? MAP_SETTINGS.smallMarkerHitRadius : MAP_SETTINGS.markerHitRadius));
+        dot?.setAttribute('r', String(small ? MAP_SETTINGS.smallMarkerRadius : MAP_SETTINGS.markerRadius));
       }
     }
   }
@@ -608,12 +660,12 @@ export class WorldMap {
   private applyClasses(id: string, active = new Set(this.zone?.entityIds ?? [])): void {
     const kind = this.highlights.get(id);
     const classes = (base: string) => [base, active.has(id) ? '' : 'is-inactive', kind ? `is-${kind}` : ''].filter(Boolean).join(' ');
-    const shape = this.shapes.get(id);
-    shape?.setAttribute('class', classes('map-entity'));
-    this.markers.get(id)?.element.setAttribute('class', classes('map-marker'));
+    const marker = this.markers.get(id);
+    marker?.element.setAttribute('class', classes(marker.small ? 'map-marker is-small' : 'map-marker'));
     // Couleur imposée (carte de conquête), sauf si une mise en évidence la remplace.
     const fill = this.fills.get(id);
-    if (shape) {
+    for (const shape of this.shapes.get(id) ?? []) {
+      shape.setAttribute('class', classes('map-entity'));
       shape.style.fill = fill && !kind ? fill.color : '';
       shape.style.fillOpacity = fill && !kind ? String(fill.opacity) : '';
     }
@@ -633,12 +685,12 @@ export class WorldMap {
    */
   private nearestMarker(px: number, py: number): string | null {
     let best: string | null = null;
-    let bestDistance = MAP_SETTINGS.markerHitRadius;
-    for (const [id, { element, anchor }] of this.markers) {
+    let bestDistance = Infinity;
+    for (const [id, { element, anchor, small }] of this.markers) {
       if (element.style.display === 'none') continue;
       const [x, y] = this.transform.apply(anchor);
       const distance = Math.hypot(x - px, y - py);
-      if (distance <= bestDistance) {
+      if (distance <= (small ? MAP_SETTINGS.smallMarkerHitRadius : MAP_SETTINGS.markerHitRadius) && distance < bestDistance) {
         best = id;
         bestDistance = distance;
       }
@@ -646,11 +698,11 @@ export class WorldMap {
     return best;
   }
 
-  /** Nombre de cercles de repère visibles à moins de `radius` pixels du point. */
+  /** Nombre de grands cercles de repère visibles à moins de `radius` pixels du point. */
   private markersNear(px: number, py: number, radius: number): number {
     let count = 0;
-    for (const { element, anchor } of this.markers.values()) {
-      if (element.style.display === 'none') continue;
+    for (const { element, anchor, small } of this.markers.values()) {
+      if (small || element.style.display === 'none') continue;
       const [x, y] = this.transform.apply(anchor);
       if (Math.hypot(x - px, y - py) <= radius) count += 1;
     }
