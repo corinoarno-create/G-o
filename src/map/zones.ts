@@ -16,7 +16,7 @@ export interface GeoBox {
   north: number;
 }
 
-export type ProjectionKind = 'natural-earth' | 'azimuthal';
+export type ProjectionKind = 'world' | 'azimuthal';
 
 export interface ZoneView {
   projection: ProjectionKind;
@@ -101,7 +101,7 @@ export function buildZones(world: WorldData): Zone[] {
       kind: 'world',
       parent: null,
       entityIds: world.countries.map((c) => c.id),
-      view: { projection: 'natural-earth', box: null },
+      view: { projection: 'world', box: null },
     },
   ];
   const continents = (Object.keys(CONTINENT_LABELS) as ContinentId[]).sort((a, b) =>

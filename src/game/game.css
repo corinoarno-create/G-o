@@ -183,6 +183,27 @@
   transform: translateX(-50%);
 }
 
+/* Exercice en cours, dans une manche qui en enchaîne plusieurs : une étiquette qui change à chaque bloc. */
+.game__step {
+  display: inline-block;
+  margin: 0 0 6px;
+  padding: 1px 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--teal) 18%, transparent);
+  color: var(--ink);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  animation: game-step-in 500ms ease-out;
+}
+
+@keyframes game-step-in {
+  from {
+    transform: scale(1.25);
+    background: var(--gold);
+  }
+}
+
 .game__ask {
   margin: 0;
   color: var(--ink-soft);

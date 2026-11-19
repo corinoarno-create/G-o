@@ -5,6 +5,7 @@ import { modeOf, sanitizeChoice } from '../builder/options.ts';
 import type { WorldData } from '../data/world.ts';
 import type { AnswerMode, TimingStats } from '../engine/grading.ts';
 import { loadCards, type GameRequest } from '../game/start.ts';
+import { QUICK_PHRASES } from '../game/plans.ts';
 import { detectDevice } from '../lib/device.ts';
 import type { MapFill } from '../map/world-map.ts';
 import { WorldMapView } from '../map/WorldMapView.tsx';
@@ -176,7 +177,7 @@ export function HomeScreen({ world, zones, onPlay, onExplore }: Props) {
                   </>
                 ) : seen > 0 ? (
                   <p>
-                    Tout est à jour 🎉
+                    Tout est à jour, bravo !
                     {summary.nextDueAt && ` Prochaine escale ${formatWhen(summary.nextDueAt, now)}.`}
                   </p>
                 ) : (
@@ -187,8 +188,8 @@ export function HomeScreen({ world, zones, onPlay, onExplore }: Props) {
               <div class="home__pair">
                 <div class="paper-card home__small home__quick">
                   <h3>Entretien rapide</h3>
-                  <p>10 questions mêlées : pays, capitales, drapeaux.</p>
-                  <button type="button" class="btn btn--teal" onClick={() => onPlay({ kind: 'quick' })}>
+                  <p>10 questions pour {QUICK_PHRASES[summary.quickExercise]}.</p>
+                  <button type="button" class="btn btn--teal" onClick={() => onPlay({ kind: 'quick', exercise: summary.quickExercise })}>
                     Lancer
                   </button>
                 </div>

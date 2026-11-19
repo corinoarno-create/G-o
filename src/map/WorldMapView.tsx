@@ -1,7 +1,7 @@
 // Composant Preact autour du moteur de carte (WorldMap), avec les boutons de zoom.
 import { useEffect, useRef } from 'preact/hooks';
 import type { WorldData } from '../data/world.ts';
-import { WorldMap, type HighlightKind, type MapCircle, type MapFill, type MapInsets, type MapPick, type MapPin } from './world-map.ts';
+import { WorldMap, type HighlightKind, type MapFill, type MapInsets, type MapLine, type MapPick, type MapPin } from './world-map.ts';
 import type { Zone } from './zones.ts';
 import './map.css';
 
@@ -10,8 +10,8 @@ interface Props {
   zone: Zone;
   highlights?: Map<string, HighlightKind>;
   pins?: MapPin[];
-  /** Cercles d'indice. */
-  circles?: MapCircle[];
+  /** Traits en pointillé (mon clic → la bonne position). */
+  lines?: MapLine[];
   /** Loupe sur les groupes de petits pays (en jeu). */
   magnify?: boolean;
   /** Couleurs imposées (carte de conquête). */
@@ -32,7 +32,7 @@ export function WorldMapView({
   zone,
   highlights,
   pins,
-  circles,
+  lines,
   magnify,
   fills,
   interactive = true,
@@ -66,7 +66,7 @@ export function WorldMapView({
   useEffect(() => mapRef.current?.setZone(zone), [world, zone]);
   useEffect(() => mapRef.current?.setHighlights(highlights ?? new Map()), [world, zone, highlights]);
   useEffect(() => mapRef.current?.setPins(pins ?? []), [world, zone, pins]);
-  useEffect(() => mapRef.current?.setCircles(circles ?? []), [world, zone, circles]);
+  useEffect(() => mapRef.current?.setLines(lines ?? []), [world, zone, lines]);
   useEffect(() => mapRef.current?.setFills(fills ?? new Map()), [world, zone, fills]);
   useEffect(() => {
     if (focusIds?.length) mapRef.current?.flyTo(focusIds);

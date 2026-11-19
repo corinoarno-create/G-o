@@ -2,7 +2,6 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { buildWorldData, countries } from '../data/world.ts';
-import { distanceKm } from '../engine/geo.ts';
 import { capitalAnswers, EXERCISES, hasOwnFlag, hintFor, rivalAnswers } from './exercises.ts';
 import { buildFlagChoices, evaluateAnswer, summarize, type SessionLogEntry } from './session.ts';
 
@@ -45,17 +44,17 @@ describe('exercices', () => {
     expect(hint.eliminate).toEqual(['it']);
   });
 
-  it('entourent la zone d’un cercle qui contient la réponse et se resserre', () => {
-    for (const rng of [() => 0, () => 0.5, () => 0.999]) {
-      for (const level of [1, 2] as const) {
-        const { circle } = hintFor('locate-capital', entity('pe'), level, { rng });
-        const lima = entity('pe').capital!;
-        expect(distanceKm(circle!.center, [lima.lon, lima.lat])).toBeLessThan(circle!.radiusKm);
-      }
-    }
-    const wide = hintFor('locate-country', entity('lc'), 1, { rng: () => 0.5 }).circle!;
-    const narrow = hintFor('locate-country', entity('lc'), 2, { rng: () => 0.5 }).circle!;
-    expect(narrow.radiusKm).toBeLessThan(wide.radiusKm);
+  it('cadrent la carte sur la sous-région, puis sur l’élément et ses voisins', () => {
+    const wide = hintFor('locate-country', entity('lc'), 1, { world });
+    expect(wide.text).toContain('Caraïbes');
+    expect(wide.focus).toContain('lc');
+    expect(wide.focus!.every((id) => entity(id).subregion === 'caribbean')).toBe(true);
+    const narrow = hintFor('locate-country', entity('lc'), 2, { world });
+    expect(narrow.focus).toHaveLength(5);
+    expect(narrow.focus).toContain('lc');
+    expect(narrow.focus).toContain('vc'); // Saint-Vincent, voisine de Sainte-Lucie
+    // Pour une capitale, le 2e indice montre son pays.
+    expect(hintFor('locate-capital', entity('pe'), 2, { world })).toMatchObject({ focus: ['pe'], outline: 'pe' });
   });
 });
 

@@ -57,9 +57,9 @@
   pointer-events: none;
 }
 
-/* Vue Monde : la mer se limite à l'ovale du globe, posé sur le papier. */
-.world-map.is-world {
-  background: var(--paper);
+/* Vue Monde : planisphère rectangulaire, la mer s'étend jusqu'aux bords de l'écran (pas de cadre). */
+.world-map.is-world .map-sphere {
+  stroke: none;
 }
 
 .map-sphere {
@@ -294,19 +294,49 @@
   }
 }
 
-/* Cercle d'indice : la réponse est dedans. */
-.map-hint-circle {
-  fill: rgba(47, 109, 181, 0.08);
-  stroke: var(--hint-blue);
-  stroke-width: 2.2px;
-  stroke-dasharray: 7 6;
-  vector-effect: non-scaling-stroke;
+/* Trait en pointillé de mon clic jusqu'à la vraie position : il se dessine en 0,6 s. */
+.map-line {
   pointer-events: none;
-  animation: map-hint-appear 400ms ease-out;
 }
 
-@keyframes map-hint-appear {
+.map-line__dash {
+  stroke: var(--ink);
+  stroke-width: 2.2px;
+  stroke-dasharray: 6 5;
+  stroke-linecap: round;
+}
+
+.map-line__reveal {
+  stroke: #fff;
+  stroke-width: 12px;
+  stroke-dasharray: var(--line-length) var(--line-length);
+  stroke-dashoffset: 0;
+  animation: map-line-draw 600ms ease-out;
+}
+
+@keyframes map-line-draw {
   from {
+    stroke-dashoffset: var(--line-length);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.map-line__label {
+  font: 800 13px var(--font-body);
+  fill: var(--ink);
+  text-anchor: middle;
+  paint-order: stroke;
+  stroke: var(--paper-light);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+  animation: map-line-label 600ms ease-out;
+}
+
+@keyframes map-line-label {
+  0%,
+  60% {
     opacity: 0;
   }
   to {
@@ -316,7 +346,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .map-pin__halo,
-  .map-hint-circle {
+  .map-line__reveal,
+  .map-line__label {
     animation: none !important;
   }
 }

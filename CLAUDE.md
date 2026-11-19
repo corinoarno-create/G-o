@@ -94,10 +94,11 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 - On enregistre chaque réponse (horodatage, mode, justesse, distance, temps, indice). L'historique sert aux stats et pourra servir à recalibrer.
 
 ### 5.4 Choix d'implémentation (étape 3)
-- **FSRS-7** via `DefaultScheduler` de ts-fsrs 6, rétention visée 0,9, variation aléatoire des intervalles activée. Compétences V1 : `locate-country`, `name-country`, `locate-capital`, `name-capital`, `flag` ; clé de carte `<id>:<compétence>`.
+- **FSRS-7** via `DefaultScheduler` de ts-fsrs 6, rétention visée 0,9, variation aléatoire des intervalles activée. Compétences V1 : `locate-country`, `name-country`, `locate-capital`, `capital-country`, `name-capital`, `flag` ; clé de carte `<id>:<compétence>`.
 - **Niveaux de maîtrise** selon la stabilité FSRS : « acquis » à partir de 7 jours, « maîtrisé » à partir de 30 jours.
 - **Saisie** : accents, casse, ponctuation, « St »/« Ste », article ou « Îles » de tête facultatifs ; fautes tolérées selon la longueur (0 jusqu'à 4 lettres, puis 1, 2, 3). Si la saisie ressemble autant à une autre réponse connue, et lui ressemble vraiment (dans sa tolérance : « Niger » pour « Nigeria », mais pas « Lyon » pour « Lima »), c'est une confusion, donc fausse.
-- **Épingler un point** : rayon accepté = 0,08 × √(superficie du pays), entre 20 et 250 km ; jusqu'à 2,5 × ce rayon, c'est « presque ».
+- **Épingler un point** : rayon accepté = 0,12 × √(superficie du pays), entre 60 et 300 km (assoupli le 19/11/2026) ; jusqu'à 2,5 × ce rayon, c'est « presque ». Une fois la question finie, un **pointillé se dessine** de mon clic jusqu'à la vraie position, avec l'écart en km.
+- **Capitales, deux exercices** : « Capitale → pays » (je clique sur le pays : c'est l'appartenance qui compte) et « Placer la capitale » (au plus près, jugé à la distance).
 - **Temps** : médiane par appareil × façon de répondre (clic, saisie, choix), sur les 60 dernières réponses justes sans indice ; la vitesse n'est jugée qu'à partir de 5 mesures. En saisie, temps divisé par (8 + longueur) / 16.
 - **Consolidation** : un élément raté revient après 3 autres questions (ou tout de suite s'il est le dernier).
 
@@ -105,9 +106,9 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 - **Messages** : toujours positifs ; les noms de pays sont cités **sans article** (« Tu as touché : Venezuela »), les données ne disant pas « le », « la » ou « l' ».
 - **Sur téléphone**, le panneau de validation n'affiche jamais le nom du pays touché (« Ce pays ? ») : il donnerait la réponse.
 - **Couleurs** : pays demandé en doré, sélection en bleu, **bonne réponse toujours en vert**, erreur en rouge (plus d'orange).
-- **Plusieurs essais par question (retours d'Arno, 19/11/2026)** : une erreur ne donne pas la réponse ; on réessaie avec un indice qui se précise. Placer : cercle autour de la zone (centre décalé au hasard), puis cercle resserré ; la carte se cadre sur le cercle. Saisir : 1re lettre, puis 2 premières. Drapeaux : le drapeau raté disparaît. Réponse dévoilée (en vert, avec « Continuer ») après 3 essais (2 pour les drapeaux) ou tout de suite avec « Je ne sais pas ». Seule la 1re réponse compte pour FSRS ; une question ratée au 1er essai revient plus tard dans la manche. Le bouton « Indice » monte d'un niveau et note la réponse « Difficile » au mieux.
+- **Plusieurs essais par question (retours d'Arno, 19/11/2026)** : une erreur ne donne pas la réponse ; on réessaie avec un indice qui se précise. Placer : la carte zoome sur la sous-région (« Cherche du côté de : Caraïbes »), puis sur l'élément et ses 4 plus proches voisins ; pour une capitale à placer, le 2e indice montre son pays. *(Le cercle d'indice a été abandonné le 19/11/2026 : il ne rendait pas les petites îles plus faciles à toucher.)* Saisir : 1re lettre, puis 2 premières. Drapeaux : le drapeau raté disparaît. Réponse dévoilée (en vert, avec « Continuer ») après 3 essais (2 pour les drapeaux) ou tout de suite avec « Je ne sais pas ». Seule la 1re réponse compte pour FSRS ; une question ratée au 1er essai revient plus tard dans la manche. Le bouton « Indice » monte d'un niveau et note la réponse « Difficile » au mieux.
 - **Validation instantanée** : en saisie, la réponse est validée dès que le nom est exact (une saisie approchée attend Entrée) ; après une bonne réponse, on enchaîne aussitôt, un « ✓ » et le vert sur la carte s'effacent en 1,2 s.
-- **Petits pays** : loupe automatique (×4) quand un clic tombe à moins de 26 px de deux cercles de repère ou plus ; quand l'élément est montré (Nommer, Capitale de…, Pays → drapeau), la carte zoome dessus avec un peu de voisinage.
+- **Petits pays** : **clic tolérant** (un clic dans la mer à moins de 16 px, 24 px au doigt, d'un pays compte pour le plus proche) ; repères plus grands au doigt ; loupe automatique (×4) quand un clic tombe à moins de 26 px de deux cercles de repère ou plus ; quand l'élément est montré (Nommer, Capitale de…, Pays → drapeau), la carte zoome dessus avec un peu de voisinage.
 - **Choix des éléments** (en attendant le constructeur) : révisions dues d'abord, puis nouveautés, puis les autres, ordre mélangé.
 - La carte est cadrée dans l'espace libre entre la question et le panneau de réponse (`WorldMap.setInsets`).
 
@@ -127,7 +128,7 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 À l'ouverture, l'app me dit **ce que je peux travailler**, sur un ton positif :
 - « **Révisions du jour** : 34 éléments (≈ 6 min) » → un bouton lance la session ;
 - « **À découvrir** : 5 nouvelles villes du Mexique » ;
-- un **entretien rapide** : 10 pays, capitales et drapeaux tirés au hasard parmi les éléments dus ;
+- un **entretien rapide** : 10 questions d'**un seul exercice** (celui qui a le plus de révisions dues, sinon un exercice différent chaque jour), tirées d'abord parmi les éléments dus. Les **révisions du jour** sont regroupées par exercice, et l'exercice en cours est affiché ;
 - un **défi du jour** : un petit quiz thématique ;
 - un accès au constructeur de session.
 
@@ -177,7 +178,7 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 ## 11. Choix techniques (confirmés le 18/11/2026)
 
 - **Vite + TypeScript + Preact** (avec `@preact/signals` pour l'état partagé). Preact est léger (~4 Ko) et évite de réécrire un mini-framework pour les 5 à 6 écrans.
-- **Carte** : d3-geo + rendu **SVG** (Canvas seulement si le mobile rame), avec zoom/déplacement (d3-zoom). Projection adaptée à la zone : Natural Earth pour le Monde (plus large que l'écran en portrait), azimutale équivalente centrée pour les continents et sous-régions ; plus tard Conic Conformal pour la France et Albers USA pour les États-Unis. Pas de zoom au double-clic (deux clics = deux réponses). Les réglages (seuil des cercles de repère, zoom max…) sont dans `MAP_SETTINGS`.
+- **Carte** : d3-geo + rendu **SVG** (Canvas seulement si le mobile rame), avec zoom/déplacement (d3-zoom). Projection adaptée à la zone : **Patterson rectangulaire** pour le Monde, recadrée de 57° S à 84° N (l'Antarctique reste accessible en faisant défiler ; plus large que l'écran en portrait ; choisie le 19/11/2026 pour ne plus avoir de bords courbes), azimutale équivalente centrée pour les continents et sous-régions ; plus tard Conic Conformal pour la France et Albers USA pour les États-Unis. Pas de zoom au double-clic (deux clics = deux réponses). Les réglages (seuil des cercles de repère, zoom max…) sont dans `MAP_SETTINGS`.
 - **Données Monde** : `npm run data:download` (sources brutes dans `data/raw/`, ignoré par git) puis `npm run data:world`, qui produit `data/world/world.topo.json`, `data/world/countries.json`, `data/flags/` et le rapport de relecture `data/world/RAPPORT.md`. Les corrections manuelles vont dans `data/sources/overrides-monde.json`, jamais dans les fichiers générés.
 - **Frontières Monde** : Natural Earth 1:10m « map units », simplifiées île par île avec mapshaper (8 % des points, `explode` + `keep-shapes` pour ne perdre aucune île). Frontières « de facto », sauf la Crimée (→ Ukraine) et le Sahara occidental (territoire entier), qui suivent les frontières reconnues par l'ONU. Identifiants : code ISO alpha-2 en minuscules, `cyn` (Chypre du Nord) et `sol` (Somaliland).
 - **Déploiement** : GitHub Actions (`.github/workflows/deploy.yml`) construit et publie `dist/` à chaque push sur `main`. Le chemin de base vient de la variable `BASE_PATH` ; les URL de données passent par `assetUrl()` (`src/lib/assets.ts`).
@@ -213,6 +214,12 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 - [x] **7. Accueil** (le défi du jour reste en V3). *(`src/home/` : révisions du jour (durée estimée d'après mes temps, séries de 50), entretien rapide (10 questions mêlées), 2 suggestions de découverte dans des sous-régions différentes, composer une manche et favoris, progression, sauvegarde. Les manches peuvent mélanger les exercices : une question = un élément × un exercice, `src/game/questions.ts`.)*
 - [x] **Lot A (retours du 19/11)** : essais multiples et indices progressifs, validation instantanée, bonne réponse en vert, loupe sur les petits pays, zoom sur l'élément montré.
 - [x] **Lot B** : refonte « Carnet d'explorateur » (papier, aquarelle, titres manuscrits, tampon « Validé ! », accueil carnet de voyage avec carte colorée selon la maîtrise). *(Maquette validée : https://claude.ai/artifact/Eq39rDQAf1hBe498adcFCs)*
+- [ ] **Lot A2 (retours du 19/11, après la refonte)** :
+  - [x] Carte Monde rectangulaire (Patterson recadrée).
+  - [x] Petits pays : zoom progressif en guise d'indice (plus de cercle), clic tolérant dans la mer, repères plus grands au doigt.
+  - [x] Capitales : « Capitale → pays » et « Placer la capitale » séparés ; tolérance assouplie ; pointillé animé jusqu'à la vraie position.
+  - [x] Un exercice à la fois : entretien rapide sur un seul exercice, révisions regroupées par exercice.
+  - [ ] Découverte en 3 temps (observer, reconnaître en QCM, retrouver) par groupes de 5.
 - [ ] **Lot C** : page « Ma progression » avec graphiques (réponses par jour, temps médian, maîtrise par continent et compétence, points faibles).
 - [ ] **8. PWA** hors ligne, installation Android, finitions tactiles, page Crédits.
 

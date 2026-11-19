@@ -9,7 +9,8 @@ import { ENGINE_SETTINGS } from './settings.ts';
 export type Skill =
   | 'locate-country' // placer le pays sur la carte (Épingler)
   | 'name-country' // nommer le pays mis en évidence (Saisir)
-  | 'locate-capital' // placer la capitale sur la carte
+  | 'locate-capital' // placer la capitale sur la carte (au plus près)
+  | 'capital-country' // retrouver le pays d'une capitale (clic sur le pays)
   | 'name-capital' // donner la capitale du pays
   | 'flag'; // reconnaître le drapeau
 
@@ -17,6 +18,7 @@ export const SKILL_LABELS: Record<Skill, string> = {
   'locate-country': 'Placer le pays',
   'name-country': 'Nommer le pays',
   'locate-capital': 'Placer la capitale',
+  'capital-country': 'Capitale → pays',
   'name-capital': 'Donner la capitale',
   flag: 'Reconnaître le drapeau',
 };

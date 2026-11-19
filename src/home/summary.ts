@@ -4,9 +4,10 @@ import { CONTINENT_LABELS } from '../data/labels.ts';
 import type { ContinentId } from '../data/types.ts';
 import type { WorldData } from '../data/world.ts';
 import { median, type AnswerMode, type TimingStats } from '../engine/grading.ts';
-import { cardKey, masteryOf, type MasteryLevel, type Skill } from '../engine/srs.ts';
+import { cardKey, masteryOf, SKILL_LABELS, type MasteryLevel, type Skill } from '../engine/srs.ts';
 import { EXERCISES, type ExerciseId } from '../game/exercises.ts';
-import { dueQuestions, REVIEW_BATCH } from '../game/plans.ts';
+import { dueQuestions, quickExercise, REVIEW_BATCH } from '../game/plans.ts';
+import { EXERCISES_FOR_SKILL } from '../game/questions.ts';
 import type { Zone } from '../map/zones.ts';
 import type { CardRecord } from '../storage/schema.ts';
 
@@ -38,6 +39,8 @@ export interface HomeSummary {
   /** Part des cartes acquises ou maîtrisées, par continent (0 à 1). */
   continents: Array<{ id: ContinentId; label: string; share: number }>;
   discoveries: Discovery[];
+  /** Exercice de l'entretien rapide (un seul par entretien). */
+  quickExercise: ExerciseId;
 }
 
 const DISCOVERY_CATEGORIES: Array<{ label: string; exercise: ExerciseId }> = [
@@ -72,14 +75,8 @@ export function buildHomeSummary(
     .map((record) => record.card.dueAt.getTime());
 
   // Progrès : niveau de maîtrise de chaque carte possible (élément × compétence).
-  const skills: Skill[] = ['locate-country', 'name-country', 'locate-capital', 'name-capital', 'flag'];
-  const exerciseOf: Record<Skill, ExerciseId> = {
-    'locate-country': 'locate-country',
-    'name-country': 'name-country',
-    'locate-capital': 'locate-capital',
-    'name-capital': 'name-capital',
-    flag: 'flag-to-country',
-  };
+  const skills = Object.keys(SKILL_LABELS) as Skill[];
+  const exerciseOf = (skill: Skill): ExerciseId => EXERCISES_FOR_SKILL[skill][0]!;
   const progress = { new: 0, learning: 0, acquired: 0, mastered: 0, total: 0 };
   const rank: Record<MasteryLevel, number> = { new: 0, learning: 1, acquired: 2, mastered: 3 };
   const entityMastery = new Map<string, number>();
@@ -88,7 +85,7 @@ export function buildHomeSummary(
     let sum = 0;
     let count = 0;
     for (const skill of skills) {
-      if (!EXERCISES[exerciseOf[skill]].eligible(entity)) continue;
+      if (!EXERCISES[exerciseOf(skill)].eligible(entity)) continue;
       const record = cards.get(cardKey(entity.id, skill));
       const level = record ? masteryOf(record.card) : 'new';
       progress[level] += 1;
@@ -142,6 +139,7 @@ export function buildHomeSummary(
     entityMastery,
     continents,
     discoveries: discoveries.slice(0, 2),
+    quickExercise: quickExercise(world, cards, now),
   };
 }
 

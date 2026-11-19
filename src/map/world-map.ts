@@ -4,15 +4,20 @@
 // le zoom ne fait que transformer le groupe qui les contient (rapide). Les bordures gardent la même épaisseur
 // à l'écran (vector-effect). Les cercles de repère des micro-États sont dans un calque à part, non zoomé,
 // repositionnés à chaque mouvement pour garder une taille constante et rester faciles à toucher.
-import { geoAzimuthalEqualArea, geoCircle, geoGraticule10, geoNaturalEarth1, geoPath, type GeoPath, type GeoProjection } from 'd3-geo';
+import { geoAzimuthalEqualArea, geoBounds, geoGraticule10, geoPath, type GeoPath, type GeoProjection } from 'd3-geo';
 import { pointer, select, type Selection } from 'd3-selection';
 import 'd3-transition';
 import { zoom, zoomIdentity, type D3ZoomEvent, type ZoomBehavior, type ZoomTransform } from 'd3-zoom';
 import type { WorldData } from '../data/world.ts';
+import { distanceKm, distanceToShapeKm } from '../engine/geo.ts';
+import { geoPatterson, WORLD_CROP_POINTS, WORLD_RATIO } from './patterson.ts';
 import { fitTransform, needsMarker, unionBounds, type Bounds } from './view-math.ts';
 import { boxCenter, boxSamplePoints, type Zone } from './zones.ts';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
+
+/** Écran tactile (doigt) : repères plus grands et clic plus tolérant. */
+const COARSE = typeof matchMedia === 'function' && matchMedia('(pointer: coarse)').matches;
 
 /** Réglages de la carte (en pixels d'écran). */
 export const MAP_SETTINGS = {
@@ -23,9 +28,14 @@ export const MAP_SETTINGS = {
   /** Sous cette surface à l'écran (px²), une entité reçoit un cercle de repère. */
   markerAreaThreshold: 45,
   /** Rayon visible du cercle de repère. */
-  markerRadius: 5,
+  markerRadius: COARSE ? 6 : 5,
   /** Rayon cliquable autour du cercle (plus large, pour le doigt). */
-  markerHitRadius: 14,
+  markerHitRadius: COARSE ? 20 : 14,
+  /**
+   * Clic tolérant : un clic dans la mer à moins de tant de pixels d'un pays compte comme un clic sur ce pays
+   * (le plus proche). Les petites îles deviennent touchables sans viser au pixel près.
+   */
+  snapRadius: COARSE ? 24 : 16,
   /** Distance (px) au-delà de laquelle un appui devient un glisser, et non un clic. */
   clickDistance: 5,
   /** Durée des animations de cadrage (ms). */
@@ -38,12 +48,12 @@ export const MAP_SETTINGS = {
   magnifyFactor: 4,
 };
 
-const KM_PER_DEGREE = 111.195;
-
-/** Cercle d'indice (la réponse est dedans). */
-export interface MapCircle {
-  center: [number, number];
-  radiusKm: number;
+/** Trait en pointillé entre deux points (mon clic → la vraie position), qui se dessine à l'apparition. */
+export interface MapLine {
+  from: [number, number];
+  to: [number, number];
+  /** Texte affiché au milieu (« 82 km »). */
+  label?: string;
 }
 
 export type HighlightKind = 'selected' | 'target' | 'correct' | 'wrong';
@@ -77,7 +87,7 @@ export interface MapFill {
 
 export interface WorldMapOptions {
   onPick?: (pick: MapPick) => void;
-  /** Active la loupe sur les groupes de petits pays (en jeu). */
+  /** Active la loupe sur les groupes de petits pays et le clic tolérant (en jeu). */
   magnify?: boolean;
   /** Carte non interactive (illustration) : ni zoom, ni clic. */
   interactive?: boolean;
@@ -91,7 +101,7 @@ export class WorldMap {
   private readonly pinLayer: SVGGElement;
   private readonly zoomBehavior: ZoomBehavior<SVGSVGElement, unknown>;
   private readonly resizeObserver: ResizeObserver;
-  private projection: GeoProjection = geoNaturalEarth1();
+  private projection: GeoProjection = geoPatterson();
   private path: GeoPath = geoPath(this.projection);
   private transform: ZoomTransform = zoomIdentity;
   private width = 0;
@@ -104,8 +114,10 @@ export class WorldMap {
   /** Couleurs imposées par entité (carte de conquête : couleur selon la maîtrise). */
   private fills = new Map<string, MapFill>();
   private pins: Array<{ pin: MapPin; element: SVGGElement; base: [number, number] | null }> = [];
-  private circles: MapCircle[] = [];
-  private circleLayer: SVGGElement | null = null;
+  private lines: Array<{ line: MapLine; element: SVGGElement }> = [];
+  private lineCount = 0;
+  /** Emprise (lon/lat) de chaque entité, pour ne mesurer la distance qu'aux pays proches d'un clic. */
+  private geoBoxes: Map<string, [[number, number], [number, number]]> | null = null;
   private resizeFrame = 0;
 
   constructor(
@@ -133,6 +145,7 @@ export class WorldMap {
         this.viewport.setAttribute('transform', event.transform.toString());
         this.updateMarkers();
         this.updatePins();
+        this.updateLines();
       });
     // Pas de zoom au double-clic : en jeu, deux clics rapides doivent rester deux réponses possibles.
     if (options.interactive === false) {
@@ -198,16 +211,24 @@ export class WorldMap {
     this.projectPins();
   }
 
-  /** Affiche des cercles d'indice (ils suivent le zoom). Une liste vide les efface. */
-  setCircles(circles: MapCircle[]): void {
-    this.circles = circles;
-    this.drawCircles();
-  }
-
-  /** Cadre la carte sur un cercle d'indice. */
-  flyToCircle(circle: MapCircle, duration = MAP_SETTINGS.flyDuration): void {
-    const shape = geoCircle().center(circle.center).radius(circle.radiusKm / KM_PER_DEGREE)();
-    this.fitBounds(this.path.bounds(shape) as Bounds, duration);
+  /**
+   * Affiche des traits en pointillé (taille constante à l'écran), qui se dessinent du premier point
+   * vers le second. Une liste vide les efface.
+   */
+  setLines(lines: MapLine[]): void {
+    for (const { element } of this.lines) element.remove();
+    this.lines = lines.map((line) => {
+      const id = `map-line-mask-${(this.lineCount += 1)}`;
+      const element = document.createElementNS(SVG_NS, 'g');
+      element.setAttribute('class', 'map-line');
+      // Le masque révèle progressivement le pointillé (animation CSS sur un trait plein).
+      element.innerHTML = `<mask id="${id}" maskUnits="userSpaceOnUse" x="-10000" y="-10000" width="20000" height="20000"><line class="map-line__reveal" /></mask><line class="map-line__dash" mask="url(#${id})" /><text class="map-line__label"></text>`;
+      if (line.label) element.querySelector('text')!.textContent = line.label;
+      // Sous les repères : le point d'arrivée reste bien visible.
+      this.pinLayer.insertBefore(element, this.pinLayer.firstChild);
+      return { line, element };
+    });
+    this.updateLines();
   }
 
   /** Zoome en douceur sur des entités (leurs terres principales) et, si besoin, sur des points. */
@@ -256,6 +277,7 @@ export class WorldMap {
     cancelAnimationFrame(this.resizeFrame);
     this.resizeObserver.disconnect();
     this.svg.on('.zoom', null).on('click', null);
+    this.svg.interrupt();
     this.element.remove();
   }
 
@@ -266,8 +288,7 @@ export class WorldMap {
    * dans une bande minuscule : on le dessine plus large que l'écran (jusqu'à 2,2 fois) et on le fait glisser.
    */
   private worldWidth(): number {
-    const naturalEarthRatio = 1.9; // largeur / hauteur du planisphère Natural Earth
-    return Math.max(this.width, Math.min(2.2 * this.width, naturalEarthRatio * this.height));
+    return Math.max(this.width, Math.min(2.2 * this.width, WORLD_RATIO * this.height));
   }
 
   private configureProjection(zone: Zone): void {
@@ -280,14 +301,15 @@ export class WorldMap {
       [right, bottom],
     ];
     const box = zone.view.box;
-    if (zone.view.projection === 'natural-earth' || !box) {
+    if (zone.view.projection === 'world' || !box) {
+      // Planisphère rectangulaire (Patterson), recadré sans l'Antarctique.
       const offset = (this.worldWidth() - this.width) / 2;
-      this.projection = geoNaturalEarth1().fitExtent(
+      this.projection = geoPatterson().fitExtent(
         [
           [extent[0][0] - offset, extent[0][1]],
           [extent[1][0] + offset, extent[1][1]],
         ],
-        { type: 'Sphere' },
+        { type: 'MultiPoint', coordinates: WORLD_CROP_POINTS },
       );
     } else {
       const [lon, lat] = boxCenter(box);
@@ -346,18 +368,16 @@ export class WorldMap {
     // Traits par-dessus les surfaces : frontières et côtes, sans les lignes de découpe des données.
     addPath(this.path(this.world.coastlines), 'map-coastline');
     addPath(this.path(this.world.borders), 'map-borders');
-    this.circleLayer = document.createElementNS(SVG_NS, 'g');
-    this.circleLayer.setAttribute('class', 'map-circles');
-    fragment.appendChild(this.circleLayer);
     this.viewport.replaceChildren(fragment);
-    this.drawCircles();
-    this.element.classList.toggle('is-world', this.zone.view.projection === 'natural-earth');
+    this.element.classList.toggle('is-world', this.zone.view.projection === 'world');
     for (const id of this.shapes.keys()) this.applyClasses(id, active);
 
     // Zoom : au moins le cadrage de la zone ; on peut sortir un peu du cadre pour voir les voisins.
-    // Pour le Monde, on reste dans le planisphère, et on peut dézoomer pour le voir en entier sur un téléphone.
-    const world = this.zone.view.projection === 'natural-earth';
+    // Pour le Monde, on reste dans le planisphère (on peut descendre jusqu'à l'Antarctique),
+    // et on peut dézoomer pour le voir en entier sur un téléphone.
+    const world = this.zone.view.projection === 'world';
     const offset = (this.worldWidth() - width) / 2;
+    const sphere = this.path.bounds({ type: 'Sphere' });
     this.zoomBehavior
       .extent([
         [0, 0],
@@ -367,8 +387,8 @@ export class WorldMap {
       .translateExtent(
         world
           ? [
-              [-offset, 0],
-              [width + offset, height],
+              [-offset, Math.min(0, sphere[0][1])],
+              [width + offset, Math.max(height, sphere[1][1] + MAP_SETTINGS.padding)],
             ]
           : [
               [-width, -height],
@@ -379,22 +399,34 @@ export class WorldMap {
     this.projectPins();
   }
 
-  private drawCircles(): void {
-    if (!this.circleLayer) return;
-    this.circleLayer.replaceChildren();
-    for (const circle of this.circles) {
-      const d = this.path(geoCircle().center(circle.center).radius(circle.radiusKm / KM_PER_DEGREE)());
-      if (!d) continue;
-      const element = document.createElementNS(SVG_NS, 'path');
-      element.setAttribute('d', d);
-      element.setAttribute('class', 'map-hint-circle');
-      this.circleLayer.appendChild(element);
-    }
-  }
-
   private projectPins(): void {
     for (const entry of this.pins) entry.base = this.projection(entry.pin.lonLat);
     this.updatePins();
+    this.updateLines();
+  }
+
+  private updateLines(): void {
+    for (const { line, element } of this.lines) {
+      const from = this.projection(line.from);
+      const to = this.projection(line.to);
+      element.style.display = from && to ? '' : 'none';
+      if (!from || !to) continue;
+      const [x1, y1] = this.transform.apply(from);
+      const [x2, y2] = this.transform.apply(to);
+      const length = Math.hypot(x2 - x1, y2 - y1);
+      for (const segment of element.querySelectorAll('line')) {
+        segment.setAttribute('x1', x1.toFixed(1));
+        segment.setAttribute('y1', y1.toFixed(1));
+        segment.setAttribute('x2', x2.toFixed(1));
+        segment.setAttribute('y2', y2.toFixed(1));
+      }
+      element.style.setProperty('--line-length', `${Math.ceil(length) + 2}`);
+      const label = element.querySelector('text')!;
+      label.setAttribute('x', ((x1 + x2) / 2).toFixed(1));
+      label.setAttribute('y', ((y1 + y2) / 2 - 8).toFixed(1));
+      // Trop court pour une étiquette lisible : on la cache (le message donne déjà l'écart).
+      label.style.display = length > 60 ? '' : 'none';
+    }
   }
 
   private updatePins(): void {
@@ -498,9 +530,40 @@ export class WorldMap {
       this.svg.transition().duration(450).call(this.zoomBehavior.scaleBy, MAP_SETTINGS.magnifyFactor, [px, py]);
       return;
     }
-    this.options.onPick?.({
-      entityId: onMarker ? this.nearestMarker(px, py) : (target?.getAttribute('data-id') ?? null),
-      lonLat: lonLat ? [lonLat[0], lonLat[1]] : null,
-    });
+    let entityId = onMarker ? this.nearestMarker(px, py) : (target?.getAttribute('data-id') ?? null);
+    // Clic dans la mer tout près d'un pays (petite île manquée de peu) : on le compte pour ce pays.
+    if (!entityId && this.options.magnify && lonLat) entityId = this.snapToNearest(px, py, [lonLat[0], lonLat[1]]);
+    this.options.onPick?.({ entityId, lonLat: lonLat ? [lonLat[0], lonLat[1]] : null });
+  }
+
+  /** Pays de la zone le plus proche d'un clic dans la mer, s'il est à moins de `snapRadius` pixels. */
+  private snapToNearest(px: number, py: number, lonLat: [number, number]): string | null {
+    // Distance au sol correspondant au rayon, à cet endroit et à ce zoom.
+    const edge = this.projection.invert?.(this.transform.invert([px + MAP_SETTINGS.snapRadius, py]));
+    if (!edge) return null;
+    const radiusKm = distanceKm(lonLat, [edge[0], edge[1]]);
+    const margin = (radiusKm / 111.195) * 1.5; // en degrés, avec de la marge
+    if (!this.geoBoxes) {
+      this.geoBoxes = new Map([...this.world.shapes].map(([id, shape]) => [id, geoBounds(shape) as [[number, number], [number, number]]]));
+    }
+    const lonMargin = margin / Math.max(Math.cos((lonLat[1] * Math.PI) / 180), 0.2);
+    let best: string | null = null;
+    let bestDistance = radiusKm;
+    for (const id of this.zone?.entityIds ?? []) {
+      const box = this.geoBoxes.get(id);
+      const shape = this.world.shapes.get(id);
+      if (!box || !shape) continue;
+      const [[west, south], [east, north]] = box;
+      const inLat = lonLat[1] >= south - margin && lonLat[1] <= north + margin;
+      // Emprise qui traverse l'antiméridien (west > east) : on ne filtre pas en longitude.
+      const inLon = west > east || (lonLat[0] >= west - lonMargin && lonLat[0] <= east + lonMargin);
+      if (!inLat || !inLon) continue;
+      const distance = distanceToShapeKm(shape, lonLat[0], lonLat[1]);
+      if (distance <= bestDistance) {
+        best = id;
+        bestDistance = distance;
+      }
+    }
+    return best;
   }
 }

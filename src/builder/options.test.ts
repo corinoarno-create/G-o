@@ -4,7 +4,7 @@ import { CATEGORIES, defaultFavoriteName, DEFAULT_CHOICE, modeOf, sanitizeChoice
 describe('catégories et modes', () => {
   it('associent chaque mode à un exercice', () => {
     const exercises = CATEGORIES.flatMap((category) => category.modes.map((mode) => mode.exercise));
-    expect(new Set(exercises).size).toBe(6);
+    expect(new Set(exercises).size).toBe(7); // tous les exercices, chacun une fois
   });
 
   it('retombent sur le premier mode de la catégorie si le mode n’y existe pas', () => {

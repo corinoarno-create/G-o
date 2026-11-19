@@ -1,12 +1,15 @@
 // Exercices de la V1 (§ 4) : ce qu'on demande, comment on répond, quelle compétence FSRS est travaillée.
+import { SUBREGION_LABELS } from '../data/labels.ts';
 import type { CountryEntity } from '../data/types.ts';
 import type { WorldData } from '../data/world.ts';
+import { distanceKm } from '../engine/geo.ts';
 import type { AnswerMode } from '../engine/grading.ts';
 import type { Skill } from '../engine/srs.ts';
 
 export type ExerciseId =
   | 'locate-country' // Épingler : un nom de pays, je clique sur la carte
-  | 'locate-capital' // Épingler : un nom de capitale, je clique où elle se trouve
+  | 'locate-capital' // Épingler : un nom de capitale, je la place au plus près (distance)
+  | 'capital-to-country' // Capitales : un nom de capitale, je clique sur son pays
   | 'name-country' // Saisir : un pays est mis en évidence, je tape son nom
   | 'name-capital' // Capitales : un pays, je tape sa capitale
   | 'flag-to-country' // Drapeaux : un drapeau, je tape le pays ou je clique dessus sur la carte
@@ -40,8 +43,16 @@ export const EXERCISES: Record<ExerciseId, Exercise> = {
   'locate-capital': {
     id: 'locate-capital',
     label: 'Placer les capitales',
-    description: 'Une capitale s’affiche : clique où elle se trouve.',
+    description: 'Une capitale s’affiche : place-la au plus près, on mesure l’écart en km.',
     skill: 'locate-capital',
+    answerMode: 'pin',
+    eligible: (entity) => entity.capital !== null,
+  },
+  'capital-to-country': {
+    id: 'capital-to-country',
+    label: 'Capitale → pays',
+    description: 'Une capitale s’affiche : clique sur son pays.',
+    skill: 'capital-country',
     answerMode: 'pin',
     eligible: (entity) => entity.capital !== null,
   },
@@ -118,15 +129,12 @@ export function rivalAnswers(world: WorldData, kind: 'countries' | 'capitals', e
 /** Nombre de lettres d'un nom (sans espaces, tirets ni apostrophes). */
 export const letterCount = (name: string) => name.replace(/[\s\-'’]/g, '').length;
 
-/** Cercle d'indice sur la carte : la réponse est dedans, mais pas forcément au centre. */
-export interface HintCircle {
-  center: [number, number];
-  radiusKm: number;
-}
-
 export interface Hint {
   text: string;
-  circle?: HintCircle;
+  /** Entités sur lesquelles la carte se cadre : l'indice rend aussi les petites îles cliquables. */
+  focus?: string[];
+  /** Entité dont on montre le contour (le pays où chercher une capitale). */
+  outline?: string;
   /** Pour le choix de drapeaux : propositions retirées par l'indice. */
   eliminate?: string[];
 }
@@ -137,19 +145,22 @@ export const MAX_TRIES: Record<AnswerMode, number> = { pin: 3, type: 3, choice: 
 /** Niveaux d'indice : 1 après la première erreur (ou un clic sur « Indice »), 2 après la deuxième. */
 export type HintLevel = 1 | 2;
 
-const KM_PER_DEGREE = 111.195;
+/** Nombre de voisins montrés avec l'élément au 2e niveau d'indice. */
+const HINT_NEIGHBOURS = 4;
 
 /**
- * Cercle d'indice autour d'un point : assez grand au niveau 1, resserré au niveau 2.
- * Son centre est décalé au hasard pour que la réponse ne soit pas pile au milieu.
+ * Indice de lieu : la carte se cadre d'abord sur la sous-région (Caraïbes, Polynésie…),
+ * puis sur l'élément et ses plus proches voisins. Jamais sur l'élément seul, pour ne pas donner la réponse.
  */
-export function hintCircle(target: [number, number], targetRadiusKm: number, level: HintLevel, rng: () => number = Math.random): HintCircle {
-  const radiusKm = level === 1 ? Math.max(4 * targetRadiusKm, 900) : Math.max(1.6 * targetRadiusKm, 300);
-  const shift = rng() * 0.45 * Math.max(radiusKm - targetRadiusKm, 0);
-  const angle = rng() * 2 * Math.PI;
-  const lat = target[1] + (shift * Math.cos(angle)) / KM_PER_DEGREE;
-  const lon = target[0] + (shift * Math.sin(angle)) / (KM_PER_DEGREE * Math.max(Math.cos((target[1] * Math.PI) / 180), 0.2));
-  return { center: [((lon + 540) % 360) - 180, Math.max(-89, Math.min(89, lat))], radiusKm };
+export function placeFocus(world: WorldData, entity: CountryEntity, level: HintLevel): string[] {
+  if (level === 1) return world.countries.filter((other) => other.subregion === entity.subregion).map((other) => other.id);
+  const neighbours = world.countries
+    .filter((other) => other.id !== entity.id && other.id !== 'aq')
+    .map((other) => ({ id: other.id, distance: distanceKm(entity.anchor, other.anchor) }))
+    .sort((a, b) => a.distance - b.distance)
+    .slice(0, HINT_NEIGHBOURS)
+    .map((other) => other.id);
+  return [entity.id, ...neighbours];
 }
 
 /** « Commence par « Ou… » (11 lettres). » */
@@ -159,7 +170,7 @@ export function letterHint(name: string, level: HintLevel): string {
 
 /**
  * Indice progressif (V1) : il aide sans donner la réponse. Les indices rédigés viendront en V2.
- * - Placer : un cercle autour de la zone, qui se resserre ;
+ * - Placer : la carte zoome sur la sous-région, puis sur les voisins (pour une capitale : sur son pays) ;
  * - Saisir : la première lettre, puis les deux premières ;
  * - Choix de drapeaux : un mauvais drapeau en moins à chaque niveau.
  */
@@ -167,19 +178,20 @@ export function hintFor(
   exercise: ExerciseId,
   entity: CountryEntity,
   level: HintLevel,
-  options: { choices?: string[]; eliminated?: string[]; rng?: () => number } = {},
+  options: { world?: WorldData; choices?: string[]; eliminated?: string[] } = {},
 ): Hint {
-  const rng = options.rng ?? Math.random;
-  const circleText = level === 1 ? 'C’est dans le cercle.' : 'Le cercle se resserre…';
+  const region = SUBREGION_LABELS[entity.subregion];
+  const focus = (lvl: HintLevel) => (options.world ? placeFocus(options.world, entity, lvl) : [entity.id]);
   switch (exercise) {
-    case 'locate-country': {
-      const radius = Math.sqrt(entity.areaKm2 / Math.PI);
-      return { text: circleText, circle: hintCircle(entity.anchor, radius, level, rng) };
-    }
-    case 'locate-capital': {
-      const capital = entity.capital!;
-      return { text: circleText, circle: hintCircle([capital.lon, capital.lat], 0, level, rng) };
-    }
+    case 'locate-country':
+    case 'capital-to-country':
+      return level === 1
+        ? { text: `Cherche du côté de : ${region}.`, focus: focus(1) }
+        : { text: 'Encore plus près : c’est l’un de ces pays.', focus: focus(2) };
+    case 'locate-capital':
+      return level === 1
+        ? { text: `Cherche du côté de : ${region}.`, focus: focus(1) }
+        : { text: `Elle est dans ce ${entityNoun(entity)} : ${entity.name}.`, focus: [entity.id], outline: entity.id };
     case 'name-country':
     case 'flag-to-country':
       return { text: letterHint(entity.name, level) };

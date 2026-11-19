@@ -83,7 +83,7 @@ export function evaluateAnswer(
       correct: result.correct,
       mode: 'pin',
       expected: entity.name,
-      answerLabel: entity.name,
+      answerLabel: exercise === 'capital-to-country' && entity.capital ? `${entity.name} (capitale : ${entity.capital.name})` : entity.name,
       message,
       closeness: result.closeness,
       distanceKm: result.distanceKm,

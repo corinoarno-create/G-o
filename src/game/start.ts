@@ -7,7 +7,7 @@ import { getAllCards, getSetting } from '../storage/db.ts';
 import { progressDb } from '../storage/progress-db.ts';
 import type { CardRecord } from '../storage/schema.ts';
 import { EXERCISES, type ExerciseId } from './exercises.ts';
-import { planBuilder, planQuick, planReview, requestTitle, type GameRequest } from './plans.ts';
+import { planBuilder, planQuick, planReview, quickExercise, requestTitle, type GameRequest } from './plans.ts';
 import type { QuestionRef } from './questions.ts';
 import { AnswerRecorder } from './recorder.ts';
 
@@ -61,9 +61,12 @@ export async function prepareGame(world: WorldData, worldZone: Zone, request: Ga
     case 'review':
       questions = planReview(world, recorder.cards, now);
       break;
-    case 'quick':
-      questions = planQuick(world, recorder.cards, now);
+    case 'quick': {
+      // Un seul exercice par entretien : on le fixe pour l'afficher dans le titre.
+      request = { kind: 'quick', exercise: request.exercise ?? quickExercise(world, recorder.cards, now) };
+      questions = planQuick(world, recorder.cards, now, Math.random, request.exercise);
       break;
+    }
     case 'questions':
       zone = request.zone;
       questions = request.questions;

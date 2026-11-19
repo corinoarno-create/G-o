@@ -57,8 +57,8 @@ describe('buildHomeSummary', () => {
   it('colore chaque pays selon sa maîtrise, et résume chaque continent', () => {
     const cards = new Map([card('fr', 'flag', '2026-12-20T00:00:00Z', 45), card('fr', 'locate-country', '2026-12-20T00:00:00Z', 45)]);
     const { entityMastery, continents } = buildHomeSummary(world, zones, cards, new Map(), now);
-    // France : 2 compétences maîtrisées sur 5 → 2 × 3 / (5 × 3).
-    expect(entityMastery.get('fr')).toBeCloseTo(0.4);
+    // France : 2 compétences maîtrisées sur 6 → 2 × 3 / (6 × 3).
+    expect(entityMastery.get('fr')).toBeCloseTo(1 / 3);
     expect(entityMastery.get('de')).toBe(0);
     const europe = continents.find((c) => c.id === 'europe')!;
     expect(europe.share).toBeGreaterThan(0);

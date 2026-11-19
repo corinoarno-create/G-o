@@ -31,7 +31,8 @@ export const CATEGORIES: Category[] = [
     id: 'capitals',
     label: 'Capitales',
     modes: [
-      { id: 'pin', label: 'Épingler', exercise: 'locate-capital' },
+      { id: 'country', label: 'Quel pays ?', exercise: 'capital-to-country' },
+      { id: 'pin', label: 'Placer', exercise: 'locate-capital' },
       { id: 'type', label: 'Saisir', exercise: 'name-capital' },
     ],
   },

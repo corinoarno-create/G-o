@@ -17,9 +17,9 @@ describe('distanceKm', () => {
 
 describe('pinToleranceKm', () => {
   it('dépend de la taille du pays, dans des bornes raisonnables', () => {
-    expect(pinToleranceKm(551_695)).toBeCloseTo(59.4, 0); // France métropolitaine
-    expect(pinToleranceKm(2)).toBe(20); // Monaco : minimum
-    expect(pinToleranceKm(17_000_000)).toBe(250); // Russie : maximum
+    expect(pinToleranceKm(551_695)).toBeCloseTo(89.1, 0); // France métropolitaine
+    expect(pinToleranceKm(2)).toBe(60); // Monaco : minimum
+    expect(pinToleranceKm(17_000_000)).toBe(300); // Russie : maximum
   });
 });
 

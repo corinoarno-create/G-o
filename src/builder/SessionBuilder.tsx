@@ -34,7 +34,7 @@ interface Props {
 
 /** Message quand un type de contenu ne propose rien, toujours sur un ton positif. */
 const EMPTY_MESSAGES: Record<ContentType, string> = {
-  due: 'Rien à réviser ici pour l’instant 🎉',
+  due: 'Rien à réviser ici pour l’instant, tout est à jour !',
   new: 'Tu as déjà tout découvert ici.',
   weak: 'Pas encore de points faibles : joue d’abord quelques manches.',
   mix: 'Rien à demander ici pour cet exercice.',

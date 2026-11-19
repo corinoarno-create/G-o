@@ -2,7 +2,7 @@
 //
 // Déroulé d'une question :
 // - bonne réponse → validée tout de suite (en saisie, dès que le nom est juste) et on enchaîne ;
-// - erreur → on réessaie avec un indice qui se précise (cercle sur la carte, lettres, drapeau retiré) ;
+// - erreur → on réessaie avec un indice qui se précise (zoom sur la région puis les voisins, lettres, drapeau retiré) ;
 // - après le dernier essai, ou sur « Je ne sais pas » → la réponse s'affiche en vert, on clique « Continuer ».
 // Une question ratée au premier essai revient plus tard dans la manche (boucle de consolidation),
 // et seule la toute première réponse à un élément met à jour la mémoire (FSRS).
@@ -20,7 +20,7 @@ import {
 import type { MasteryLevel } from '../engine/srs.ts';
 import { suggest } from '../engine/text-match.ts';
 import { detectDevice } from '../lib/device.ts';
-import type { HighlightKind, MapCircle, MapInsets, MapPick, MapPin, WorldMap } from '../map/world-map.ts';
+import type { HighlightKind, MapInsets, MapLine, MapPick, MapPin, WorldMap } from '../map/world-map.ts';
 import { WorldMapView } from '../map/WorldMapView.tsx';
 import { putSetting } from '../storage/db.ts';
 import { progressDb } from '../storage/progress-db.ts';
@@ -45,6 +45,11 @@ const SUCCESS_FLASH_MS = 1200;
 
 /** Exercices où l'élément demandé est montré sur la carte (on peut donc zoomer dessus sans rien dévoiler). */
 const SHOWS_TARGET = new Set(['name-country', 'name-capital', 'country-to-flag']);
+
+/** Exercices sur les capitales : la bonne capitale est pointée sur la carte une fois la réponse donnée. */
+const CAPITAL_EXERCISES = new Set(['locate-capital', 'capital-to-country', 'name-capital']);
+
+const formatKm = (km: number) => `${Math.round(km).toLocaleString('fr-FR')} km`;
 
 interface Props {
   world: WorldData;
@@ -86,7 +91,14 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
   const [pending, setPending] = useState<MapPick | null>(null);
   const [typed, setTyped] = useState('');
   // Retour d'une bonne réponse, affiché pendant que la question suivante commence.
-  const [success, setSuccess] = useState<{ key: number; text: string; entityId: string; pin: [number, number] | null } | null>(null);
+  const [success, setSuccess] = useState<{
+    key: number;
+    text: string;
+    entityId: string;
+    pin: [number, number] | null;
+    /** Placer une capitale : pointillé de mon clic jusqu'à la capitale. */
+    line: MapLine | null;
+  } | null>(null);
   const [autocomplete, setAutocomplete] = useState(game.autocomplete);
 
   const log = useRef<SessionLogEntry[]>([]);
@@ -125,6 +137,8 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
   const exercise = EXERCISES[question?.exercise ?? 'locate-country'];
   const entity = question ? world.byId.get(question.entityId) : undefined;
   const maxTries = MAX_TRIES[exercise.answerMode];
+  // Manche qui enchaîne plusieurs exercices (révisions du jour) : on affiche l'exercice en cours.
+  const mixed = useMemo(() => new Set(game.questions.map((q) => q.exercise)).size > 1, [game]);
 
   // Propositions de drapeaux : fixées par question, pour qu'un nouvel essai montre les mêmes.
   const flagPool = useMemo(() => world.countries.filter(hasOwnFlag), [world]);
@@ -211,13 +225,13 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
   /** Monte l'indice au niveau donné (il ne redescend jamais). */
   const raiseHint = (level: HintLevel) => {
     if (!entity || hintLevel >= level) return;
-    const next = hintFor(exercise.id, entity, level, { choices, eliminated });
+    const next = hintFor(exercise.id, entity, level, { world, choices, eliminated });
     setHintLevel(level);
     setHint(next);
     if (next.eliminate?.length) setEliminated((list) => [...list, ...next.eliminate!]);
-    // Le cercle sert aussi à rendre les petites îles cliquables : on cadre la carte dessus.
-    if (next.circle) {
-      mapRef.current?.flyToCircle(next.circle, 600);
+    // L'indice de lieu sert aussi à rendre les petites îles cliquables : la carte zoome sur la région.
+    if (next.focus?.length) {
+      mapRef.current?.flyTo(next.focus, 600, [], 160);
       flew.current = true;
     }
   };
@@ -254,10 +268,12 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
       // Validation instantanée : on enchaîne tout de suite, le « ✓ » s'affiche par-dessus.
       const next = resolve(tries === 0);
       const capitalPin =
-        (exercise.id === 'locate-capital' || exercise.id === 'name-capital') && entity.capital
-          ? ([entity.capital.lon, entity.capital.lat] as [number, number])
+        CAPITAL_EXERCISES.has(exercise.id) && entity.capital ? ([entity.capital.lon, entity.capital.lat] as [number, number]) : null;
+      const line =
+        exercise.id === 'locate-capital' && click && capitalPin && evaluation.distanceKm !== undefined
+          ? { from: click, to: capitalPin, label: formatKm(evaluation.distanceKm) }
           : null;
-      setSuccess({ key: Date.now(), text: evaluation.message, entityId: entity.id, pin: capitalPin });
+      setSuccess({ key: Date.now(), text: evaluation.message, entityId: entity.id, pin: capitalPin, line });
       setConsolidation(next.state);
       return;
     }
@@ -346,12 +362,14 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
       return map;
     }
     if (SHOWS_TARGET.has(exercise.id)) map.set(entity.id, 'target');
+    // 2e indice d'une capitale à placer : son pays est montré.
+    if (hint?.outline) map.set(hint.outline, 'target');
     if (wrongMark?.entityId && wrongMark.entityId !== entity.id && exercise.id !== 'country-to-flag') {
       map.set(wrongMark.entityId, 'wrong');
     }
     if (pending?.entityId && exercise.id !== 'locate-capital') map.set(pending.entityId, 'selected');
     return map;
-  }, [entity, exercise.id, reveal, pending, wrongMark, success]);
+  }, [entity, exercise.id, reveal, pending, wrongMark, success, hint]);
 
   const pins = useMemo<MapPin[]>(() => {
     const list: MapPin[] = [];
@@ -359,7 +377,7 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
     const capital = entity?.capital ? ([entity.capital.lon, entity.capital.lat] as [number, number]) : null;
     if (reveal) {
       if (exercise.id === 'locate-capital' && reveal.click) list.push({ lonLat: reveal.click, kind: 'wrong' });
-      if (capital && (exercise.id === 'locate-capital' || exercise.id === 'name-capital')) list.push({ lonLat: capital, kind: 'correct' });
+      if (capital && CAPITAL_EXERCISES.has(exercise.id)) list.push({ lonLat: capital, kind: 'correct' });
       return list;
     }
     if (exercise.id === 'locate-capital') {
@@ -369,7 +387,17 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
     return list;
   }, [entity, exercise.id, reveal, pending, wrongMark, success]);
 
-  const circles = useMemo<MapCircle[]>(() => (hint?.circle && !reveal ? [hint.circle] : []), [hint, reveal]);
+  // Placer une capitale : un pointillé se dessine de mon clic jusqu'à la vraie position (jamais avant la fin
+  // de la question, sinon il donnerait la réponse).
+  const lines = useMemo<MapLine[]>(() => {
+    if (success?.line) return [success.line];
+    const capital = entity?.capital;
+    if (reveal && exercise.id === 'locate-capital' && reveal.click && capital) {
+      const distance = reveal.evaluation.distanceKm;
+      return [{ from: reveal.click, to: [capital.lon, capital.lat], label: distance !== undefined ? formatKm(distance) : undefined }];
+    }
+    return [];
+  }, [success, reveal, entity, exercise.id]);
 
   const suggestions = useMemo(() => {
     if (!autocomplete || exercise.answerMode !== 'type' || reveal) return [];
@@ -418,7 +446,7 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
           zone={zone}
           highlights={highlights}
           pins={pins}
-          circles={circles}
+          lines={lines}
           magnify
           insets={insets}
           onPick={onPick}
@@ -429,6 +457,11 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
 
         <section class="game__prompt" aria-live="polite" ref={promptRef}>
           <PushPin />
+          {mixed && (
+            <p class="game__step" key={exercise.id}>
+              {exercise.label}
+            </p>
+          )}
           <Prompt
             exerciseId={exercise.id}
             entityName={entity.name}
@@ -609,6 +642,13 @@ function Prompt(props: { exerciseId: string; entityName: string; capitalName: st
       return (
         <>
           <p class="game__ask">Où est la capitale…</p>
+          <h2 class="game__subject">{props.capitalName}</h2>
+        </>
+      );
+    case 'capital-to-country':
+      return (
+        <>
+          <p class="game__ask">Dans quel pays est…</p>
           <h2 class="game__subject">{props.capitalName}</h2>
         </>
       );

@@ -42,11 +42,12 @@ export const ENGINE_SETTINGS = {
   pin: {
     /**
      * Rayon accepté (km) = facteur × √(superficie du pays en km²), borné entre min et max.
-     * Ex. : France ≈ 0,08 × 741 ≈ 59 km ; Monaco → 20 km (minimum) ; Russie → 250 km (maximum).
+     * Ex. : France ≈ 0,12 × 741 ≈ 89 km ; Belgique, Monaco → 60 km (minimum) ; Russie → 300 km (maximum).
+     * (Assoupli le 19/11/2026 : 20 km au minimum, c'était trop strict à l'échelle d'un planisphère.)
      */
-    toleranceFactor: 0.08,
-    minToleranceKm: 20,
-    maxToleranceKm: 250,
+    toleranceFactor: 0.12,
+    minToleranceKm: 60,
+    maxToleranceKm: 300,
     /** Jusqu'à ce multiple de la tolérance, la réponse est fausse mais « presque » (message encourageant). */
     nearFactor: 2.5,
   },

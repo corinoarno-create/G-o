@@ -37,7 +37,7 @@ export function EndScreen({ world, title, summary, onReplayMissed, onRestart, on
   const answerOf = ({ exercise, entityId }: QuestionRef) => {
     const entity = world.byId.get(entityId);
     if (!entity) return entityId;
-    if (exercise === 'name-capital' || exercise === 'locate-capital') return `${entity.capital?.name ?? '—'} (${entity.name})`;
+    if (exercise === 'name-capital' || exercise === 'locate-capital' || exercise === 'capital-to-country') return `${entity.capital?.name ?? '—'} (${entity.name})`;
     if (exercise === 'flag-to-country' || exercise === 'country-to-flag') return `${entity.name} (drapeau)`;
     return entity.name;
   };
