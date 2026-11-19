@@ -156,6 +156,24 @@ export interface LineSeries {
   values: Array<number | null>;
 }
 
+/**
+ * Étiquettes en bout de courbe (au dernier point mesuré), écartées verticalement
+ * quand des courbes finissent au même niveau, pour ne jamais se chevaucher.
+ */
+function endLabels(series: LineSeries[], x: (i: number) => number, y: (v: number) => number, minGap = 14) {
+  const labels = series.flatMap((s) => {
+    const last = s.values.map((v, i) => (v === null ? -1 : i)).reduce((a, b) => Math.max(a, b), -1);
+    return last < 0 ? [] : [{ id: s.id, text: s.label, x: x(last) + 8, y: y(s.values[last]!) }];
+  });
+  labels.sort((a, b) => a.y - b.y);
+  for (let i = 1; i < labels.length; i++) {
+    const previous = labels[i - 1]!;
+    // Deux étiquettes proches à l'horizontale et à la verticale : on descend la seconde.
+    if (Math.abs(labels[i]!.x - previous.x) < 60 && labels[i]!.y - previous.y < minGap) labels[i]!.y = previous.y + minGap;
+  }
+  return labels;
+}
+
 /** Courbes semaine par semaine (une seule échelle verticale). Les semaines sans mesure laissent un trou. */
 export function LineChart({
   labels,
@@ -208,7 +226,6 @@ export function LineChart({
                 } else current += `${current ? 'L' : 'M'}${x(i).toFixed(1)},${y(v).toFixed(1)}`;
               });
               if (current) segments.push(current);
-              const lastIndex = s.values.map((v, i) => (v === null ? -1 : i)).reduce((a, b) => Math.max(a, b), -1);
               return (
                 <g key={s.id}>
                   {segments.map((d, i) => (
@@ -223,14 +240,15 @@ export function LineChart({
                       </g>
                     ),
                   )}
-                  {series.length > 1 && lastIndex >= 0 && (
-                    <text class="chart-direct" x={x(lastIndex) + 8} y={y(s.values[lastIndex]!) + 4}>
-                      {s.label}
-                    </text>
-                  )}
                 </g>
               );
             })}
+            {series.length > 1 &&
+              endLabels(series, x, y).map((label) => (
+                <text key={label.id} class="chart-direct" x={label.x} y={label.y + 4}>
+                  {label.text}
+                </text>
+              ))}
             <line class="chart-baseline" x1={left} x2={left + plotWidth} y1={y(0)} y2={y(0)} />
           </svg>
         );

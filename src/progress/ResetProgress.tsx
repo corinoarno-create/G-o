@@ -66,7 +66,7 @@ export function ResetProgress({ zones, onReset }: Props) {
     setPending(null);
     setMessage(
       `C’est fait : ${done.cards} carte${done.cards > 1 ? 's' : ''} mémoire remise${done.cards > 1 ? 's' : ''} à zéro. ` +
-        'Ces éléments t’attendent dans « À découvrir ». Bonne exploration !',
+        'Ces éléments sont de nouveau « nouveaux » : à toi de les redécouvrir !',
     );
     onReset();
   };
