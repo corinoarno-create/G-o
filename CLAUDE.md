@@ -96,17 +96,18 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 ### 5.4 Choix d'implémentation (étape 3)
 - **FSRS-7** via `DefaultScheduler` de ts-fsrs 6, rétention visée 0,9, variation aléatoire des intervalles activée. Compétences V1 : `locate-country`, `name-country`, `locate-capital`, `name-capital`, `flag` ; clé de carte `<id>:<compétence>`.
 - **Niveaux de maîtrise** selon la stabilité FSRS : « acquis » à partir de 7 jours, « maîtrisé » à partir de 30 jours.
-- **Saisie** : accents, casse, ponctuation, « St »/« Ste », article ou « Îles » de tête facultatifs ; fautes tolérées selon la longueur (0 jusqu'à 4 lettres, puis 1, 2, 3). Si la saisie ressemble autant à une autre réponse connue (« Niger » pour « Nigeria »), c'est une confusion, donc fausse.
+- **Saisie** : accents, casse, ponctuation, « St »/« Ste », article ou « Îles » de tête facultatifs ; fautes tolérées selon la longueur (0 jusqu'à 4 lettres, puis 1, 2, 3). Si la saisie ressemble autant à une autre réponse connue, et lui ressemble vraiment (dans sa tolérance : « Niger » pour « Nigeria », mais pas « Lyon » pour « Lima »), c'est une confusion, donc fausse.
 - **Épingler un point** : rayon accepté = 0,08 × √(superficie du pays), entre 20 et 250 km ; jusqu'à 2,5 × ce rayon, c'est « presque ».
 - **Temps** : médiane par appareil × façon de répondre (clic, saisie, choix), sur les 60 dernières réponses justes sans indice ; la vitesse n'est jugée qu'à partir de 5 mesures. En saisie, temps divisé par (8 + longueur) / 16.
 - **Consolidation** : un élément raté revient après 3 autres questions (ou tout de suite s'il est le dernier).
 
 ### 5.5 Choix d'implémentation (étape 5)
-- **Messages** : toujours positifs ; les noms de pays sont cités **sans article** (« Tu as touché : Venezuela »), les données ne disant pas « le », « la » ou « l' ». Après une erreur, une ligne « Réponse : … » donne la bonne réponse et la carte zoome dessus.
+- **Messages** : toujours positifs ; les noms de pays sont cités **sans article** (« Tu as touché : Venezuela »), les données ne disant pas « le », « la » ou « l' ».
 - **Sur téléphone**, le panneau de validation n'affiche jamais le nom du pays touché (« Ce pays ? ») : il donnerait la réponse.
-- **Couleurs** : sélection en bleu, bonne réponse en vert, bonne réponse après une erreur en orange, erreur en rouge.
-- **Indice générique (V1)** : région pour placer un pays, nom du pays pour placer une capitale, première lettre et nombre de lettres pour la saisie, deux drapeaux retirés pour le choix. Il note la réponse « Difficile » au mieux.
-- **Bonne réponse** : on passe seul à la suivante après 1,1 s ; **erreur** : on attend « Continuer ».
+- **Couleurs** : pays demandé en doré, sélection en bleu, **bonne réponse toujours en vert**, erreur en rouge (plus d'orange).
+- **Plusieurs essais par question (retours d'Arno, 19/11/2026)** : une erreur ne donne pas la réponse ; on réessaie avec un indice qui se précise. Placer : cercle autour de la zone (centre décalé au hasard), puis cercle resserré ; la carte se cadre sur le cercle. Saisir : 1re lettre, puis 2 premières. Drapeaux : le drapeau raté disparaît. Réponse dévoilée (en vert, avec « Continuer ») après 3 essais (2 pour les drapeaux) ou tout de suite avec « Je ne sais pas ». Seule la 1re réponse compte pour FSRS ; une question ratée au 1er essai revient plus tard dans la manche. Le bouton « Indice » monte d'un niveau et note la réponse « Difficile » au mieux.
+- **Validation instantanée** : en saisie, la réponse est validée dès que le nom est exact (une saisie approchée attend Entrée) ; après une bonne réponse, on enchaîne aussitôt, un « ✓ » et le vert sur la carte s'effacent en 1,2 s.
+- **Petits pays** : loupe automatique (×4) quand un clic tombe à moins de 26 px de deux cercles de repère ou plus ; quand l'élément est montré (Nommer, Capitale de…, Pays → drapeau), la carte zoome dessus avec un peu de voisinage.
 - **Choix des éléments** (en attendant le constructeur) : révisions dues d'abord, puis nouveautés, puis les autres, ordre mélangé.
 - La carte est cadrée dans l'espace libre entre la question et le panneau de réponse (`WorldMap.setInsets`).
 
@@ -189,7 +190,7 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 ## 12. Feuille de route
 
 ### V1 — jouable rapidement (priorité absolue)
-- [ ] Données Monde : pays, territoires, capitales, drapeaux, population.
+- [x] Données Monde : pays, territoires, capitales, drapeaux, population.
 - [x] Carte Monde zoomable, PC et mobile.
 - [x] Modes : Épingler (pays, capitales), Saisir (pays, capitales), Drapeaux.
 - [x] Constructeur de session (zone, catégorie, mode, nombre).
@@ -209,6 +210,9 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 - [x] **5. Modes** : Épingler, Saisir, Drapeaux + fin de session. *(`src/game/` : 6 exercices — placer pays / capitales, nommer pays, donner capitales, drapeau → pays, pays → drapeau parmi 4 voisins ; indice générique et « Je ne sais pas » ; lanceur provisoire « Jouer » dans le bac à sable.)*
 - [x] **6. Constructeur de session** + favoris. *(`src/builder/` : zone (Monde, continent, sous-région), catégorie (pays, capitales, drapeaux), mode, contenu (mélange, à réviser, nouveaux, points faibles) avec compteurs, nombre ; favoris nommés ; derniers réglages retenus. Pas de plafond de nouveautés pour les pays du Monde, déjà connus.)*
 - [x] **7. Accueil** (le défi du jour reste en V3). *(`src/home/` : révisions du jour (durée estimée d'après mes temps, séries de 50), entretien rapide (10 questions mêlées), 2 suggestions de découverte dans des sous-régions différentes, composer une manche et favoris, progression, sauvegarde. Les manches peuvent mélanger les exercices : une question = un élément × un exercice, `src/game/questions.ts`.)*
+- [x] **Lot A (retours du 19/11)** : essais multiples et indices progressifs, validation instantanée, bonne réponse en vert, loupe sur les petits pays, zoom sur l'élément montré.
+- [ ] **Lot B** : refonte « Carnet d'explorateur » (papier, aquarelle, titres manuscrits, tampon « Validé ! », accueil carnet de voyage avec carte colorée selon la maîtrise) — maquette d'abord.
+- [ ] **Lot C** : page « Ma progression » avec graphiques (réponses par jour, temps médian, maîtrise par continent et compétence, points faibles).
 - [ ] **8. PWA** hors ligne, installation Android, finitions tactiles, page Crédits.
 
 #### Décisions prises
@@ -229,6 +233,7 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 - [ ] Défis du jour thématiques.
 - [ ] Statistiques détaillées (courbes, points faibles, précision moyenne par continent).
 - [ ] Synchronisation PC ↔ téléphone.
+- [ ] **Mode Battle** (idée d'Arno, 19/11/2026) : défier quelqu'un par un simple lien, sans serveur ; il joue la même série de questions et on compare score et temps. *(Après les 2 semaines d'utilisation de la V1.)*
 - [ ] *(Ajouter ici les nouvelles idées au fil de l'eau plutôt que de les coder tout de suite.)*
 
 ## 13. Méthode de travail avec Claude Code
