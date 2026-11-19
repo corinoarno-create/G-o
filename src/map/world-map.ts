@@ -16,6 +16,7 @@ import type { MultiLineString, MultiPolygon, Polygon } from 'geojson';
 import type { WorldData } from '../data/world.ts';
 import { distanceKm, distanceToShapeKm } from '../engine/geo.ts';
 import { chunkLines, chunkPolygons } from './chunks.ts';
+import { FrameZoom, type ScreenRect } from './frame-zoom.ts';
 import { geoPatterson, WORLD_CROP_POINTS, WORLD_RATIO } from './patterson.ts';
 import { fitTransform, needsMarker, relativeAffine, unionBounds, type Affine, type Bounds } from './view-math.ts';
 import { boxCenter, boxSamplePoints, type Zone } from './zones.ts';
@@ -185,6 +186,7 @@ export class WorldMap {
   /** Emprise (lon/lat) de chaque entité, pour ne mesurer la distance qu'aux pays proches d'un clic. */
   private geoBoxes: Map<string, [[number, number], [number, number]]> | null = null;
   private resizeFrame = 0;
+  private frameZoom: FrameZoom | null = null;
 
   constructor(
     private readonly container: HTMLElement,
@@ -234,6 +236,17 @@ export class WorldMap {
       this.svg.on('click', (event: MouseEvent) => this.handleClick(event));
       // Un appui long sur la carte (téléphone) ne doit pas ouvrir de menu.
       this.svg.on('contextmenu', (event: MouseEvent) => event.preventDefault());
+      // PC : Ctrl ou Espace maintenu au-dessus de la carte montre un rectangle à cadrer.
+      this.frameZoom = new FrameZoom(
+        this.element,
+        () => ({
+          left: this.insets.left,
+          top: this.insets.top,
+          width: Math.max(this.width - this.insets.left - this.insets.right, 80),
+          height: Math.max(this.height - this.insets.top - this.insets.bottom, 80),
+        }),
+        (rect) => this.zoomToScreenRect(rect),
+      );
     }
 
     // Le navigateur prévient aussi au premier affichage : on ne redessine (et ne recadre) que si la taille
@@ -379,12 +392,12 @@ export class WorldMap {
   }
 
   /** Cadre un rectangle (coordonnées de la carte avant zoom) dans l'espace libre de l'écran. */
-  private fitBounds(bounds: Bounds, duration: number, minSize = 40): void {
+  private fitBounds(bounds: Bounds, duration: number, minSize = 40, padding = MAP_SETTINGS.padding * 2): void {
     // On cadre dans l'espace libre entre la question et la réponse.
     const freeHeight = Math.max(this.height - this.insets.top - this.insets.bottom, 80);
     const freeWidth = Math.max(this.width - this.insets.left - this.insets.right, 80);
     const { k, x, y } = fitTransform(bounds, freeWidth, freeHeight, {
-      padding: MAP_SETTINGS.padding * 2,
+      padding,
       maxScale: MAP_SETTINGS.maxZoom,
       minSize,
     });
@@ -392,6 +405,21 @@ export class WorldMap {
       .transition()
       .duration(duration)
       .call(this.zoomBehavior.transform, zoomIdentity.translate(x + this.insets.left, y + this.insets.top).scale(k));
+  }
+
+  /** Cadre un rectangle dessiné à l'écran (zoom au rectangle). */
+  private zoomToScreenRect(rect: ScreenRect): void {
+    const [x0, y0] = this.transform.invert([rect.x, rect.y]);
+    const [x1, y1] = this.transform.invert([rect.x + rect.width, rect.y + rect.height]);
+    this.fitBounds(
+      [
+        [x0, y0],
+        [x1, y1],
+      ],
+      500,
+      1,
+      0,
+    );
   }
 
   zoomBy(factor: number): void {
@@ -407,6 +435,7 @@ export class WorldMap {
     cancelAnimationFrame(this.resizeFrame);
     clearTimeout(this.settleTimer);
     this.resizeObserver.disconnect();
+    this.frameZoom?.destroy();
     this.svg.on('.zoom', null).on('click', null).on('contextmenu', null);
     this.svg.interrupt();
     this.element.remove();
@@ -710,6 +739,11 @@ export class WorldMap {
   }
 
   private handleClick(event: MouseEvent): void {
+    // Clic pendant le zoom au rectangle : on cadre le rectangle, ce n'est pas une réponse.
+    if (this.frameZoom?.active) {
+      this.frameZoom.confirm();
+      return;
+    }
     const target = event.target instanceof Element ? event.target.closest('[data-id]') : null;
     const [px, py] = pointer(event, this.element);
     const [x, y] = this.transform.invert([px, py]);

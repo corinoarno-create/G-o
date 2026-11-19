@@ -71,6 +71,43 @@
   pointer-events: none;
 }
 
+/* Zoom au rectangle (PC, Ctrl ou Espace maintenu) : le reste de la carte s'assombrit un peu. */
+.world-map.is-framing {
+  cursor: crosshair;
+}
+
+.map-frame-zoom {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+  border: 2px dashed var(--ink);
+  border-radius: 4px;
+  background: rgb(255 255 255 / 0.12);
+  box-shadow: 0 0 0 9999px rgb(60 45 30 / 0.14);
+  pointer-events: none;
+  will-change: transform;
+}
+
+.map-frame-zoom.is-visible {
+  display: block;
+}
+
+.map-frame-zoom__hint {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-top: 6px;
+  padding: 1px 8px;
+  border: 1px solid var(--ink-soft);
+  border-radius: 999px;
+  background: var(--paper-light);
+  color: var(--ink);
+  font: 700 0.78rem var(--font-body);
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+
 .map-overlay .map-marker {
   pointer-events: auto;
 }

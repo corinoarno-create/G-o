@@ -81,7 +81,7 @@ export function WorldMapView({
       <div class="map-canvas" ref={containerRef} />
       {interactive && (
       <div class="map-controls" role="group" aria-label="Zoom">
-        <button type="button" onClick={() => mapRef.current?.zoomBy(2)} aria-label="Zoomer" title="Zoomer">
+        <button type="button" onClick={() => mapRef.current?.zoomBy(2)} aria-label="Zoomer" title="Zoomer (sur PC : maintiens Ctrl ou Espace au-dessus de la carte pour choisir la zone)">
           +
         </button>
         <button type="button" onClick={() => mapRef.current?.zoomBy(0.5)} aria-label="Dézoomer" title="Dézoomer">
