@@ -332,6 +332,13 @@
   border-top: 1.5px dashed var(--paper-edge);
 }
 
+.home__footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
 .home__footer p {
   flex: 1 1 260px;
   margin: 0;

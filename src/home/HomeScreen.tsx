@@ -10,6 +10,7 @@ import { detectDevice } from '../lib/device.ts';
 import type { MapFill } from '../map/world-map.ts';
 import { WorldMapView } from '../map/WorldMapView.tsx';
 import type { Zone } from '../map/zones.ts';
+import { installApp, usePwa } from '../pwa/pwa.ts';
 import { BackupButtons } from '../sandbox/BackupButtons.tsx';
 import { getFavorites, getTiming } from '../storage/db.ts';
 import { progressDb } from '../storage/progress-db.ts';
@@ -26,6 +27,8 @@ interface Props {
   onExplore: (withBuilder: boolean) => void;
   /** Ouvre la page « Ma progression ». */
   onProgress: () => void;
+  /** Ouvre la page « Crédits ». */
+  onCredits: () => void;
 }
 
 function greeting(now: Date): string {
@@ -43,7 +46,8 @@ const WATERCOLOR: Record<string, string> = {
   antarctica: 'var(--wc-antarctica)',
 };
 
-export function HomeScreen({ world, zones, onPlay, onExplore, onProgress }: Props) {
+export function HomeScreen({ world, zones, onPlay, onExplore, onProgress, onCredits }: Props) {
+  const { installable } = usePwa();
   const [summary, setSummary] = useState<HomeSummary | null>(null);
   const [favorites, setFavorites] = useState<FavoriteRecord[]>([]);
   const now = new Date();
@@ -248,6 +252,16 @@ export function HomeScreen({ world, zones, onPlay, onExplore, onProgress }: Prop
         <footer class="home__footer">
           <p>Ton carnet reste dans ce navigateur : exporte-le de temps en temps pour le garder ou le passer sur un autre appareil.</p>
           <BackupButtons />
+          <div class="home__footer-links">
+            {installable && (
+              <button type="button" class="btn btn--teal" onClick={() => void installApp()}>
+                Installer l’app
+              </button>
+            )}
+            <button type="button" class="btn-ghost" onClick={onCredits}>
+              Crédits
+            </button>
+          </div>
         </footer>
       </main>
 

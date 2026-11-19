@@ -41,6 +41,8 @@
   /* La carte gère elle-même glisser et pincer : le navigateur ne doit ni défiler ni zoomer la page. */
   touch-action: none;
   user-select: none;
+  /* Pas de menu contextuel sur un appui long (Android, iOS). */
+  -webkit-touch-callout: none;
   -webkit-user-select: none;
   -webkit-tap-highlight-color: transparent;
   cursor: grab;

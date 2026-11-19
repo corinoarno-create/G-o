@@ -168,6 +168,8 @@ export class WorldMap {
     } else {
       this.svg.call(this.zoomBehavior).on('dblclick.zoom', null);
       this.svg.on('click', (event: MouseEvent) => this.handleClick(event));
+      // Un appui long sur la carte (téléphone) ne doit pas ouvrir de menu.
+      this.svg.on('contextmenu', (event: MouseEvent) => event.preventDefault());
     }
 
     // Le navigateur prévient aussi au premier affichage : on ne redessine (et ne recadre) que si la taille
@@ -316,7 +318,7 @@ export class WorldMap {
   destroy(): void {
     cancelAnimationFrame(this.resizeFrame);
     this.resizeObserver.disconnect();
-    this.svg.on('.zoom', null).on('click', null);
+    this.svg.on('.zoom', null).on('click', null).on('contextmenu', null);
     this.svg.interrupt();
     this.element.remove();
   }

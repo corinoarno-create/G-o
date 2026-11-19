@@ -2,6 +2,8 @@
 .game {
   position: fixed;
   inset: 0;
+  /* Pas de « tirer pour actualiser » ni de rebond pendant qu'on déplace la carte. */
+  overscroll-behavior: none;
   display: flex;
   flex-direction: column;
   background: var(--paper);

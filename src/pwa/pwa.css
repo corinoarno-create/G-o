@@ -1,0 +1,46 @@
+/* Bandeau d'information (mise à jour, hors ligne), posé en bas de l'écran comme une note de carnet. */
+.pwa-notice {
+  position: fixed;
+  left: 50%;
+  bottom: calc(16px + env(safe-area-inset-bottom));
+  z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 14px;
+  width: min(460px, calc(100vw - 24px));
+  padding: 12px 16px;
+  transform: translateX(-50%);
+  animation: pwa-notice-in 300ms ease-out;
+}
+
+.pwa-notice p {
+  margin: 0;
+  font-weight: 700;
+}
+
+.pwa-notice__actions {
+  display: flex;
+  gap: 8px;
+}
+
+@keyframes pwa-notice-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 12px);
+  }
+}
+
+/* Sur téléphone, l'accueil a une barre d'onglets en bas : le bandeau passe au-dessus. */
+@media (max-width: 860px) {
+  .pwa-notice {
+    bottom: calc(84px + env(safe-area-inset-bottom));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pwa-notice {
+    animation: none;
+  }
+}

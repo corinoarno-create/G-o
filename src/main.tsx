@@ -9,9 +9,13 @@ import '@fontsource/nunito/latin-800.css';
 // Le thème global d'abord : les styles des écrans, chargés ensuite, peuvent le préciser.
 import './styles.css';
 import { App } from './app';
+import { startPwa } from './pwa/pwa.ts';
 
 // Point d'entrée : on monte l'application dans <div id="app">.
 const root = document.getElementById('app');
 if (root) {
   render(<App />, root);
 }
+
+// Service worker (hors ligne, mises à jour) et invitation à installer l'app.
+startPwa();

@@ -87,6 +87,19 @@ select {
   font-family: var(--font-body);
 }
 
+/* Finitions tactiles : pas de flash gris au toucher, pas d'attente du double-tap (zoom) sur les commandes. */
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a,
+input,
+select,
+label {
+  touch-action: manipulation;
+}
+
 /* Écriture manuscrite */
 .hand {
   font-family: var(--font-hand);

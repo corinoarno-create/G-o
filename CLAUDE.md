@@ -199,7 +199,7 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 - [x] Boucle de consolidation façon Seterra.
 - [x] FSRS avec note automatique (justesse, distance, temps).
 - [x] Accueil « ce que je peux travailler ».
-- [ ] PWA installable, export/import de la progression.
+- [x] PWA installable, export/import de la progression.
 
 **Règle : une fois la V1 terminée, je l'utilise pendant au moins 2 semaines avant d'ajouter des fonctionnalités.**
 
@@ -221,7 +221,9 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
   - [x] Un exercice à la fois : entretien rapide sur un seul exercice, révisions regroupées par exercice.
   - [x] Découverte en 3 temps par groupes de 5 (`src/discovery/`) : **Observer** (la carte montre chaque élément, son nom reste écrit), **Reconnaître** (QCM à 4 propositions, prises d'abord dans le groupe ; une erreur fait revenir l'élément), **Retrouver** (la vraie manche). Seule la dernière étape compte pour FSRS. Lancée **uniquement** par la carte « À découvrir » de l'accueil ; en fin de manche, « Découvrir 5 de plus ». Le constructeur et « Mes itinéraires » restent le jeu normal, même avec le contenu « Nouveaux » (décision d'Arno, 19/11/2026).
 - [x] **Lot C** : page « Ma progression » (`src/progress/`, onglet « Progression » sur téléphone, bouton sur PC) : chiffres clés, activité des 30 derniers jours (premières réponses justes / à revoir), révisions prévues sur 7 jours, maîtrise par compétence et par continent, temps médian par semaine et par façon de répondre, écart médian des capitales placées, 10 points faibles avec « Travailler ces points faibles ». Graphiques SVG faits main, couleurs validées pour le daltonisme (bleu-vert `#008f86`, terracotta `#c8623b`, bleu `#2f6db5`), infobulles au survol. **Repartir de zéro** (demande d'Arno, 19/11/2026) : effacer toute la progression, ou une zone (continent ou sous-région) pour une catégorie (pays, capitales, drapeaux ou tout) ; cartes mémoire et historique de la zone effacés (les éléments redeviennent « nouveaux »), temps de référence effacés seulement pour un effacement complet ; réglages et favoris gardés ; confirmation avec le nombre d'éléments et proposition d'exporter d'abord.
-- [ ] **8. PWA** hors ligne, installation Android, finitions tactiles, page Crédits.
+- [x] **8. PWA** hors ligne, installation Android, finitions tactiles, page Crédits. *(`vite-plugin-pwa` 2 : manifeste (icônes boussole sur papier dans `public/icons/`, dont une « maskable »), service worker Workbox qui met tout en cache (app, carte, données, drapeaux, polices woff2 : 273 fichiers, 2,9 Mo). Mises à jour en mode « prompt » : bandeau « Mettre à jour » affiché seulement hors des manches (`src/pwa/`). Bouton « Installer l'app » dans le pied de l'accueil quand le navigateur le propose. Page Crédits (`src/credits/`), liée depuis l'accueil. Finitions tactiles : pas de flash au toucher, pas d'attente du double-tap, pas de rebond ni de menu d'appui long sur la carte.)*
+
+**V1 terminée le 19/11/2026 : place aux 2 semaines d'utilisation (jusqu'au 03/12/2026). Les nouvelles idées vont dans la feuille de route, sans être codées.**
 
 #### Décisions prises
 - **DROM** (Guyane, Réunion, Martinique, Guadeloupe, Mayotte) : entités **à part** en mode Monde, comme dans la norme ISO.
