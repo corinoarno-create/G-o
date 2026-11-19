@@ -1,6 +1,6 @@
 // Zoom au rectangle (PC) : en maintenant Ctrl ou Espace au-dessus de la carte, un rectangle suit la souris ;
 // en relâchant la touche (ou en cliquant), la carte cadre ce rectangle. La molette change sa taille.
-// Échap, une autre touche ou la sortie de la souris annulent.
+// Échap, une autre touche ou la sortie de la souris annulent. Sans rectangle, Échap ramène à la vue d'ensemble.
 
 /** Espace libre de la carte à l'écran (entre la question et le panneau de réponse). */
 export interface FreeArea {
@@ -59,6 +59,8 @@ export class FrameZoom {
     private readonly element: HTMLElement,
     private readonly getFreeArea: () => FreeArea,
     private readonly onFrame: (rect: ScreenRect) => void,
+    /** Retour à la vue d'ensemble (Échap). */
+    private readonly onReset: () => void,
   ) {
     this.box = element.appendChild(document.createElement('div'));
     this.box.className = 'map-frame-zoom';
@@ -129,6 +131,10 @@ export class FrameZoom {
       }
       // Une autre touche (Échap, raccourci Ctrl+…) : on abandonne.
       this.cancel();
+      return;
+    }
+    if (event.key === 'Escape' && !event.repeat) {
+      this.onReset();
       return;
     }
     if (!key || !this.mouse || event.repeat) return;

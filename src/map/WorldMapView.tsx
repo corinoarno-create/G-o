@@ -1,7 +1,16 @@
 // Composant Preact autour du moteur de carte (WorldMap), avec les boutons de zoom.
 import { useEffect, useRef } from 'preact/hooks';
 import type { WorldData } from '../data/world.ts';
-import { WorldMap, type HighlightKind, type MapFill, type MapInsets, type MapLabel, type MapLine, type MapPick, type MapPin } from './world-map.ts';
+import {
+  WorldMap,
+  type HighlightKind,
+  type MapFill,
+  type MapInsets,
+  type MapLabel,
+  type MapLine,
+  type MapPick,
+  type MapPin,
+} from './world-map.ts';
 import type { Zone } from './zones.ts';
 import './map.css';
 
@@ -23,6 +32,8 @@ interface Props {
   /** Place prise par les éléments posés sur la carte (voir WorldMap.setInsets). */
   insets?: MapInsets;
   onPick?: (pick: MapPick) => void;
+  /** Seuls ces cercles de repère sont affichés (par défaut : tous). */
+  markerIds?: string[] | null;
   /** Quand cette valeur change, la carte zoome sur ces entités. */
   focusIds?: string[] | null;
   /** Donne accès au moteur de carte pour les commandes ponctuelles (cadrer, recentrer). */
@@ -42,6 +53,7 @@ export function WorldMapView({
   insets,
   onPick,
   focusIds,
+  markerIds,
   onReady,
 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -72,6 +84,7 @@ export function WorldMapView({
   useEffect(() => mapRef.current?.setLines(lines ?? []), [world, zone, lines]);
   useEffect(() => mapRef.current?.setLabels(labels ?? []), [world, zone, labels]);
   useEffect(() => mapRef.current?.setFills(fills ?? new Map()), [world, zone, fills]);
+  useEffect(() => mapRef.current?.setMarkerFilter(markerIds ?? null), [world, zone, markerIds?.join(',')]);
   useEffect(() => {
     if (focusIds?.length) mapRef.current?.flyTo(focusIds, undefined, [], 800);
   }, [focusIds]);
@@ -80,17 +93,27 @@ export function WorldMapView({
     <div class="map-frame">
       <div class="map-canvas" ref={containerRef} />
       {interactive && (
-      <div class="map-controls" role="group" aria-label="Zoom">
-        <button type="button" onClick={() => mapRef.current?.zoomBy(2)} aria-label="Zoomer" title="Zoomer (sur PC : maintiens Ctrl ou Espace au-dessus de la carte pour choisir la zone)">
-          +
-        </button>
-        <button type="button" onClick={() => mapRef.current?.zoomBy(0.5)} aria-label="Dézoomer" title="Dézoomer">
-          −
-        </button>
-        <button type="button" onClick={() => mapRef.current?.resetView()} aria-label="Recentrer" title="Recentrer">
-          ⟲
-        </button>
-      </div>
+        <div class="map-controls" role="group" aria-label="Zoom">
+          <button
+            type="button"
+            onClick={() => mapRef.current?.zoomBy(2)}
+            aria-label="Zoomer"
+            title="Zoomer (sur PC : maintiens Ctrl ou Espace au-dessus de la carte pour choisir la zone)"
+          >
+            +
+          </button>
+          <button type="button" onClick={() => mapRef.current?.zoomBy(0.5)} aria-label="Dézoomer" title="Dézoomer">
+            −
+          </button>
+          <button
+            type="button"
+            onClick={() => mapRef.current?.resetView()}
+            aria-label="Recentrer"
+            title="Recentrer (sur PC : Échap ou clic droit)"
+          >
+            ⟲
+          </button>
+        </div>
       )}
     </div>
   );

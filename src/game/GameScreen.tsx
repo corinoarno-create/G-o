@@ -9,14 +9,7 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { flagUrl } from '../data/flags.ts';
 import type { WorldData } from '../data/world.ts';
-import {
-  createConsolidation,
-  currentItem,
-  isFinished,
-  progress,
-  submitAnswer,
-  type ConsolidationState,
-} from '../engine/consolidation.ts';
+import { createConsolidation, currentItem, isFinished, progress, submitAnswer, type ConsolidationState } from '../engine/consolidation.ts';
 import type { MasteryLevel } from '../engine/srs.ts';
 import { suggest } from '../engine/text-match.ts';
 import { detectDevice } from '../lib/device.ts';
@@ -24,7 +17,7 @@ import type { HighlightKind, MapInsets, MapLine, MapPick, MapPin, WorldMap } fro
 import { WorldMapView } from '../map/WorldMapView.tsx';
 import { putSetting } from '../storage/db.ts';
 import { progressDb } from '../storage/progress-db.ts';
-import { entityNoun, EXERCISES, hasOwnFlag, hintFor, MAX_TRIES, type Hint, type HintLevel } from './exercises.ts';
+import { entityNoun, EXERCISES, hasOwnFlag, hintFor, MAX_TRIES, showFrame, type Hint, type HintLevel } from './exercises.ts';
 import { parseQuestionKey, questionKey } from './questions.ts';
 import {
   buildFlagChoices,
@@ -88,9 +81,7 @@ interface FirstTry {
 export function GameScreen({ world, game, onFinish, onQuit }: Props) {
   const zone = game.zone;
   const device = useMemo(() => detectDevice(), []);
-  const [consolidation, setConsolidation] = useState<ConsolidationState>(() =>
-    createConsolidation(game.questions.map(questionKey)),
-  );
+  const [consolidation, setConsolidation] = useState<ConsolidationState>(() => createConsolidation(game.questions.map(questionKey)));
   // État de la question en cours.
   const [tries, setTries] = useState(0);
   const [hintLevel, setHintLevel] = useState<0 | HintLevel>(0);
@@ -196,7 +187,8 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
         flew.current = true;
       } else if (SHOWS_TARGET.has(exercise.id)) {
         // L'élément est montré : on zoome dessus, avec un peu de voisinage (les petites îles deviennent visibles).
-        mapRef.current?.flyTo([entity.id], 600, [], 1500);
+        const shown = showFrame(world, entity);
+        mapRef.current?.flyTo(shown.ids, 600, shown.points, shown.minKm);
         flew.current = true;
       } else if (flew.current) {
         mapRef.current?.resetView(500);
@@ -461,6 +453,7 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
           pins={pins}
           lines={lines}
           magnify
+          markerIds={SHOWS_TARGET.has(exercise.id) && entity ? [entity.id] : null}
           insets={insets}
           onPick={onPick}
           onReady={(map) => (mapRef.current = map)}
@@ -499,9 +492,7 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
         <section class="game__panel" ref={panelRef}>
           {reveal ? (
             <div class="game__feedback" role="status">
-              {exercise.id === 'country-to-flag' && flag && (
-                <img class="game__answer-flag" src={flag} alt={`Drapeau de ${entity.name}`} />
-              )}
+              {exercise.id === 'country-to-flag' && flag && <img class="game__answer-flag" src={flag} alt={`Drapeau de ${entity.name}`} />}
               <p class="game__answer">
                 Réponse : <strong>{reveal.evaluation.answerLabel}</strong>
               </p>

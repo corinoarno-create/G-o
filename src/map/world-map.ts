@@ -53,6 +53,8 @@ export const MAP_SETTINGS = {
   clickDistance: 5,
   /** Durée des animations de cadrage (ms). */
   flyDuration: 750,
+  /** Retour express à la vue d'ensemble (Échap, clic droit) : court, pour enchaîner vite. */
+  quickResetDuration: 350,
   /** Délai (ms) après la fin d'un mouvement avant de redessiner la carte nettement. */
   settleDelay: 120,
   /**
@@ -187,6 +189,10 @@ export class WorldMap {
   private geoBoxes: Map<string, [[number, number], [number, number]]> | null = null;
   private resizeFrame = 0;
   private frameZoom: FrameZoom | null = null;
+  /** Dernier cadrage demandé (flyTo) : réappliqué si la carte change de taille, au lieu de revenir à la zone. */
+  private lastFrame: { ids: string[]; points: [number, number][]; minKm: number } | null = null;
+  /** Seuls ces cercles de repère sont affichés (null : tous). */
+  private markerFilter: Set<string> | null = null;
 
   constructor(
     private readonly container: HTMLElement,
@@ -235,7 +241,11 @@ export class WorldMap {
       this.svg.call(this.zoomBehavior).on('dblclick.zoom', null);
       this.svg.on('click', (event: MouseEvent) => this.handleClick(event));
       // Un appui long sur la carte (téléphone) ne doit pas ouvrir de menu.
-      this.svg.on('contextmenu', (event: MouseEvent) => event.preventDefault());
+      // Sur PC, le clic droit ramène à la vue d'ensemble (rapide, comme Échap).
+      this.svg.on('contextmenu', (event: MouseEvent) => {
+        event.preventDefault();
+        if (!COARSE) this.resetView(MAP_SETTINGS.quickResetDuration);
+      });
       // PC : Ctrl ou Espace maintenu au-dessus de la carte montre un rectangle à cadrer.
       this.frameZoom = new FrameZoom(
         this.element,
@@ -246,6 +256,7 @@ export class WorldMap {
           height: Math.max(this.height - this.insets.top - this.insets.bottom, 80),
         }),
         (rect) => this.zoomToScreenRect(rect),
+        () => this.resetView(MAP_SETTINGS.quickResetDuration),
       );
     }
 
@@ -288,7 +299,17 @@ export class WorldMap {
   /** Affiche une zone : recalcule la projection et les tracés, puis remet le zoom à zéro. */
   setZone(zone: Zone): void {
     this.zone = zone;
+    this.lastFrame = null;
     this.render();
+  }
+
+  /**
+   * N'affiche que les cercles de repère de ces entités (null : tous). Quand l'élément est montré et qu'on
+   * doit le nommer, les autres cercles ne servent à rien et le noieraient dans un essaim de points.
+   */
+  setMarkerFilter(ids: string[] | null): void {
+    this.markerFilter = ids ? new Set(ids) : null;
+    this.updateMarkers();
   }
 
   /**
@@ -368,6 +389,7 @@ export class WorldMap {
    * (en kilomètres, pour que le zoom soit le même en vue Monde et en vue continent).
    */
   flyTo(ids: string[], duration = MAP_SETTINGS.flyDuration, points: [number, number][] = [], minKm = 0): void {
+    this.lastFrame = { ids, points, minKm };
     const pointBounds = points
       .map((point) => this.projection(point))
       .filter((p): p is [number, number] => p !== null)
@@ -403,10 +425,9 @@ export class WorldMap {
       maxScale: MAP_SETTINGS.maxZoom,
       minSize,
     });
-    this.svg
-      .transition()
-      .duration(duration)
-      .call(this.zoomBehavior.transform, zoomIdentity.translate(x + this.insets.left, y + this.insets.top).scale(k));
+    const target = zoomIdentity.translate(x + this.insets.left, y + this.insets.top).scale(k);
+    if (duration <= 0) this.svg.interrupt().call(this.zoomBehavior.transform, target);
+    else this.svg.transition().duration(duration).call(this.zoomBehavior.transform, target);
   }
 
   /** Cadre un rectangle dessiné à l'écran (zoom au rectangle). */
@@ -430,6 +451,7 @@ export class WorldMap {
 
   /** Revient au cadrage de la zone. */
   resetView(duration = MAP_SETTINGS.flyDuration): void {
+    this.lastFrame = null;
     this.svg.transition().duration(duration).call(this.zoomBehavior.transform, zoomIdentity);
   }
 
@@ -534,6 +556,13 @@ export class WorldMap {
     this.svg.interrupt().call(this.zoomBehavior.transform, zoomIdentity);
     this.commitTransform(true);
     this.projectPins();
+    // Le cadrage demandé (élément montré, indice) survit au changement de taille : sinon, le clavier qui
+    // s'ouvre sur téléphone ramènerait la carte au monde entier.
+    if (this.lastFrame) {
+      const { ids, points, minKm } = this.lastFrame;
+      this.flyTo(ids, 0, points, minKm);
+      this.commitTransform();
+    }
   }
 
   /** Calcule et dessine les tracés de la zone pour la projection actuelle (l'opération coûteuse). */
@@ -670,10 +699,15 @@ export class WorldMap {
    */
   private updateMarkers(): void {
     const margin = 40;
-    for (const entry of this.markers.values()) {
+    for (const [id, entry] of this.markers) {
       const { element, area, anchor } = entry;
       const [x, y] = this.transform.apply(anchor);
-      const onScreen = x > -margin && x < this.width + margin && y > -margin && y < this.height + margin;
+      const onScreen =
+        (!this.markerFilter || this.markerFilter.has(id)) &&
+        x > -margin &&
+        x < this.width + margin &&
+        y > -margin &&
+        y < this.height + margin;
       element.style.display = onScreen ? '' : 'none';
       if (!onScreen) continue;
       element.setAttribute('transform', `translate(${x.toFixed(1)},${y.toFixed(1)})`);

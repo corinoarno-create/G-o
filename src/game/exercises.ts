@@ -165,6 +165,32 @@ export function placeFocus(world: WorldData, entity: CountryEntity, level: HintL
   return [entity.id, ...neighbours];
 }
 
+/** Réglages du cadrage d'un élément montré (Nommer, Capitale de…, Pays → drapeau). */
+export const SHOW_FRAME = {
+  /** Étendue minimale de la vue (km) : une petite île reste entourée de ses voisines. */
+  minKm: 1500,
+  /** Voisins ajoutés au cadre, pour situer un territoire isolé (Territoire britannique de l'océan Indien…). */
+  neighbours: 2,
+  /** Au-delà, un voisin est trop loin pour aider : on ne dézoome pas jusqu'à lui. */
+  maxNeighbourKm: 2500,
+};
+
+/**
+ * Cadrage adapté au contexte d'un élément montré : l'élément entier (l'Australie se voit en entier),
+ * au moins 1 500 km autour (Dominique, avec la Guadeloupe et la Martinique), et ses deux plus proches voisins
+ * s'ils sont à moins de 2 500 km (une île perdue dans l'océan se voit avec les terres qui la situent).
+ */
+export function showFrame(world: WorldData, entity: CountryEntity): { ids: string[]; points: [number, number][]; minKm: number } {
+  const points = world.countries
+    .filter((other) => other.id !== entity.id && other.id !== 'aq')
+    .map((other) => ({ point: other.anchor, distance: distanceKm(entity.anchor, other.anchor) }))
+    .filter((other) => other.distance <= SHOW_FRAME.maxNeighbourKm)
+    .sort((a, b) => a.distance - b.distance)
+    .slice(0, SHOW_FRAME.neighbours)
+    .map((other) => other.point);
+  return { ids: [entity.id], points, minKm: SHOW_FRAME.minKm };
+}
+
 /** « Commence par « Ou… » (11 lettres). » */
 export function letterHint(name: string, level: HintLevel): string {
   return `Commence par « ${name.slice(0, level)}… » (${letterCount(name)} lettres).`;
