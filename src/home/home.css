@@ -52,35 +52,120 @@
 
 .home__main {
   display: grid;
-  grid-template-columns: minmax(0, 1.42fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
   grid-template-areas:
-    'carnet today'
+    'intro intro'
+    'left right'
     'footer footer';
-  gap: 28px 40px;
-  width: min(1280px, 100%);
+  align-items: start;
+  gap: 22px 36px;
+  width: min(1320px, 100%);
   margin: 0 auto;
-  padding: 18px 32px 0;
+  padding: 10px 32px 0;
+}
+
+.home__intro {
+  grid-area: intro;
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
 }
 
 .home__intro h1 {
   margin: 0;
-  font-size: 2.8rem;
+  font-size: 2.6rem;
 }
 
 .home__intro p {
-  margin: 2px 0 0;
+  margin: 0;
   color: var(--ink-soft);
 }
 
-.home__intro--mobile {
+.home__intro-mobile {
   display: none;
+}
+
+.home__left {
+  grid-area: left;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  min-width: 0;
+}
+
+.home__right {
+  grid-area: right;
+  position: sticky;
+  top: 12px;
+  min-width: 0;
+}
+
+/* Révision : la porte « l'app choisit pour moi » */
+.home__review {
+  padding: 16px 20px 18px;
+}
+
+.home__review-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.home__review-head h2 {
+  margin: 0;
+  font-size: 2.3rem;
+}
+
+.home__review-head span {
+  font-weight: 800;
+  color: var(--ink-soft);
+}
+
+.home__review p {
+  margin: 4px 0 0;
+  line-height: 1.45;
+}
+
+.home__review-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  margin: 10px 0 14px;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+
+.home__review-list li {
+  display: flex;
+  gap: 6px;
+}
+
+.home__review-list strong {
+  color: var(--ink);
+}
+
+.home__go {
+  width: 100%;
+}
+
+.home__loading {
+  margin: 4px 0 0;
+  font-size: 1.5rem;
+  color: var(--ink-soft);
 }
 
 /* Carnet de voyage (carte de conquête) */
 .home__carnet {
-  grid-area: carnet;
-  align-self: start;
   padding: 20px 22px 18px;
+}
+
+.home__carnet-help {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
 }
 
 .home__carnet-head {
@@ -98,6 +183,7 @@
 .home__carnet-head span {
   font-weight: 800;
   color: var(--ink-soft);
+  white-space: nowrap;
 }
 
 .home__map {
@@ -148,177 +234,85 @@
   background: var(--paper-light);
 }
 
-.home__continents {
+/* Une case par région : elle ouvre sa fiche. */
+.home__tiles {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 8px;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
   margin-top: 14px;
 }
 
-.home__continent {
+.home__tile {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 6px 4px;
+  gap: 2px;
+  min-height: 74px;
+  padding: 6px 4px 8px;
   border: 1.5px dashed var(--ink-soft);
-  border-radius: 8px;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--ink);
+  font: 700 0.9rem var(--font-body);
+  cursor: pointer;
+  transition: transform 80ms ease;
 }
 
-.home__continent .hand {
-  font-size: 1.35rem;
+.home__tile:active {
+  transform: translateY(2px);
+}
+
+.home__tile-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 1.4rem;
   line-height: 1.1;
 }
 
-.home__continent.is-europe {
+.home__tile-bar {
+  width: 70%;
+  height: 6px;
+  margin-top: 2px;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--ink) 15%, transparent);
+  overflow: hidden;
+}
+
+.home__tile-bar span {
+  display: block;
+  height: 100%;
+  background: var(--teal);
+}
+
+.home__tile.is-europe {
   background: color-mix(in srgb, var(--wc-europe) 25%, transparent);
 }
 
-.home__continent.is-americas {
+.home__tile.is-americas {
   background: color-mix(in srgb, var(--wc-americas) 25%, transparent);
 }
 
-.home__continent.is-africa {
+.home__tile.is-africa {
   background: color-mix(in srgb, var(--wc-africa) 25%, transparent);
 }
 
-.home__continent.is-asia {
+.home__tile.is-asia {
   background: color-mix(in srgb, var(--wc-asia) 25%, transparent);
 }
 
-.home__continent.is-oceania {
+.home__tile.is-oceania {
   background: color-mix(in srgb, var(--wc-oceania) 25%, transparent);
 }
 
-/* Aujourd'hui */
-.home__today {
-  grid-area: today;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.home__loading {
-  font-size: 1.6rem;
-  color: var(--ink-soft);
-}
-
-.home__review {
-  padding: 16px 20px 18px;
-}
-
-.home__review h2 {
-  margin: 0;
-  font-size: 2.1rem;
-}
-
-.home__review p {
-  margin: 4px 0 14px;
-}
-
-.home__go {
-  width: 100%;
-}
-
-.home__pair {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 16px;
-}
-
-.home__small {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 14px 16px 16px;
-}
-
-.home__small h3 {
-  margin: 0;
-  font-size: 1.8rem;
-}
-
-.home__small p {
-  margin: 0;
-  font-size: 0.9rem;
-  color: var(--ink-soft);
-}
-
-.home__small p strong {
-  color: var(--ink);
-}
-
-.home__small .btn {
-  margin-top: auto;
-}
-
-.home__quick {
-  transform: rotate(-1deg);
-}
-
-/* Découverte, façon timbre-poste */
-.home__stamp {
+.home__tile.is-world {
+  border: 2px solid var(--ink);
   background: var(--paper-light);
-  border: 3px dashed var(--terracotta);
-  border-radius: 4px;
-  box-shadow: var(--shadow-card);
-  transform: rotate(1.2deg);
 }
 
-.home__stamp-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 6px;
-}
-
-.home__new {
-  font-size: 0.72rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  color: var(--terracotta);
-  border: 1.5px solid var(--terracotta);
-  border-radius: 4px;
-  padding: 1px 6px;
-  transform: rotate(-6deg);
-}
-
-/* Favoris, façon étiquettes de bagage */
-.home__routes h3 {
-  margin: 4px 0 8px;
-  font-size: 1.8rem;
-}
-
-.home__tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.home__tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font: 700 0.9rem var(--font-body);
-  color: var(--ink);
-  background: var(--paper-dark);
-  border: 1.5px solid var(--ink-soft);
-  border-radius: 4px 14px 14px 4px;
-  padding: 8px 14px 8px 10px;
-  cursor: pointer;
-}
-
-.home__tag-hole {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--paper-light);
-  border: 1.5px solid var(--ink-soft);
-}
-
-.home__compose {
-  color: var(--teal);
-  border-color: var(--teal);
-  border-radius: 999px;
+.home__tile.is-active {
+  border: 2.5px solid var(--terracotta);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--terracotta) 20%, transparent);
 }
 
 .home__footer {
@@ -351,6 +345,15 @@
   display: none;
 }
 
+/* Écrans moyens : la fiche passe sous le carnet. */
+@media (max-width: 999px) {
+  .home__main {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+}
+
 @media (max-width: 860px) {
   .home {
     padding-bottom: calc(84px + env(safe-area-inset-bottom));
@@ -367,12 +370,17 @@
 
   .home__tagline,
   .home__nav,
-  .home__intro--desktop {
+  .home__intro-desktop {
     display: none;
   }
 
-  .home__intro--mobile {
+  .home__intro {
     display: block;
+  }
+
+  .home__intro-mobile {
+    display: block;
+    margin-top: 2px !important;
   }
 
   .home__intro h1 {
@@ -380,25 +388,22 @@
   }
 
   .home__main {
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
     padding: 4px 16px 0;
   }
 
-  .home__today {
-    order: -1;
+  .home__left {
+    gap: 30px;
   }
 
-  .home__intro--mobile {
-    order: -2;
+  .home__carnet {
+    padding: 18px 14px 16px;
   }
 
   .home__carnet-head h2 {
     font-size: 1.9rem;
   }
 
-  .home__continents {
+  .home__tiles {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
@@ -409,7 +414,7 @@
     bottom: 0;
     z-index: 5;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     height: calc(70px + env(safe-area-inset-bottom));
     padding-bottom: env(safe-area-inset-bottom);
     background: var(--paper-light);

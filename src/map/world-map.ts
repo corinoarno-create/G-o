@@ -142,6 +142,8 @@ export interface WorldMapOptions {
   magnify?: boolean;
   /** Carte non interactive (illustration) : ni zoom, ni clic. */
   interactive?: boolean;
+  /** Carte fixe mais cliquable (carnet de l'accueil) : un clic choisit un pays, sans zoom ni cercles de repère. */
+  clickOnly?: boolean;
 }
 
 export class WorldMap {
@@ -237,6 +239,9 @@ export class WorldMap {
     // Pas de zoom au double-clic : en jeu, deux clics rapides doivent rester deux réponses possibles.
     if (options.interactive === false) {
       this.element.classList.add('is-static');
+    } else if (options.clickOnly) {
+      this.element.classList.add('is-click-only');
+      this.svg.on('click', (event: MouseEvent) => this.handleClick(event));
     } else {
       this.svg.call(this.zoomBehavior).on('dblclick.zoom', null);
       this.svg.on('click', (event: MouseEvent) => this.handleClick(event));
@@ -612,7 +617,7 @@ export class WorldMap {
   private buildMarkers(active: Set<string>): void {
     this.markers.clear();
     this.markerLayer.replaceChildren();
-    if (this.options.interactive === false) return;
+    if (this.options.interactive === false || this.options.clickOnly) return;
     const areaScale = this.layout.k * this.layout.k;
     for (const id of this.shapes.keys()) {
       const area = (this.geometryAreas.get(id) ?? 0) * areaScale;

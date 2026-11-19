@@ -1,5 +1,5 @@
 // Une question = un élément × un exercice. Une manche peut mélanger les exercices
-// (révisions du jour, entretien rapide).
+// (révisions du jour).
 import type { Skill } from '../engine/srs.ts';
 import type { ExerciseId } from './exercises.ts';
 

@@ -152,7 +152,7 @@ export function App() {
             world={world}
             zones={zones}
             onPlay={play}
-            onExplore={(withBuilder) => setScreen({ kind: 'explore', withBuilder })}
+            onExplore={() => setScreen({ kind: 'explore', withBuilder: false })}
             onProgress={() => setScreen({ kind: 'progress' })}
             onCredits={() => setScreen({ kind: 'credits' })}
           />

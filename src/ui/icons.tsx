@@ -118,3 +118,22 @@ export function CompassRose({ size = 110 }: IconProps) {
     </svg>
   );
 }
+
+/** Globe (case « Monde » du carnet). */
+export function GlobeIcon({ size = 20 }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true" {...stroke} stroke-width="1.7">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18" />
+    </svg>
+  );
+}
+
+/** Flèche de retour. */
+export function BackIcon({ size = 18 }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true" {...stroke} stroke-width="2.4">
+      <path d="M15 5l-7 7 7 7" />
+    </svg>
+  );
+}

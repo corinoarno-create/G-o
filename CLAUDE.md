@@ -113,25 +113,26 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 - La carte est cadrée dans l'espace libre entre la question et le panneau de réponse (`WorldMap.setInsets`).
 - **Clavier ouvert sur téléphone** (retour d'Arno, 19/11/2026) : l'app rétrécit au-dessus du clavier (`interactive-widget=resizes-content` dans `index.html`) au lieu de défiler ; sous 520 px de haut, mise en page compacte (en-tête, question et panneau resserrés, boutons de zoom masqués au doigt) ; les marges de cadrage se réduisent avec l'espace libre.
 
-## 6. Choisir ce que je travaille
+## 6. Choisir ce que je travaille : la fiche d'une région
 
-- Un **constructeur de session** combine les filtres :
-  - **zone** : Monde, continent, sous-région, pays, France, États-Unis… ;
-  - **catégorie** : pays, capitales, drapeaux, villes, départements, États, population ;
-  - **mode** ;
-  - **nombre d'éléments** (10, 20, 50, tout) ;
-  - **type de contenu** : à réviser (dû), nouveaux, mélange, ou « mes points faibles ».
+*(Refonte décidée avec Arno le 20/11/2026, maquette : https://claude.ai/artifact/8Ztubwty76T4Xey2DmbzyD)*
+- On choisit ce qu'on joue **en passant par sa progression** : une case du carnet (Europe, Amérique, Afrique, Asie, Océanie, **Monde**) ouvre la **fiche de la région** (`src/home/ZoneSheet.tsx`). Toucher un pays sur la carte du carnet ouvre aussi son continent.
+- La fiche montre la carte de la région colorée selon la maîtrise (téléphone), des **pastilles de sous-régions** (continents seulement ; le Monde couvre tout), et **ma progression** par compétence : part acquise, révisions dues, éléments jamais vus (`src/home/zone-stats.ts`).
+- Puis : catégorie (pays, capitales, drapeaux), exercice, et deux onglets :
+  - **Jouer** : nombre de questions (10, 20, 50, tout) et contenu (mélange, à réviser, nouveaux, points faibles) — l'ancien constructeur, ciblé sur la zone ;
+  - **Découvrir** : la découverte en 3 temps, sur 5 éléments jamais vus de l'exercice choisi.
+- **Les derniers choix de chaque région sont retenus** (réglage `zoneChoices`) ; il n'y a plus de favoris. Après une manche, l'accueil rouvre la fiche d'où elle est partie.
+- Sur **PC**, la fiche s'ouvre à côté du carnet (le Monde par défaut) ; sur **téléphone**, en page entière avec un bouton « Carnet ».
 - La carte se **cadre et se zoome automatiquement** sur la zone choisie.
-- Je peux **enregistrer des sessions favorites** (ex. « Villes d'Asie — Épingler — 20 »).
 
 ## 7. Accueil
 
-À l'ouverture, l'app me dit **ce que je peux travailler**, sur un ton positif :
-- « **Révisions du jour** : 34 éléments (≈ 6 min) » → un bouton lance la session ;
-- « **À découvrir** : 5 nouvelles villes du Mexique » ;
-- un **entretien rapide** : 10 questions d'**un seul exercice** (celui qui a le plus de révisions dues, sinon un exercice différent chaque jour), tirées d'abord parmi les éléments dus. Les **révisions du jour** sont regroupées par exercice, et l'exercice en cours est affiché ;
-- un **défi du jour** : un petit quiz thématique ;
-- un accès au constructeur de session.
+Deux portes, sur un ton positif, sans vocabulaire de voyage (« escales », « itinéraires ») :
+- **Révision** : l'app choisit ce que je dois revoir aujourd'hui (FSRS) : nombre d'éléments, durée estimée, détail par exercice, bouton « Réviser ». La manche est regroupée par exercice (séries de 50 au plus). Rien de dû : « Tout est à jour », avec la date de la prochaine révision.
+- **Mon carnet de voyage** : la carte de conquête et les 6 cases de régions (voir § 6). C'est le jeu principal.
+- L'**entretien rapide**, la carte « À découvrir » et « Mes itinéraires » ont disparu (20/11/2026) : la progression de chaque région dit ce qu'il faut entretenir ou découvrir.
+- Plus tard : un **défi du jour** (petit quiz thématique).
+- Sur téléphone, 3 onglets : Carnet, Explorer, Progression.
 
 ## 8. Victoires et récompenses
 
@@ -220,17 +221,21 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
   - [x] Petits pays : zoom progressif en guise d'indice (plus de cercle), clic tolérant dans la mer, repères plus grands au doigt.
   - [x] Capitales : « Capitale → pays » et « Placer la capitale » séparés ; tolérance assouplie ; pointillé animé jusqu'à la vraie position.
   - [x] Un exercice à la fois : entretien rapide sur un seul exercice, révisions regroupées par exercice.
-  - [x] Découverte en 3 temps par groupes de 5 (`src/discovery/`) : **Observer** (la carte montre chaque élément, son nom reste écrit), **Reconnaître** (QCM à 4 propositions, prises d'abord dans le groupe ; une erreur fait revenir l'élément), **Retrouver** (la vraie manche). Seule la dernière étape compte pour FSRS. Lancée **uniquement** par la carte « À découvrir » de l'accueil ; en fin de manche, « Découvrir 5 de plus ». Le constructeur et « Mes itinéraires » restent le jeu normal, même avec le contenu « Nouveaux » (décision d'Arno, 19/11/2026).
+  - [x] Découverte en 3 temps par groupes de 5 (`src/discovery/`) : **Observer** (la carte montre chaque élément, son nom reste écrit), **Reconnaître** (QCM à 4 propositions, prises d'abord dans le groupe ; une erreur fait revenir l'élément), **Retrouver** (la vraie manche). Seule la dernière étape compte pour FSRS. Lancée **uniquement** par l'onglet « Découvrir » d'une fiche de région (au départ par la carte « À découvrir », remplacée le 20/11/2026) ; en fin de manche, « Découvrir 5 de plus ». L'onglet « Jouer » reste le jeu normal, même avec le contenu « Nouveaux » (décision d'Arno, 19/11/2026).
 - [x] **Lot C** : page « Ma progression » (`src/progress/`, onglet « Progression » sur téléphone, bouton sur PC) : chiffres clés, activité des 30 derniers jours (premières réponses justes / à revoir), révisions prévues sur 7 jours, maîtrise par compétence et par continent, temps médian par semaine et par façon de répondre, écart médian des capitales placées, 10 points faibles avec « Travailler ces points faibles ». Graphiques SVG faits main, couleurs validées pour le daltonisme (bleu-vert `#008f86`, terracotta `#c8623b`, bleu `#2f6db5`), infobulles au survol. **Repartir de zéro** (demande d'Arno, 19/11/2026) : effacer toute la progression, ou une zone (continent ou sous-région) pour une catégorie (pays, capitales, drapeaux ou tout) ; cartes mémoire et historique de la zone effacés (les éléments redeviennent « nouveaux »), temps de référence effacés seulement pour un effacement complet ; réglages et favoris gardés ; confirmation avec le nombre d'éléments et proposition d'exporter d'abord.
 - [x] **8. PWA** hors ligne, installation Android, finitions tactiles, page Crédits. *(`vite-plugin-pwa` 2 : manifeste (icônes boussole sur papier dans `public/icons/`, dont une « maskable »), service worker Workbox qui met tout en cache (app, carte, données, drapeaux, polices woff2 : 273 fichiers, 2,9 Mo). Mises à jour en mode « prompt » : bandeau « Mettre à jour » affiché seulement hors des manches (`src/pwa/`). Bouton « Installer l'app » dans le pied de l'accueil quand le navigateur le propose. Page Crédits (`src/credits/`), liée depuis l'accueil. Finitions tactiles : pas de flash au toucher, pas d'attente du double-tap, pas de rebond ni de menu d'appui long sur la carte.)*
 
 **V1 terminée le 19/11/2026 : place aux 2 semaines d'utilisation (jusqu'au 03/12/2026). Les nouvelles idées vont dans la feuille de route, sans être codées.**
 
+#### Retouches pendant l'utilisation (demandées par Arno)
+- [x] Carte fluide sur téléphone, zoom au rectangle et retour express sur PC, cadrage selon le contexte, clavier ouvert (19/11/2026).
+- [x] **Nouvel accueil** (20/11/2026) : Révision + Mon carnet de voyage, fiche de région (progression, Jouer, Découvrir) ; fin de l'entretien rapide, de « À découvrir » et des favoris.
+
 #### Décisions prises
 - **DROM** (Guyane, Réunion, Martinique, Guadeloupe, Mayotte) : entités **à part** en mode Monde, comme dans la norme ISO.
 - **Épingler sur mobile** : on **touche puis on confirme**, pour éviter les erreurs de doigt. Sur PC, le clic est direct.
 - **FSRS et consolidation** : seule la **première réponse** à un élément dans une session met à jour FSRS. Les nouvelles tentatives de la boucle sont enregistrées dans l'historique sans gonfler la mémoire.
-- **Acquis du Monde** (pays, capitales, drapeaux) : ils ne comptent **pas** dans le plafond quotidien de nouveautés, et une réponse juste et rapide est notée « Facile ». Dans les manches « Mélange », ils sont posés directement en question ; la **découverte en 3 temps** (19/11/2026) ne se lance que depuis la carte « À découvrir ».
+- **Acquis du Monde** (pays, capitales, drapeaux) : ils ne comptent **pas** dans le plafond quotidien de nouveautés, et une réponse juste et rapide est notée « Facile ». Dans les manches « Mélange », ils sont posés directement en question ; la **découverte en 3 temps** ne se lance que depuis l'onglet « Découvrir » d'une fiche de région.
 
 ### V2
 - [ ] Villes : 3, 5 ou 10 par pays + phase de découverte.

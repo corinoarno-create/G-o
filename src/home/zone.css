@@ -1,0 +1,309 @@
+/* Fiche d'une région du carnet : page entière sur téléphone, panneau à côté du carnet sur PC. */
+.zone {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  /* La rangée de sous-régions défile : elle ne doit pas élargir la fiche. */
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.zone > * {
+  min-width: 0;
+}
+
+.zone--panel {
+  padding: 18px 20px 20px;
+}
+
+.zone--page {
+  padding: 0 0 8px;
+}
+
+.zone__head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+}
+
+.zone__head h2 {
+  margin: 0;
+  font-size: 2.6rem;
+  line-height: 1;
+}
+
+.zone__share {
+  font-weight: 800;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+}
+
+.zone--page .zone__share {
+  margin-left: auto;
+}
+
+.zone__back {
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  box-shadow: 0 3px 0 var(--ink);
+}
+
+.zone__close {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid var(--ink-soft);
+  border-radius: 50%;
+  background: var(--paper-light);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.zone__map {
+  position: relative;
+  aspect-ratio: 1.45;
+  border: 1.5px solid var(--ink);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.zone__subs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: thin;
+}
+
+.zone--panel .zone__subs {
+  flex-wrap: wrap;
+  overflow: visible;
+}
+
+.zone__chip {
+  flex: none;
+  min-height: 36px;
+  padding: 6px 12px;
+  border: 1.5px dashed var(--ink-soft);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font: 700 0.85rem var(--font-body);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.zone__chip.is-active {
+  background: color-mix(in srgb, var(--wc-europe) 70%, var(--paper-light));
+  border-style: solid;
+  border-color: var(--ink);
+}
+
+/* Blocs : feuilles de carnet sur téléphone, simples sections dans le panneau PC */
+.zone--page .zone__block {
+  padding: 16px 16px 14px;
+  background: var(--paper-light);
+  border: 1px solid var(--paper-edge);
+  border-radius: 6px;
+  box-shadow: var(--shadow-card);
+}
+
+.zone__block h3 {
+  margin: 0 0 6px;
+  font-size: 1.9rem;
+}
+
+.zone__visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.zone__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.zone__table th,
+.zone__table td {
+  padding: 6px 0;
+  border-bottom: 1px dashed var(--paper-edge);
+  text-align: left;
+  font-weight: 600;
+}
+
+.zone__table thead th {
+  border-bottom: 1.5px solid var(--paper-edge);
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.zone__table tbody + tbody tr:first-child > * {
+  border-top: 1.5px solid var(--paper-edge);
+}
+
+.zone__table td:nth-child(2) {
+  width: 38%;
+}
+
+.zone__table td:nth-child(2) {
+  white-space: nowrap;
+}
+
+.zone__bar {
+  display: inline-block;
+  width: calc(100% - 44px);
+  height: 8px;
+  vertical-align: middle;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--ink) 13%, transparent);
+  overflow: hidden;
+}
+
+.zone__bar span {
+  display: block;
+  height: 100%;
+  background: var(--teal);
+}
+
+.zone__pct {
+  display: inline-block;
+  width: 40px;
+  text-align: right;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.zone__num {
+  width: 64px;
+  text-align: right !important;
+  font-weight: 800 !important;
+}
+
+.zone__num.is-due {
+  color: var(--terracotta);
+}
+
+.zone__fresh {
+  color: var(--ink-soft);
+}
+
+.zone__label {
+  margin: 12px 0 6px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.zone__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.zone__pill {
+  min-height: 40px;
+  padding: 7px 14px;
+  border: 1.5px solid var(--ink-soft);
+  border-radius: 999px;
+  background: #fffdf7;
+  color: var(--ink);
+  font: 700 0.9rem var(--font-body);
+  cursor: pointer;
+}
+
+.zone__pill.is-active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper-light);
+}
+
+.zone__help {
+  margin: 8px 0 0;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.zone__tabs {
+  display: flex;
+  gap: 4px;
+  margin-top: 16px;
+  border-bottom: 1.5px solid var(--paper-edge);
+}
+
+.zone__tabs button {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 44px;
+  border: none;
+  border-bottom: 3px solid transparent;
+  background: none;
+  color: var(--ink-soft);
+  font: 800 1rem var(--font-body);
+  cursor: pointer;
+}
+
+.zone__tabs button.is-active {
+  color: var(--ink);
+  border-bottom-color: var(--terracotta);
+}
+
+.zone__badge {
+  min-width: 22px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--gold);
+  color: var(--ink);
+  font-size: 0.75rem;
+  line-height: 20px;
+}
+
+.zone__go {
+  width: 100%;
+  margin-top: 18px;
+}
+
+.zone__summary {
+  margin: 10px 0 0;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.zone__discover {
+  margin: 14px 0 0;
+  line-height: 1.45;
+}
+
+/* Téléphone : colonnes plus serrées pour laisser la place aux intitulés. */
+@media (max-width: 520px) {
+  .zone__table thead th {
+    white-space: nowrap;
+    font-size: 0.68rem;
+  }
+
+  .zone__table td:nth-child(2) {
+    width: 30%;
+  }
+
+  .zone__num {
+    width: 50px;
+  }
+}

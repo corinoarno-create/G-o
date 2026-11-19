@@ -29,6 +29,8 @@ interface Props {
   fills?: Map<string, MapFill>;
   /** Carte d'illustration : ni zoom, ni clic, ni boutons. */
   interactive?: boolean;
+  /** Carte fixe mais cliquable (sans zoom ni boutons). */
+  clickOnly?: boolean;
   /** Place prise par les éléments posés sur la carte (voir WorldMap.setInsets). */
   insets?: MapInsets;
   onPick?: (pick: MapPick) => void;
@@ -50,6 +52,7 @@ export function WorldMapView({
   magnify,
   fills,
   interactive = true,
+  clickOnly = false,
   insets,
   onPick,
   focusIds,
@@ -63,7 +66,12 @@ export function WorldMapView({
   onPickRef.current = onPick;
 
   useEffect(() => {
-    const map = new WorldMap(containerRef.current!, world, { onPick: (pick) => onPickRef.current?.(pick), magnify, interactive });
+    const map = new WorldMap(containerRef.current!, world, {
+      onPick: (pick) => onPickRef.current?.(pick),
+      magnify,
+      interactive,
+      clickOnly,
+    });
     mapRef.current = map;
     onReady?.(map);
     return () => {
@@ -92,7 +100,7 @@ export function WorldMapView({
   return (
     <div class="map-frame">
       <div class="map-canvas" ref={containerRef} />
-      {interactive && (
+      {interactive && !clickOnly && (
         <div class="map-controls" role="group" aria-label="Zoom">
           <button
             type="button"

@@ -119,6 +119,12 @@
   pointer-events: none;
 }
 
+/* Carte du carnet (accueil) : fixe, mais un pays se touche pour ouvrir sa région. */
+.world-map.is-click-only {
+  cursor: pointer;
+  touch-action: auto;
+}
+
 /* Vue Monde : planisphère rectangulaire, la mer s'étend jusqu'aux bords de l'écran (pas de cadre). */
 .world-map.is-world .map-sphere {
   stroke: none;

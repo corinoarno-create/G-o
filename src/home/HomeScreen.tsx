@@ -1,30 +1,33 @@
-// Accueil (§ 7), façon carnet de voyage : la carte de conquête (les pays se colorent quand je les maîtrise)
-// et, à côté, ce que je peux travailler aujourd'hui.
+// Accueil (§ 7) : deux portes.
+// - Révision : l'app choisit ce que je dois revoir aujourd'hui (FSRS).
+// - Mon carnet de voyage : la carte de conquête (les pays se colorent quand je les maîtrise) et une case
+//   par région ; une région ouvre sa fiche (progression, puis Jouer ou Découvrir). Sur PC, la fiche
+//   s'ouvre à côté du carnet ; sur téléphone, en page entière.
 import { useEffect, useMemo, useState } from 'preact/hooks';
-import { modeOf, sanitizeChoice } from '../builder/options.ts';
 import type { WorldData } from '../data/world.ts';
 import type { AnswerMode, TimingStats } from '../engine/grading.ts';
 import { loadCards, type GameRequest } from '../game/start.ts';
-import { QUICK_PHRASES } from '../game/plans.ts';
 import { detectDevice } from '../lib/device.ts';
-import type { MapFill } from '../map/world-map.ts';
+import type { MapFill, MapPick } from '../map/world-map.ts';
 import { WorldMapView } from '../map/WorldMapView.tsx';
 import type { Zone } from '../map/zones.ts';
 import { installApp, usePwa } from '../pwa/pwa.ts';
 import { BackupButtons } from '../sandbox/BackupButtons.tsx';
-import { getFavorites, getTiming } from '../storage/db.ts';
+import { getTiming } from '../storage/db.ts';
 import { progressDb } from '../storage/progress-db.ts';
-import type { FavoriteRecord } from '../storage/schema.ts';
-import { ArrowIcon, BookIcon, ChartIcon, CompassLogo, MapIcon } from '../ui/icons.tsx';
+import type { CardRecord } from '../storage/schema.ts';
+import { ArrowIcon, BookIcon, ChartIcon, CompassLogo, GlobeIcon, MapIcon } from '../ui/icons.tsx';
 import { buildHomeSummary, formatWhen, type HomeSummary } from './summary.ts';
+import { percent } from './zone-stats.ts';
+import { ZoneSheet } from './ZoneSheet.tsx';
 import './home.css';
 
 interface Props {
   world: WorldData;
   zones: Zone[];
   onPlay: (request: GameRequest) => void;
-  /** Ouvre la carte, avec ou sans le constructeur de session. */
-  onExplore: (withBuilder: boolean) => void;
+  /** Ouvre la carte libre (« Explorer »). */
+  onExplore: () => void;
   /** Ouvre la page « Ma progression ». */
   onProgress: () => void;
   /** Ouvre la page « Crédits ». */
@@ -46,10 +49,32 @@ const WATERCOLOR: Record<string, string> = {
   antarctica: 'var(--wc-antarctica)',
 };
 
+/** Largeur à partir de laquelle la fiche d'une région s'ouvre à côté du carnet. */
+const WIDE_QUERY = '(min-width: 1000px)';
+
+function useMediaQuery(query: string): boolean {
+  const [matches, setMatches] = useState(() => matchMedia(query).matches);
+  useEffect(() => {
+    const list = matchMedia(query);
+    const onChange = () => setMatches(list.matches);
+    list.addEventListener('change', onChange);
+    return () => list.removeEventListener('change', onChange);
+  }, [query]);
+  return matches;
+}
+
+/**
+ * Région ouverte, gardée le temps de la visite : après une manche lancée depuis une fiche,
+ * on retrouve cette fiche en revenant à l'accueil.
+ */
+let rememberedTile: string | null = null;
+
 export function HomeScreen({ world, zones, onPlay, onExplore, onProgress, onCredits }: Props) {
   const { installable } = usePwa();
+  const wide = useMediaQuery(WIDE_QUERY);
   const [summary, setSummary] = useState<HomeSummary | null>(null);
-  const [favorites, setFavorites] = useState<FavoriteRecord[]>([]);
+  const [cards, setCards] = useState<Map<string, CardRecord> | null>(null);
+  const [openTile, setOpenTile] = useState<string | null>(rememberedTile);
   const now = new Date();
 
   useEffect(() => {
@@ -57,15 +82,20 @@ export function HomeScreen({ world, zones, onPlay, onExplore, onProgress, onCred
       const db = await progressDb();
       const device = detectDevice();
       const modes: AnswerMode[] = ['pin', 'type', 'choice'];
-      const [cards, timingList, favoriteList] = await Promise.all([
+      const [loadedCards, timingList] = await Promise.all([
         loadCards(),
         Promise.all(modes.map(async (mode) => [mode, await getTiming(db, device, mode)] as [AnswerMode, TimingStats])),
-        getFavorites(db),
       ]);
-      setSummary(buildHomeSummary(world, zones, cards, new Map(timingList), new Date()));
-      setFavorites(favoriteList.sort((a, b) => a.name.localeCompare(b.name, 'fr')));
+      setCards(loadedCards);
+      setSummary(buildHomeSummary(world, loadedCards, new Map(timingList), new Date()));
     })();
-  }, [world, zones]);
+  }, [world]);
+
+  const openRegion = (tileId: string | null) => {
+    rememberedTile = tileId;
+    setOpenTile(tileId);
+    if (tileId && !wide) window.scrollTo({ top: 0 });
+  };
 
   // Carte de conquête : un pays jamais travaillé reste papier ; plus il est maîtrisé, plus l'aquarelle est dense.
   const fills = useMemo(() => {
@@ -83,16 +113,35 @@ export function HomeScreen({ world, zones, onPlay, onExplore, onProgress, onCred
     return map;
   }, [summary, world]);
 
-  const playFavorite = (favorite: FavoriteRecord) => {
-    const choice = sanitizeChoice(favorite.config);
-    const zone = zones.find((z) => z.id === choice.zoneId) ?? zones[0]!;
-    onPlay({ kind: 'builder', exercise: modeOf(choice).exercise, zone, count: choice.count, content: choice.content });
+  // Toucher un pays sur la carte ouvre sa région.
+  const pickOnMap = (pick: MapPick) => {
+    const continent = pick.entityId ? world.byId.get(pick.entityId)?.continent : undefined;
+    if (continent && zones.some((zone) => zone.id === continent)) openRegion(continent);
   };
 
   const progress = summary?.progress;
   const seen = progress ? progress.total - progress.new : 0;
-  const explored = progress ? Math.round(((progress.acquired + progress.mastered) / progress.total) * 100) : 0;
+  const overall = progress ? (progress.acquired + progress.mastered) / progress.total : 0;
   const today = now.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+  // Sur PC, une fiche est toujours ouverte à côté du carnet (le Monde par défaut).
+  const sheetTile = wide ? (openTile ?? 'world') : openTile;
+  const tiles: Array<{ id: string; label: string; share: number }> = summary
+    ? [...summary.continents, { id: 'world', label: 'Monde', share: overall }]
+    : [];
+
+  const sheet =
+    sheetTile && cards ? (
+      <ZoneSheet
+        world={world}
+        zones={zones}
+        tileId={sheetTile}
+        cards={cards}
+        fills={fills}
+        layout={wide ? 'panel' : 'page'}
+        onPlay={onPlay}
+        onClose={() => openRegion(null)}
+      />
+    ) : null;
 
   return (
     <div class="home">
@@ -105,178 +154,142 @@ export function HomeScreen({ world, zones, onPlay, onExplore, onProgress, onCred
           </div>
         </div>
         <nav class="home__nav" aria-label="Navigation">
+          <button type="button" class="btn home__pill" onClick={onExplore}>
+            <MapIcon size={18} /> Explorer la carte
+          </button>
           <button type="button" class="btn home__pill" onClick={onProgress}>
             <ChartIcon size={18} /> Ma progression
-          </button>
-          <button type="button" class="btn home__pill" onClick={() => onExplore(false)}>
-            <MapIcon size={18} /> Explorer la carte
           </button>
         </nav>
       </header>
 
-      <main class="home__main">
-        <div class="home__intro home__intro--mobile">
-          <h1>{greeting(now)}</h1>
-          <p>Où partons-nous aujourd’hui ?</p>
-        </div>
-
-        <section class="paper-card tilt-left home__carnet" aria-label="Mon carnet de voyage">
-          <span class="tape tape--left" />
-          <span class="tape tape--right tape--teal" />
-          <div class="home__carnet-head">
-            <h2>Mon carnet de voyage</h2>
-            <span>{progress ? `${explored} % acquis` : ''}</span>
-          </div>
-          <div class="home__map">
-            <WorldMapView world={world} zone={zones[0]!} fills={fills} interactive={false} />
-          </div>
-          {progress && (
-            <ul class="home__legend">
-              <li>
-                <span class="home__swatch is-mastered" /> Maîtrisé <strong>{progress.mastered}</strong>
-              </li>
-              <li>
-                <span class="home__swatch is-acquired" /> Acquis <strong>{progress.acquired}</strong>
-              </li>
-              <li>
-                <span class="home__swatch is-learning" /> En cours <strong>{progress.learning}</strong>
-              </li>
-              <li>
-                <span class="home__swatch is-new" /> À explorer <strong>{progress.new}</strong>
-              </li>
-            </ul>
-          )}
-          {summary && (
-            <div class="home__continents">
-              {summary.continents.map((continent) => (
-                <div key={continent.id} class={`home__continent is-${continent.id}`}>
-                  <span class="hand">{continent.label}</span>
-                  <strong>{Math.round(continent.share * 100)} %</strong>
-                </div>
-              ))}
-            </div>
-          )}
-        </section>
-
-        <section class="home__today" aria-label="Aujourd’hui">
-          <div class="home__intro home__intro--desktop">
+      {!wide && sheet ? (
+        <main class="home__main home__main--sheet">{sheet}</main>
+      ) : (
+        <main class="home__main">
+          <div class="home__intro">
             <h1>{greeting(now)}</h1>
-            <p>{today}</p>
+            <p class="home__intro-mobile">Que veux-tu travailler ?</p>
+            <p class="home__intro-desktop">{today}</p>
           </div>
 
-          {!summary ? (
-            <p class="home__loading hand">On ouvre le carnet…</p>
-          ) : (
-            <>
-              <div class="paper-card tilt-right home__review">
-                <span class="tape tape--right" />
-                <h2>Révisions du jour</h2>
-                {summary.due > 0 ? (
-                  <>
-                    <p>
-                      <strong>
-                        {summary.due} escale{summary.due > 1 ? 's' : ''} à revisiter
-                      </strong>{' '}
-                      · environ {summary.estimatedMinutes} min
-                      {summary.due > summary.reviewBatch ? ` (par séries de ${summary.reviewBatch})` : ''}
-                    </p>
-                    <button type="button" class="btn btn--terracotta btn--big home__go" onClick={() => onPlay({ kind: 'review' })}>
-                      C’est parti ! <ArrowIcon />
-                    </button>
-                  </>
-                ) : seen > 0 ? (
+          <div class="home__left">
+            <section class="paper-card home__review" aria-label="Révision">
+              <span class="tape tape--left" />
+              <div class="home__review-head">
+                <h2>Révision</h2>
+                {summary && summary.due > 0 && <span>≈ {summary.estimatedMinutes} min</span>}
+              </div>
+              {!summary ? (
+                <p class="home__loading hand">On ouvre le carnet…</p>
+              ) : summary.due > 0 ? (
+                <div class="home__review-body">
                   <p>
-                    Tout est à jour, bravo !
-                    {summary.nextDueAt && ` Prochaine escale ${formatWhen(summary.nextDueAt, now)}.`}
+                    <strong>
+                      {summary.due} élément{summary.due > 1 ? 's' : ''} à revoir
+                    </strong>{' '}
+                    aujourd’hui, choisis pour toi d’après ta mémoire
+                    {summary.due > summary.reviewBatch ? ` (par séries de ${summary.reviewBatch})` : ''}.
                   </p>
-                ) : (
-                  <p>Ton carnet est encore vierge : lance un entretien rapide ou une découverte !</p>
-                )}
-              </div>
-
-              <div class="home__pair">
-                <div class="paper-card home__small home__quick">
-                  <h3>Entretien rapide</h3>
-                  <p>10 questions pour {QUICK_PHRASES[summary.quickExercise]}.</p>
-                  <button type="button" class="btn btn--teal" onClick={() => onPlay({ kind: 'quick', exercise: summary.quickExercise })}>
-                    Lancer
+                  <ul class="home__review-list">
+                    {summary.dueByExercise.slice(0, 4).map((item) => (
+                      <li key={item.exercise}>
+                        <span>{item.label}</span>
+                        <strong>{item.count}</strong>
+                      </li>
+                    ))}
+                  </ul>
+                  <button type="button" class="btn btn--teal btn--big home__go" onClick={() => onPlay({ kind: 'review' })}>
+                    Réviser <ArrowIcon />
                   </button>
                 </div>
-                {summary.discoveries[0] && (
-                  <div class="home__small home__stamp">
-                    <div class="home__stamp-head">
-                      <h3>À découvrir</h3>
-                      <span class="home__new">nouveau</span>
-                    </div>
-                    <p>
-                      <strong>
-                        {summary.discoveries[0].categoryLabel} · {summary.discoveries[0].zone.label}
-                      </strong>{' '}
-                      — {summary.discoveries[0].unseen} à découvrir, 5 par 5 : observer, reconnaître, retrouver
-                    </p>
-                    <button
-                      type="button"
-                      class="btn btn--gold"
-                      onClick={() =>
-                        onPlay({
-                          kind: 'discovery',
-                          exercise: summary.discoveries[0]!.exercise,
-                          zone: summary.discoveries[0]!.zone,
-                        })
-                      }
-                    >
-                      Découvrir
-                    </button>
-                  </div>
-                )}
-              </div>
+              ) : seen > 0 ? (
+                <p>
+                  Tout est à jour, bravo !{summary.nextDueAt && ` Prochaine révision ${formatWhen(summary.nextDueAt, now)}.`} Envie de jouer
+                  ? Choisis une région dans ton carnet.
+                </p>
+              ) : (
+                <p>Ton carnet est encore vierge : choisis une région dans ton carnet pour découvrir tes premiers pays.</p>
+              )}
+            </section>
 
-              <div class="home__routes">
-                <h3>Mes itinéraires</h3>
-                <div class="home__tags">
-                  {favorites.map((favorite) => (
-                    <button type="button" key={favorite.id} class="home__tag" onClick={() => playFavorite(favorite)}>
-                      <span class="home__tag-hole" />
-                      {favorite.name}
-                    </button>
-                  ))}
-                  <button type="button" class="btn-ghost home__compose" onClick={() => onExplore(true)}>
-                    + Composer une manche
+            <section class="paper-card home__carnet" aria-label="Mon carnet de voyage">
+              <span class="tape tape--left" />
+              <span class="tape tape--right tape--teal" />
+              <div class="home__carnet-head">
+                <h2>Mon carnet de voyage</h2>
+                <span>{progress ? `${percent(overall)} acquis` : ''}</span>
+              </div>
+              <p class="home__carnet-help">Choisis une région pour voir ta progression, découvrir ou jouer.</p>
+              <div class="home__map">
+                <WorldMapView world={world} zone={zones[0]!} fills={fills} clickOnly onPick={pickOnMap} />
+              </div>
+              {progress && (
+                <ul class="home__legend">
+                  <li>
+                    <span class="home__swatch is-mastered" /> Maîtrisé <strong>{progress.mastered}</strong>
+                  </li>
+                  <li>
+                    <span class="home__swatch is-acquired" /> Acquis <strong>{progress.acquired}</strong>
+                  </li>
+                  <li>
+                    <span class="home__swatch is-learning" /> En cours <strong>{progress.learning}</strong>
+                  </li>
+                  <li>
+                    <span class="home__swatch is-new" /> À explorer <strong>{progress.new}</strong>
+                  </li>
+                </ul>
+              )}
+              <div class="home__tiles">
+                {tiles.map((tile) => (
+                  <button
+                    type="button"
+                    key={tile.id}
+                    class={`home__tile is-${tile.id} ${sheetTile === tile.id ? 'is-active' : ''}`}
+                    aria-pressed={sheetTile === tile.id}
+                    onClick={() => openRegion(tile.id)}
+                  >
+                    <span class="home__tile-name hand">
+                      {tile.id === 'world' && <GlobeIcon size={18} />}
+                      {tile.label}
+                    </span>
+                    <strong>{percent(tile.share)}</strong>
+                    <span class="home__tile-bar" aria-hidden="true">
+                      <span style={{ width: `${Math.round(tile.share * 100)}%` }} />
+                    </span>
                   </button>
-                </div>
+                ))}
               </div>
-            </>
-          )}
-        </section>
-
-        <footer class="home__footer">
-          <p>Ton carnet reste dans ce navigateur : exporte-le de temps en temps pour le garder ou le passer sur un autre appareil.</p>
-          <BackupButtons />
-          <div class="home__footer-links">
-            {installable && (
-              <button type="button" class="btn btn--teal" onClick={() => void installApp()}>
-                Installer l’app
-              </button>
-            )}
-            <button type="button" class="btn-ghost" onClick={onCredits}>
-              Crédits
-            </button>
+            </section>
           </div>
-        </footer>
-      </main>
+
+          {wide && <div class="home__right">{sheet}</div>}
+
+          <footer class="home__footer">
+            <p>Ton carnet reste dans ce navigateur : exporte-le de temps en temps pour le garder ou le passer sur un autre appareil.</p>
+            <BackupButtons />
+            <div class="home__footer-links">
+              {installable && (
+                <button type="button" class="btn btn--teal" onClick={() => void installApp()}>
+                  Installer l’app
+                </button>
+              )}
+              <button type="button" class="btn-ghost" onClick={onCredits}>
+                Crédits
+              </button>
+            </div>
+          </footer>
+        </main>
+      )}
 
       <nav class="home__tabbar" aria-label="Navigation">
-        <button type="button" class="is-active" aria-current="page">
+        <button type="button" class="is-active" aria-current="page" onClick={() => openRegion(null)}>
           <BookIcon size={24} />
           Carnet
         </button>
-        <button type="button" onClick={() => onExplore(false)}>
+        <button type="button" onClick={onExplore}>
           <MapIcon size={24} />
           Explorer
-        </button>
-        <button type="button" onClick={() => onExplore(true)}>
-          <ArrowIcon size={24} />
-          Composer
         </button>
         <button type="button" onClick={onProgress}>
           <ChartIcon size={24} />

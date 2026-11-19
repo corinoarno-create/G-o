@@ -1,4 +1,4 @@
-// Résumé de l'accueil (§ 7) : ce que je peux travailler aujourd'hui.
+// Résumé de l'accueil (§ 7) : les révisions du jour et l'état du carnet (maîtrise par pays et par continent).
 // Calcul pur, à partir des cartes mémoire et de mes temps de référence.
 import { CONTINENT_LABELS } from '../data/labels.ts';
 import type { ContinentId } from '../data/types.ts';
@@ -6,23 +6,14 @@ import type { WorldData } from '../data/world.ts';
 import { median, type AnswerMode, type TimingStats } from '../engine/grading.ts';
 import { cardKey, masteryOf, SKILL_LABELS, type MasteryLevel, type Skill } from '../engine/srs.ts';
 import { EXERCISES, type ExerciseId } from '../game/exercises.ts';
-import { dueQuestions, quickExercise, REVIEW_BATCH } from '../game/plans.ts';
+import { dueQuestions, REVIEW_BATCH } from '../game/plans.ts';
 import { EXERCISES_FOR_SKILL } from '../game/questions.ts';
-import type { Zone } from '../map/zones.ts';
 import type { CardRecord } from '../storage/schema.ts';
 
 /** Temps de réponse supposés tant que je n'ai pas assez de mesures (ms). */
 const DEFAULT_ANSWER_MS: Record<AnswerMode, number> = { pin: 4000, type: 6000, choice: 3000 };
 /** Temps passé à lire la correction et passer à la suite (ms). */
 const OVERHEAD_MS = 2500;
-
-/** Une découverte suggérée : une catégorie dans une sous-région où il reste beaucoup à voir. */
-export interface Discovery {
-  categoryLabel: string;
-  exercise: ExerciseId;
-  zone: Zone;
-  unseen: number;
-}
 
 export interface HomeSummary {
   /** Révisions dues aujourd'hui. */
@@ -31,6 +22,8 @@ export interface HomeSummary {
   reviewBatch: number;
   /** Durée estimée de cette série (minutes, au moins 1). */
   estimatedMinutes: number;
+  /** Révisions dues par exercice, les plus nombreuses d'abord. */
+  dueByExercise: Array<{ exercise: ExerciseId; label: string; count: number }>;
   /** Prochaine révision à venir, s'il n'y a rien de dû. */
   nextDueAt: Date | null;
   progress: Record<MasteryLevel, number> & { total: number };
@@ -38,29 +31,10 @@ export interface HomeSummary {
   entityMastery: Map<string, number>;
   /** Part des cartes acquises ou maîtrisées, par continent (0 à 1). */
   continents: Array<{ id: ContinentId; label: string; share: number }>;
-  discoveries: Discovery[];
-  /** Exercice de l'entretien rapide (un seul par entretien). */
-  quickExercise: ExerciseId;
 }
-
-const DISCOVERY_CATEGORIES: Array<{ label: string; exercise: ExerciseId }> = [
-  { label: 'Pays', exercise: 'locate-country' },
-  { label: 'Capitales', exercise: 'name-capital' },
-  { label: 'Drapeaux', exercise: 'flag-to-country' },
-];
-
-/** Petit hachage stable, pour varier les suggestions d'un jour à l'autre à égalité. */
-function hash(text: string): number {
-  let value = 2166136261;
-  for (let i = 0; i < text.length; i++) value = Math.imul(value ^ text.charCodeAt(i), 16777619);
-  return value >>> 0;
-}
-
-const dayKey = (now: Date) => `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}`;
 
 export function buildHomeSummary(
   world: WorldData,
-  zones: Zone[],
   cards: Map<string, CardRecord>,
   timing: Map<AnswerMode, TimingStats>,
   now: Date,
@@ -104,42 +78,22 @@ export function buildHomeSummary(
     return { id, label: CONTINENT_LABELS[id], share: stats.total ? stats.strong / stats.total : 0 };
   });
 
-  // Découvertes : pour chaque catégorie, la sous-région où il reste le plus d'éléments jamais vus
-  // (une sous-région différente pour chaque catégorie, pour varier).
-  const today = dayKey(now);
-  const discoveries: Discovery[] = [];
-  const usedZones = new Set<string>();
-  for (const category of DISCOVERY_CATEGORIES) {
-    const exercise = EXERCISES[category.exercise];
-    const candidates = zones
-      .filter((zone) => zone.kind === 'subregion')
-      .map((zone) => ({
-        zone,
-        unseen: zone.entityIds.filter((id) => {
-          const entity = world.byId.get(id);
-          return entity && exercise.eligible(entity) && (cards.get(cardKey(id, exercise.skill))?.card.reps ?? 0) === 0;
-        }).length,
-      }))
-      .filter((candidate) => candidate.unseen > 0)
-      .sort((a, b) => b.unseen - a.unseen || hash(today + a.zone.id) - hash(today + b.zone.id));
-    const best = candidates.find((candidate) => !usedZones.has(candidate.zone.id)) ?? candidates[0];
-    if (best) {
-      usedZones.add(best.zone.id);
-      discoveries.push({ categoryLabel: category.label, exercise: category.exercise, zone: best.zone, unseen: best.unseen });
-    }
-  }
-  discoveries.sort((a, b) => b.unseen - a.unseen);
+  // Révisions dues, regroupées par exercice (comme dans la manche de révision).
+  const byExercise = new Map<ExerciseId, number>();
+  for (const question of due) byExercise.set(question.exercise, (byExercise.get(question.exercise) ?? 0) + 1);
+  const dueByExercise = [...byExercise]
+    .map(([exercise, count]) => ({ exercise, label: EXERCISES[exercise].label, count }))
+    .sort((a, b) => b.count - a.count);
 
   return {
     due: due.length,
     reviewBatch: batch.length,
     estimatedMinutes: batch.length ? Math.max(1, Math.round(totalMs / 60_000)) : 0,
+    dueByExercise,
     nextDueAt: upcoming.length ? new Date(Math.min(...upcoming)) : null,
     progress,
     entityMastery,
     continents,
-    discoveries: discoveries.slice(0, 2),
-    quickExercise: quickExercise(world, cards, now),
   };
 }
 

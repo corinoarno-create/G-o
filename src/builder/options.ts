@@ -23,8 +23,8 @@ export const CATEGORIES: Category[] = [
     id: 'countries',
     label: 'Pays',
     modes: [
-      { id: 'pin', label: 'Épingler', exercise: 'locate-country' },
-      { id: 'type', label: 'Saisir', exercise: 'name-country' },
+      { id: 'pin', label: 'Placer', exercise: 'locate-country' },
+      { id: 'type', label: 'Nommer', exercise: 'name-country' },
     ],
   },
   {
