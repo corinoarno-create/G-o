@@ -80,6 +80,10 @@ describe('matchAnswer', () => {
     expect(matchAnswer('Slovaquie', ['Slovénie'], others)).toMatchObject({ status: 'wrong', confusedWith: 'Slovaquie' });
   });
 
+  it('ne parle de confusion que si la saisie ressemble vraiment à une autre réponse', () => {
+    expect(matchAnswer('Lyon', ['Amsterdam'], ['Lima', 'Paris'])).toMatchObject({ status: 'wrong', confusedWith: null });
+  });
+
   it('garde la tolérance quand aucune autre réponse ne ressemble', () => {
     const others = ['Guinée', 'Guinée équatoriale', 'Guinée-Bissau'];
     expect(matchAnswer('guinee', ['Guinée'], others).status).toBe('exact');

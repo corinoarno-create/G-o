@@ -124,8 +124,10 @@ export function matchAnswer(input: string, accepted: string[], others: string[] 
   const rival = closest(others.filter((name) => !variants(name).some((form) => acceptedSet.has(form))));
 
   if (target.typos === 0) return { status: 'exact', matched: target.name, typos: 0, confusedWith: null };
-  // Une autre réponse connue correspond aussi bien ou mieux : c'est une confusion, pas une faute de frappe.
-  if (rival && rival.typos <= target.typos) {
+  // Une autre réponse connue correspond aussi bien ou mieux, et la saisie lui ressemble vraiment
+  // (dans sa tolérance) : c'est une confusion, pas une faute de frappe. « Lyon » n'est pas « Lima ».
+  const rivalPlausible = rival !== null && rival.typos <= allowedTypos(rival.form);
+  if (rival && rivalPlausible && rival.typos <= target.typos) {
     return { status: 'wrong', matched: target.name, typos: target.typos, confusedWith: rival.name };
   }
   if (target.typos <= allowedTypos(target.form)) {

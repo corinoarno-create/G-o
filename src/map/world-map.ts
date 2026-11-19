@@ -128,9 +128,14 @@ export class WorldMap {
     this.svg.call(this.zoomBehavior).on('dblclick.zoom', null);
     this.svg.on('click', (event: MouseEvent) => this.handleClick(event));
 
+    // Le navigateur prévient aussi au premier affichage : on ne redessine (et ne recadre) que si la taille
+    // a vraiment changé, sinon un zoom lancé juste après l'ouverture serait annulé.
     this.resizeObserver = new ResizeObserver(() => {
       cancelAnimationFrame(this.resizeFrame);
-      this.resizeFrame = requestAnimationFrame(() => this.render());
+      this.resizeFrame = requestAnimationFrame(() => {
+        const { width, height } = this.container.getBoundingClientRect();
+        if (Math.abs(width - this.width) >= 1 || Math.abs(height - this.height) >= 1) this.render();
+      });
     });
     this.resizeObserver.observe(container);
   }
