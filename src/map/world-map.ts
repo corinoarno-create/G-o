@@ -388,16 +388,18 @@ export class WorldMap {
         .radius(minKm / 2 / KM_PER_DEGREE)();
       framed = unionBounds([bounds, this.path.bounds(disc) as Bounds]) ?? bounds;
     }
-    this.fitBounds(framed, duration, 20);
+    // Avec une étendue en km, c'est elle qui limite le zoom (la taille en pixels dépend de l'écran).
+    this.fitBounds(framed, duration, minKm > 0 ? 2 : 20);
   }
 
   /** Cadre un rectangle (coordonnées de la carte avant zoom) dans l'espace libre de l'écran. */
   private fitBounds(bounds: Bounds, duration: number, minSize = 40, padding = MAP_SETTINGS.padding * 2): void {
     // On cadre dans l'espace libre entre la question et la réponse.
-    const freeHeight = Math.max(this.height - this.insets.top - this.insets.bottom, 80);
-    const freeWidth = Math.max(this.width - this.insets.left - this.insets.right, 80);
+    // (Clavier ouvert sur téléphone : cette bande peut être très basse, la marge se réduit avec elle.)
+    const freeHeight = Math.max(this.height - this.insets.top - this.insets.bottom, 40);
+    const freeWidth = Math.max(this.width - this.insets.left - this.insets.right, 40);
     const { k, x, y } = fitTransform(bounds, freeWidth, freeHeight, {
-      padding,
+      padding: Math.min(padding, freeWidth / 8, freeHeight / 8),
       maxScale: MAP_SETTINGS.maxZoom,
       minSize,
     });

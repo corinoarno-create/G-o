@@ -111,6 +111,7 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 - **Petits pays** : **clic tolérant** (un clic dans la mer à moins de 16 px, 24 px au doigt, d'un pays compte pour le plus proche) ; repères plus grands au doigt ; une fois zoomé, le cercle d'un micro-territoire devient un **petit rond blanc** qui reste affiché pour le repérer (demande d'Arno, 19/11/2026) ; loupe automatique (×4) quand un clic tombe à moins de 26 px de deux cercles de repère ou plus ; quand l'élément est montré (Nommer, Capitale de…, Pays → drapeau), la carte zoome dessus avec un peu de voisinage.
 - **Choix des éléments** (en attendant le constructeur) : révisions dues d'abord, puis nouveautés, puis les autres, ordre mélangé.
 - La carte est cadrée dans l'espace libre entre la question et le panneau de réponse (`WorldMap.setInsets`).
+- **Clavier ouvert sur téléphone** (retour d'Arno, 19/11/2026) : l'app rétrécit au-dessus du clavier (`interactive-widget=resizes-content` dans `index.html`) au lieu de défiler ; sous 520 px de haut, mise en page compacte (en-tête, question et panneau resserrés, boutons de zoom masqués au doigt) ; les marges de cadrage se réduisent avec l'espace libre.
 
 ## 6. Choisir ce que je travaille
 

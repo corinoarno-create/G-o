@@ -636,3 +636,119 @@
     display: none;
   }
 }
+
+/* Écran bas : téléphone dont le clavier est ouvert (l'app rétrécit au-dessus de lui, voir index.html),
+   ou téléphone en paysage. Tout se resserre pour que la question, la carte et la saisie restent visibles. */
+@media (max-height: 520px) {
+  .game__bar {
+    gap: 10px;
+    padding-top: max(3px, env(safe-area-inset-top));
+    padding-bottom: 3px;
+  }
+
+  .game__quit {
+    width: 30px;
+    height: 30px;
+  }
+
+  .game__route {
+    height: 24px;
+  }
+
+  .game__stop.is-current {
+    width: 20px;
+    height: 20px;
+  }
+
+  .game__count {
+    font-size: 1.2rem;
+  }
+
+  .game__prompt {
+    top: 6px;
+    padding: 5px 12px 6px;
+    transform: translateX(-50%);
+  }
+
+  .game__prompt .pushpin,
+  .game__step {
+    display: none;
+  }
+
+  .game__ask {
+    font-size: 0.8rem;
+  }
+
+  .game__subject,
+  .game__subject--small {
+    font-size: 1.7rem;
+  }
+
+  .game__flag {
+    width: 64px;
+    height: 48px;
+    margin: 2px auto;
+  }
+
+  .game__hint {
+    margin-top: 2px;
+    font-size: 1.15rem;
+  }
+
+  .game__panel {
+    bottom: max(6px, env(safe-area-inset-bottom));
+    padding: 8px 10px;
+  }
+
+  .game__input {
+    padding: 7px 10px;
+    font-size: 1rem;
+  }
+
+  .game__form .btn {
+    padding: 6px 12px;
+  }
+
+  .game__tools {
+    flex-wrap: nowrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .game__tools .btn,
+  .game__tools .btn-ghost {
+    padding: 4px 10px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
+  .game__tries {
+    font-size: 1.05rem;
+    white-space: nowrap;
+  }
+
+  .game__notice {
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+  }
+
+  .game__confirm {
+    font-size: 1.2rem;
+  }
+
+  .game__answer strong {
+    font-size: 1.35rem;
+  }
+
+  .game__answer-flag {
+    width: 64px;
+    height: 48px;
+  }
+}
+
+/* Au doigt, sur un écran bas, les boutons de zoom prendraient la place de la carte : on pince. */
+@media (max-height: 520px) and (pointer: coarse) {
+  .game .map-controls {
+    display: none;
+  }
+}
