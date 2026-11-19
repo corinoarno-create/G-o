@@ -65,6 +65,17 @@ interface Reveal {
   click: [number, number] | null;
 }
 
+/**
+ * Cadrage de la carte demandé pendant une question (indice, réponse dévoilée). Il est lié à l'état de la
+ * manche où il a été demandé : à la question suivante, il ne vaut plus.
+ */
+interface Frame {
+  state: ConsolidationState;
+  ids: string[];
+  points: [number, number][];
+  minSize: number;
+}
+
 /** Ce que la première réponse à la question a enregistré (pour le bilan). */
 interface FirstTry {
   responseMs: number;
@@ -114,6 +125,7 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
   const promptRef = useRef<HTMLElement>(null);
   const panelRef = useRef<HTMLElement>(null);
   const [insets, setInsets] = useState<MapInsets | undefined>(undefined);
+  const [frame, setFrame] = useState<Frame | null>(null);
 
   // Place prise par la question et le panneau de réponse, mesurée au début et quand l'écran change de taille.
   useLayoutEffect(() => {
@@ -170,12 +182,18 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
     inputRef.current?.focus();
   }, [consolidation]);
 
-  // Cadrage de la question, une fois la place des panneaux connue. On laisse d'abord passer les autres
-  // effets : Preact exécute celui-ci avant celui de la carte, qui recadre tout quand les marges arrivent.
+  // Cadrage de la carte : celui demandé pendant la question (indice, réponse dévoilée), sinon celui de la
+  // question (l'élément montré, ou la zone entière). Il est réappliqué quand la place des panneaux change :
+  // la carte se recadre alors sur la zone, ce qui effacerait le zoom (ex. la ligne d'indice agrandit la question).
+  // On laisse d'abord passer les autres effets : Preact exécute celui-ci avant celui de la carte.
+  const activeFrame = frame && frame.state === consolidation ? frame : null;
   useEffect(() => {
     if (!entity || !insets) return undefined;
     const timer = setTimeout(() => {
-      if (SHOWS_TARGET.has(exercise.id)) {
+      if (activeFrame) {
+        mapRef.current?.flyTo(activeFrame.ids, 600, activeFrame.points, activeFrame.minSize);
+        flew.current = true;
+      } else if (SHOWS_TARGET.has(exercise.id)) {
         // L'élément est montré : on zoome dessus, avec un peu de voisinage (les petites îles deviennent visibles).
         mapRef.current?.flyTo([entity.id], 600, [], 140);
         flew.current = true;
@@ -185,7 +203,7 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
       }
     }, 0);
     return () => clearTimeout(timer);
-  }, [consolidation, insets?.top, insets?.bottom]);
+  }, [consolidation, activeFrame, insets?.top, insets?.bottom]);
 
   // Fin de la manche.
   useEffect(() => {
@@ -230,10 +248,7 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
     setHint(next);
     if (next.eliminate?.length) setEliminated((list) => [...list, ...next.eliminate!]);
     // L'indice de lieu sert aussi à rendre les petites îles cliquables : la carte zoome sur la région.
-    if (next.focus?.length) {
-      mapRef.current?.flyTo(next.focus, 600, [], 160);
-      flew.current = true;
-    }
+    if (next.focus?.length) setFrame({ state: consolidation, ids: next.focus, points: [], minSize: 160 });
   };
 
   const answer = (input: AnswerInput, giveUp = false) => {
@@ -290,10 +305,7 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
         exercise.id === 'locate-capital' && entity.capital
           ? [[entity.capital.lon, entity.capital.lat] as [number, number], ...(click ? [click] : [])]
           : [];
-      if (exercise.answerMode === 'pin' || exercise.id === 'flag-to-country') {
-        mapRef.current?.flyTo(ids, 650, points, 120);
-        flew.current = true;
-      }
+      if (exercise.answerMode === 'pin' || exercise.id === 'flag-to-country') setFrame({ state: consolidation, ids, points, minSize: 120 });
       return;
     }
 

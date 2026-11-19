@@ -91,18 +91,21 @@ export function DiscoveryScreen({ world, discovery, onDone, onQuit }: Props) {
       if (phase === 'observe' && observed) {
         const capital = family === 'capital' ? capitalOf(observed) : null;
         map.flyTo([observed.id], 700, capital ? [capital] : [], 220);
-      } else if (phase === 'recognize') {
-        const points = family === 'capital' ? group.map(capitalOf).filter((p): p is [number, number] => p !== null) : [];
-        map.flyTo(
-          group.map((e) => e.id),
-          700,
-          points,
-          220,
-        );
+      } else if (phase === 'recognize' && asked && question) {
+        // L'élément est montré sur la carte : on le cadre comme à l'étape Observer (une petite île
+        // se perdrait dans une vue d'ensemble). Sinon (un drapeau), vue d'ensemble du groupe.
+        if (question.highlight || question.pin) map.flyTo([asked.id], 700, question.pin ? [question.pin] : [], 220);
+        else
+          map.flyTo(
+            group.map((e) => e.id),
+            700,
+            [],
+            220,
+          );
       }
     }, 0);
     return () => clearTimeout(timer);
-  }, [phase, index, insets?.top, insets?.bottom]);
+  }, [phase, index, asked?.id, insets?.top, insets?.bottom]);
 
   useEffect(() => {
     if (missed) continueRef.current?.focus();
