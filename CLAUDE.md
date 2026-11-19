@@ -186,6 +186,7 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 - **PWA** : `vite-plugin-pwa`.
 - **Tests** : Vitest, au minimum pour la notation automatique, le calcul de distance, la boucle de consolidation et la tolérance de saisie.
 - Le code est commenté en français et les noms de variables sont en anglais.
+- **Direction artistique « Carnet d'explorateur »** (validée le 19/11/2026) : papier beige à grain, encre sépia (`--ink`), océan bleu-vert délavé, pays à l'aquarelle par continent (`--wc-*`), titres manuscrits **Caveat** et texte **Nunito**, embarqués via `@fontsource` (hors ligne). Boutons « à l'encre » (`.btn`, `.btn--terracotta|teal|gold`, `.btn-ghost`), feuilles de carnet (`.paper-card`, `.tape`), tout dans `src/styles.css`. L'app reste en clair (pas de mode sombre). Icônes à la plume dans `src/ui/icons.tsx`, jamais d'émoji dans l'interface.
 
 ## 12. Feuille de route
 
@@ -211,7 +212,7 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 - [x] **6. Constructeur de session** + favoris. *(`src/builder/` : zone (Monde, continent, sous-région), catégorie (pays, capitales, drapeaux), mode, contenu (mélange, à réviser, nouveaux, points faibles) avec compteurs, nombre ; favoris nommés ; derniers réglages retenus. Pas de plafond de nouveautés pour les pays du Monde, déjà connus.)*
 - [x] **7. Accueil** (le défi du jour reste en V3). *(`src/home/` : révisions du jour (durée estimée d'après mes temps, séries de 50), entretien rapide (10 questions mêlées), 2 suggestions de découverte dans des sous-régions différentes, composer une manche et favoris, progression, sauvegarde. Les manches peuvent mélanger les exercices : une question = un élément × un exercice, `src/game/questions.ts`.)*
 - [x] **Lot A (retours du 19/11)** : essais multiples et indices progressifs, validation instantanée, bonne réponse en vert, loupe sur les petits pays, zoom sur l'élément montré.
-- [ ] **Lot B** : refonte « Carnet d'explorateur » (papier, aquarelle, titres manuscrits, tampon « Validé ! », accueil carnet de voyage avec carte colorée selon la maîtrise) — maquette d'abord.
+- [x] **Lot B** : refonte « Carnet d'explorateur » (papier, aquarelle, titres manuscrits, tampon « Validé ! », accueil carnet de voyage avec carte colorée selon la maîtrise). *(Maquette validée : https://claude.ai/artifact/Eq39rDQAf1hBe498adcFCs)*
 - [ ] **Lot C** : page « Ma progression » avec graphiques (réponses par jour, temps médian, maîtrise par continent et compétence, points faibles).
 - [ ] **8. PWA** hors ligne, installation Android, finitions tactiles, page Crédits.
 

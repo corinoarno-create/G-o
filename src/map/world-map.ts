@@ -339,7 +339,7 @@ export class WorldMap {
       const area = this.path.area(shape);
       const anchor = this.world.byId.get(id)?.anchor;
       const anchorPx = anchor ? this.projection(anchor) : null;
-      if (active.has(id) && anchorPx && needsMarker(area, 1, MAP_SETTINGS.markerAreaThreshold)) {
+      if (this.options.interactive !== false && active.has(id) && anchorPx && needsMarker(area, 1, MAP_SETTINGS.markerAreaThreshold)) {
         this.markers.set(id, { element: this.createMarker(id), area, anchor: anchorPx });
       }
     }
