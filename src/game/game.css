@@ -449,3 +449,58 @@
   margin: 0;
   font-size: 1.05rem;
 }
+
+/* Retour d'une bonne réponse : il s'affiche pendant que la question suivante commence. */
+.game__toast {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 3;
+  margin: 0;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--game-correct);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: var(--game-shadow);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  animation: game-toast 1.2s ease-out forwards;
+}
+
+@keyframes game-toast {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -30%) scale(0.9);
+  }
+  15% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -70%);
+  }
+}
+
+/* « Tu as touché : … Essaie encore ! » */
+.game__notice {
+  margin: 0 0 8px;
+  color: var(--game-wrong);
+  font-weight: 600;
+}
+
+.game__tries {
+  color: var(--color-muted);
+  font-size: 0.85rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .game__toast {
+    animation-duration: 0.01s;
+    animation-delay: 1s;
+  }
+}

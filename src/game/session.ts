@@ -210,3 +210,15 @@ export function summarize(log: SessionLogEntry[], durationMs: number): SessionSu
     promoted,
   };
 }
+
+/**
+ * La saisie correspond-elle exactement (aux accents et à la casse près) à une réponse acceptée ?
+ * Sert à valider dès que le nom est juste, sans attendre Entrée. Une saisie approchée (petite faute)
+ * n'est pas validée en cours de frappe : on attend Entrée, pour ne pas couper la fin du mot.
+ */
+export function isExactTypedAnswer(exercise: ExerciseId, entity: CountryEntity, text: string, world: WorldData): boolean {
+  const capitalQuestion = exercise === 'name-capital';
+  const accepted = capitalQuestion ? capitalAnswers(entity) : countryAnswers(entity);
+  const rivals = rivalAnswers(world, capitalQuestion ? 'capitals' : 'countries', entity.id);
+  return matchAnswer(text, accepted, rivals).status === 'exact';
+}

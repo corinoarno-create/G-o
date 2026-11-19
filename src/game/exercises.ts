@@ -1,5 +1,4 @@
 // Exercices de la V1 (§ 4) : ce qu'on demande, comment on répond, quelle compétence FSRS est travaillée.
-import { SUBREGION_LABELS } from '../data/labels.ts';
 import type { CountryEntity } from '../data/types.ts';
 import type { WorldData } from '../data/world.ts';
 import type { AnswerMode } from '../engine/grading.ts';
@@ -119,28 +118,77 @@ export function rivalAnswers(world: WorldData, kind: 'countries' | 'capitals', e
 /** Nombre de lettres d'un nom (sans espaces, tirets ni apostrophes). */
 export const letterCount = (name: string) => name.replace(/[\s\-'’]/g, '').length;
 
+/** Cercle d'indice sur la carte : la réponse est dedans, mais pas forcément au centre. */
+export interface HintCircle {
+  center: [number, number];
+  radiusKm: number;
+}
+
 export interface Hint {
   text: string;
+  circle?: HintCircle;
   /** Pour le choix de drapeaux : propositions retirées par l'indice. */
   eliminate?: string[];
 }
 
-/** Indice générique (V1) : il aide sans donner la réponse. Les indices rédigés viendront en V2. */
-export function hintFor(exercise: ExerciseId, entity: CountryEntity, choices: string[] = []): Hint {
-  const startsWith = (name: string) => `Commence par « ${name[0]!.toUpperCase()} » (${letterCount(name)} lettres).`;
+/** Nombre d'essais avant de montrer la réponse, selon la façon de répondre. */
+export const MAX_TRIES: Record<AnswerMode, number> = { pin: 3, type: 3, choice: 2 };
+
+/** Niveaux d'indice : 1 après la première erreur (ou un clic sur « Indice »), 2 après la deuxième. */
+export type HintLevel = 1 | 2;
+
+const KM_PER_DEGREE = 111.195;
+
+/**
+ * Cercle d'indice autour d'un point : assez grand au niveau 1, resserré au niveau 2.
+ * Son centre est décalé au hasard pour que la réponse ne soit pas pile au milieu.
+ */
+export function hintCircle(target: [number, number], targetRadiusKm: number, level: HintLevel, rng: () => number = Math.random): HintCircle {
+  const radiusKm = level === 1 ? Math.max(4 * targetRadiusKm, 900) : Math.max(1.6 * targetRadiusKm, 300);
+  const shift = rng() * 0.45 * Math.max(radiusKm - targetRadiusKm, 0);
+  const angle = rng() * 2 * Math.PI;
+  const lat = target[1] + (shift * Math.cos(angle)) / KM_PER_DEGREE;
+  const lon = target[0] + (shift * Math.sin(angle)) / (KM_PER_DEGREE * Math.max(Math.cos((target[1] * Math.PI) / 180), 0.2));
+  return { center: [((lon + 540) % 360) - 180, Math.max(-89, Math.min(89, lat))], radiusKm };
+}
+
+/** « Commence par « Ou… » (11 lettres). » */
+export function letterHint(name: string, level: HintLevel): string {
+  return `Commence par « ${name.slice(0, level)}… » (${letterCount(name)} lettres).`;
+}
+
+/**
+ * Indice progressif (V1) : il aide sans donner la réponse. Les indices rédigés viendront en V2.
+ * - Placer : un cercle autour de la zone, qui se resserre ;
+ * - Saisir : la première lettre, puis les deux premières ;
+ * - Choix de drapeaux : un mauvais drapeau en moins à chaque niveau.
+ */
+export function hintFor(
+  exercise: ExerciseId,
+  entity: CountryEntity,
+  level: HintLevel,
+  options: { choices?: string[]; eliminated?: string[]; rng?: () => number } = {},
+): Hint {
+  const rng = options.rng ?? Math.random;
+  const circleText = level === 1 ? 'C’est dans le cercle.' : 'Le cercle se resserre…';
   switch (exercise) {
-    case 'locate-country':
-      return { text: `Région : ${SUBREGION_LABELS[entity.subregion]}.` };
-    case 'locate-capital':
-      return { text: `C'est la capitale : ${entity.name}.` };
+    case 'locate-country': {
+      const radius = Math.sqrt(entity.areaKm2 / Math.PI);
+      return { text: circleText, circle: hintCircle(entity.anchor, radius, level, rng) };
+    }
+    case 'locate-capital': {
+      const capital = entity.capital!;
+      return { text: circleText, circle: hintCircle([capital.lon, capital.lat], 0, level, rng) };
+    }
     case 'name-country':
     case 'flag-to-country':
-      return { text: startsWith(entity.name) };
+      return { text: letterHint(entity.name, level) };
     case 'name-capital':
-      return { text: startsWith(entity.capital?.name ?? '?') };
+      return { text: letterHint(entity.capital?.name ?? '?', level) };
     case 'country-to-flag': {
-      const wrong = choices.filter((id) => id !== entity.id).slice(0, 2);
-      return { text: 'Deux drapeaux en moins.', eliminate: wrong };
+      const eliminated = new Set(options.eliminated ?? []);
+      const next = (options.choices ?? []).find((id) => id !== entity.id && !eliminated.has(id));
+      return { text: 'Un drapeau en moins.', eliminate: next ? [next] : [] };
     }
   }
 }

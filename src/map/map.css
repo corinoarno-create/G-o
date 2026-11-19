@@ -7,7 +7,7 @@
   --map-border: #8a8475;
   --map-neutral: #c9c6bf;
   --map-selected: #3b7dd8;
-  --map-target: #e8a33d;
+  --map-target: #f2c14e;
   --map-correct: #3fae63;
   --map-wrong: #d9534f;
   --map-marker: #ffffff;
@@ -24,7 +24,7 @@
     --map-border: #8fa39a;
     --map-neutral: #55605b;
     --map-selected: #6ea6f0;
-    --map-target: #f0b55a;
+    --map-target: #e9b949;
     --map-correct: #5fcf83;
     --map-wrong: #f07672;
     --map-marker: #e6efeb;
@@ -259,5 +259,25 @@
 @media (prefers-reduced-motion: reduce) {
   .map-pin__halo {
     animation: none !important;
+  }
+}
+
+/* Cercle d'indice : la réponse est dedans. */
+.map-hint-circle {
+  fill: rgba(59, 125, 216, 0.08);
+  stroke: var(--map-selected);
+  stroke-width: 2px;
+  stroke-dasharray: 6 5;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+  animation: map-hint-appear 400ms ease-out;
+}
+
+@keyframes map-hint-appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }

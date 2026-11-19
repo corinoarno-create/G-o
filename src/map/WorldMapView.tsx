@@ -1,7 +1,7 @@
 // Composant Preact autour du moteur de carte (WorldMap), avec les boutons de zoom.
 import { useEffect, useRef } from 'preact/hooks';
 import type { WorldData } from '../data/world.ts';
-import { WorldMap, type HighlightKind, type MapInsets, type MapPick, type MapPin } from './world-map.ts';
+import { WorldMap, type HighlightKind, type MapCircle, type MapInsets, type MapPick, type MapPin } from './world-map.ts';
 import type { Zone } from './zones.ts';
 import './map.css';
 
@@ -10,6 +10,10 @@ interface Props {
   zone: Zone;
   highlights?: Map<string, HighlightKind>;
   pins?: MapPin[];
+  /** Cercles d'indice. */
+  circles?: MapCircle[];
+  /** Loupe sur les groupes de petits pays (en jeu). */
+  magnify?: boolean;
   /** Place prise par les éléments posés sur la carte (voir WorldMap.setInsets). */
   insets?: MapInsets;
   onPick?: (pick: MapPick) => void;
@@ -19,7 +23,7 @@ interface Props {
   onReady?: (map: WorldMap | null) => void;
 }
 
-export function WorldMapView({ world, zone, highlights, pins, insets, onPick, focusIds, onReady }: Props) {
+export function WorldMapView({ world, zone, highlights, pins, circles, magnify, insets, onPick, focusIds, onReady }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<WorldMap | null>(null);
   // On passe par une référence pour que la carte appelle toujours la dernière version du gestionnaire.
@@ -27,7 +31,7 @@ export function WorldMapView({ world, zone, highlights, pins, insets, onPick, fo
   onPickRef.current = onPick;
 
   useEffect(() => {
-    const map = new WorldMap(containerRef.current!, world, { onPick: (pick) => onPickRef.current?.(pick) });
+    const map = new WorldMap(containerRef.current!, world, { onPick: (pick) => onPickRef.current?.(pick), magnify });
     mapRef.current = map;
     onReady?.(map);
     return () => {
@@ -45,6 +49,7 @@ export function WorldMapView({ world, zone, highlights, pins, insets, onPick, fo
   useEffect(() => mapRef.current?.setZone(zone), [world, zone]);
   useEffect(() => mapRef.current?.setHighlights(highlights ?? new Map()), [world, zone, highlights]);
   useEffect(() => mapRef.current?.setPins(pins ?? []), [world, zone, pins]);
+  useEffect(() => mapRef.current?.setCircles(circles ?? []), [world, zone, circles]);
   useEffect(() => {
     if (focusIds?.length) mapRef.current?.flyTo(focusIds);
   }, [focusIds]);

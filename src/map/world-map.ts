@@ -4,7 +4,7 @@
 // le zoom ne fait que transformer le groupe qui les contient (rapide). Les bordures gardent la même épaisseur
 // à l'écran (vector-effect). Les cercles de repère des micro-États sont dans un calque à part, non zoomé,
 // repositionnés à chaque mouvement pour garder une taille constante et rester faciles à toucher.
-import { geoAzimuthalEqualArea, geoNaturalEarth1, geoPath, type GeoPath, type GeoProjection } from 'd3-geo';
+import { geoAzimuthalEqualArea, geoCircle, geoNaturalEarth1, geoPath, type GeoPath, type GeoProjection } from 'd3-geo';
 import { pointer, select, type Selection } from 'd3-selection';
 import 'd3-transition';
 import { zoom, zoomIdentity, type D3ZoomEvent, type ZoomBehavior, type ZoomTransform } from 'd3-zoom';
@@ -30,7 +30,21 @@ export const MAP_SETTINGS = {
   clickDistance: 5,
   /** Durée des animations de cadrage (ms). */
   flyDuration: 750,
+  /**
+   * Loupe : si un clic tombe près d'au moins deux cercles de repère (Caraïbes, Pacifique…),
+   * la carte zoome autour du clic au lieu de répondre, pour qu'on choisisse précisément.
+   */
+  magnifyRadius: 26,
+  magnifyFactor: 4,
 };
+
+const KM_PER_DEGREE = 111.195;
+
+/** Cercle d'indice (la réponse est dedans). */
+export interface MapCircle {
+  center: [number, number];
+  radiusKm: number;
+}
 
 export type HighlightKind = 'selected' | 'target' | 'correct' | 'wrong';
 
@@ -57,6 +71,8 @@ export interface MapInsets {
 
 export interface WorldMapOptions {
   onPick?: (pick: MapPick) => void;
+  /** Active la loupe sur les groupes de petits pays (en jeu). */
+  magnify?: boolean;
 }
 
 export class WorldMap {
@@ -78,6 +94,8 @@ export class WorldMap {
   private readonly markers = new Map<string, { element: SVGGElement; area: number; anchor: [number, number] }>();
   private highlights = new Map<string, HighlightKind>();
   private pins: Array<{ pin: MapPin; element: SVGGElement; base: [number, number] | null }> = [];
+  private circles: MapCircle[] = [];
+  private circleLayer: SVGGElement | null = null;
   private resizeFrame = 0;
 
   constructor(
@@ -161,8 +179,20 @@ export class WorldMap {
     this.projectPins();
   }
 
+  /** Affiche des cercles d'indice (ils suivent le zoom). Une liste vide les efface. */
+  setCircles(circles: MapCircle[]): void {
+    this.circles = circles;
+    this.drawCircles();
+  }
+
+  /** Cadre la carte sur un cercle d'indice. */
+  flyToCircle(circle: MapCircle, duration = MAP_SETTINGS.flyDuration): void {
+    const shape = geoCircle().center(circle.center).radius(circle.radiusKm / KM_PER_DEGREE)();
+    this.fitBounds(this.path.bounds(shape) as Bounds, duration);
+  }
+
   /** Zoome en douceur sur des entités (leurs terres principales) et, si besoin, sur des points. */
-  flyTo(ids: string[], duration = MAP_SETTINGS.flyDuration, points: [number, number][] = []): void {
+  flyTo(ids: string[], duration = MAP_SETTINGS.flyDuration, points: [number, number][] = [], minSize = 40): void {
     const pointBounds = points
       .map((point) => this.projection(point))
       .filter((p): p is [number, number] => p !== null)
@@ -175,13 +205,18 @@ export class WorldMap {
       ...pointBounds,
     ]);
     if (!bounds) return;
+    this.fitBounds(bounds, duration, minSize);
+  }
+
+  /** Cadre un rectangle (coordonnées de la carte avant zoom) dans l'espace libre de l'écran. */
+  private fitBounds(bounds: Bounds, duration: number, minSize = 40): void {
     // On cadre dans l'espace libre entre la question et la réponse.
     const freeHeight = Math.max(this.height - this.insets.top - this.insets.bottom, 80);
     const freeWidth = Math.max(this.width - this.insets.left - this.insets.right, 80);
     const { k, x, y } = fitTransform(bounds, freeWidth, freeHeight, {
       padding: MAP_SETTINGS.padding * 2,
       maxScale: MAP_SETTINGS.maxZoom,
-      minSize: 40,
+      minSize,
     });
     this.svg
       .transition()
@@ -287,7 +322,11 @@ export class WorldMap {
     // Traits par-dessus les surfaces : frontières et côtes, sans les lignes de découpe des données.
     addPath(this.path(this.world.coastlines), 'map-coastline');
     addPath(this.path(this.world.borders), 'map-borders');
+    this.circleLayer = document.createElementNS(SVG_NS, 'g');
+    this.circleLayer.setAttribute('class', 'map-circles');
+    fragment.appendChild(this.circleLayer);
     this.viewport.replaceChildren(fragment);
+    this.drawCircles();
     this.element.classList.toggle('is-world', this.zone.view.projection === 'natural-earth');
     for (const id of this.shapes.keys()) this.applyClasses(id, active);
 
@@ -314,6 +353,19 @@ export class WorldMap {
       );
     this.svg.interrupt().call(this.zoomBehavior.transform, zoomIdentity);
     this.projectPins();
+  }
+
+  private drawCircles(): void {
+    if (!this.circleLayer) return;
+    this.circleLayer.replaceChildren();
+    for (const circle of this.circles) {
+      const d = this.path(geoCircle().center(circle.center).radius(circle.radiusKm / KM_PER_DEGREE)());
+      if (!d) continue;
+      const element = document.createElementNS(SVG_NS, 'path');
+      element.setAttribute('d', d);
+      element.setAttribute('class', 'map-hint-circle');
+      this.circleLayer.appendChild(element);
+    }
   }
 
   private projectPins(): void {
@@ -386,12 +438,28 @@ export class WorldMap {
     return best;
   }
 
+  /** Nombre de cercles de repère visibles à moins de `radius` pixels du point. */
+  private markersNear(px: number, py: number, radius: number): number {
+    let count = 0;
+    for (const { element, anchor } of this.markers.values()) {
+      if (element.style.display === 'none') continue;
+      const [x, y] = this.transform.apply(anchor);
+      if (Math.hypot(x - px, y - py) <= radius) count += 1;
+    }
+    return count;
+  }
+
   private handleClick(event: MouseEvent): void {
     const target = event.target instanceof Element ? event.target.closest('[data-id]') : null;
     const [px, py] = pointer(event, this.element);
     const [x, y] = this.transform.invert([px, py]);
     const lonLat = this.projection.invert?.([x, y]) ?? null;
     const onMarker = target !== null && this.markerLayer.contains(target);
+    // Loupe : un clic au milieu de plusieurs petits pays fait zoomer au lieu de répondre.
+    if (this.options.magnify && this.markersNear(px, py, MAP_SETTINGS.magnifyRadius) >= 2) {
+      this.svg.transition().duration(450).call(this.zoomBehavior.scaleBy, MAP_SETTINGS.magnifyFactor, [px, py]);
+      return;
+    }
     this.options.onPick?.({
       entityId: onMarker ? this.nearestMarker(px, py) : (target?.getAttribute('data-id') ?? null),
       lonLat: lonLat ? [lonLat[0], lonLat[1]] : null,

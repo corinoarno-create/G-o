@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { buildWorldData, countries } from '../data/world.ts';
+import { distanceKm } from '../engine/geo.ts';
 import { capitalAnswers, EXERCISES, hasOwnFlag, hintFor, rivalAnswers } from './exercises.ts';
 import { buildFlagChoices, evaluateAnswer, summarize, type SessionLogEntry } from './session.ts';
 
@@ -37,12 +38,24 @@ describe('exercices', () => {
     expect(rivals).not.toContain('Nigeria');
   });
 
-  it('donnent des indices qui aident sans donner la réponse', () => {
-    expect(hintFor('name-country', entity('pe')).text).toBe('Commence par « P » (5 lettres).');
-    expect(hintFor('locate-country', entity('pe')).text).toBe('Région : Amérique du Sud.');
-    const hint = hintFor('country-to-flag', entity('fr'), ['de', 'fr', 'it', 'be']);
-    expect(hint.eliminate).toHaveLength(2);
-    expect(hint.eliminate).not.toContain('fr');
+  it('donnent des indices progressifs qui aident sans donner la réponse', () => {
+    expect(hintFor('name-country', entity('pe'), 1).text).toBe('Commence par « P… » (5 lettres).');
+    expect(hintFor('name-capital', entity('bf'), 2).text).toBe('Commence par « Ou… » (11 lettres).');
+    const hint = hintFor('country-to-flag', entity('fr'), 1, { choices: ['de', 'fr', 'it', 'be'], eliminated: ['de'] });
+    expect(hint.eliminate).toEqual(['it']);
+  });
+
+  it('entourent la zone d’un cercle qui contient la réponse et se resserre', () => {
+    for (const rng of [() => 0, () => 0.5, () => 0.999]) {
+      for (const level of [1, 2] as const) {
+        const { circle } = hintFor('locate-capital', entity('pe'), level, { rng });
+        const lima = entity('pe').capital!;
+        expect(distanceKm(circle!.center, [lima.lon, lima.lat])).toBeLessThan(circle!.radiusKm);
+      }
+    }
+    const wide = hintFor('locate-country', entity('lc'), 1, { rng: () => 0.5 }).circle!;
+    const narrow = hintFor('locate-country', entity('lc'), 2, { rng: () => 0.5 }).circle!;
+    expect(narrow.radiusKm).toBeLessThan(wide.radiusKm);
   });
 });
 
