@@ -219,7 +219,7 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
   - [x] Petits pays : zoom progressif en guise d'indice (plus de cercle), clic tolérant dans la mer, repères plus grands au doigt.
   - [x] Capitales : « Capitale → pays » et « Placer la capitale » séparés ; tolérance assouplie ; pointillé animé jusqu'à la vraie position.
   - [x] Un exercice à la fois : entretien rapide sur un seul exercice, révisions regroupées par exercice.
-  - [x] Découverte en 3 temps par groupes de 5 (`src/discovery/`) : **Observer** (la carte montre chaque élément, son nom reste écrit), **Reconnaître** (QCM à 4 propositions, prises d'abord dans le groupe ; une erreur fait revenir l'élément), **Retrouver** (la vraie manche). Seule la dernière étape compte pour FSRS. Lancée par « À découvrir » ou par le contenu « Nouveaux » du constructeur ; en fin de manche, « Découvrir 5 de plus ».
+  - [x] Découverte en 3 temps par groupes de 5 (`src/discovery/`) : **Observer** (la carte montre chaque élément, son nom reste écrit), **Reconnaître** (QCM à 4 propositions, prises d'abord dans le groupe ; une erreur fait revenir l'élément), **Retrouver** (la vraie manche). Seule la dernière étape compte pour FSRS. Lancée **uniquement** par la carte « À découvrir » de l'accueil ; en fin de manche, « Découvrir 5 de plus ». Le constructeur et « Mes itinéraires » restent le jeu normal, même avec le contenu « Nouveaux » (décision d'Arno, 19/11/2026).
 - [ ] **Lot C** : page « Ma progression » avec graphiques (réponses par jour, temps médian, maîtrise par continent et compétence, points faibles).
 - [ ] **8. PWA** hors ligne, installation Android, finitions tactiles, page Crédits.
 
@@ -227,7 +227,7 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 - **DROM** (Guyane, Réunion, Martinique, Guadeloupe, Mayotte) : entités **à part** en mode Monde, comme dans la norme ISO.
 - **Épingler sur mobile** : on **touche puis on confirme**, pour éviter les erreurs de doigt. Sur PC, le clic est direct.
 - **FSRS et consolidation** : seule la **première réponse** à un élément dans une session met à jour FSRS. Les nouvelles tentatives de la boucle sont enregistrées dans l'historique sans gonfler la mémoire.
-- **Acquis du Monde** (pays, capitales, drapeaux) : ils ne comptent **pas** dans le plafond quotidien de nouveautés, et une réponse juste et rapide est notée « Facile ». Dans les manches « Mélange », ils sont posés directement en question ; la **découverte en 3 temps** (19/11/2026) sert quand je choisis explicitement de découvrir (« À découvrir », contenu « Nouveaux »).
+- **Acquis du Monde** (pays, capitales, drapeaux) : ils ne comptent **pas** dans le plafond quotidien de nouveautés, et une réponse juste et rapide est notée « Facile ». Dans les manches « Mélange », ils sont posés directement en question ; la **découverte en 3 temps** (19/11/2026) ne se lance que depuis la carte « À découvrir ».
 
 ### V2
 - [ ] Villes : 3, 5 ou 10 par pays + phase de découverte.
