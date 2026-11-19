@@ -1,9 +1,13 @@
 // Moteur de carte : rendu SVG avec d3-geo, zoom et déplacement avec d3-zoom (molette, glisser, pincer).
 //
-// Principe : les tracés sont calculés une fois pour une projection ajustée à la zone et à la taille de l'écran ;
-// le zoom ne fait que transformer le groupe qui les contient (rapide). Les bordures gardent la même épaisseur
-// à l'écran (vector-effect). Les cercles de repère des micro-États sont dans un calque à part, non zoomé,
-// repositionnés à chaque mouvement pour garder une taille constante et rester faciles à toucher.
+// Principe (pensé pour rester fluide sur téléphone : la carte pèse près de 2 Mo de tracés) :
+// - les tracés sont calculés une seule fois par zone ; un changement de taille d'écran ou de marges ne fait
+//   qu'ajuster une transformation (`layout`), sans recalculer ni redessiner les tracés ;
+// - pendant un geste ou une animation de cadrage, on déplace l'image déjà dessinée de la carte (transformation
+//   CSS, faite par la carte graphique) ; la carte n'est redessinée nettement qu'une fois le mouvement terminé ;
+// - tout ce qui bouge ou s'anime (cercles de repère, points, pointillés, étiquettes) est dans un second SVG
+//   posé par-dessus, léger, pour que ses animations ne forcent jamais à redessiner les pays.
+// Les bordures gardent la même épaisseur à l'écran (vector-effect).
 import { geoAzimuthalEqualArea, geoBounds, geoCircle, geoGraticule10, geoPath, type GeoPath, type GeoProjection } from 'd3-geo';
 import { pointer, select, type Selection } from 'd3-selection';
 import 'd3-transition';
@@ -11,7 +15,7 @@ import { zoom, zoomIdentity, type D3ZoomEvent, type ZoomBehavior, type ZoomTrans
 import type { WorldData } from '../data/world.ts';
 import { distanceKm, distanceToShapeKm } from '../engine/geo.ts';
 import { geoPatterson, WORLD_CROP_POINTS, WORLD_RATIO } from './patterson.ts';
-import { fitTransform, needsMarker, unionBounds, type Bounds } from './view-math.ts';
+import { fitTransform, needsMarker, relativeAffine, unionBounds, type Affine, type Bounds } from './view-math.ts';
 import { boxCenter, boxSamplePoints, type Zone } from './zones.ts';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
@@ -40,6 +44,8 @@ export const MAP_SETTINGS = {
   clickDistance: 5,
   /** Durée des animations de cadrage (ms). */
   flyDuration: 750,
+  /** Délai (ms) après la fin d'un mouvement avant de redessiner la carte nettement. */
+  settleDelay: 120,
   /**
    * Loupe : si un clic tombe près d'au moins deux cercles de repère (Caraïbes, Pacifique…),
    * la carte zoome autour du clic au lieu de répondre, pour qu'on choisisse précisément.
@@ -104,16 +110,31 @@ export interface WorldMapOptions {
 }
 
 export class WorldMap {
-  readonly element: SVGSVGElement;
-  private readonly svg: Selection<SVGSVGElement, unknown, null, undefined>;
+  readonly element: HTMLDivElement;
+  private readonly svg: Selection<HTMLDivElement, unknown, null, undefined>;
+  /** SVG des pays (lourd) : déplacé tel quel pendant les gestes, redessiné à la fin. */
+  private readonly baseSvg: SVGSVGElement;
+  /** SVG léger posé par-dessus : repères, points, pointillés, étiquettes. */
+  private readonly overlaySvg: SVGSVGElement;
   private readonly viewport: SVGGElement;
   private readonly markerLayer: SVGGElement;
   private readonly pinLayer: SVGGElement;
-  private readonly zoomBehavior: ZoomBehavior<SVGSVGElement, unknown>;
+  private readonly zoomBehavior: ZoomBehavior<HTMLDivElement, unknown>;
   private readonly resizeObserver: ResizeObserver;
   private projection: GeoProjection = geoPatterson();
   private path: GeoPath = geoPath(this.projection);
   private transform: ZoomTransform = zoomIdentity;
+  /** Zoom avec lequel les pays sont réellement dessinés (le reste de l'écart est une transformation CSS). */
+  private committed: ZoomTransform = zoomIdentity;
+  private settleTimer = 0;
+  /** Passage des tracés (calculés pour une certaine projection) à la projection actuelle de l'écran. */
+  private layout: Affine = { k: 1, x: 0, y: 0 };
+  /** Zone et échelle pour lesquelles les tracés ont été calculés. */
+  private geometryKey: string | null = null;
+  private geometryScale = 1;
+  private geometryTranslate: [number, number] = [0, 0];
+  /** Surface (px², à l'échelle des tracés) de chaque entité. */
+  private readonly geometryAreas = new Map<string, number>();
   private width = 0;
   private height = 0;
   private zone: Zone | null = null;
@@ -137,30 +158,40 @@ export class WorldMap {
     private readonly world: WorldData,
     private readonly options: WorldMapOptions = {},
   ) {
-    this.element = document.createElementNS(SVG_NS, 'svg');
-    this.element.setAttribute('class', 'world-map');
+    this.element = document.createElement('div');
+    this.element.className = 'world-map';
     this.element.setAttribute('role', 'img');
     this.element.setAttribute('aria-label', 'Carte du monde');
-    this.viewport = this.element.appendChild(document.createElementNS(SVG_NS, 'g'));
-    this.markerLayer = this.element.appendChild(document.createElementNS(SVG_NS, 'g'));
+    this.baseSvg = this.element.appendChild(document.createElementNS(SVG_NS, 'svg'));
+    this.baseSvg.setAttribute('class', 'map-base');
+    this.viewport = this.baseSvg.appendChild(document.createElementNS(SVG_NS, 'g'));
+    this.overlaySvg = this.element.appendChild(document.createElementNS(SVG_NS, 'svg'));
+    this.overlaySvg.setAttribute('class', 'map-overlay');
+    this.markerLayer = this.overlaySvg.appendChild(document.createElementNS(SVG_NS, 'g'));
     this.markerLayer.setAttribute('class', 'map-markers');
-    this.pinLayer = this.element.appendChild(document.createElementNS(SVG_NS, 'g'));
+    this.pinLayer = this.overlaySvg.appendChild(document.createElementNS(SVG_NS, 'g'));
     this.pinLayer.setAttribute('class', 'map-pins');
-    this.labelLayer = this.element.appendChild(document.createElementNS(SVG_NS, 'g'));
+    this.labelLayer = this.overlaySvg.appendChild(document.createElementNS(SVG_NS, 'g'));
     this.labelLayer.setAttribute('class', 'map-labels');
     container.appendChild(this.element);
 
     this.svg = select(this.element);
-    this.zoomBehavior = zoom<SVGSVGElement, unknown>()
+    this.zoomBehavior = zoom<HTMLDivElement, unknown>()
       .clickDistance(MAP_SETTINGS.clickDistance)
       .tapDistance(MAP_SETTINGS.clickDistance * 2)
-      .on('zoom', (event: D3ZoomEvent<SVGSVGElement, unknown>) => {
+      .on('start', () => clearTimeout(this.settleTimer))
+      .on('zoom', (event: D3ZoomEvent<HTMLDivElement, unknown>) => {
         this.transform = event.transform;
-        this.viewport.setAttribute('transform', event.transform.toString());
+        this.moveBaseImage();
         this.updateMarkers();
         this.updatePins();
         this.updateLines();
         this.updateLabels();
+      })
+      .on('end', () => {
+        // Le mouvement est fini : on redessine nettement, sauf si un autre geste suit aussitôt.
+        clearTimeout(this.settleTimer);
+        this.settleTimer = window.setTimeout(() => this.commitTransform(), MAP_SETTINGS.settleDelay);
       });
     // Pas de zoom au double-clic : en jeu, deux clics rapides doivent rester deux réponses possibles.
     if (options.interactive === false) {
@@ -182,6 +213,30 @@ export class WorldMap {
       });
     });
     this.resizeObserver.observe(container);
+
+    // Emprises des pays (clic tolérant) : calculées quand le navigateur est libre, pas au premier clic.
+    if (options.magnify) {
+      const idle = window.requestIdleCallback ?? ((callback: () => void) => window.setTimeout(callback, 800));
+      idle(() => this.ensureGeoBoxes());
+    }
+  }
+
+  /** Déplace l'image déjà dessinée des pays pour qu'elle corresponde au zoom actuel (rapide, sans redessiner). */
+  private moveBaseImage(): void {
+    const { k, x, y } = relativeAffine(this.transform, this.committed);
+    this.baseSvg.style.transform = k === 1 && x === 0 && y === 0 ? '' : `translate(${x}px, ${y}px) scale(${k})`;
+  }
+
+  /** Redessine les pays au zoom actuel (net), et supprime la transformation provisoire. */
+  private commitTransform(force = false): void {
+    clearTimeout(this.settleTimer);
+    const t = this.transform;
+    const c = this.committed;
+    if (!force && t.k === c.k && t.x === c.x && t.y === c.y) return;
+    this.committed = t;
+    const { k, x, y } = this.layout;
+    this.viewport.setAttribute('transform', `${t.toString()} translate(${x},${y}) scale(${k})`);
+    this.baseSvg.style.transform = '';
   }
 
   /** Affiche une zone : recalcule la projection et les tracés, puis remet le zoom à zéro. */
@@ -317,6 +372,7 @@ export class WorldMap {
 
   destroy(): void {
     cancelAnimationFrame(this.resizeFrame);
+    clearTimeout(this.settleTimer);
     this.resizeObserver.disconnect();
     this.svg.on('.zoom', null).on('click', null).on('contextmenu', null);
     this.svg.interrupt();
@@ -369,48 +425,22 @@ export class WorldMap {
     if (!this.zone || width === 0 || height === 0) return;
     this.width = width;
     this.height = height;
-    this.element.setAttribute('viewBox', `0 0 ${width} ${height}`);
-    this.element.setAttribute('width', String(width));
-    this.element.setAttribute('height', String(height));
+    for (const svg of [this.baseSvg, this.overlaySvg]) {
+      svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+      svg.setAttribute('width', String(width));
+      svg.setAttribute('height', String(height));
+    }
     this.configureProjection(this.zone);
 
+    // Les tracés ne sont recalculés que pour une nouvelle zone, ou si l'écran a beaucoup grandi (netteté).
+    const key = `${this.zone.view.projection}|${JSON.stringify(this.zone.view.box)}`;
+    if (key !== this.geometryKey || this.projection.scale() / this.geometryScale > 1.25) this.buildGeometry(key);
+    const [px, py] = this.projection.translate();
+    const k = this.projection.scale() / this.geometryScale;
+    this.layout = { k, x: px - k * this.geometryTranslate[0], y: py - k * this.geometryTranslate[1] };
+
     const active = new Set(this.zone.entityIds);
-    const fragment = document.createDocumentFragment();
-    const addPath = (d: string | null, className: string, id?: string) => {
-      if (!d) return null;
-      const element = document.createElementNS(SVG_NS, 'path');
-      element.setAttribute('d', d);
-      element.setAttribute('class', className);
-      if (id) element.setAttribute('data-id', id);
-      fragment.appendChild(element);
-      return element;
-    };
-    addPath(this.path({ type: 'Sphere' }), 'map-sphere');
-    // Quadrillage en pointillés, façon carte marine.
-    addPath(this.path(geoGraticule10()), 'map-graticule');
-    for (const shape of this.world.neutral) addPath(this.path(shape), 'map-neutral');
-    this.shapes.clear();
-    this.markers.clear();
-    this.markerLayer.replaceChildren();
-    for (const [id, shape] of this.world.shapes) {
-      const element = addPath(this.path(shape), 'map-entity', id);
-      if (!element) continue; // entité hors du champ de la projection
-      // Couleur d'aquarelle du continent (voir map.css).
-      const continent = this.world.byId.get(id)?.continent;
-      if (continent) element.setAttribute('data-continent', continent);
-      this.shapes.set(id, element);
-      // Cercle de repère pour les entités trop petites, même au zoom maximal on le garde si besoin.
-      const area = this.path.area(shape);
-      const anchor = this.world.byId.get(id)?.anchor;
-      const anchorPx = anchor ? this.projection(anchor) : null;
-      if (this.options.interactive !== false && active.has(id) && anchorPx && needsMarker(area, 1, MAP_SETTINGS.markerAreaThreshold)) {
-        this.markers.set(id, { element: this.createMarker(id), area, anchor: anchorPx });
-      }
-    }
-    // Traits par-dessus les surfaces : frontières et côtes, sans les lignes de découpe des données.
-    addPath(this.path(this.world.coastlines), 'map-coastline');
-    addPath(this.path(this.world.borders), 'map-borders');
-    this.viewport.replaceChildren(fragment);
+    this.buildMarkers(active);
     this.element.classList.toggle('is-world', this.zone.view.projection === 'world');
     for (const id of this.shapes.keys()) this.applyClasses(id, active);
 
@@ -438,7 +468,61 @@ export class WorldMap {
             ],
       );
     this.svg.interrupt().call(this.zoomBehavior.transform, zoomIdentity);
+    this.commitTransform(true);
     this.projectPins();
+  }
+
+  /** Calcule et dessine les tracés de la zone pour la projection actuelle (l'opération coûteuse). */
+  private buildGeometry(key: string): void {
+    this.geometryKey = key;
+    this.geometryScale = this.projection.scale();
+    const [tx, ty] = this.projection.translate();
+    this.geometryTranslate = [tx, ty];
+    const fragment = document.createDocumentFragment();
+    const addPath = (d: string | null, className: string, id?: string) => {
+      if (!d) return null;
+      const element = document.createElementNS(SVG_NS, 'path');
+      element.setAttribute('d', d);
+      element.setAttribute('class', className);
+      if (id) element.setAttribute('data-id', id);
+      fragment.appendChild(element);
+      return element;
+    };
+    addPath(this.path({ type: 'Sphere' }), 'map-sphere');
+    // Quadrillage en pointillés, façon carte marine.
+    addPath(this.path(geoGraticule10()), 'map-graticule');
+    for (const shape of this.world.neutral) addPath(this.path(shape), 'map-neutral');
+    this.shapes.clear();
+    this.geometryAreas.clear();
+    for (const [id, shape] of this.world.shapes) {
+      const element = addPath(this.path(shape), 'map-entity', id);
+      if (!element) continue; // entité hors du champ de la projection
+      // Couleur d'aquarelle du continent (voir map.css).
+      const continent = this.world.byId.get(id)?.continent;
+      if (continent) element.setAttribute('data-continent', continent);
+      this.shapes.set(id, element);
+      this.geometryAreas.set(id, this.path.area(shape));
+    }
+    // Traits par-dessus les surfaces : frontières et côtes, sans les lignes de découpe des données.
+    addPath(this.path(this.world.coastlines), 'map-coastline');
+    addPath(this.path(this.world.borders), 'map-borders');
+    this.viewport.replaceChildren(fragment);
+  }
+
+  /** Cercles de repère pour les entités de la zone trop petites pour être touchées. */
+  private buildMarkers(active: Set<string>): void {
+    this.markers.clear();
+    this.markerLayer.replaceChildren();
+    if (this.options.interactive === false) return;
+    const areaScale = this.layout.k * this.layout.k;
+    for (const id of this.shapes.keys()) {
+      const area = (this.geometryAreas.get(id) ?? 0) * areaScale;
+      const anchor = this.world.byId.get(id)?.anchor;
+      const anchorPx = anchor ? this.projection(anchor) : null;
+      if (active.has(id) && anchorPx && needsMarker(area, 1, MAP_SETTINGS.markerAreaThreshold)) {
+        this.markers.set(id, { element: this.createMarker(id), area, anchor: anchorPx });
+      }
+    }
   }
 
   private projectPins(): void {
@@ -523,8 +607,7 @@ export class WorldMap {
 
   private applyClasses(id: string, active = new Set(this.zone?.entityIds ?? [])): void {
     const kind = this.highlights.get(id);
-    const classes = (base: string) =>
-      [base, active.has(id) ? '' : 'is-inactive', kind ? `is-${kind}` : ''].filter(Boolean).join(' ');
+    const classes = (base: string) => [base, active.has(id) ? '' : 'is-inactive', kind ? `is-${kind}` : ''].filter(Boolean).join(' ');
     const shape = this.shapes.get(id);
     shape?.setAttribute('class', classes('map-entity'));
     this.markers.get(id)?.element.setAttribute('class', classes('map-marker'));
@@ -591,6 +674,11 @@ export class WorldMap {
     this.options.onPick?.({ entityId, lonLat: lonLat ? [lonLat[0], lonLat[1]] : null });
   }
 
+  private ensureGeoBoxes(): Map<string, [[number, number], [number, number]]> {
+    this.geoBoxes ??= new Map([...this.world.shapes].map(([id, shape]) => [id, geoBounds(shape) as [[number, number], [number, number]]]));
+    return this.geoBoxes;
+  }
+
   /** Pays de la zone le plus proche d'un clic dans la mer, s'il est à moins de `snapRadius` pixels. */
   private snapToNearest(px: number, py: number, lonLat: [number, number]): string | null {
     // Distance au sol correspondant au rayon, à cet endroit et à ce zoom.
@@ -598,14 +686,12 @@ export class WorldMap {
     if (!edge) return null;
     const radiusKm = distanceKm(lonLat, [edge[0], edge[1]]);
     const margin = (radiusKm / 111.195) * 1.5; // en degrés, avec de la marge
-    if (!this.geoBoxes) {
-      this.geoBoxes = new Map([...this.world.shapes].map(([id, shape]) => [id, geoBounds(shape) as [[number, number], [number, number]]]));
-    }
+    const geoBoxes = this.ensureGeoBoxes();
     const lonMargin = margin / Math.max(Math.cos((lonLat[1] * Math.PI) / 180), 0.2);
     let best: string | null = null;
     let bestDistance = radiusKm;
     for (const id of this.zone?.entityIds ?? []) {
-      const box = this.geoBoxes.get(id);
+      const box = geoBoxes.get(id);
       const shape = this.world.shapes.get(id);
       if (!box || !shape) continue;
       const [[west, south], [east, north]] = box;

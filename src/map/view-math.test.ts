@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { fitTransform, needsMarker, unionBounds } from './view-math.ts';
+import { fitTransform, needsMarker, relativeAffine, unionBounds } from './view-math.ts';
 
 describe('unionBounds', () => {
   it('englobe plusieurs rectangles', () => {
@@ -85,5 +85,18 @@ describe('needsMarker', () => {
     expect(needsMarker(4, 1, 45)).toBe(true); // ex. Luxembourg en vue Monde
     expect(needsMarker(4, 4, 45)).toBe(false); // 4 × 4² = 64 px² : assez grand pour être cliqué
     expect(needsMarker(5000, 1, 45)).toBe(false);
+  });
+});
+
+describe('relativeAffine', () => {
+  it('compose to ∘ from⁻¹', () => {
+    const from = { k: 2, x: 10, y: -4 };
+    const to = { k: 6, x: -30, y: 8 };
+    const m = relativeAffine(to, from);
+    // Un point p dessiné en from(p) doit apparaître en to(p).
+    const p: [number, number] = [7, 3];
+    const drawn: [number, number] = [from.k * p[0] + from.x, from.k * p[1] + from.y];
+    expect(m.k * drawn[0] + m.x).toBeCloseTo(to.k * p[0] + to.x);
+    expect(m.k * drawn[1] + m.y).toBeCloseTo(to.k * p[1] + to.y);
   });
 });

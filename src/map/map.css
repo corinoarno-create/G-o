@@ -37,7 +37,9 @@
 }
 
 .world-map {
-  display: block;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
   /* La carte gère elle-même glisser et pincer : le navigateur ne doit ni défiler ni zoomer la page. */
   touch-action: none;
   user-select: none;
@@ -50,6 +52,27 @@
 
 .world-map:active {
   cursor: grabbing;
+}
+
+/* Deux calques : les pays (lourds, déplacés comme une image pendant les gestes) et, par-dessus,
+   les repères et animations (légers). Chacun sur son propre calque graphique : animer l'un ne redessine
+   jamais l'autre. Voir world-map.ts. */
+.map-base,
+.map-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: visible;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+.map-overlay {
+  pointer-events: none;
+}
+
+.map-overlay .map-marker {
+  pointer-events: auto;
 }
 
 /* Carte d'illustration (accueil) : ni zoom ni clic */
@@ -106,10 +129,10 @@
   stroke-width: 0.9px;
 }
 
+/* Pas de transition de couleur : sur téléphone, elle obligerait à redessiner toute la carte à chaque image. */
 .map-entity {
   fill: var(--map-land);
   cursor: pointer;
-  transition: fill 150ms ease;
 }
 
 /* Aquarelle par continent, adoucie par le papier */

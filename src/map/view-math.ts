@@ -16,7 +16,12 @@ export function unionBounds(list: Bounds[]): Bounds | null {
     x1 = Math.max(x1, c);
     y1 = Math.max(y1, d);
   }
-  return Number.isFinite(x0) ? [[x0, y0], [x1, y1]] : null;
+  return Number.isFinite(x0)
+    ? [
+        [x0, y0],
+        [x1, y1],
+      ]
+    : null;
 }
 
 export interface FitOptions {
@@ -46,4 +51,20 @@ export function fitTransform(bounds: Bounds, width: number, height: number, opti
  */
 export function needsMarker(baseAreaPx: number, zoom: number, thresholdPx: number): boolean {
   return baseAreaPx * zoom * zoom < thresholdPx;
+}
+
+/** Transformation { k, x, y } : point → k × point + (x, y). */
+export interface Affine {
+  k: number;
+  x: number;
+  y: number;
+}
+
+/**
+ * Transformation qui fait passer de ce qui est dessiné (`from`) à ce qu'on veut voir (`to`) : to ∘ from⁻¹.
+ * Sert à déplacer l'image déjà dessinée de la carte pendant un geste, sans la redessiner.
+ */
+export function relativeAffine(to: Affine, from: Affine): Affine {
+  const k = to.k / from.k;
+  return { k, x: to.x - k * from.x, y: to.y - k * from.y };
 }
