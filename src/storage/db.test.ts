@@ -1,6 +1,7 @@
 import 'fake-indexeddb/auto';
 import { describe, expect, it } from 'vitest';
 import {
+  countProgress,
   deleteFavorite,
   getAllCards,
   getCard,
@@ -16,6 +17,7 @@ import {
   readSnapshot,
   recordAnswer,
   replaceSnapshot,
+  resetProgress,
 } from './db.ts';
 import { makeCard, makeReview, uniqueDbName } from './fixtures.test-utils.ts';
 
@@ -116,5 +118,47 @@ describe('connexion', () => {
       request.onblocked = () => reject(new Error('suppression bloquée'));
     });
     expect(closed).toBe(true);
+  });
+});
+
+describe('remise à zéro', () => {
+  async function seeded() {
+    const db = await openGeoDb(uniqueDbName());
+    for (const [entityId, skill] of [
+      ['fr', 'locate-country'],
+      ['fr', 'flag'],
+      ['de', 'locate-country'],
+      ['jp', 'name-capital'],
+    ] as const) {
+      const card = await makeCard(entityId, skill, now);
+      await recordAnswer(db, {
+        review: makeReview(card.key, now),
+        card,
+        timing: { device: 'desktop', mode: 'pin', stats: { samples: [2000] } },
+      });
+    }
+    return db;
+  }
+
+  it('efface seulement les éléments d’une zone, et seulement certaines compétences si on le demande', async () => {
+    const db = await seeded();
+    const europe = { entityIds: new Set(['fr', 'de']) };
+    expect(await countProgress(db, europe)).toEqual({ cards: 3, reviews: 3 });
+    expect(await countProgress(db, { ...europe, skills: new Set(['flag'] as const) })).toEqual({ cards: 1, reviews: 1 });
+
+    expect(await resetProgress(db, { ...europe, skills: new Set(['locate-country'] as const) })).toEqual({ cards: 2, reviews: 2 });
+    expect((await getAllCards(db)).map((c) => c.key).sort()).toEqual(['fr:flag', 'jp:name-capital']);
+    expect(await getReviewsForCard(db, 'fr:locate-country')).toEqual([]);
+    // Les temps de référence ne dépendent pas d'une zone : ils sont gardés.
+    expect((await getTiming(db, 'desktop', 'pin')).samples).toEqual([2000]);
+  });
+
+  it('efface tout, temps de référence compris, mais garde réglages et favoris', async () => {
+    const db = await seeded();
+    await putSetting(db, 'autocomplete', true);
+    expect(await resetProgress(db, {})).toEqual({ cards: 4, reviews: 4 });
+    expect(await getAllCards(db)).toEqual([]);
+    expect((await getTiming(db, 'desktop', 'pin')).samples).toEqual([]);
+    expect(await getSetting(db, 'autocomplete', false)).toBe(true);
   });
 });

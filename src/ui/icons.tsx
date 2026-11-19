@@ -33,6 +33,16 @@ export function MapIcon({ size = 20 }: IconProps) {
   );
 }
 
+/** Courbe de progression (page « Ma progression »). */
+export function ChartIcon({ size = 20 }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true" {...stroke}>
+      <path d="M4 4v16h16" />
+      <path d="M7 15l4-4 3 3 5-6" />
+    </svg>
+  );
+}
+
 export function BookIcon({ size = 20 }: IconProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true" {...stroke}>

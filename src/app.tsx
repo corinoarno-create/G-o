@@ -8,11 +8,13 @@ import { HomeScreen } from './home/HomeScreen.tsx';
 import { DiscoveryScreen } from './discovery/DiscoveryScreen.tsx';
 import { prepareDiscovery, type PreparedDiscovery } from './discovery/start.ts';
 import { buildZones } from './map/zones.ts';
+import { ProgressScreen } from './progress/ProgressScreen.tsx';
 import { Sandbox } from './sandbox/Sandbox.tsx';
 
 type Screen =
   | { kind: 'home' }
   | { kind: 'explore'; withBuilder: boolean }
+  | { kind: 'progress' }
   | { kind: 'loading' }
   | { kind: 'discover'; discovery: PreparedDiscovery }
   | { kind: 'game'; game: PreparedGame }
@@ -115,6 +117,8 @@ export function App() {
           onExit={home}
         />
       );
+    case 'progress':
+      return <ProgressScreen world={world} zones={zones} onPlay={play} onHome={home} />;
     case 'explore':
       return (
         <Sandbox
@@ -128,7 +132,13 @@ export function App() {
       );
     default:
       return (
-        <HomeScreen world={world} zones={zones} onPlay={play} onExplore={(withBuilder) => setScreen({ kind: 'explore', withBuilder })} />
+        <HomeScreen
+          world={world}
+          zones={zones}
+          onPlay={play}
+          onExplore={(withBuilder) => setScreen({ kind: 'explore', withBuilder })}
+          onProgress={() => setScreen({ kind: 'progress' })}
+        />
       );
   }
 }

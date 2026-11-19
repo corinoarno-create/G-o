@@ -14,7 +14,7 @@ import { BackupButtons } from '../sandbox/BackupButtons.tsx';
 import { getFavorites, getTiming } from '../storage/db.ts';
 import { progressDb } from '../storage/progress-db.ts';
 import type { FavoriteRecord } from '../storage/schema.ts';
-import { ArrowIcon, BookIcon, CompassLogo, MapIcon } from '../ui/icons.tsx';
+import { ArrowIcon, BookIcon, ChartIcon, CompassLogo, MapIcon } from '../ui/icons.tsx';
 import { buildHomeSummary, formatWhen, type HomeSummary } from './summary.ts';
 import './home.css';
 
@@ -24,6 +24,8 @@ interface Props {
   onPlay: (request: GameRequest) => void;
   /** Ouvre la carte, avec ou sans le constructeur de session. */
   onExplore: (withBuilder: boolean) => void;
+  /** Ouvre la page « Ma progression ». */
+  onProgress: () => void;
 }
 
 function greeting(now: Date): string {
@@ -41,7 +43,7 @@ const WATERCOLOR: Record<string, string> = {
   antarctica: 'var(--wc-antarctica)',
 };
 
-export function HomeScreen({ world, zones, onPlay, onExplore }: Props) {
+export function HomeScreen({ world, zones, onPlay, onExplore, onProgress }: Props) {
   const [summary, setSummary] = useState<HomeSummary | null>(null);
   const [favorites, setFavorites] = useState<FavoriteRecord[]>([]);
   const now = new Date();
@@ -99,6 +101,9 @@ export function HomeScreen({ world, zones, onPlay, onExplore }: Props) {
           </div>
         </div>
         <nav class="home__nav" aria-label="Navigation">
+          <button type="button" class="btn home__pill" onClick={onProgress}>
+            <ChartIcon size={18} /> Ma progression
+          </button>
           <button type="button" class="btn home__pill" onClick={() => onExplore(false)}>
             <MapIcon size={18} /> Explorer la carte
           </button>
@@ -258,6 +263,10 @@ export function HomeScreen({ world, zones, onPlay, onExplore }: Props) {
         <button type="button" onClick={() => onExplore(true)}>
           <ArrowIcon size={24} />
           Composer
+        </button>
+        <button type="button" onClick={onProgress}>
+          <ChartIcon size={24} />
+          Progression
         </button>
       </nav>
     </div>

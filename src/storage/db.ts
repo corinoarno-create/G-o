@@ -2,6 +2,7 @@
 // l'app ouvre la sienne une fois, les tests ouvrent des bases jetables.
 import { openDB, type IDBPDatabase } from 'idb';
 import type { AnswerMode, Device } from '../engine/grading.ts';
+import type { Skill } from '../engine/srs.ts';
 import { timingKey, type TimingStats } from '../engine/grading.ts';
 import {
   DB_NAME,
@@ -101,6 +102,67 @@ export async function recordAnswer(
   }
   await tx.done;
   return id;
+}
+
+// --- Remise à zéro ---------------------------------------------------------------------------
+
+/**
+ * Ce qu'efface une remise à zéro : tout (filtre vide), ou seulement certains éléments
+ * (une zone du monde), éventuellement pour certaines compétences seulement.
+ */
+export interface ResetFilter {
+  entityIds?: ReadonlySet<string>;
+  skills?: ReadonlySet<Skill>;
+}
+
+const matchesFilter = (filter: ResetFilter, entityId: string, skill: Skill) =>
+  (!filter.entityIds || filter.entityIds.has(entityId)) && (!filter.skills || filter.skills.has(skill));
+
+const isEverything = (filter: ResetFilter) => !filter.entityIds && !filter.skills;
+
+/** Nombre de cartes mémoire et de réponses qu'effacerait une remise à zéro (pour la confirmation). */
+export async function countProgress(db: GeoDatabase, filter: ResetFilter): Promise<{ cards: number; reviews: number }> {
+  const tx = db.transaction(['cards', 'reviews'], 'readonly');
+  const [cards, reviews] = await Promise.all([tx.objectStore('cards').getAll(), tx.objectStore('reviews').getAll()]);
+  await tx.done;
+  return {
+    cards: cards.filter((record) => matchesFilter(filter, record.entityId, record.skill)).length,
+    reviews: reviews.filter((record) => matchesFilter(filter, record.entityId, record.skill)).length,
+  };
+}
+
+/**
+ * Efface la progression (cartes mémoire et journal des réponses), en une seule transaction.
+ * Les éléments effacés redeviennent « nouveaux ». Une remise à zéro complète efface aussi mes temps
+ * de référence ; les réglages et les favoris sont toujours gardés.
+ */
+export async function resetProgress(db: GeoDatabase, filter: ResetFilter): Promise<{ cards: number; reviews: number }> {
+  const tx = db.transaction(['cards', 'reviews', 'timing'], 'readwrite');
+  let cards = 0;
+  let reviews = 0;
+  if (isEverything(filter)) {
+    cards = await tx.objectStore('cards').count();
+    reviews = await tx.objectStore('reviews').count();
+    await Promise.all([tx.objectStore('cards').clear(), tx.objectStore('reviews').clear(), tx.objectStore('timing').clear()]);
+  } else {
+    for (let cursor = await tx.objectStore('cards').openCursor(); cursor; cursor = await cursor.continue()) {
+      if (!matchesFilter(filter, cursor.value.entityId, cursor.value.skill)) continue;
+      await cursor.delete();
+      cards += 1;
+    }
+    for (let cursor = await tx.objectStore('reviews').openCursor(); cursor; cursor = await cursor.continue()) {
+      if (!matchesFilter(filter, cursor.value.entityId, cursor.value.skill)) continue;
+      await cursor.delete();
+      reviews += 1;
+    }
+  }
+  await tx.done;
+  return { cards, reviews };
+}
+
+/** Tout le journal des réponses (pour les statistiques). */
+export function getAllReviews(db: GeoDatabase): Promise<ReviewRecord[]> {
+  return db.getAll('reviews');
 }
 
 // --- Réglages et favoris ---------------------------------------------------------------------
