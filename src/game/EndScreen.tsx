@@ -29,7 +29,8 @@ function headline(accuracy: number): string {
   return 'Manche terminée !';
 }
 
-const CONFETTI_COLORS = ['#2f8f6f', '#e8a33d', '#3fae63', '#4c8ed9', '#d9534f', '#a66cd9'];
+/** Confettis aux couleurs de l'aquarelle. */
+const CONFETTI_COLORS = ['#e3b76b', '#a8c28a', '#e7a7a0', '#9dc3dd', '#c9a8d4', '#c8623b'];
 
 export function EndScreen({ world, title, summary, onReplayMissed, onRestart, onExit }: Props) {
   /** Ce qu'il fallait répondre, selon l'exercice : « Lima (Pérou) », « Pérou »… */
@@ -70,7 +71,9 @@ export function EndScreen({ world, title, summary, onReplayMissed, onRestart, on
         ))}
       </div>
 
-      <div class="end__card">
+      <div class="end__card paper-card">
+        <span class="tape tape--left" />
+        <span class="tape tape--right tape--teal" />
         <p class="end__kicker">{title}</p>
         <h1 class="end__title">{headline(summary.accuracy)}</h1>
 
@@ -99,7 +102,7 @@ export function EndScreen({ world, title, summary, onReplayMissed, onRestart, on
 
         {summary.promoted.length > 0 && (
           <section class="end__section">
-            <h2>🎉 Nouveaux acquis</h2>
+            <h2>Nouveaux acquis</h2>
             <ul class="end__list">
               {summary.promoted.map((item) => (
                 <li key={`${item.exercise}|${item.entityId}`}>
@@ -123,14 +126,14 @@ export function EndScreen({ world, title, summary, onReplayMissed, onRestart, on
 
         <div class="end__actions">
           {summary.missed.length > 0 && (
-            <button type="button" class="game__button" onClick={onReplayMissed}>
+            <button type="button" class="btn btn--terracotta" onClick={onReplayMissed}>
               {summary.missed.length === 1 ? 'Revoir cet élément' : `Revoir ces ${summary.missed.length} éléments`}
             </button>
           )}
-          <button type="button" class="game__button game__button--secondary" onClick={onRestart}>
+          <button type="button" class="btn btn--teal" onClick={onRestart}>
             Nouvelle manche
           </button>
-          <button type="button" class="game__link" onClick={onExit}>
+          <button type="button" class="btn-ghost" onClick={onExit}>
             Retour à l’accueil
           </button>
         </div>

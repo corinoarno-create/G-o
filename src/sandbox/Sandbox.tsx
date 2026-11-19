@@ -77,7 +77,7 @@ export function Sandbox({ world, zoneId, onZoneChange, onPlay, onHome, initialBu
         <button type="button" class="sandbox__home" onClick={onHome} aria-label="Retour à l’accueil" title="Accueil">
           ←
         </button>
-        <h1 class="sandbox__title">Géo</h1>
+        <h1 class="sandbox__title hand">Géo</h1>
         <label class="sandbox__zone">
           <span class="visually-hidden">Zone</span>
           <select
@@ -95,7 +95,7 @@ export function Sandbox({ world, zoneId, onZoneChange, onPlay, onHome, initialBu
           </select>
         </label>
         <span class="sandbox__count">{zone.entityIds.length} entités</span>
-        <button type="button" class="sandbox__play" onClick={() => setBuilderOpen(true)}>
+        <button type="button" class="btn btn--terracotta sandbox__play" onClick={() => setBuilderOpen(true)}>
           Jouer
         </button>
       </header>
@@ -112,7 +112,7 @@ export function Sandbox({ world, zoneId, onZoneChange, onPlay, onHome, initialBu
       </main>
 
       {builderOpen && (
-        <aside class="sandbox__card sandbox__card--builder" ref={builderRef}>
+        <aside class="sandbox__card paper-card sandbox__card--builder" ref={builderRef}>
           <SessionBuilder
             world={world}
             zones={zones}
@@ -124,8 +124,9 @@ export function Sandbox({ world, zoneId, onZoneChange, onPlay, onHome, initialBu
         </aside>
       )}
 
-      <aside class="sandbox__card" aria-live="polite" hidden={builderOpen}>
-        {!pick && <p class="sandbox__hint">Clique ou touche un pays pour voir sa fiche.</p>}
+      <aside class="sandbox__card paper-card tilt-left" aria-live="polite" hidden={builderOpen}>
+        <span class="tape tape--right tape--teal" />
+        {!pick && <p class="sandbox__hint hand">Touche un pays pour ouvrir sa page du carnet.</p>}
         {pick && !entity && (
           <p class="sandbox__hint">
             Mer ou zone neutre{pick.lonLat ? ` — ${formatLonLat(pick.lonLat)}` : ''}
@@ -134,7 +135,7 @@ export function Sandbox({ world, zoneId, onZoneChange, onPlay, onHome, initialBu
         {entity && (
           <>
             <div class="sandbox__head">
-              {flag && <img class="sandbox__flag" src={flag} alt="" width={48} height={36} />}
+              {flag && <img class="sandbox__flag" src={flag} alt="" width={64} height={48} />}
               <div>
                 <h2 class="sandbox__name">{entity.name}</h2>
                 <p class="sandbox__meta">
@@ -165,9 +166,23 @@ export function Sandbox({ world, zoneId, onZoneChange, onPlay, onHome, initialBu
                 </>
               )}
             </dl>
-            <button type="button" class="sandbox__action" onClick={() => setFocusIds([entity.id])}>
-              Zoomer dessus
-            </button>
+            <div class="sandbox__actions">
+              <button type="button" class="btn btn--teal" onClick={() => setFocusIds([entity.id])}>
+                Zoomer dessus
+              </button>
+              {(() => {
+                const region = zones.find((z) => z.id === entity.subregion);
+                return region ? (
+                  <button
+                    type="button"
+                    class="btn btn--gold"
+                    onClick={() => onPlay({ kind: 'builder', exercise: 'locate-country', zone: region, count: 10, content: 'mix' })}
+                  >
+                    Jouer : {region.label}
+                  </button>
+                ) : null;
+              })()}
+            </div>
           </>
         )}
       </aside>

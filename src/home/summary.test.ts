@@ -54,6 +54,17 @@ describe('buildHomeSummary', () => {
     expect(progress.total).toBeGreaterThan(1000); // ~252 entités × 5 compétences, moins les cas sans capitale ou sans drapeau
   });
 
+  it('colore chaque pays selon sa maîtrise, et résume chaque continent', () => {
+    const cards = new Map([card('fr', 'flag', '2026-12-20T00:00:00Z', 45), card('fr', 'locate-country', '2026-12-20T00:00:00Z', 45)]);
+    const { entityMastery, continents } = buildHomeSummary(world, zones, cards, new Map(), now);
+    // France : 2 compétences maîtrisées sur 5 → 2 × 3 / (5 × 3).
+    expect(entityMastery.get('fr')).toBeCloseTo(0.4);
+    expect(entityMastery.get('de')).toBe(0);
+    const europe = continents.find((c) => c.id === 'europe')!;
+    expect(europe.share).toBeGreaterThan(0);
+    expect(continents.find((c) => c.id === 'asia')!.share).toBe(0);
+  });
+
   it('propose de découvrir la sous-région où il reste le plus à voir', () => {
     const { discoveries } = buildHomeSummary(world, zones, new Map(), new Map(), now);
     expect(discoveries).toHaveLength(2);

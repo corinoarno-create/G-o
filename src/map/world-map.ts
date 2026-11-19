@@ -4,7 +4,7 @@
 // le zoom ne fait que transformer le groupe qui les contient (rapide). Les bordures gardent la même épaisseur
 // à l'écran (vector-effect). Les cercles de repère des micro-États sont dans un calque à part, non zoomé,
 // repositionnés à chaque mouvement pour garder une taille constante et rester faciles à toucher.
-import { geoAzimuthalEqualArea, geoCircle, geoNaturalEarth1, geoPath, type GeoPath, type GeoProjection } from 'd3-geo';
+import { geoAzimuthalEqualArea, geoCircle, geoGraticule10, geoNaturalEarth1, geoPath, type GeoPath, type GeoProjection } from 'd3-geo';
 import { pointer, select, type Selection } from 'd3-selection';
 import 'd3-transition';
 import { zoom, zoomIdentity, type D3ZoomEvent, type ZoomBehavior, type ZoomTransform } from 'd3-zoom';
@@ -69,10 +69,18 @@ export interface MapInsets {
   right?: number;
 }
 
+/** Remplissage imposé d'une entité (aquarelle plus ou moins dense). */
+export interface MapFill {
+  color: string;
+  opacity: number;
+}
+
 export interface WorldMapOptions {
   onPick?: (pick: MapPick) => void;
   /** Active la loupe sur les groupes de petits pays (en jeu). */
   magnify?: boolean;
+  /** Carte non interactive (illustration) : ni zoom, ni clic. */
+  interactive?: boolean;
 }
 
 export class WorldMap {
@@ -93,6 +101,8 @@ export class WorldMap {
   private readonly shapes = new Map<string, SVGPathElement>();
   private readonly markers = new Map<string, { element: SVGGElement; area: number; anchor: [number, number] }>();
   private highlights = new Map<string, HighlightKind>();
+  /** Couleurs imposées par entité (carte de conquête : couleur selon la maîtrise). */
+  private fills = new Map<string, MapFill>();
   private pins: Array<{ pin: MapPin; element: SVGGElement; base: [number, number] | null }> = [];
   private circles: MapCircle[] = [];
   private circleLayer: SVGGElement | null = null;
@@ -125,8 +135,12 @@ export class WorldMap {
         this.updatePins();
       });
     // Pas de zoom au double-clic : en jeu, deux clics rapides doivent rester deux réponses possibles.
-    this.svg.call(this.zoomBehavior).on('dblclick.zoom', null);
-    this.svg.on('click', (event: MouseEvent) => this.handleClick(event));
+    if (options.interactive === false) {
+      this.element.classList.add('is-static');
+    } else {
+      this.svg.call(this.zoomBehavior).on('dblclick.zoom', null);
+      this.svg.on('click', (event: MouseEvent) => this.handleClick(event));
+    }
 
     // Le navigateur prévient aussi au premier affichage : on ne redessine (et ne recadre) que si la taille
     // a vraiment changé, sinon un zoom lancé juste après l'ouverture serait annulé.
@@ -308,6 +322,8 @@ export class WorldMap {
       return element;
     };
     addPath(this.path({ type: 'Sphere' }), 'map-sphere');
+    // Quadrillage en pointillés, façon carte marine.
+    addPath(this.path(geoGraticule10()), 'map-graticule');
     for (const shape of this.world.neutral) addPath(this.path(shape), 'map-neutral');
     this.shapes.clear();
     this.markers.clear();
@@ -315,6 +331,9 @@ export class WorldMap {
     for (const [id, shape] of this.world.shapes) {
       const element = addPath(this.path(shape), 'map-entity', id);
       if (!element) continue; // entité hors du champ de la projection
+      // Couleur d'aquarelle du continent (voir map.css).
+      const continent = this.world.byId.get(id)?.continent;
+      if (continent) element.setAttribute('data-continent', continent);
       this.shapes.set(id, element);
       // Cercle de repère pour les entités trop petites, même au zoom maximal on le garde si besoin.
       const area = this.path.area(shape);
@@ -419,8 +438,22 @@ export class WorldMap {
     const kind = this.highlights.get(id);
     const classes = (base: string) =>
       [base, active.has(id) ? '' : 'is-inactive', kind ? `is-${kind}` : ''].filter(Boolean).join(' ');
-    this.shapes.get(id)?.setAttribute('class', classes('map-entity'));
+    const shape = this.shapes.get(id);
+    shape?.setAttribute('class', classes('map-entity'));
     this.markers.get(id)?.element.setAttribute('class', classes('map-marker'));
+    // Couleur imposée (carte de conquête), sauf si une mise en évidence la remplace.
+    const fill = this.fills.get(id);
+    if (shape) {
+      shape.style.fill = fill && !kind ? fill.color : '';
+      shape.style.fillOpacity = fill && !kind ? String(fill.opacity) : '';
+    }
+  }
+
+  /** Impose une couleur à certaines entités (les autres gardent leur aquarelle de continent). */
+  setFills(fills: Map<string, MapFill>): void {
+    const previous = this.fills;
+    this.fills = new Map(fills);
+    for (const id of new Set([...previous.keys(), ...fills.keys()])) this.applyClasses(id);
   }
 
   /**

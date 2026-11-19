@@ -1,36 +1,17 @@
-/* Carte du monde. Les couleurs sont des variables, redéfinies en mode sombre. */
+/* Carte façon carnet d'explorateur : océan délavé, pays à l'aquarelle, encre sépia. */
 :root {
-  --map-ocean: #cfe6f2;
-  --map-land: #f3efe4;
-  --map-land-hover: #e6dcc3;
-  --map-inactive: #e4e1d9;
-  --map-border: #8a8475;
-  --map-neutral: #c9c6bf;
-  --map-selected: #3b7dd8;
+  --map-ocean: var(--ocean);
+  --map-land: var(--paper-light);
+  --map-inactive: #ece2cd;
+  --map-border: var(--ink-soft);
+  --map-neutral: #e2d6bd;
+  /* Pays demandé (doré), sélection (bleu), bonne réponse (vert), erreur (rouge) */
   --map-target: #f2c14e;
+  --map-selected: #3b7dd8;
   --map-correct: #3fae63;
   --map-wrong: #d9534f;
-  --map-marker: #ffffff;
-  --map-marker-stroke: #5f5a4f;
-  --map-control-bg: rgba(255, 255, 255, 0.92);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --map-ocean: #173040;
-    --map-land: #3b4a44;
-    --map-land-hover: #4d5f57;
-    --map-inactive: #2c3632;
-    --map-border: #8fa39a;
-    --map-neutral: #55605b;
-    --map-selected: #6ea6f0;
-    --map-target: #e9b949;
-    --map-correct: #5fcf83;
-    --map-wrong: #f07672;
-    --map-marker: #e6efeb;
-    --map-marker-stroke: #121a17;
-    --map-control-bg: rgba(30, 40, 36, 0.92);
-  }
+  --map-marker: var(--paper-light);
+  --map-marker-stroke: var(--ink);
 }
 
 .map-frame {
@@ -44,6 +25,15 @@
 .map-canvas {
   position: absolute;
   inset: 0;
+}
+
+/* Grain de papier par-dessus la carte (ne gêne pas les clics) */
+.map-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' seed='5'/%3E%3CfeColorMatrix values='0 0 0 0 0.42 0 0 0 0 0.35 0 0 0 0 0.28 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
 }
 
 .world-map {
@@ -60,14 +50,33 @@
   cursor: grabbing;
 }
 
-/* Vue Monde : la mer se limite à l'ovale du globe. */
+/* Carte d'illustration (accueil) : ni zoom ni clic */
+.world-map.is-static {
+  cursor: default;
+  touch-action: auto;
+  pointer-events: none;
+}
+
+/* Vue Monde : la mer se limite à l'ovale du globe, posé sur le papier. */
 .world-map.is-world {
-  background: var(--color-bg);
+  background: var(--paper);
 }
 
 .map-sphere {
   fill: var(--map-ocean);
-  stroke: none;
+  stroke: var(--ink-soft);
+  stroke-width: 1.2px;
+  vector-effect: non-scaling-stroke;
+}
+
+.map-graticule {
+  fill: none;
+  stroke: var(--ocean-line);
+  stroke-opacity: 0.3;
+  stroke-width: 0.6px;
+  stroke-dasharray: 2 3;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
 }
 
 /* Les surfaces n'ont pas de contour : frontières et côtes sont deux tracés à part (voir world-map.ts). */
@@ -88,18 +97,45 @@
 
 .map-borders {
   stroke-width: 0.7px;
+  stroke-opacity: 0.8;
 }
 
 .map-coastline {
-  stroke-width: 0.5px;
+  stroke-width: 0.9px;
 }
 
 .map-entity {
   fill: var(--map-land);
   cursor: pointer;
-  transition: fill 120ms ease;
+  transition: fill 150ms ease;
 }
 
+/* Aquarelle par continent, adoucie par le papier */
+.map-entity[data-continent='africa'] {
+  fill: color-mix(in srgb, var(--wc-africa) 55%, var(--paper-light));
+}
+
+.map-entity[data-continent='americas'] {
+  fill: color-mix(in srgb, var(--wc-americas) 55%, var(--paper-light));
+}
+
+.map-entity[data-continent='asia'] {
+  fill: color-mix(in srgb, var(--wc-asia) 55%, var(--paper-light));
+}
+
+.map-entity[data-continent='europe'] {
+  fill: color-mix(in srgb, var(--wc-europe) 55%, var(--paper-light));
+}
+
+.map-entity[data-continent='oceania'] {
+  fill: color-mix(in srgb, var(--wc-oceania) 55%, var(--paper-light));
+}
+
+.map-entity[data-continent='antarctica'] {
+  fill: var(--wc-antarctica);
+}
+
+/* Hors de la zone choisie : papier nu */
 .map-entity.is-inactive {
   fill: var(--map-inactive);
 }
@@ -110,7 +146,7 @@
 
 @media (hover: hover) {
   .map-entity:hover {
-    fill: var(--map-land-hover);
+    filter: brightness(0.93);
   }
 }
 
@@ -142,13 +178,13 @@
 .map-marker__dot {
   fill: var(--map-marker);
   stroke: var(--map-marker-stroke);
-  stroke-width: 1.2px;
-  transition: fill 120ms ease;
+  stroke-width: 1.4px;
+  transition: fill 150ms ease;
 }
 
 @media (hover: hover) {
   .map-marker:hover .map-marker__dot {
-    fill: var(--map-land-hover);
+    fill: var(--paper-dark);
   }
 }
 
@@ -168,31 +204,33 @@
   fill: var(--map-wrong);
 }
 
-/* Boutons de zoom */
+/* Boutons de zoom : pastilles de papier à l'encre */
 .map-controls {
   position: absolute;
   top: 12px;
   right: 12px;
+  z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 .map-controls button {
-  width: 40px;
-  height: 40px;
-  border: none;
-  border-radius: 10px;
-  background: var(--map-control-bg);
-  color: var(--color-text);
-  font-size: 1.3rem;
+  width: 42px;
+  height: 42px;
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+  background: var(--paper-light);
+  color: var(--ink);
+  font: 800 1.25rem var(--font-body);
   line-height: 1;
   cursor: pointer;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 3px 0 var(--ink);
 }
 
-.map-controls button:hover {
-  filter: brightness(0.95);
+.map-controls button:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--ink);
 }
 
 /* Repères ponctuels (point cliqué, position exacte d'une capitale) */
@@ -207,7 +245,7 @@
 }
 
 .map-pin__dot {
-  stroke: #fff;
+  stroke: var(--ink);
   stroke-width: 1.5px;
 }
 
@@ -256,18 +294,12 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .map-pin__halo {
-    animation: none !important;
-  }
-}
-
 /* Cercle d'indice : la réponse est dedans. */
 .map-hint-circle {
-  fill: rgba(59, 125, 216, 0.08);
-  stroke: var(--map-selected);
-  stroke-width: 2px;
-  stroke-dasharray: 6 5;
+  fill: rgba(47, 109, 181, 0.08);
+  stroke: var(--hint-blue);
+  stroke-width: 2.2px;
+  stroke-dasharray: 7 6;
   vector-effect: non-scaling-stroke;
   pointer-events: none;
   animation: map-hint-appear 400ms ease-out;
@@ -279,5 +311,12 @@
   }
   to {
     opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-pin__halo,
+  .map-hint-circle {
+    animation: none !important;
   }
 }

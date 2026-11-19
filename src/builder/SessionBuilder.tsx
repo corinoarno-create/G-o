@@ -268,7 +268,7 @@ export function SessionBuilder({ world, zones, zoneId, onZoneChange, onStart, on
               }
             }}
           />
-          <button type="button" class="builder__secondary" onClick={() => void saveFavorite()} disabled={!favoriteName.trim()}>
+          <button type="button" class="btn builder__secondary" onClick={() => void saveFavorite()} disabled={!favoriteName.trim()}>
             Enregistrer
           </button>
         </div>
@@ -286,14 +286,14 @@ export function SessionBuilder({ world, zones, zoneId, onZoneChange, onStart, on
           {favoriteName === null && (
             <button
               type="button"
-              class="builder__secondary"
+              class="btn builder__secondary"
               onClick={() => setFavoriteName(defaultFavoriteName(choice, zone.label))}
               title="Enregistrer ces réglages en favori"
             >
               ☆ Favori
             </button>
           )}
-          <button type="submit" class="builder__start" disabled={questions === 0}>
+          <button type="submit" class="btn btn--terracotta builder__start" disabled={questions === 0}>
             C’est parti !
           </button>
         </div>

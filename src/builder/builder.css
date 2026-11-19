@@ -1,8 +1,8 @@
-/* Constructeur de session : panneau posé sur la carte (à gauche sur PC, en bas sur téléphone). */
+/* Constructeur de session : une page du carnet posée sur la carte (à gauche sur PC, en bas sur téléphone). */
 .builder {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
 .builder__head {
@@ -13,91 +13,86 @@
 
 .builder__head h2 {
   margin: 0;
-  font-size: 1.15rem;
+  font-size: 2.1rem;
 }
 
 .builder__close {
   border: none;
   background: none;
-  color: var(--color-muted);
-  font-size: 1.5rem;
+  color: var(--ink-soft);
+  font-size: 1.6rem;
   line-height: 1;
   cursor: pointer;
 }
 
 .builder__section h3 {
   margin: 0 0 6px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--color-muted);
+  font-size: 1.45rem;
+  color: var(--ink-soft);
 }
 
 .builder__select {
   width: 100%;
-  font: inherit;
-  padding: 7px 10px;
+  font: 700 0.95rem var(--font-body);
+  padding: 8px 10px;
   border-radius: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  background: var(--color-bg);
-  color: var(--color-text);
+  border: 1.5px solid var(--ink-soft);
+  background: #fffdf7;
+  color: var(--ink);
 }
 
+/* Onglets de papier */
 .builder__segments {
   display: flex;
-  padding: 3px;
-  gap: 3px;
-  border-radius: 11px;
-  background: rgba(0, 0, 0, 0.06);
+  gap: 6px;
 }
 
 .builder__segments button {
   flex: 1;
-  font: inherit;
-  font-size: 0.92rem;
-  padding: 6px 4px;
-  border: none;
-  border-radius: 8px;
-  background: none;
-  color: var(--color-text);
+  font: 700 0.92rem var(--font-body);
+  padding: 7px 4px;
+  border: 1.5px solid var(--ink-soft);
+  border-radius: 10px;
+  background: #fffdf7;
+  color: var(--ink);
   cursor: pointer;
 }
 
 .builder__segments button.is-active {
-  background: var(--color-bg);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-  font-weight: 600;
+  background: var(--gold);
+  border-color: var(--ink);
+  box-shadow: 0 3px 0 var(--ink);
+  font-weight: 800;
 }
 
 .builder__help {
   margin: 6px 0 0;
   font-size: 0.85rem;
-  color: var(--color-muted);
+  color: var(--ink-soft);
 }
 
 .builder__contents {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px;
 }
 
 .builder__content {
   display: grid;
   gap: 2px;
   padding: 8px 10px;
-  border: 1.5px solid rgba(0, 0, 0, 0.12);
+  border: 1.5px dashed var(--ink-soft);
   border-radius: 10px;
   background: none;
-  color: var(--color-text);
+  color: var(--ink);
   font: inherit;
   text-align: left;
   cursor: pointer;
 }
 
 .builder__content.is-active {
-  border-color: var(--color-accent);
-  background: rgba(31, 111, 92, 0.06);
+  border: 2px solid var(--ink);
+  background: color-mix(in srgb, var(--gold) 35%, transparent);
 }
 
 .builder__content strong {
@@ -109,26 +104,28 @@
 }
 
 .builder__content small {
-  color: var(--color-muted);
+  color: var(--ink-soft);
   font-size: 0.78rem;
   line-height: 1.3;
 }
 
 .builder__badge {
-  min-width: 1.6em;
+  min-width: 1.7em;
   padding: 0 6px;
   border-radius: 999px;
-  background: rgba(0, 0, 0, 0.07);
+  border: 1.5px solid var(--ink-soft);
+  background: var(--paper-light);
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 800;
   text-align: center;
   font-variant-numeric: tabular-nums;
 }
 
+/* Favoris : étiquettes de bagage */
 .builder__favorites {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 8px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -137,17 +134,17 @@
 .builder__favorites li {
   display: flex;
   align-items: stretch;
-  border-radius: 999px;
-  background: rgba(31, 111, 92, 0.1);
+  border: 1.5px solid var(--ink-soft);
+  border-radius: 4px 14px 14px 4px;
+  background: var(--paper-dark);
 }
 
 .builder__favorite {
-  font: inherit;
-  font-size: 0.88rem;
-  padding: 5px 4px 5px 12px;
+  font: 700 0.88rem var(--font-body);
+  padding: 6px 4px 6px 12px;
   border: none;
   background: none;
-  color: var(--color-accent);
+  color: var(--ink);
   cursor: pointer;
 }
 
@@ -155,7 +152,7 @@
   padding: 0 10px 0 6px;
   border: none;
   background: none;
-  color: var(--color-muted);
+  color: var(--ink-soft);
   font-size: 1rem;
   cursor: pointer;
 }
@@ -170,15 +167,17 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
-  padding-top: 4px;
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  gap: 10px;
+  padding-top: 10px;
+  border-top: 1.5px dashed var(--paper-edge);
 }
 
 .builder__summary {
   margin: 0;
-  font-size: 0.9rem;
-  color: var(--color-muted);
+  font-family: var(--font-hand);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--ink-soft);
 }
 
 .builder__buttons {
@@ -189,38 +188,5 @@
 
 .builder__start,
 .builder__secondary {
-  font: inherit;
-  padding: 8px 14px;
-  border-radius: 10px;
-  cursor: pointer;
   white-space: nowrap;
-}
-
-.builder__start {
-  border: none;
-  background: var(--color-accent);
-  color: #fff;
-  font-weight: 600;
-}
-
-.builder__start:disabled,
-.builder__secondary:disabled {
-  opacity: 0.45;
-  cursor: default;
-}
-
-.builder__secondary {
-  border: 1.5px solid var(--color-accent);
-  background: none;
-  color: var(--color-accent);
-}
-
-@media (prefers-color-scheme: dark) {
-  .builder__segments {
-    background: rgba(255, 255, 255, 0.08);
-  }
-
-  .builder__badge {
-    background: rgba(255, 255, 255, 0.12);
-  }
 }

@@ -1,20 +1,50 @@
-/* Thème de base : couleurs en variables pour gérer clair et sombre. */
+/*
+ * Direction artistique « Carnet d'explorateur » (validée le 19/11/2026) :
+ * papier beige, encre sépia, océan bleu-vert délavé, pays à l'aquarelle,
+ * titres manuscrits (Caveat) et texte rond et lisible (Nunito), polices embarquées pour le hors ligne.
+ * L'app reste en clair : c'est un carnet de papier, y compris quand l'appareil est en mode sombre.
+ */
 :root {
-  --color-bg: #f5f8f6;
-  --color-text: #1c2b26;
-  --color-muted: #5b6e67;
-  --color-accent: #1f6f5c;
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  color-scheme: light dark;
-}
+  /* Papier et encre */
+  --paper: #f4ead5;
+  --paper-light: #fbf5e8;
+  --paper-dark: #e8d9b8;
+  --paper-edge: #d9c7a3;
+  --ink: #3b2f25;
+  --ink-soft: #6b5a48;
+  /* Couleurs d'action */
+  --terracotta: #c8623b;
+  --teal: #2f7e79;
+  --gold: #f2c14e;
+  --stamp-green: #2e7d4f;
+  --correct: #3fae63;
+  --wrong: #d9534f;
+  --wrong-ink: #b5462f;
+  --hint-blue: #2f6db5;
+  /* Carte */
+  --ocean: #a9cfc7;
+  --ocean-line: #5e8f87;
+  /* Aquarelle par continent */
+  --wc-africa: #e3b76b;
+  --wc-americas: #a8c28a;
+  --wc-asia: #e7a7a0;
+  --wc-europe: #9dc3dd;
+  --wc-oceania: #c9a8d4;
+  --wc-antarctica: #efe7d6;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: #121a17;
-    --color-text: #e6efeb;
-    --color-muted: #9fb3ab;
-    --color-accent: #5cc4a6;
-  }
+  --font-hand: 'Caveat', 'Segoe Print', cursive;
+  --font-body: 'Nunito', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --shadow-card: 0 8px 18px rgba(91, 70, 40, 0.14);
+  --shadow-float: 0 10px 22px rgba(60, 45, 25, 0.22);
+
+  /* Anciens noms, encore utilisés par quelques styles */
+  --color-bg: var(--paper);
+  --color-text: var(--ink);
+  --color-muted: var(--ink-soft);
+  --color-accent: var(--teal);
+
+  font-family: var(--font-body);
+  color-scheme: light;
 }
 
 * {
@@ -28,14 +58,170 @@ body {
 }
 
 body {
-  background: var(--color-bg);
-  color: var(--color-text);
+  color: var(--ink);
+  background-color: var(--paper);
+  /* Taches légères et grain du papier */
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' seed='3'/%3E%3CfeColorMatrix values='0 0 0 0 0.42 0 0 0 0 0.35 0 0 0 0 0.28 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"),
+    radial-gradient(circle at 12% 18%, rgba(196, 160, 110, 0.18) 0, rgba(196, 160, 110, 0) 260px),
+    radial-gradient(circle at 88% 82%, rgba(150, 120, 80, 0.14) 0, rgba(150, 120, 80, 0) 300px),
+    radial-gradient(circle at 70% 8%, rgba(169, 207, 199, 0.25) 0, rgba(169, 207, 199, 0) 240px);
+  background-attachment: fixed;
 }
 
 #app {
   min-height: 100%;
 }
 
+h1,
+h2,
+h3 {
+  font-family: var(--font-hand);
+  font-weight: 700;
+  line-height: 1.05;
+}
+
+button,
+input,
+select {
+  font-family: var(--font-body);
+}
+
+/* Écriture manuscrite */
+.hand {
+  font-family: var(--font-hand);
+  font-weight: 700;
+}
+
+/* Feuille de carnet */
+.paper-card {
+  position: relative;
+  background: var(--paper-light);
+  border: 1px solid var(--paper-edge);
+  border-radius: 6px;
+  box-shadow: var(--shadow-card);
+}
+
+.tilt-left {
+  transform: rotate(-0.7deg);
+}
+
+.tilt-right {
+  transform: rotate(0.7deg);
+}
+
+/* Bout de ruban adhésif posé sur une feuille */
+.tape {
+  position: absolute;
+  top: -11px;
+  width: 92px;
+  height: 24px;
+  background: rgba(232, 163, 61, 0.5);
+  transform: rotate(-4deg);
+  pointer-events: none;
+}
+
+.tape--right {
+  right: 28px;
+  background: rgba(200, 98, 59, 0.35);
+  transform: rotate(5deg);
+}
+
+.tape--left {
+  left: 28px;
+}
+
+.tape--teal {
+  background: rgba(169, 207, 199, 0.75);
+}
+
+/* Boutons « à l'encre » : bord épais, ombre pleine, enfoncement au clic */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font: 800 1rem var(--font-body);
+  color: var(--ink);
+  background: var(--paper-light);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 9px 16px;
+  box-shadow: 0 4px 0 var(--ink);
+  cursor: pointer;
+  transition:
+    transform 80ms ease,
+    box-shadow 80ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 var(--ink);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.btn--terracotta {
+  color: var(--paper-light);
+  background: var(--terracotta);
+}
+
+.btn--teal {
+  color: var(--paper-light);
+  background: var(--teal);
+}
+
+.btn--gold {
+  background: var(--gold);
+}
+
+.btn--big {
+  font-size: 1.15rem;
+  padding: 13px 18px;
+  border-radius: 14px;
+  box-shadow: 0 5px 0 var(--ink);
+}
+
+.btn--round {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 50%;
+  border-width: 1.5px;
+  box-shadow: 0 3px 0 var(--ink);
+  font-size: 1.3rem;
+}
+
+/* Bouton discret, en pointillés */
+.btn-ghost {
+  font: 700 0.95rem var(--font-body);
+  color: var(--ink);
+  background: none;
+  border: 1.5px dashed var(--ink-soft);
+  border-radius: 12px;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+.btn-ghost:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Écrans d'attente */
 .placeholder {
   min-height: 100dvh;
   display: flex;
@@ -45,26 +231,14 @@ body {
   gap: 0.5rem;
   padding: 1rem;
   text-align: center;
+  font-family: var(--font-hand);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--ink-soft);
 }
 
-.placeholder h1 {
-  margin: 0.5rem 0 0;
-  font-size: 2.5rem;
-  color: var(--color-accent);
-}
-
-.placeholder__tagline {
-  margin: 0;
-  font-size: 1.15rem;
-}
-
-.placeholder__status {
-  margin: 1rem 0 0;
-  color: var(--color-muted);
-}
-
-.placeholder__version {
-  margin: 0;
-  font-size: 0.8rem;
-  color: var(--color-muted);
+@media (prefers-reduced-motion: reduce) {
+  .btn {
+    transition: none;
+  }
 }

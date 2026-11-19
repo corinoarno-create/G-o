@@ -37,6 +37,7 @@ import {
   type SessionSummary,
 } from './session.ts';
 import type { PreparedGame } from './start.ts';
+import { BulbIcon, CloseIcon, CompassRose, PlaneIcon, PushPin } from '../ui/icons.tsx';
 import './game.css';
 
 /** Durée d'affichage du « ✓ » et du vert sur la carte après une bonne réponse (ms). */
@@ -386,7 +387,7 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
     return (
       <div class="game game--empty">
         <p>{game.questions.length === 0 ? 'Rien à demander pour l’instant.' : 'Manche terminée !'}</p>
-        <button type="button" class="game__button" onClick={onQuit}>
+        <button type="button" class="btn btn--teal" onClick={onQuit}>
           Retour
         </button>
       </div>
@@ -403,11 +404,9 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
     <div class="game">
       <header class="game__bar">
         <button type="button" class="game__quit" onClick={onQuit} aria-label="Quitter la manche" title="Quitter">
-          ×
+          <CloseIcon />
         </button>
-        <div class="game__progress" aria-label={`${solved} réussis sur ${total}`}>
-          <div class="game__progress-fill" style={{ width: `${total ? (solved / total) * 100 : 0}%` }} />
-        </div>
+        <Route solved={solved} total={total} />
         <span class="game__count">
           {solved} / {total}
         </span>
@@ -426,7 +425,10 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
           onReady={(map) => (mapRef.current = map)}
         />
 
+        <CompassRose />
+
         <section class="game__prompt" aria-live="polite" ref={promptRef}>
+          <PushPin />
           <Prompt
             exerciseId={exercise.id}
             entityName={entity.name}
@@ -434,13 +436,18 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
             flag={flag}
             noun={entityNoun(entity)}
           />
-          {hint && !reveal && <p class="game__hint">💡 {hint.text}</p>}
+          {hint && !reveal && (
+            <p class="game__hint">
+              <BulbIcon size={20} /> {hint.text}
+            </p>
+          )}
         </section>
 
         {success && (
-          <p class="game__toast" key={success.key} role="status">
-            ✓ {success.text}
-          </p>
+          <div class="game__stamp" key={success.key} role="status">
+            <span class="game__stamp-mark">Validé !</span>
+            <span class="game__stamp-text">{success.text}</span>
+          </div>
         )}
 
         <section class="game__panel" ref={panelRef}>
@@ -453,7 +460,7 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
                 Réponse : <strong>{reveal.evaluation.answerLabel}</strong>
               </p>
               <p class="game__retry">{retryText}</p>
-              <button type="button" class="game__button" ref={continueRef} onClick={goNext}>
+              <button type="button" class="btn btn--terracotta" ref={continueRef} onClick={goNext}>
                 Continuer
               </button>
             </div>
@@ -485,7 +492,7 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
                     enterKeyHint="done"
                     aria-label="Ta réponse"
                   />
-                  <button type="submit" class="game__button" disabled={!typed.trim()}>
+                  <button type="submit" class="btn btn--teal" disabled={!typed.trim()}>
                     Valider
                   </button>
                   {suggestions.length > 0 && (
@@ -528,7 +535,7 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
                   <span>{exercise.id === 'locate-capital' ? 'Ce point ?' : `Ce ${entityNoun(entity)} ?`}</span>
                   <button
                     type="button"
-                    class="game__button"
+                    class="btn btn--teal"
                     onClick={() => answer({ kind: 'pin', entityId: pending.entityId, lonLat: pending.lonLat })}
                   >
                     Valider
@@ -537,15 +544,15 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
               )}
 
               <div class="game__tools">
-                <button type="button" class="game__link" onClick={askHint} disabled={hintLevel >= 2}>
-                  Indice
+                <button type="button" class="btn btn--gold" onClick={askHint} disabled={hintLevel >= 2}>
+                  <BulbIcon /> {hintLevel === 0 ? 'Indice' : 'Encore un indice'}
                 </button>
-                <button type="button" class="game__link" onClick={giveUp}>
+                <button type="button" class="btn-ghost" onClick={giveUp}>
                   Je ne sais pas
                 </button>
                 {tries > 0 && (
                   <span class="game__tries">
-                    Essai {tries + 1} / {maxTries}
+                    essai {tries + 1} sur {maxTries}
                   </span>
                 )}
                 {exercise.answerMode === 'type' && (
@@ -558,6 +565,33 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
           )}
         </section>
       </main>
+    </div>
+  );
+}
+
+/** Itinéraire de la manche : une escale par élément (une barre au-delà de 20). */
+function Route({ solved, total }: { solved: number; total: number }) {
+  const label = `${solved} réussis sur ${total}`;
+  if (total > 20) {
+    const percent = total ? (solved / total) * 100 : 0;
+    return (
+      <div class="game__route game__route--bar" role="img" aria-label={label}>
+        <div class="game__track">
+          <div class="game__track-fill" style={{ width: `${percent}%` }} />
+          <span class="game__plane" style={{ left: `${percent}%` }}>
+            <PlaneIcon />
+          </span>
+        </div>
+      </div>
+    );
+  }
+  return (
+    <div class="game__route" role="img" aria-label={label}>
+      {Array.from({ length: total }, (_, index) => (
+        <span key={index} class={`game__stop ${index < solved ? 'is-done' : index === solved ? 'is-current' : ''}`}>
+          {index === solved && <PlaneIcon />}
+        </span>
+      ))}
     </div>
   );
 }

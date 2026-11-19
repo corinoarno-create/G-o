@@ -1,5 +1,7 @@
 // Résumé de l'accueil (§ 7) : ce que je peux travailler aujourd'hui.
 // Calcul pur, à partir des cartes mémoire et de mes temps de référence.
+import { CONTINENT_LABELS } from '../data/labels.ts';
+import type { ContinentId } from '../data/types.ts';
 import type { WorldData } from '../data/world.ts';
 import { median, type AnswerMode, type TimingStats } from '../engine/grading.ts';
 import { cardKey, masteryOf, type MasteryLevel, type Skill } from '../engine/srs.ts';
@@ -31,6 +33,10 @@ export interface HomeSummary {
   /** Prochaine révision à venir, s'il n'y a rien de dû. */
   nextDueAt: Date | null;
   progress: Record<MasteryLevel, number> & { total: number };
+  /** Maîtrise de chaque entité, de 0 (rien vu) à 1 (tout maîtrisé) : colore la carte de conquête. */
+  entityMastery: Map<string, number>;
+  /** Part des cartes acquises ou maîtrisées, par continent (0 à 1). */
+  continents: Array<{ id: ContinentId; label: string; share: number }>;
   discoveries: Discovery[];
 }
 
@@ -75,14 +81,31 @@ export function buildHomeSummary(
     flag: 'flag-to-country',
   };
   const progress = { new: 0, learning: 0, acquired: 0, mastered: 0, total: 0 };
-  for (const skill of skills) {
-    for (const entity of world.countries) {
+  const rank: Record<MasteryLevel, number> = { new: 0, learning: 1, acquired: 2, mastered: 3 };
+  const entityMastery = new Map<string, number>();
+  const byContinent = new Map<ContinentId, { strong: number; total: number }>();
+  for (const entity of world.countries) {
+    let sum = 0;
+    let count = 0;
+    for (const skill of skills) {
       if (!EXERCISES[exerciseOf[skill]].eligible(entity)) continue;
       const record = cards.get(cardKey(entity.id, skill));
-      progress[record ? masteryOf(record.card) : 'new'] += 1;
+      const level = record ? masteryOf(record.card) : 'new';
+      progress[level] += 1;
       progress.total += 1;
+      sum += rank[level];
+      count += 1;
+      const stats = byContinent.get(entity.continent) ?? { strong: 0, total: 0 };
+      stats.total += 1;
+      if (rank[level] >= 2) stats.strong += 1;
+      byContinent.set(entity.continent, stats);
     }
+    entityMastery.set(entity.id, count ? sum / (3 * count) : 0);
   }
+  const continents = (['europe', 'americas', 'africa', 'asia', 'oceania'] as ContinentId[]).map((id) => {
+    const stats = byContinent.get(id) ?? { strong: 0, total: 0 };
+    return { id, label: CONTINENT_LABELS[id], share: stats.total ? stats.strong / stats.total : 0 };
+  });
 
   // Découvertes : pour chaque catégorie, la sous-région où il reste le plus d'éléments jamais vus
   // (une sous-région différente pour chaque catégorie, pour varier).
@@ -116,6 +139,8 @@ export function buildHomeSummary(
     estimatedMinutes: batch.length ? Math.max(1, Math.round(totalMs / 60_000)) : 0,
     nextDueAt: upcoming.length ? new Date(Math.min(...upcoming)) : null,
     progress,
+    entityMastery,
+    continents,
     discoveries: discoveries.slice(0, 2),
   };
 }

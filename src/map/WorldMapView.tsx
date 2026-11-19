@@ -1,7 +1,7 @@
 // Composant Preact autour du moteur de carte (WorldMap), avec les boutons de zoom.
 import { useEffect, useRef } from 'preact/hooks';
 import type { WorldData } from '../data/world.ts';
-import { WorldMap, type HighlightKind, type MapCircle, type MapInsets, type MapPick, type MapPin } from './world-map.ts';
+import { WorldMap, type HighlightKind, type MapCircle, type MapFill, type MapInsets, type MapPick, type MapPin } from './world-map.ts';
 import type { Zone } from './zones.ts';
 import './map.css';
 
@@ -14,6 +14,10 @@ interface Props {
   circles?: MapCircle[];
   /** Loupe sur les groupes de petits pays (en jeu). */
   magnify?: boolean;
+  /** Couleurs imposées (carte de conquête). */
+  fills?: Map<string, MapFill>;
+  /** Carte d'illustration : ni zoom, ni clic, ni boutons. */
+  interactive?: boolean;
   /** Place prise par les éléments posés sur la carte (voir WorldMap.setInsets). */
   insets?: MapInsets;
   onPick?: (pick: MapPick) => void;
@@ -23,7 +27,20 @@ interface Props {
   onReady?: (map: WorldMap | null) => void;
 }
 
-export function WorldMapView({ world, zone, highlights, pins, circles, magnify, insets, onPick, focusIds, onReady }: Props) {
+export function WorldMapView({
+  world,
+  zone,
+  highlights,
+  pins,
+  circles,
+  magnify,
+  fills,
+  interactive = true,
+  insets,
+  onPick,
+  focusIds,
+  onReady,
+}: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<WorldMap | null>(null);
   // On passe par une référence pour que la carte appelle toujours la dernière version du gestionnaire.
@@ -31,7 +48,7 @@ export function WorldMapView({ world, zone, highlights, pins, circles, magnify, 
   onPickRef.current = onPick;
 
   useEffect(() => {
-    const map = new WorldMap(containerRef.current!, world, { onPick: (pick) => onPickRef.current?.(pick), magnify });
+    const map = new WorldMap(containerRef.current!, world, { onPick: (pick) => onPickRef.current?.(pick), magnify, interactive });
     mapRef.current = map;
     onReady?.(map);
     return () => {
@@ -50,6 +67,7 @@ export function WorldMapView({ world, zone, highlights, pins, circles, magnify, 
   useEffect(() => mapRef.current?.setHighlights(highlights ?? new Map()), [world, zone, highlights]);
   useEffect(() => mapRef.current?.setPins(pins ?? []), [world, zone, pins]);
   useEffect(() => mapRef.current?.setCircles(circles ?? []), [world, zone, circles]);
+  useEffect(() => mapRef.current?.setFills(fills ?? new Map()), [world, zone, fills]);
   useEffect(() => {
     if (focusIds?.length) mapRef.current?.flyTo(focusIds);
   }, [focusIds]);
@@ -57,6 +75,7 @@ export function WorldMapView({ world, zone, highlights, pins, circles, magnify, 
   return (
     <div class="map-frame">
       <div class="map-canvas" ref={containerRef} />
+      {interactive && (
       <div class="map-controls" role="group" aria-label="Zoom">
         <button type="button" onClick={() => mapRef.current?.zoomBy(2)} aria-label="Zoomer" title="Zoomer">
           +
@@ -68,6 +87,7 @@ export function WorldMapView({ world, zone, highlights, pins, circles, magnify, 
           ⟲
         </button>
       </div>
+      )}
     </div>
   );
 }

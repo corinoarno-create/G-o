@@ -1,9 +1,10 @@
-/* Mise en page du bac à sable : barre en haut, carte plein écran, fiche flottante. */
+/* Carte à explorer : barre en haut, carte plein écran, page du carnet flottante. */
 .sandbox {
   position: fixed;
   inset: 0;
   display: flex;
   flex-direction: column;
+  background: var(--paper);
 }
 
 .sandbox__bar {
@@ -12,14 +13,29 @@
   gap: 12px;
   padding: 8px 16px;
   padding-top: max(8px, env(safe-area-inset-top));
-  background: var(--color-bg);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: var(--paper);
+  border-bottom: 1.5px solid var(--paper-edge);
+}
+
+.sandbox__home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+  background: var(--paper-light);
+  color: var(--ink);
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
 }
 
 .sandbox__title {
   margin: 0;
-  font-size: 1.3rem;
-  color: var(--color-accent);
+  font-size: 2rem;
+  color: var(--ink);
 }
 
 .sandbox__zone {
@@ -28,21 +44,25 @@
 }
 
 .sandbox__zone select {
-  font: inherit;
-  padding: 6px 8px;
-  border-radius: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  background: var(--color-bg);
-  color: var(--color-text);
   width: 100%;
   max-width: 260px;
+  font: 700 0.95rem var(--font-body);
+  padding: 7px 10px;
+  border-radius: 10px;
+  border: 1.5px solid var(--ink-soft);
+  background: var(--paper-light);
+  color: var(--ink);
 }
 
 .sandbox__count {
-  margin-left: auto;
-  color: var(--color-muted);
+  color: var(--ink-soft);
   font-size: 0.9rem;
   white-space: nowrap;
+}
+
+.sandbox__play {
+  margin-left: auto;
+  padding: 7px 18px;
 }
 
 .sandbox__map {
@@ -51,21 +71,19 @@
   min-height: 0;
 }
 
+/* Page du carnet posée sur la carte */
 .sandbox__card {
   position: absolute;
   left: 16px;
   bottom: max(16px, env(safe-area-inset-bottom));
-  width: min(340px, calc(100vw - 32px));
-  padding: 12px 14px;
-  border-radius: 14px;
-  background: var(--color-bg);
-  color: var(--color-text);
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
+  width: min(360px, calc(100vw - 32px));
+  padding: 14px 16px;
 }
 
 .sandbox__hint {
   margin: 0;
-  color: var(--color-muted);
+  font-size: 1.4rem;
+  color: var(--ink-soft);
 }
 
 .sandbox__head {
@@ -76,18 +94,18 @@
 
 .sandbox__flag {
   border-radius: 3px;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+  border: 1.5px solid var(--ink-soft);
   object-fit: cover;
 }
 
 .sandbox__name {
   margin: 0;
-  font-size: 1.15rem;
+  font-size: 2rem;
 }
 
 .sandbox__meta {
   margin: 2px 0 0;
-  color: var(--color-muted);
+  color: var(--ink-soft);
   font-size: 0.85rem;
 }
 
@@ -96,8 +114,8 @@
   align-self: flex-start;
   border: none;
   background: none;
-  color: var(--color-muted);
-  font-size: 1.4rem;
+  color: var(--ink-soft);
+  font-size: 1.5rem;
   line-height: 1;
   cursor: pointer;
 }
@@ -106,49 +124,47 @@
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 4px 12px;
-  margin: 10px 0;
-  font-size: 0.92rem;
+  margin: 12px 0;
+  font-size: 0.95rem;
 }
 
 .sandbox__facts dt {
-  color: var(--color-muted);
+  color: var(--ink-soft);
 }
 
 .sandbox__facts dd {
   margin: 0;
+  font-weight: 700;
 }
 
-.sandbox__action {
-  font: inherit;
-  padding: 6px 12px;
-  border: none;
-  border-radius: 8px;
-  background: var(--color-accent);
-  color: #fff;
-  cursor: pointer;
+.sandbox__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
+/* Sauvegarde (Exporter / Importer) */
 .backup {
   position: relative;
   display: flex;
   flex: none;
-  gap: 6px;
+  gap: 8px;
 }
 
 .backup__button {
-  font: inherit;
-  font-size: 0.85rem;
-  padding: 5px 10px;
-  border-radius: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  background: var(--color-bg);
-  color: var(--color-text);
+  font: 700 0.85rem var(--font-body);
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: 1.5px solid var(--ink);
+  background: var(--paper-light);
+  color: var(--ink);
+  box-shadow: 0 2px 0 var(--ink);
   cursor: pointer;
 }
 
 .backup__message {
   position: absolute;
-  top: calc(100% + 8px);
+  bottom: calc(100% + 8px);
   right: 0;
   z-index: 2;
   width: max-content;
@@ -156,19 +172,22 @@
   margin: 0;
   padding: 8px 12px;
   border-radius: 10px;
-  background: var(--color-bg);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  background: var(--paper-light);
+  border: 1px solid var(--paper-edge);
+  box-shadow: var(--shadow-float);
   font-size: 0.85rem;
 }
 
-/* Sur un écran étroit, le compteur d'entités cède sa place aux boutons. */
+.sandbox__card--builder {
+  top: 16px;
+  width: min(430px, calc(100vw - 32px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
 @media (max-width: 520px) {
   .sandbox__count {
     display: none;
-  }
-
-  .backup {
-    margin-left: auto;
   }
 
   .sandbox__bar {
@@ -177,69 +196,19 @@
     padding-right: 12px;
   }
 
-  .backup__button {
-    padding: 5px 8px;
+  .sandbox__title {
+    display: none;
   }
-}
 
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
-.sandbox__play {
-  font: inherit;
-  font-size: 0.9rem;
-  font-weight: 600;
-  padding: 5px 14px;
-  border: none;
-  border-radius: 8px;
-  background: var(--color-accent);
-  color: #fff;
-  cursor: pointer;
-}
-
-.sandbox__card--builder {
-  top: 16px;
-  width: min(420px, calc(100vw - 32px));
-  overflow-y: auto;
-  overscroll-behavior: contain;
-}
-
-/* Sur téléphone, le constructeur occupe le bas de l'écran ; la carte de la zone reste visible au-dessus. */
-@media (max-width: 520px) {
+  /* Sur téléphone, le constructeur occupe le bas de l'écran ; la carte de la zone reste visible au-dessus. */
   .sandbox__card--builder {
     top: auto;
     left: 0;
     right: 0;
     bottom: 0;
     width: auto;
-    max-height: 72%;
+    max-height: 74%;
     border-radius: 18px 18px 0 0;
     padding-bottom: max(14px, env(safe-area-inset-bottom));
   }
-}
-
-@media (max-width: 520px) {
-  .sandbox__play {
-    padding: 5px 10px;
-  }
-}
-
-.sandbox__home {
-  border: none;
-  background: none;
-  color: var(--color-muted);
-  font-size: 1.3rem;
-  line-height: 1;
-  padding: 2px 4px;
-  cursor: pointer;
-}
-
-.sandbox__play {
-  margin-left: auto;
 }
