@@ -73,7 +73,8 @@ interface Frame {
   state: ConsolidationState;
   ids: string[];
   points: [number, number][];
-  minSize: number;
+  /** Étendue minimale du cadrage (km). */
+  minKm: number;
 }
 
 /** Ce que la première réponse à la question a enregistré (pour le bilan). */
@@ -191,11 +192,11 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
     if (!entity || !insets) return undefined;
     const timer = setTimeout(() => {
       if (activeFrame) {
-        mapRef.current?.flyTo(activeFrame.ids, 600, activeFrame.points, activeFrame.minSize);
+        mapRef.current?.flyTo(activeFrame.ids, 600, activeFrame.points, activeFrame.minKm);
         flew.current = true;
       } else if (SHOWS_TARGET.has(exercise.id)) {
         // L'élément est montré : on zoome dessus, avec un peu de voisinage (les petites îles deviennent visibles).
-        mapRef.current?.flyTo([entity.id], 600, [], 140);
+        mapRef.current?.flyTo([entity.id], 600, [], 1500);
         flew.current = true;
       } else if (flew.current) {
         mapRef.current?.resetView(500);
@@ -248,7 +249,7 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
     setHint(next);
     if (next.eliminate?.length) setEliminated((list) => [...list, ...next.eliminate!]);
     // L'indice de lieu sert aussi à rendre les petites îles cliquables : la carte zoome sur la région.
-    if (next.focus?.length) setFrame({ state: consolidation, ids: next.focus, points: [], minSize: 160 });
+    if (next.focus?.length) setFrame({ state: consolidation, ids: next.focus, points: [], minKm: next.focusKm ?? 800 });
   };
 
   const answer = (input: AnswerInput, giveUp = false) => {
@@ -305,7 +306,7 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
         exercise.id === 'locate-capital' && entity.capital
           ? [[entity.capital.lon, entity.capital.lat] as [number, number], ...(click ? [click] : [])]
           : [];
-      if (exercise.answerMode === 'pin' || exercise.id === 'flag-to-country') setFrame({ state: consolidation, ids, points, minSize: 120 });
+      if (exercise.answerMode === 'pin' || exercise.id === 'flag-to-country') setFrame({ state: consolidation, ids, points, minKm: 1000 });
       return;
     }
 

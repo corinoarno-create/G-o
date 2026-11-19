@@ -73,7 +73,7 @@ export function WorldMapView({
   useEffect(() => mapRef.current?.setLabels(labels ?? []), [world, zone, labels]);
   useEffect(() => mapRef.current?.setFills(fills ?? new Map()), [world, zone, fills]);
   useEffect(() => {
-    if (focusIds?.length) mapRef.current?.flyTo(focusIds);
+    if (focusIds?.length) mapRef.current?.flyTo(focusIds, undefined, [], 800);
   }, [focusIds]);
 
   return (

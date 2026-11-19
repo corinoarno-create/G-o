@@ -4,7 +4,7 @@
 // le zoom ne fait que transformer le groupe qui les contient (rapide). Les bordures gardent la même épaisseur
 // à l'écran (vector-effect). Les cercles de repère des micro-États sont dans un calque à part, non zoomé,
 // repositionnés à chaque mouvement pour garder une taille constante et rester faciles à toucher.
-import { geoAzimuthalEqualArea, geoBounds, geoGraticule10, geoPath, type GeoPath, type GeoProjection } from 'd3-geo';
+import { geoAzimuthalEqualArea, geoBounds, geoCircle, geoGraticule10, geoPath, type GeoPath, type GeoProjection } from 'd3-geo';
 import { pointer, select, type Selection } from 'd3-selection';
 import 'd3-transition';
 import { zoom, zoomIdentity, type D3ZoomEvent, type ZoomBehavior, type ZoomTransform } from 'd3-zoom';
@@ -47,6 +47,8 @@ export const MAP_SETTINGS = {
   magnifyRadius: 26,
   magnifyFactor: 4,
 };
+
+const KM_PER_DEGREE = 111.195;
 
 /** Trait en pointillé entre deux points (mon clic → la vraie position), qui se dessine à l'apparition. */
 export interface MapLine {
@@ -257,8 +259,12 @@ export class WorldMap {
     this.updateLines();
   }
 
-  /** Zoome en douceur sur des entités (leurs terres principales) et, si besoin, sur des points. */
-  flyTo(ids: string[], duration = MAP_SETTINGS.flyDuration, points: [number, number][] = [], minSize = 40): void {
+  /**
+   * Zoome en douceur sur des entités (leurs terres principales) et, si besoin, sur des points.
+   * `minKm` : étendue minimale du cadrage sur le terrain, pour garder du voisinage autour d'une petite île
+   * (en kilomètres, pour que le zoom soit le même en vue Monde et en vue continent).
+   */
+  flyTo(ids: string[], duration = MAP_SETTINGS.flyDuration, points: [number, number][] = [], minKm = 0): void {
     const pointBounds = points
       .map((point) => this.projection(point))
       .filter((p): p is [number, number] => p !== null)
@@ -271,7 +277,15 @@ export class WorldMap {
       ...pointBounds,
     ]);
     if (!bounds) return;
-    this.fitBounds(bounds, duration, minSize);
+    let framed = bounds;
+    const center = minKm > 0 ? this.projection.invert?.([(bounds[0][0] + bounds[1][0]) / 2, (bounds[0][1] + bounds[1][1]) / 2]) : null;
+    if (center) {
+      const disc = geoCircle()
+        .center([center[0], center[1]])
+        .radius(minKm / 2 / KM_PER_DEGREE)();
+      framed = unionBounds([bounds, this.path.bounds(disc) as Bounds]) ?? bounds;
+    }
+    this.fitBounds(framed, duration, 20);
   }
 
   /** Cadre un rectangle (coordonnées de la carte avant zoom) dans l'espace libre de l'écran. */

@@ -133,6 +133,8 @@ export interface Hint {
   text: string;
   /** Entités sur lesquelles la carte se cadre : l'indice rend aussi les petites îles cliquables. */
   focus?: string[];
+  /** Étendue minimale de ce cadrage (km). */
+  focusKm?: number;
   /** Entité dont on montre le contour (le pays où chercher une capitale). */
   outline?: string;
   /** Pour le choix de drapeaux : propositions retirées par l'indice. */
@@ -186,12 +188,12 @@ export function hintFor(
     case 'locate-country':
     case 'capital-to-country':
       return level === 1
-        ? { text: `Cherche du côté de : ${region}.`, focus: focus(1) }
-        : { text: 'Encore plus près : c’est l’un de ces pays.', focus: focus(2) };
+        ? { text: `Cherche du côté de : ${region}.`, focus: focus(1), focusKm: 1500 }
+        : { text: 'Encore plus près : c’est l’un de ces pays.', focus: focus(2), focusKm: 700 };
     case 'locate-capital':
       return level === 1
-        ? { text: `Cherche du côté de : ${region}.`, focus: focus(1) }
-        : { text: `Elle est dans ce ${entityNoun(entity)} : ${entity.name}.`, focus: [entity.id], outline: entity.id };
+        ? { text: `Cherche du côté de : ${region}.`, focus: focus(1), focusKm: 1500 }
+        : { text: `Elle est dans ce ${entityNoun(entity)} : ${entity.name}.`, focus: [entity.id], focusKm: 500, outline: entity.id };
     case 'name-country':
     case 'flag-to-country':
       return { text: letterHint(entity.name, level) };
