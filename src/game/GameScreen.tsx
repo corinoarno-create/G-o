@@ -155,17 +155,21 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
     inputRef.current?.focus();
   }, [consolidation]);
 
-  // Cadrage de la question, une fois la place des panneaux connue (la mesure recadre la carte).
+  // Cadrage de la question, une fois la place des panneaux connue. On attend l'image suivante :
+  // Preact exécute cet effet avant celui de la carte, qui recadre tout quand les marges arrivent.
   useEffect(() => {
-    if (!entity || !insets) return;
-    if (SHOWS_TARGET.has(exercise.id)) {
-      // L'élément est montré : on zoome dessus, avec ses voisins autour (les petites îles deviennent visibles).
-      mapRef.current?.flyTo([entity.id], 600, [], 260);
-      flew.current = true;
-    } else if (flew.current) {
-      mapRef.current?.resetView(500);
-      flew.current = false;
-    }
+    if (!entity || !insets) return undefined;
+    const frame = requestAnimationFrame(() => {
+      if (SHOWS_TARGET.has(exercise.id)) {
+        // L'élément est montré : on zoome dessus, avec un peu de voisinage (les petites îles deviennent visibles).
+        mapRef.current?.flyTo([entity.id], 600, [], 140);
+        flew.current = true;
+      } else if (flew.current) {
+        mapRef.current?.resetView(500);
+        flew.current = false;
+      }
+    });
+    return () => cancelAnimationFrame(frame);
   }, [consolidation, insets?.top, insets?.bottom]);
 
   // Fin de la manche.
