@@ -6,7 +6,7 @@ import type { MemoryCard, Skill } from '../engine/srs.ts';
 /** Nom de la base dans le navigateur. */
 export const DB_NAME = 'geo';
 /** Version du schéma : à augmenter (avec une migration dans db.ts) à chaque changement de structure. */
-export const DB_VERSION = 1;
+export const DB_VERSION = 2;
 
 /** Carte mémoire FSRS d'un couple élément × compétence. */
 export interface CardRecord {
@@ -42,18 +42,38 @@ export interface ReviewRecord {
   typed?: string;
   /** Identifiant de la manche. */
   sessionId?: string;
+  /** Déjà envoyée au compte en ligne (ou reçue de lui) : la synchronisation ne la renvoie pas. */
+  pushed?: true;
 }
 
 /** Temps de réponse récents pour un couple appareil × façon de répondre (« desktop:pin »). */
 export interface TimingRecord {
   key: string;
   samples: number[];
+  /** Dernière mise à jour (ms) : à la fusion, la plus récente l'emporte. Absente dans les anciennes données. */
+  updatedAt?: number;
 }
 
 /** Réglage ou préférence quelconque (plafond de nouveautés, dernière zone choisie…). */
 export interface SettingRecord {
   key: string;
   value: unknown;
+  /** Dernière modification (ms) : à la fusion, la plus récente l'emporte. Absente dans les anciennes données. */
+  updatedAt?: number;
+}
+
+/**
+ * Trace d'une remise à zéro (« Repartir de zéro »). Elle voyage avec la progression (synchronisation,
+ * export) pour que l'autre appareil efface lui aussi ce qui a été effacé ici, au lieu de le renvoyer.
+ * Elle efface tout ce qui correspond au filtre et date d'avant elle ; ce qui est joué après reste.
+ */
+export interface ResetRecord {
+  id: string;
+  at: Date;
+  /** Éléments concernés (absent : tous). */
+  entityIds?: string[];
+  /** Compétences concernées (absent : toutes). */
+  skills?: Skill[];
 }
 
 /** Session favorite du constructeur (§ 6), ex. « Capitales d'Asie — Saisir — 20 ». */
@@ -88,10 +108,14 @@ export interface GeoDB extends DBSchema {
     key: string;
     value: FavoriteRecord;
   };
+  resets: {
+    key: string;
+    value: ResetRecord;
+  };
 }
 
-export type StoreName = 'cards' | 'reviews' | 'timing' | 'settings' | 'favorites';
-export const STORE_NAMES: StoreName[] = ['cards', 'reviews', 'timing', 'settings', 'favorites'];
+export type StoreName = 'cards' | 'reviews' | 'timing' | 'settings' | 'favorites' | 'resets';
+export const STORE_NAMES: StoreName[] = ['cards', 'reviews', 'timing', 'settings', 'favorites', 'resets'];
 
 /** Contenu complet de la base, pour l'export, l'import et les tests. */
 export interface ProgressSnapshot {
@@ -100,6 +124,7 @@ export interface ProgressSnapshot {
   timing: TimingRecord[];
   settings: SettingRecord[];
   favorites: FavoriteRecord[];
+  resets: ResetRecord[];
 }
 
 export const emptySnapshot = (): ProgressSnapshot => ({
@@ -108,4 +133,5 @@ export const emptySnapshot = (): ProgressSnapshot => ({
   timing: [],
   settings: [],
   favorites: [],
+  resets: [],
 });

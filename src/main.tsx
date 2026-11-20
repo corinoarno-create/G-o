@@ -10,6 +10,7 @@ import '@fontsource/nunito/latin-800.css';
 import './styles.css';
 import { App } from './app';
 import { startPwa } from './pwa/pwa.ts';
+import { startSync } from './sync/sync.ts';
 
 // Point d'entrée : on monte l'application dans <div id="app">.
 const root = document.getElementById('app');
@@ -19,3 +20,6 @@ if (root) {
 
 // Service worker (hors ligne, mises à jour) et invitation à installer l'app.
 startPwa();
+
+// Synchronisation automatique entre mes appareils (si un compte est lié).
+startSync();

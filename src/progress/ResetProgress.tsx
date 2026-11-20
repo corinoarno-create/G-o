@@ -6,6 +6,7 @@ import type { Zone } from '../map/zones.ts';
 import { downloadText, exportBackup } from '../storage/backup.ts';
 import { countProgress, resetProgress, type ResetFilter } from '../storage/db.ts';
 import { progressDb } from '../storage/progress-db.ts';
+import { requestSync } from '../sync/sync.ts';
 
 type Scope = 'zone' | 'all';
 type Category = 'all' | 'countries' | 'capitals' | 'flags';
@@ -69,6 +70,8 @@ export function ResetProgress({ zones, onReset }: Props) {
         'Ces éléments sont de nouveau « nouveaux » : à toi de les redécouvrir !',
     );
     onReset();
+    // L'effacement part tout de suite vers mes autres appareils.
+    void requestSync({ force: true });
   };
 
   const backup = async () => {

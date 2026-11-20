@@ -7,7 +7,23 @@
 //   et on réunit les journaux ; c'est ce qu'il faut pour passer d'un appareil à l'autre ;
 // - « remplacer » : la base reprend exactement le contenu du fichier.
 import { readSnapshot, replaceSnapshot, type GeoDatabase } from './db.ts';
-import { emptySnapshot, type CardRecord, type ProgressSnapshot, type ReviewRecord } from './schema.ts';
+import {
+  cardErased,
+  mergeByKey,
+  newerCard,
+  newerRecord,
+  reviewErased,
+  reviewIdentity,
+  timingErased,
+  unionResets,
+} from './merge.ts';
+import {
+  emptySnapshot,
+  type CardRecord,
+  type ProgressSnapshot,
+  type ResetRecord,
+  type ReviewRecord,
+} from './schema.ts';
 
 export const BACKUP_FORMAT = 'geo-progression';
 /** Version du format de fichier : à augmenter (avec une migration ci-dessous) si sa structure change. */
@@ -26,7 +42,8 @@ interface BackupFile {
 
 /** Transforme le contenu de la base en texte JSON (dates au format ISO). */
 export function serializeBackup(snapshot: ProgressSnapshot, now: Date): string {
-  const reviews = snapshot.reviews.map(({ id: _ignored, ...review }) => review);
+  // Le numéro et le drapeau « déjà synchronisée » ne valent que pour cette base-ci.
+  const reviews = snapshot.reviews.map(({ id: _id, pushed: _pushed, ...review }) => review);
   const file: BackupFile = {
     format: BACKUP_FORMAT,
     version: BACKUP_VERSION,
@@ -56,6 +73,39 @@ function arrayOf(data: Record<string, unknown>, name: keyof ProgressSnapshot): R
   return value;
 }
 
+/** Rétablit une carte mémoire lue en JSON (dates en texte). */
+export function reviveCard(record: Record<string, unknown>, where: string): CardRecord {
+  if (typeof record.key !== 'string' || !isObject(record.card)) {
+    throw new BackupError(`Données abîmées : ${where} illisible.`);
+  }
+  const card = record.card;
+  return {
+    ...record,
+    card: {
+      ...card,
+      dueAt: toDate(card.dueAt, `carte ${record.key}`),
+      lastReviewAt: card.lastReviewAt == null ? null : toDate(card.lastReviewAt, `carte ${record.key}`),
+    },
+  } as unknown as CardRecord;
+}
+
+/** Rétablit une réponse lue en JSON (sans numéro ni drapeau de synchronisation). */
+export function reviveReview(record: Record<string, unknown>, where: string): ReviewRecord {
+  if (typeof record.cardKey !== 'string') throw new BackupError(`Données abîmées : ${where} illisible.`);
+  const { id: _id, pushed: _pushed, ...rest } = record;
+  return { ...rest, at: toDate(record.at, where) } as unknown as ReviewRecord;
+}
+
+/** Rétablit une trace de remise à zéro lue en JSON. */
+export function reviveReset(record: Record<string, unknown>, where: string): ResetRecord {
+  const valid =
+    typeof record.id === 'string' &&
+    (record.entityIds === undefined || Array.isArray(record.entityIds)) &&
+    (record.skills === undefined || Array.isArray(record.skills));
+  if (!valid) throw new BackupError(`Données abîmées : ${where} illisible.`);
+  return { ...record, at: toDate(record.at, where) } as unknown as ResetRecord;
+}
+
 /** Lit un fichier d'export, le met à niveau si besoin et rétablit les dates. */
 export function parseBackup(text: string): ProgressSnapshot {
   let raw: unknown;
@@ -82,25 +132,10 @@ export function parseBackup(text: string): ProgressSnapshot {
   if (!isObject(file.data)) throw new BackupError('Le fichier est abîmé : pas de données.');
   const data = file.data;
 
-  const cards = arrayOf(data, 'cards').map((record, i) => {
-    if (typeof record.key !== 'string' || !isObject(record.card)) {
-      throw new BackupError(`Le fichier est abîmé : carte n° ${i + 1} illisible.`);
-    }
-    const card = record.card;
-    return {
-      ...record,
-      card: {
-        ...card,
-        dueAt: toDate(card.dueAt, `carte ${record.key}`),
-        lastReviewAt: card.lastReviewAt == null ? null : toDate(card.lastReviewAt, `carte ${record.key}`),
-      },
-    } as unknown as CardRecord;
-  });
-  const reviews = arrayOf(data, 'reviews').map((record, i) => {
-    if (typeof record.cardKey !== 'string') throw new BackupError(`Le fichier est abîmé : réponse n° ${i + 1} illisible.`);
-    const { id: _ignored, ...rest } = record;
-    return { ...rest, at: toDate(record.at, `réponse n° ${i + 1}`) } as unknown as ReviewRecord;
-  });
+  const cards = arrayOf(data, 'cards').map((record, i) => reviveCard(record, `carte n° ${i + 1}`));
+  const reviews = arrayOf(data, 'reviews').map((record, i) => reviveReview(record, `réponse n° ${i + 1}`));
+  // Absentes des fichiers exportés avant la synchronisation (20/11/2026).
+  const resets = arrayOf(data, 'resets').map((record, i) => reviveReset(record, `remise à zéro n° ${i + 1}`));
   const favorites = arrayOf(data, 'favorites').map((record) => ({
     ...record,
     updatedAt: toDate(record.updatedAt, `favori ${String(record.id)}`),
@@ -111,6 +146,7 @@ export function parseBackup(text: string): ProgressSnapshot {
     timing: arrayOf(data, 'timing') as unknown as ProgressSnapshot['timing'],
     settings: arrayOf(data, 'settings') as unknown as ProgressSnapshot['settings'],
     favorites: favorites as unknown as ProgressSnapshot['favorites'],
+    resets,
   };
 }
 
@@ -120,43 +156,40 @@ export interface MergeSummary {
   reviewsAdded: number;
 }
 
-const lastReview = (record: CardRecord) => record.card.lastReviewAt?.getTime() ?? -Infinity;
-const reviewId = (review: ReviewRecord) => `${review.at.getTime()}|${review.cardKey}`;
-
 /**
- * Fusionne deux progressions : pour chaque carte, la plus récemment révisée l'emporte ;
- * les journaux sont réunis sans doublon ; pour les temps, réglages et favoris, on garde
- * ce qui existe déjà ici et on ajoute ce qui manque (les favoris : le plus récent l'emporte).
+ * Fusionne deux progressions (règles dans merge.ts) : pour chaque carte, la plus récemment révisée
+ * l'emporte ; les journaux sont réunis sans doublon ; pour les temps et réglages, la dernière
+ * modification l'emporte (à défaut de date, on garde ce qui existe ici) ; les favoris : le plus récent.
+ * Les remises à zéro des deux côtés sont réunies et appliquées.
  */
 export function mergeSnapshots(
   local: ProgressSnapshot,
   incoming: ProgressSnapshot,
 ): { snapshot: ProgressSnapshot; summary: MergeSummary } {
   const summary: MergeSummary = { cardsAdded: 0, cardsUpdated: 0, reviewsAdded: 0 };
+  const resets = unionResets(local.resets, incoming.resets);
 
-  const cards = new Map(local.cards.map((record) => [record.key, record]));
+  const cards = new Map(
+    local.cards.filter((record) => !cardErased(record, resets)).map((record) => [record.key, record]),
+  );
   for (const record of incoming.cards) {
+    if (cardErased(record, resets)) continue;
     const existing = cards.get(record.key);
     if (!existing) summary.cardsAdded += 1;
-    else if (lastReview(record) > lastReview(existing)) summary.cardsUpdated += 1;
+    else if (newerCard(existing, record) === record) summary.cardsUpdated += 1;
     else continue;
     cards.set(record.key, record);
   }
 
-  const known = new Set(local.reviews.map(reviewId));
-  const reviews = [...local.reviews];
+  const reviews = local.reviews.filter((review) => !reviewErased(review, resets));
+  const known = new Set(reviews.map(reviewIdentity));
   for (const review of incoming.reviews) {
-    if (known.has(reviewId(review))) continue;
-    known.add(reviewId(review));
+    if (known.has(reviewIdentity(review)) || reviewErased(review, resets)) continue;
+    known.add(reviewIdentity(review));
     reviews.push(review);
     summary.reviewsAdded += 1;
   }
   reviews.sort((a, b) => a.at.getTime() - b.at.getTime());
-
-  const addMissing = <T extends { key: string }>(mine: T[], theirs: T[]) => {
-    const keys = new Set(mine.map((record) => record.key));
-    return [...mine, ...theirs.filter((record) => !keys.has(record.key))];
-  };
 
   const favorites = new Map(local.favorites.map((record) => [record.id, record]));
   for (const record of incoming.favorites) {
@@ -168,9 +201,10 @@ export function mergeSnapshots(
     snapshot: {
       cards: [...cards.values()],
       reviews,
-      timing: addMissing(local.timing, incoming.timing),
-      settings: addMissing(local.settings, incoming.settings),
+      timing: mergeByKey(local.timing, incoming.timing, newerRecord).filter((record) => !timingErased(record, resets)),
+      settings: mergeByKey(local.settings, incoming.settings, newerRecord),
       favorites: [...favorites.values()],
+      resets,
     },
     summary,
   };

@@ -24,7 +24,8 @@ L'ambiance est **positive** : on célèbre les progrès et on ne punit jamais l'
 - **Fonctionne hors ligne** après le premier chargement.
 - Déploiement sur **GitHub Pages** (comme mes autres PWA).
 - Données de progression **stockées localement** (IndexedDB).
-- **Export/import JSON** de la progression, pour passer du PC au téléphone et faire des sauvegardes. Une synchronisation automatique viendra plus tard.
+- **Synchronisation automatique** entre mes appareils via un compte Google (Firebase), et **export/import JSON** pour les sauvegardes.
+- **À plusieurs** (décidé le 20/11/2026) : je peux envoyer l'app à un proche ; chacun a son compte et ses stats, et on peut se défier.
 
 ## 3. Périmètre géographique
 
@@ -185,6 +186,11 @@ Deux portes, sur un ton positif, sans vocabulaire de voyage (« escales », « i
 - **Frontières Monde** : Natural Earth 1:10m « map units », simplifiées île par île avec mapshaper (8 % des points, `explode` + `keep-shapes` pour ne perdre aucune île). Frontières « de facto », sauf la Crimée (→ Ukraine) et le Sahara occidental (territoire entier), qui suivent les frontières reconnues par l'ONU. Identifiants : code ISO alpha-2 en minuscules, `cyn` (Chypre du Nord) et `sol` (Somaliland).
 - **Déploiement** : GitHub Actions (`.github/workflows/deploy.yml`) construit et publie `dist/` à chaque push sur `main`. Le chemin de base vient de la variable `BASE_PATH` ; les URL de données passent par `assetUrl()` (`src/lib/assets.ts`).
 - **Répétition espacée** : `ts-fsrs`.
+- **Comptes et synchronisation (20/11/2026)** : **Firebase**, formule gratuite Spark (choisi plutôt qu'un Gist GitHub, qui obligerait un proche à créer un compte GitHub et un jeton, et plutôt que Supabase, dont les projets gratuits se mettent en pause après 7 jours sans activité). Connexion **Google** en fenêtre surgissante (`src/sync/firebase.ts`, chargé à la demande) ; **Firestore « lite »** (sans cache ni écoute en direct). La base locale reste la référence : l'app marche sans compte et hors ligne. Identifiants du projet dans `src/sync/firebase-config.ts` (publics par nature) ; règles de sécurité dans `firestore.rules` ; guide de création du projet dans `docs/SYNCHRO.md`.
+  - **Rangement en ligne** : `users/{uid}/core/state` (réglages, temps de référence, remises à zéro) et `cards-00` à `cards-15` (cartes mémoire, réparties par hachage de la clé), réunis et réécrits dans une transaction ; `users/{uid}/batches/…` : lots de réponses, ajoutés et jamais réécrits, relus seulement depuis la dernière lecture. Tout est stocké en texte JSON.
+  - **Fusion** (`src/storage/merge.ts`, commune à l'import JSON) : carte la plus récemment révisée ; journaux réunis sans doublon ; réglages et temps : dernière modification (champ `updatedAt`) ; **remises à zéro réunies**, qui effacent partout ce qui date d'avant elles (base locale v2, magasin `resets`). Une réponse envoyée ou reçue porte `pushed`.
+  - **Quand** : démarrage, retour au premier plan (au plus toutes les 30 s), passage en arrière-plan, retour du réseau, fin ou abandon d'une manche, remise à zéro ; bouton « Synchroniser ». Jamais pendant une question.
+  - **Appareil partagé** : la base locale retient son propriétaire ; si un autre compte se connecte, on demande avant de remplacer le carnet. Le prénom de l'accueil vient du compte Google.
 - **Stockage** : IndexedDB (via `idb`).
 - **PWA** : `vite-plugin-pwa`.
 - **Tests** : Vitest, au minimum pour la notation automatique, le calcul de distance, la boucle de consolidation et la tolérance de saisie.
@@ -227,6 +233,8 @@ Deux portes, sur un ton positif, sans vocabulaire de voyage (« escales », « i
 
 **V1 terminée le 19/11/2026 : place aux 2 semaines d'utilisation (jusqu'au 03/12/2026). Les nouvelles idées vont dans la feuille de route, sans être codées.**
 
+**Règle levée le 20/11/2026 (décision d'Arno)** : le développement reprend, en commençant par la synchronisation PC ↔ téléphone, devenue le besoin n° 1 à l'usage.
+
 #### Retouches pendant l'utilisation (demandées par Arno)
 - [x] Carte fluide sur téléphone, zoom au rectangle et retour express sur PC, cadrage selon le contexte, clavier ouvert (19/11/2026).
 - [x] **Nouvel accueil** (20/11/2026) : Révision + Mon carnet de voyage, fiche de région (progression, Jouer, Découvrir) ; fin de l'entretien rapide, de « À découvrir » et des favoris.
@@ -238,6 +246,9 @@ Deux portes, sur un ton positif, sans vocabulaire de voyage (« escales », « i
 - **Acquis du Monde** (pays, capitales, drapeaux) : ils ne comptent **pas** dans le plafond quotidien de nouveautés, et une réponse juste et rapide est notée « Facile ». Dans les manches « Mélange », ils sont posés directement en question ; la **découverte en 3 temps** ne se lance que depuis l'onglet « Découvrir » d'une fiche de région.
 
 ### V2
+- [ ] **1. Comptes et synchronisation automatique** (20/11/2026) : code prêt et testé (`src/sync/`), encart « Mes appareils » au pied de l'accueil ; **reste : créer le projet Firebase (Arno, `docs/SYNCHRO.md`), y brancher l'app, essai réel PC ↔ téléphone.**
+- [ ] **2. Défis entre amis** (l'ancien « Mode Battle ») : je crée un défi (même série de questions), mon proche le joue, on compare score, précision et temps ; page « Mes défis ».
+- [ ] **3. Ensemble** : voir le carnet de l'autre, petit classement à deux.
 - [ ] Villes : 3, 5 ou 10 par pays + phase de découverte.
 - [ ] Mode Départements & États (numéros, chefs-lieux, capitales d'État).
 - [ ] Indices et anecdotes.
@@ -248,8 +259,6 @@ Deux portes, sur un ton positif, sans vocabulaire de voyage (« escales », « i
 - [ ] Géographie physique (fleuves, montagnes, mers).
 - [ ] Défis du jour thématiques.
 - [ ] Statistiques détaillées (courbes, points faibles, précision moyenne par continent).
-- [ ] Synchronisation PC ↔ téléphone.
-- [ ] **Mode Battle** (idée d'Arno, 19/11/2026) : défier quelqu'un par un simple lien, sans serveur ; il joue la même série de questions et on compare score et temps. *(Après les 2 semaines d'utilisation de la V1.)*
 - [ ] *(Ajouter ici les nouvelles idées au fil de l'eau plutôt que de les coder tout de suite.)*
 
 ## 13. Méthode de travail avec Claude Code

@@ -24,6 +24,7 @@ async function sampleSnapshot(): Promise<ProgressSnapshot> {
     timing: [{ key: 'desktop:pin', samples: [2100, 2400] }],
     settings: [{ key: 'dailyNewLimit', value: 12 }],
     favorites: [{ id: 'f1', name: 'Capitales d’Asie', config: { zone: 'asia' }, updatedAt: now }],
+    resets: [],
   };
 }
 
@@ -150,5 +151,82 @@ describe('exportBackup / importBackup', () => {
 describe('backupFileName', () => {
   it('contient la date du jour', () => {
     expect(backupFileName(new Date(2026, 0, 5))).toBe('geo-progression-2026-01-05.json');
+  });
+});
+
+describe('mergeSnapshots : synchronisation entre appareils', () => {
+  const reset = (at: Date, entityIds?: string[]) => ({ id: `r-${at.getTime()}`, at, ...(entityIds && { entityIds }) });
+
+  it('applique une remise à zéro venue d’ailleurs à ce qui date d’avant elle, pas après', async () => {
+    const between = new Date('2026-11-19T09:00:00Z');
+    const local = {
+      ...emptySnapshot(),
+      cards: [await makeCard('fr', 'flag', now), await makeCard('de', 'flag', later), await makeCard('jp', 'flag', now)],
+      reviews: [makeReview('fr:flag', now), makeReview('de:flag', later), makeReview('jp:flag', now)],
+    };
+    // L'autre appareil a effacé l'Europe le 19 : la France (révisée le 18) part, l'Allemagne (le 20) reste.
+    const incoming = { ...emptySnapshot(), resets: [reset(between, ['fr', 'de'])] };
+    const { snapshot } = mergeSnapshots(local, incoming);
+    expect(snapshot.cards.map((r) => r.key).sort()).toEqual(['de:flag', 'jp:flag']);
+    expect(snapshot.reviews.map((r) => r.cardKey).sort()).toEqual(['de:flag', 'jp:flag']);
+    expect(snapshot.resets).toHaveLength(1);
+  });
+
+  it('ne laisse pas l’autre appareil renvoyer ce qui a été effacé ici', async () => {
+    const between = new Date('2026-11-19T09:00:00Z');
+    const local = { ...emptySnapshot(), resets: [reset(between)] };
+    const incoming = {
+      ...emptySnapshot(),
+      cards: [await makeCard('fr', 'flag', now)],
+      reviews: [makeReview('fr:flag', now)],
+      timing: [{ key: 'desktop:pin', samples: [9], updatedAt: now.getTime() }],
+    };
+    const { snapshot, summary } = mergeSnapshots(local, incoming);
+    expect(snapshot.cards).toEqual([]);
+    expect(snapshot.reviews).toEqual([]);
+    // Une remise à zéro complète efface aussi les temps de référence plus anciens.
+    expect(snapshot.timing).toEqual([]);
+    expect(summary).toEqual({ cardsAdded: 0, cardsUpdated: 0, reviewsAdded: 0 });
+  });
+
+  it('garde le réglage et les temps modifiés le plus récemment, d’un côté comme de l’autre', () => {
+    const { snapshot } = mergeSnapshots(
+      {
+        ...emptySnapshot(),
+        settings: [
+          { key: 'a', value: 'ici', updatedAt: 2 },
+          { key: 'b', value: 'ici', updatedAt: 1 },
+        ],
+        timing: [{ key: 'mobile:pin', samples: [1], updatedAt: 1 }],
+      },
+      {
+        ...emptySnapshot(),
+        settings: [
+          { key: 'a', value: 'là-bas', updatedAt: 1 },
+          { key: 'b', value: 'là-bas', updatedAt: 3 },
+        ],
+        timing: [{ key: 'mobile:pin', samples: [9], updatedAt: 5 }],
+      },
+    );
+    expect(Object.fromEntries(snapshot.settings.map((r) => [r.key, r.value]))).toEqual({ a: 'ici', b: 'là-bas' });
+    expect(snapshot.timing[0]!.samples).toEqual([9]);
+  });
+
+  it('donne le même résultat dans les deux sens', async () => {
+    const a = { ...emptySnapshot(), cards: [await makeCard('fr', 'flag', later)], resets: [reset(now, ['de'])] };
+    const b = { ...emptySnapshot(), cards: [await makeCard('fr', 'flag', now), await makeCard('de', 'flag', now)] };
+    const keys = (s: ProgressSnapshot) => s.cards.map((r) => `${r.key}@${r.card.lastReviewAt?.toISOString()}`).sort();
+    expect(keys(mergeSnapshots(a, b).snapshot)).toEqual(keys(mergeSnapshots(b, a).snapshot));
+  });
+
+  it('exporte et relit les remises à zéro, sans le drapeau de synchronisation', () => {
+    const snapshot = {
+      ...emptySnapshot(),
+      reviews: [{ ...makeReview('fr:flag', now), pushed: true as const }],
+      resets: [{ id: 'r1', at: now, skills: ['flag' as const] }],
+    };
+    const copy = parseBackup(serializeBackup(snapshot, now));
+    expect(copy.resets).toEqual(snapshot.resets);
+    expect(copy.reviews[0]!.pushed).toBeUndefined();
   });
 });

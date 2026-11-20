@@ -102,7 +102,7 @@ describe('contenu complet', () => {
     const copy = await readSnapshot(target);
     expect(copy.cards.map((r) => r.key)).toEqual(['fr:flag']);
     expect(copy.reviews).toHaveLength(1);
-    expect(copy.settings).toEqual([{ key: 'theme', value: 'sombre' }]);
+    expect(copy.settings).toEqual([{ key: 'theme', value: 'sombre', updatedAt: expect.any(Number) }]);
   });
 });
 
@@ -160,5 +160,9 @@ describe('remise à zéro', () => {
     expect(await getAllCards(db)).toEqual([]);
     expect((await getTiming(db, 'desktop', 'pin')).samples).toEqual([]);
     expect(await getSetting(db, 'autocomplete', false)).toBe(true);
+    // Une trace reste, pour que les autres appareils effacent aussi.
+    const { resets } = await readSnapshot(db);
+    expect(resets).toHaveLength(1);
+    expect(resets[0]!.entityIds).toBeUndefined();
   });
 });

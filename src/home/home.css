@@ -53,10 +53,12 @@
 .home__main {
   display: grid;
   grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  /* Le pied reste sous le carnet : la fiche de droite, collante, ne vient pas le recouvrir. */
   grid-template-areas:
     'intro intro'
     'left right'
-    'footer footer';
+    'footer right';
+  grid-template-rows: auto auto 1fr;
   align-items: start;
   gap: 22px 36px;
   width: min(1320px, 100%);

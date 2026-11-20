@@ -12,6 +12,7 @@ import { CreditsScreen } from './credits/CreditsScreen.tsx';
 import { ProgressScreen } from './progress/ProgressScreen.tsx';
 import { PwaNotices } from './pwa/PwaNotices.tsx';
 import { Sandbox } from './sandbox/Sandbox.tsx';
+import { requestSync, useSync } from './sync/sync.ts';
 
 type Screen =
   | { kind: 'home' }
@@ -29,6 +30,8 @@ export function App() {
   const [screen, setScreen] = useState<Screen>({ kind: 'home' });
   const [zoneId, setZoneId] = useState('world');
   const zones = useMemo(() => (world ? buildZones(world) : []), [world]);
+  // Une synchronisation qui apporte du neuf fait recharger l'accueil et la progression.
+  const { dataVersion } = useSync();
 
   useEffect(() => {
     loadWorld()
@@ -101,8 +104,17 @@ export function App() {
           <GameScreen
             world={world}
             game={screen.game}
-            onFinish={(summary) => setScreen({ kind: 'end', game: screen.game, summary })}
-            onQuit={() => void screen.game.recorder.flush().then(home)}
+            onFinish={(summary) => {
+              setScreen({ kind: 'end', game: screen.game, summary });
+              // Les réponses sont enregistrées : on les envoie vers mes autres appareils.
+              void requestSync({ force: true });
+            }}
+            onQuit={() =>
+              void screen.game.recorder.flush().then(() => {
+                home();
+                void requestSync({ force: true });
+              })
+            }
           />
         );
       case 'end':
@@ -134,7 +146,7 @@ export function App() {
       case 'credits':
         return <CreditsScreen onHome={home} />;
       case 'progress':
-        return <ProgressScreen world={world} zones={zones} onPlay={play} onHome={home} />;
+        return <ProgressScreen key={dataVersion} world={world} zones={zones} onPlay={play} onHome={home} />;
       case 'explore':
         return (
           <Sandbox
@@ -149,6 +161,7 @@ export function App() {
       default:
         return (
           <HomeScreen
+            key={dataVersion}
             world={world}
             zones={zones}
             onPlay={play}

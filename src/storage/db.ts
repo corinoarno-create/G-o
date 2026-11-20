@@ -42,6 +42,10 @@ export function openGeoDb(name: string = DB_NAME, onClosed?: () => void): Promis
         db.createObjectStore('settings', { keyPath: 'key' });
         db.createObjectStore('favorites', { keyPath: 'id' });
       }
+      // Version 2 : traces des remises à zéro, pour la synchronisation entre appareils.
+      if (oldVersion < 2) {
+        db.createObjectStore('resets', { keyPath: 'id' });
+      }
     },
   });
 }
@@ -98,7 +102,7 @@ export async function recordAnswer(
   if (answer.card) await tx.objectStore('cards').put(answer.card);
   if (answer.timing) {
     const { device, mode, stats } = answer.timing;
-    await tx.objectStore('timing').put({ key: timingKey(device, mode), samples: stats.samples });
+    await tx.objectStore('timing').put({ key: timingKey(device, mode), samples: stats.samples, updatedAt: Date.now() });
   }
   await tx.done;
   return id;
@@ -135,9 +139,20 @@ export async function countProgress(db: GeoDatabase, filter: ResetFilter): Promi
  * Efface la progression (cartes mémoire et journal des réponses), en une seule transaction.
  * Les éléments effacés redeviennent « nouveaux ». Une remise à zéro complète efface aussi mes temps
  * de référence ; les réglages et les favoris sont toujours gardés.
+ * Une trace de la remise à zéro est gardée : la synchronisation l'appliquera aux autres appareils.
  */
-export async function resetProgress(db: GeoDatabase, filter: ResetFilter): Promise<{ cards: number; reviews: number }> {
-  const tx = db.transaction(['cards', 'reviews', 'timing'], 'readwrite');
+export async function resetProgress(
+  db: GeoDatabase,
+  filter: ResetFilter,
+  now = new Date(),
+): Promise<{ cards: number; reviews: number }> {
+  const tx = db.transaction(['cards', 'reviews', 'timing', 'resets'], 'readwrite');
+  await tx.objectStore('resets').put({
+    id: crypto.randomUUID(),
+    at: now,
+    ...(filter.entityIds && { entityIds: [...filter.entityIds] }),
+    ...(filter.skills && { skills: [...filter.skills] }),
+  });
   let cards = 0;
   let reviews = 0;
   if (isEverything(filter)) {
@@ -173,7 +188,7 @@ export async function getSetting<T>(db: GeoDatabase, key: string, fallback: T): 
 }
 
 export async function putSetting(db: GeoDatabase, key: string, value: unknown): Promise<void> {
-  await db.put('settings', { key, value });
+  await db.put('settings', { key, value, updatedAt: Date.now() });
 }
 
 export function getFavorites(db: GeoDatabase): Promise<FavoriteRecord[]> {
@@ -192,15 +207,16 @@ export async function deleteFavorite(db: GeoDatabase, id: string): Promise<void>
 
 export async function readSnapshot(db: GeoDatabase): Promise<ProgressSnapshot> {
   const tx = db.transaction(STORE_NAMES, 'readonly');
-  const [cards, reviews, timing, settings, favorites] = await Promise.all([
+  const [cards, reviews, timing, settings, favorites, resets] = await Promise.all([
     tx.objectStore('cards').getAll(),
     tx.objectStore('reviews').getAll(),
     tx.objectStore('timing').getAll(),
     tx.objectStore('settings').getAll(),
     tx.objectStore('favorites').getAll(),
+    tx.objectStore('resets').getAll(),
   ]);
   await tx.done;
-  return { cards, reviews, timing, settings, favorites };
+  return { cards, reviews, timing, settings, favorites, resets };
 }
 
 /** Remplace tout le contenu de la base par celui fourni, en une seule transaction. */
@@ -215,5 +231,6 @@ export async function replaceSnapshot(db: GeoDatabase, snapshot: ProgressSnapsho
   for (const record of snapshot.timing) writes.push(tx.objectStore('timing').put(record));
   for (const record of snapshot.settings) writes.push(tx.objectStore('settings').put(record));
   for (const record of snapshot.favorites) writes.push(tx.objectStore('favorites').put(record));
+  for (const record of snapshot.resets) writes.push(tx.objectStore('resets').put(record));
   await Promise.all([...writes, tx.done]);
 }

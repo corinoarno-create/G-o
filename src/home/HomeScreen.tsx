@@ -13,6 +13,8 @@ import { WorldMapView } from '../map/WorldMapView.tsx';
 import type { Zone } from '../map/zones.ts';
 import { installApp, usePwa } from '../pwa/pwa.ts';
 import { BackupButtons } from '../sandbox/BackupButtons.tsx';
+import { SyncPanel } from '../sync/SyncPanel.tsx';
+import { useSync } from '../sync/sync.ts';
 import { getTiming } from '../storage/db.ts';
 import { progressDb } from '../storage/progress-db.ts';
 import type { CardRecord } from '../storage/schema.ts';
@@ -34,9 +36,11 @@ interface Props {
   onCredits: () => void;
 }
 
-function greeting(now: Date): string {
+/** « Bonjour Arno ! » : le prénom vient du compte Google lié (sans compte, pas de prénom). */
+function greeting(now: Date, firstName: string | null): string {
   const hour = now.getHours();
-  return hour < 5 || hour >= 19 ? 'Bonsoir Arno !' : 'Bonjour Arno !';
+  const hello = hour < 5 || hour >= 19 ? 'Bonsoir' : 'Bonjour';
+  return firstName ? `${hello} ${firstName} !` : `${hello} !`;
 }
 
 /** Aquarelle de chaque continent (variables de styles.css). */
@@ -71,6 +75,7 @@ let rememberedTile: string | null = null;
 
 export function HomeScreen({ world, zones, onPlay, onExplore, onProgress, onCredits }: Props) {
   const { installable } = usePwa();
+  const { firstName } = useSync();
   const wide = useMediaQuery(WIDE_QUERY);
   const [summary, setSummary] = useState<HomeSummary | null>(null);
   const [cards, setCards] = useState<Map<string, CardRecord> | null>(null);
@@ -168,7 +173,7 @@ export function HomeScreen({ world, zones, onPlay, onExplore, onProgress, onCred
       ) : (
         <main class="home__main">
           <div class="home__intro">
-            <h1>{greeting(now)}</h1>
+            <h1>{greeting(now, firstName)}</h1>
             <p class="home__intro-mobile">Que veux-tu travailler ?</p>
             <p class="home__intro-desktop">{today}</p>
           </div>
@@ -266,7 +271,7 @@ export function HomeScreen({ world, zones, onPlay, onExplore, onProgress, onCred
           {wide && <div class="home__right">{sheet}</div>}
 
           <footer class="home__footer">
-            <p>Ton carnet reste dans ce navigateur : exporte-le de temps en temps pour le garder ou le passer sur un autre appareil.</p>
+            <SyncPanel />
             <BackupButtons />
             <div class="home__footer-links">
               {installable && (
