@@ -1,0 +1,286 @@
+/* Défis entre amis : page d'un défi, « Mes défis », envoi. */
+
+/* --- Page d'un défi ------------------------------------------------------------------------ */
+.challenge {
+  min-height: 100dvh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 24px 16px;
+}
+
+.challenge__card {
+  position: relative;
+  width: min(540px, 100%);
+  margin-top: 4vh;
+  padding: 22px 20px 18px;
+  text-align: center;
+}
+
+.challenge__card--wide {
+  width: min(720px, 100%);
+}
+
+.challenge__back {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.challenge__kicker {
+  margin: 18px 0 0;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+.challenge__title {
+  margin: 4px 0 10px;
+  font-size: 2.3rem;
+  line-height: 1.1;
+}
+
+.challenge__note {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.challenge__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.challenge__ranking,
+.challenge__grid {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0;
+  font-size: 0.92rem;
+}
+
+.challenge__ranking th,
+.challenge__ranking td,
+.challenge__grid th,
+.challenge__grid td {
+  padding: 6px 6px;
+  border-bottom: 1.5px dashed var(--paper-edge);
+  text-align: left;
+}
+
+.challenge__ranking thead th,
+.challenge__grid thead th {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+}
+
+.challenge__ranking tr.is-me {
+  background: rgba(242, 193, 78, 0.18);
+}
+
+.challenge__ranking td svg {
+  color: var(--terracotta);
+  vertical-align: middle;
+}
+
+.challenge__details {
+  margin: 6px 0 4px;
+  text-align: left;
+}
+
+.challenge__details summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--teal);
+}
+
+.challenge__grid td {
+  white-space: nowrap;
+}
+
+.challenge__grid td svg {
+  vertical-align: -2px;
+}
+
+.challenge__grid td.is-right svg {
+  color: var(--stamp-green);
+}
+
+.challenge__grid td.is-wrong svg {
+  color: var(--wrong-ink);
+}
+
+/* Sur téléphone, le détail défile de côté plutôt que d'élargir la page. */
+.challenge__details {
+  overflow-x: auto;
+}
+
+/* --- Envoi -------------------------------------------------------------------------------- */
+.share {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1.5px dashed var(--paper-edge);
+}
+
+.share__title {
+  margin: 0 0 8px;
+  font-size: 1.5rem;
+}
+
+.share__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.share__buttons .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.share__note {
+  margin: 8px 0 0;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  overflow-wrap: anywhere;
+}
+
+/* --- Mes défis ---------------------------------------------------------------------------- */
+.defis {
+  width: min(760px, 100%);
+  margin: 0 auto;
+  padding: 16px 16px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.defis__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.defis__head h1 {
+  margin: 0;
+  font-size: 2.2rem;
+}
+
+.defis__card {
+  padding: 14px 16px;
+}
+
+.defis__card h2 {
+  margin: 0 0 6px;
+  font-size: 1.6rem;
+}
+
+.defis__empty {
+  color: var(--ink-soft);
+}
+
+.defis__list,
+.defis__friends {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.defis__item {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 4px;
+  border: none;
+  border-bottom: 1.5px dashed var(--paper-edge);
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.defis__item:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.defis__item.is-new .defis__meta {
+  color: var(--terracotta);
+  font-weight: 800;
+}
+
+.defis__scores {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.defis__scores svg {
+  color: var(--terracotta);
+  vertical-align: -2px;
+}
+
+.defis__meta {
+  flex: none;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.defis__friend {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 4px;
+  border-bottom: 1.5px dashed var(--paper-edge);
+}
+
+.defis__form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px;
+  padding: 10px 4px 14px;
+}
+
+.defis__form label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+.defis__form select {
+  font: 600 0.95rem var(--font-body);
+  padding: 6px 8px;
+  border: 1.5px solid var(--ink);
+  border-radius: 10px;
+  background: var(--paper-light);
+  color: var(--ink);
+}
+
+/* Pastille du nombre de nouveautés (accueil). */
+.news-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: var(--terracotta);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1;
+}

@@ -11,6 +11,7 @@ import './styles.css';
 import { App } from './app';
 import { startPwa } from './pwa/pwa.ts';
 import { startSync } from './sync/sync.ts';
+import { flushPending } from './challenge/challenges.ts';
 
 // Point d'entrée : on monte l'application dans <div id="app">.
 const root = document.getElementById('app');
@@ -23,3 +24,7 @@ startPwa();
 
 // Synchronisation automatique entre mes appareils (si un compte est lié).
 startSync();
+
+// Scores de défi restés en attente (pas de réseau à la fin de la manche) : on les renvoie.
+void flushPending();
+window.addEventListener('online', () => void flushPending());

@@ -56,6 +56,9 @@ function connect() {
   return services;
 }
 
+/** Base en ligne (pour les défis). */
+export const onlineDb = (): Firestore => connect().firestore;
+
 const toAccount = (user: User): Account => ({
   uid: user.uid,
   name: user.displayName ?? user.email ?? 'Explorateur',

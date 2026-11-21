@@ -440,4 +440,19 @@
     color: var(--terracotta);
     font-weight: 800;
   }
+
+  .home__tabbar.has-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .home__tab-icon {
+    position: relative;
+    display: inline-flex;
+  }
+
+  .home__tab-icon .news-badge {
+    position: absolute;
+    top: -4px;
+    right: -12px;
+  }
 }

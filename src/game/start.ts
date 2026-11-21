@@ -10,6 +10,7 @@ import { EXERCISES, type ExerciseId } from './exercises.ts';
 import { planBuilder, planReview, requestTitle, type GameRequest } from './plans.ts';
 import type { QuestionRef } from './questions.ts';
 import { AnswerRecorder } from './recorder.ts';
+import type { ChallengePlay } from '../challenge/types.ts';
 
 export type { GameRequest } from './plans.ts';
 
@@ -22,6 +23,8 @@ export interface PreparedGame {
   recorder: AnswerRecorder;
   /** Autocomplétion en saisie (réglage mémorisé). */
   autocomplete: boolean;
+  /** Manche jouée pour un défi (mêmes questions, même ordre, mêmes propositions pour tous). */
+  challenge?: ChallengePlay;
 }
 
 let srs: Promise<Srs> | null = null;
@@ -72,5 +75,6 @@ export async function prepareGame(world: WorldData, worldZone: Zone, request: Ga
       break;
   }
   const autocomplete = await getSetting(db, 'autocomplete', false);
-  return { request, title: requestTitle(request), zone, questions, recorder, autocomplete };
+  const challenge = request.kind === 'questions' ? request.challenge : undefined;
+  return { request, title: requestTitle(request), zone, questions, recorder, autocomplete, ...(challenge && { challenge }) };
 }

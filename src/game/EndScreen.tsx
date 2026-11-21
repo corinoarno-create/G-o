@@ -15,6 +15,10 @@ interface Props {
   /** Texte du bouton « Nouvelle manche » (« Découvrir 5 de plus » après une découverte). */
   restartLabel?: string;
   onExit: () => void;
+  /** Message à afficher en tête (ex. score de défi en attente d'envoi). */
+  notice?: string;
+  /** Lancer un défi avec cette série (si on est connecté et qu'elle ne mêle pas les exercices). */
+  onChallenge?: () => void;
 }
 
 function formatDuration(ms: number): string {
@@ -34,7 +38,7 @@ function headline(accuracy: number): string {
 /** Confettis aux couleurs de l'aquarelle. */
 const CONFETTI_COLORS = ['#e3b76b', '#a8c28a', '#e7a7a0', '#9dc3dd', '#c9a8d4', '#c8623b'];
 
-export function EndScreen({ world, title, summary, onReplayMissed, onRestart, restartLabel, onExit }: Props) {
+export function EndScreen({ world, title, summary, onReplayMissed, onRestart, restartLabel, onExit, notice, onChallenge }: Props) {
   /** Ce qu'il fallait répondre, selon l'exercice : « Lima (Pérou) », « Pérou »… */
   const answerOf = ({ exercise, entityId }: QuestionRef) => {
     const entity = world.byId.get(entityId);
@@ -78,6 +82,7 @@ export function EndScreen({ world, title, summary, onReplayMissed, onRestart, re
         <span class="tape tape--right tape--teal" />
         <p class="end__kicker">{title}</p>
         <h1 class="end__title">{headline(summary.accuracy)}</h1>
+        {notice && <p class="end__notice">{notice}</p>}
 
         <dl class="end__stats">
           <div>
@@ -135,6 +140,11 @@ export function EndScreen({ world, title, summary, onReplayMissed, onRestart, re
           <button type="button" class="btn btn--teal" onClick={onRestart}>
             {restartLabel ?? 'Nouvelle manche'}
           </button>
+          {onChallenge && (
+            <button type="button" class="btn btn--gold" onClick={onChallenge}>
+              Défier quelqu’un sur cette série
+            </button>
+          )}
           <button type="button" class="btn-ghost" onClick={onExit}>
             Retour à l’accueil
           </button>

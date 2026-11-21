@@ -10,6 +10,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'preact/ho
 import { flagUrl } from '../data/flags.ts';
 import type { WorldData } from '../data/world.ts';
 import { createConsolidation, currentItem, isFinished, progress, submitAnswer, type ConsolidationState } from '../engine/consolidation.ts';
+import type { AnswerMode } from '../engine/grading.ts';
 import type { MasteryLevel } from '../engine/srs.ts';
 import { suggest } from '../engine/text-match.ts';
 import { detectDevice } from '../lib/device.ts';
@@ -19,6 +20,7 @@ import { putSetting } from '../storage/db.ts';
 import { progressDb } from '../storage/progress-db.ts';
 import { entityNoun, EXERCISES, hasOwnFlag, hintFor, MAX_TRIES, showFrame, type Hint, type HintLevel } from './exercises.ts';
 import { parseQuestionKey, questionKey } from './questions.ts';
+import { seededRng } from './selection.ts';
 import {
   buildFlagChoices,
   evaluateAnswer,
@@ -73,6 +75,8 @@ interface Frame {
 /** Ce que la première réponse à la question a enregistré (pour le bilan). */
 interface FirstTry {
   responseMs: number;
+  mode: AnswerMode;
+  usedHint: boolean;
   distanceKm?: number;
   masteryBefore?: MasteryLevel;
   masteryAfter?: MasteryLevel;
@@ -151,7 +155,8 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
     if (exercise.id !== 'country-to-flag' || !entity || !itemKey) return [];
     let cached = choicesCache.current.get(itemKey);
     if (!cached) {
-      cached = buildFlagChoices(entity, flagPool, Math.random);
+      // Dans un défi, les propositions sont les mêmes pour tous les joueurs.
+      cached = buildFlagChoices(entity, flagPool, game.challenge ? seededRng(`${game.challenge.id}|${itemKey}`) : Math.random);
       choicesCache.current.set(itemKey, cached);
     }
     return cached;
@@ -227,6 +232,8 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
       firstAttempt: next.outcome.firstAttempt,
       responseMs: info?.responseMs ?? 0,
       distanceKm: info?.distanceKm,
+      mode: info?.mode,
+      usedHint: info?.usedHint,
       masteryBefore: info?.masteryBefore,
       masteryAfter: info?.masteryAfter,
     });
@@ -265,6 +272,8 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
     if (tries === 0) {
       firstTry.current = {
         responseMs,
+        mode: evaluation.mode,
+        usedHint: usedHint || hintLevel > 0,
         distanceKm: evaluation.distanceKm,
         ...(isFirstTry ? { masteryBefore: recorded.masteryBefore, masteryAfter: recorded.masteryAfter } : {}),
       };

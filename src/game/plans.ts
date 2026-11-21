@@ -3,6 +3,7 @@ import type { WorldData } from '../data/world.ts';
 import { isDue, parseCardKey } from '../engine/srs.ts';
 import type { Zone } from '../map/zones.ts';
 import type { CardRecord } from '../storage/schema.ts';
+import type { ChallengePlay } from '../challenge/types.ts';
 import { EXERCISES, type ExerciseId } from './exercises.ts';
 import { EXERCISES_FOR_SKILL, type QuestionRef } from './questions.ts';
 import { selectItems, shuffle, type ContentType, type Rng } from './selection.ts';
@@ -15,7 +16,7 @@ export type GameRequest =
   /** Découverte en 3 temps d'éléments jamais vus (voir src/discovery/). */
   | { kind: 'discovery'; exercise: ExerciseId; zone: Zone }
   /** Questions fixées d'avance ; `restart` est la manche proposée ensuite (« 5 de plus »). */
-  | { kind: 'questions'; title: string; zone: Zone; questions: QuestionRef[]; restart?: GameRequest };
+  | { kind: 'questions'; title: string; zone: Zone; questions: QuestionRef[]; restart?: GameRequest; challenge?: ChallengePlay };
 
 /** L'élément peut-il être demandé dans cet exercice ? */
 const eligible = (world: WorldData, question: QuestionRef) => {

@@ -752,3 +752,10 @@
     display: none;
   }
 }
+
+/* Message en tête du bilan (score de défi en attente d'envoi…). */
+.end__notice {
+  margin: 0 0 10px;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}

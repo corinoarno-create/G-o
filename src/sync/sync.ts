@@ -101,6 +101,12 @@ export function useSync(): SyncState {
 /** Prénom du compte lié, pour l'accueil (« Bonjour Arno ! »). */
 export const syncFirstName = () => state.firstName;
 
+/** Compte connecté sur cet appareil (identifiant et prénom), ou null. */
+export function connectedAccount(): { uid: string; firstName: string } | null {
+  const stored = readStored();
+  return FIREBASE_CONFIG && stored.uid ? { uid: stored.uid, firstName: firstNameOf(stored.name) ?? 'Moi' } : null;
+}
+
 const loadFirebase = () => import('./firebase.ts');
 
 let running: Promise<void> | null = null;

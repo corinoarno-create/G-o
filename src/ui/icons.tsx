@@ -137,3 +137,23 @@ export function BackIcon({ size = 18 }: IconProps) {
     </svg>
   );
 }
+
+/** Coupe (défis entre amis). */
+export function TrophyIcon({ size = 20 }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true" {...stroke}>
+      <path d="M8 4h8v5a4 4 0 0 1-8 0z" />
+      <path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4" />
+      <path d="M12 13v4M8.5 20h7M10 17h4" />
+    </svg>
+  );
+}
+
+/** Envoyer (partager un défi). */
+export function SendIcon({ size = 18 }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true" {...stroke}>
+      <path d="M21 3L10 14M21 3l-7 18-4-7-7-4z" />
+    </svg>
+  );
+}

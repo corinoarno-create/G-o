@@ -246,8 +246,13 @@ Deux portes, sur un ton positif, sans vocabulaire de voyage (« escales », « i
 - **Acquis du Monde** (pays, capitales, drapeaux) : ils ne comptent **pas** dans le plafond quotidien de nouveautés, et une réponse juste et rapide est notée « Facile ». Dans les manches « Mélange », ils sont posés directement en question ; la **découverte en 3 temps** ne se lance que depuis l'onglet « Découvrir » d'une fiche de région.
 
 ### V2
-- [ ] **1. Comptes et synchronisation automatique** (20/11/2026) : code prêt et testé (`src/sync/`), encart « Mes appareils » au pied de l'accueil ; **reste : créer le projet Firebase (Arno, `docs/SYNCHRO.md`), y brancher l'app, essai réel PC ↔ téléphone.**
-- [ ] **2. Défis entre amis** (l'ancien « Mode Battle ») : je crée un défi (même série de questions), mon proche le joue, on compare score, précision et temps ; page « Mes défis ».
+- [x] **1. Comptes et synchronisation automatique** (20/11/2026) : `src/sync/`, encart « Mes appareils » au pied de l'accueil ; projet Firebase `geography-7915c` (Firestore à Paris) ; essai réel PC ↔ téléphone réussi le 21/11/2026.
+- [ ] **2. Défis entre amis** (l'ancien « Mode Battle », plan validé le 21/11/2026) : code prêt et testé (`src/challenge/`) ; **reste : publier les nouvelles règles `firestore.rules` dans la console, essai réel à deux.**
+  - **Lancer** : « Défier quelqu'un sur N … » dans la fiche d'une région (série tirée au hasard dans toute la zone, pas selon ma mémoire), ou « Défier quelqu'un sur cette série » en fin de manche (un seul exercice). Je joue d'abord ; le défi est enregistré en ligne à la fin, avec mon résultat (`challenges/{id}`).
+  - **Envoyer** : un lien `…/G-o/?defi=<id>` (partage du téléphone, sinon copie), ou directement à un ami. Les **amis** sont les personnes croisées dans mes défis (pas de liste à part).
+  - **Relever** : même série, même ordre, mêmes propositions de drapeaux (tirage reproductible) ; connexion Google demandée une seule fois par appareil. Les scores des autres ne se voient qu'après avoir joué. Un défi **compte pour la mémoire** comme une manche normale.
+  - **Score** (`src/challenge/scoring.ts`, demande d'Arno) : 100 points par bonne réponse du premier coup + bonus de rapidité de 0 à 50 (plein sous 2 s, nul à 12 s au clic, 10 s pour un choix, 15 s en saisie) ; avec un indice, 50 points sans bonus ; à égalité, le temps total départage. Écart médian en km affiché pour les capitales placées.
+  - **Pages** : page d'un défi (invitation, classement, détail question par question, « Revanche », envoi) ; « Mes défis » (à relever, résultats, en attente, mes amis avec le bilan des face-à-face et « Défier ») ; pastille de nouveautés sur l'accueil (onglet « Défis » sur téléphone). Un score qui n'a pas pu partir est gardé et renvoyé au retour du réseau.
 - [ ] **3. Ensemble** : voir le carnet de l'autre, petit classement à deux.
 - [ ] Villes : 3, 5 ou 10 par pays + phase de découverte.
 - [ ] Mode Départements & États (numéros, chefs-lieux, capitales d'État).

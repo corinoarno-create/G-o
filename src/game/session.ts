@@ -169,6 +169,9 @@ export interface SessionLogEntry {
   distanceKm?: number;
   masteryBefore?: MasteryLevel;
   masteryAfter?: MasteryLevel;
+  /** Façon de répondre et indice, à la première réponse (pour le score des défis). */
+  mode?: AnswerMode;
+  usedHint?: boolean;
 }
 
 export interface SessionSummary {
@@ -184,6 +187,8 @@ export interface SessionSummary {
   missed: QuestionRef[];
   /** Éléments passés à « acquis » ou « maîtrisé » pendant la manche. */
   promoted: Array<QuestionRef & { level: MasteryLevel }>;
+  /** Première réponse à chaque question, dans l'ordre (pour le score des défis). */
+  firstAnswers: SessionLogEntry[];
 }
 
 const MASTERY_RANK: Record<MasteryLevel, number> = { new: 0, learning: 1, acquired: 2, mastered: 3 };
@@ -208,6 +213,7 @@ export function summarize(log: SessionLogEntry[], durationMs: number): SessionSu
     averageDistanceKm: distances.length ? distances.reduce((sum, d) => sum + d, 0) / distances.length : null,
     missed: first.filter((entry) => !entry.correct).map(({ exercise, entityId }) => ({ exercise, entityId })),
     promoted,
+    firstAnswers: first,
   };
 }
 

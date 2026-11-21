@@ -23,7 +23,9 @@ import type { Zone } from '../map/zones.ts';
 import { getSetting, putSetting } from '../storage/db.ts';
 import { progressDb } from '../storage/progress-db.ts';
 import type { CardRecord } from '../storage/schema.ts';
-import { ArrowIcon, BackIcon, CloseIcon } from '../ui/icons.tsx';
+import { ArrowIcon, BackIcon, CloseIcon, TrophyIcon } from '../ui/icons.tsx';
+import { drawChallenge } from '../challenge/challenges.ts';
+import { connectedAccount, useSync } from '../sync/sync.ts';
 import { percent, zoneProgress } from './zone-stats.ts';
 import './zone.css';
 
@@ -123,6 +125,17 @@ export function ZoneSheet({ world, zones, tileId, cards, fills, layout, onPlay, 
     if (questions === 0) return;
     void remember(choice);
     onPlay({ kind: 'builder', exercise: mode.exercise, zone, count: choice.count, content: choice.content });
+  };
+  // Défi : une série tirée au hasard dans toute la zone (pas selon ma mémoire), que je joue
+  // d'abord, puis que j'envoie. Il faut un compte connecté.
+  const { phase } = useSync();
+  const canChallenge = phase !== 'unavailable' && phase !== 'signed-out' && connectedAccount() !== null;
+  const challengeSize = choice.count === 'all' ? counts.total : Math.min(choice.count, counts.total);
+  const challenge = () => {
+    if (challengeSize === 0) return;
+    void remember(choice);
+    const draw = drawChallenge(world, zone, mode.exercise, choice.count);
+    onPlay({ kind: 'questions', title: `Défi · ${draw.title}`, zone, questions: draw.questions, challenge: draw });
   };
   const discover = () => {
     if (counts.fresh === 0) return;
@@ -307,6 +320,11 @@ export function ZoneSheet({ world, zones, tileId, cards, fills, layout, onPlay, 
             <button type="button" class="btn btn--terracotta btn--big zone__go" disabled={questions === 0} onClick={play}>
               C’est parti ! <ArrowIcon />
             </button>
+            {canChallenge && (
+              <button type="button" class="btn btn--gold zone__challenge" disabled={challengeSize === 0} onClick={challenge}>
+                <TrophyIcon size={18} /> Défier quelqu’un sur {challengeSize} {noun}
+              </button>
+            )}
             <p class="zone__summary" aria-live="polite">
               {questions > 0
                 ? `${questions} question${questions > 1 ? 's' : ''} · ${exercise.label} · ${zone.label}`

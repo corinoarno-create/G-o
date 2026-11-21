@@ -138,6 +138,7 @@ describe('summarize', () => {
       averageDistanceKm: 155, // seules les capitales placées comptent
       missed: [{ exercise: 'locate-capital', entityId: 'pe' }],
       promoted: [{ exercise: 'locate-capital', entityId: 'fr', level: 'acquired' }],
+      firstAnswers: expect.any(Array),
     });
   });
 });

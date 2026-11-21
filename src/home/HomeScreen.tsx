@@ -15,10 +15,12 @@ import { installApp, usePwa } from '../pwa/pwa.ts';
 import { BackupButtons } from '../sandbox/BackupButtons.tsx';
 import { SyncPanel } from '../sync/SyncPanel.tsx';
 import { useSync } from '../sync/sync.ts';
+import { useChallengeNews } from '../challenge/challenges.ts';
+import '../challenge/challenge.css';
 import { getTiming } from '../storage/db.ts';
 import { progressDb } from '../storage/progress-db.ts';
 import type { CardRecord } from '../storage/schema.ts';
-import { ArrowIcon, BookIcon, ChartIcon, CompassLogo, GlobeIcon, MapIcon } from '../ui/icons.tsx';
+import { ArrowIcon, BookIcon, ChartIcon, CompassLogo, GlobeIcon, MapIcon, TrophyIcon } from '../ui/icons.tsx';
 import { buildHomeSummary, formatWhen, type HomeSummary } from './summary.ts';
 import { percent } from './zone-stats.ts';
 import { ZoneSheet } from './ZoneSheet.tsx';
@@ -34,6 +36,8 @@ interface Props {
   onProgress: () => void;
   /** Ouvre la page « Crédits ». */
   onCredits: () => void;
+  /** Ouvre la page « Mes défis ». */
+  onChallenges: () => void;
 }
 
 /** « Bonjour Arno ! » : le prénom vient du compte Google lié (sans compte, pas de prénom). */
@@ -73,9 +77,12 @@ function useMediaQuery(query: string): boolean {
  */
 let rememberedTile: string | null = null;
 
-export function HomeScreen({ world, zones, onPlay, onExplore, onProgress, onCredits }: Props) {
+export function HomeScreen({ world, zones, onPlay, onExplore, onProgress, onCredits, onChallenges }: Props) {
   const { installable } = usePwa();
-  const { firstName } = useSync();
+  const { firstName, phase } = useSync();
+  const news = useChallengeNews();
+  // Les défis demandent un compte : sans synchronisation configurée, on ne les montre pas.
+  const challengesAvailable = phase !== 'unavailable';
   const wide = useMediaQuery(WIDE_QUERY);
   const [summary, setSummary] = useState<HomeSummary | null>(null);
   const [cards, setCards] = useState<Map<string, CardRecord> | null>(null);
@@ -165,6 +172,11 @@ export function HomeScreen({ world, zones, onPlay, onExplore, onProgress, onCred
           <button type="button" class="btn home__pill" onClick={onProgress}>
             <ChartIcon size={18} /> Ma progression
           </button>
+          {challengesAvailable && (
+            <button type="button" class="btn home__pill" onClick={onChallenges}>
+              <TrophyIcon size={18} /> Mes défis {news > 0 && <span class="news-badge">{news}</span>}
+            </button>
+          )}
         </nav>
       </header>
 
@@ -287,7 +299,7 @@ export function HomeScreen({ world, zones, onPlay, onExplore, onProgress, onCred
         </main>
       )}
 
-      <nav class="home__tabbar" aria-label="Navigation">
+      <nav class={`home__tabbar ${challengesAvailable ? 'has-4' : ''}`} aria-label="Navigation">
         <button type="button" class="is-active" aria-current="page" onClick={() => openRegion(null)}>
           <BookIcon size={24} />
           Carnet
@@ -300,6 +312,15 @@ export function HomeScreen({ world, zones, onPlay, onExplore, onProgress, onCred
           <ChartIcon size={24} />
           Progression
         </button>
+        {challengesAvailable && (
+          <button type="button" onClick={onChallenges}>
+            <span class="home__tab-icon">
+              <TrophyIcon size={24} />
+              {news > 0 && <span class="news-badge">{news}</span>}
+            </span>
+            Défis
+          </button>
+        )}
       </nav>
     </div>
   );
