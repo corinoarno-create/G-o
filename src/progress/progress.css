@@ -359,3 +359,78 @@
 .progress__expert {
   color: #8a5f06;
 }
+
+/* Villes (Expert) : par continent, à déplier pour voir les pays. */
+.progress__cities {
+  border-top: 1px dashed color-mix(in srgb, var(--ink) 25%, transparent);
+  padding: 4px 0;
+}
+
+.progress__cities summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+.progress__cities summary::-webkit-details-marker {
+  display: none;
+}
+
+.progress__cities[open] summary {
+  margin-bottom: 4px;
+}
+
+.city-bar {
+  display: grid;
+  grid-template-columns: minmax(110px, 1fr) 2fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 3px 0;
+  font-size: 0.92rem;
+}
+
+.city-bar.is-small {
+  padding-left: 16px;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+
+.city-bar__label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 700;
+}
+
+.city-bar__label svg {
+  color: #8a5f06;
+}
+
+.city-bar__track {
+  height: 8px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--ink) 12%, transparent);
+  overflow: hidden;
+}
+
+.city-bar__track span {
+  display: block;
+  height: 100%;
+  background: #c9961f;
+}
+
+.city-bar__value {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.progress__cities summary .city-bar__label::before {
+  content: '▸';
+  display: inline-block;
+  width: 12px;
+  color: var(--ink-soft);
+  transition: transform 150ms ease;
+}
+
+.progress__cities[open] summary .city-bar__label::before {
+  transform: rotate(90deg);
+}

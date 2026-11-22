@@ -9,6 +9,7 @@ import { EXERCISES, type ExerciseId } from '../game/exercises.ts';
 import { EXERCISES_FOR_SKILL } from '../game/questions.ts';
 import { weakness } from '../game/selection.ts';
 import type { CardRecord, ReviewRecord } from '../storage/schema.ts';
+import { zoneCityCountries, type CountryCities } from '../home/zone-stats.ts';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -45,6 +46,8 @@ export interface ProgressStats {
   /** Révisions prévues jour par jour ; le premier jour compte aussi celles en retard. */
   upcoming: Array<{ day: Date; count: number }>;
   weak: Array<{ entityId: string; skill: Skill; exercise: ExerciseId; lapses: number; mastery: MasteryLevel }>;
+  /** Villes (mode Expert) par continent, puis pays par pays : une ville compte quand je sais la placer et la nommer. */
+  citiesByContinent: Array<{ id: ContinentId; label: string; acquired: number; total: number; seals: number; countries: CountryCities[] }>;
 }
 
 /** Minuit (heure locale) du jour donné. */
@@ -180,6 +183,17 @@ export function buildProgressStats(world: WorldData, cards: Map<string, CardReco
       label: CONTINENT_LABELS[id],
       counts: byContinent.get(id) ?? emptyCounts(),
     })),
+    citiesByContinent: (['europe', 'americas', 'africa', 'asia', 'oceania'] as ContinentId[]).map((id) => {
+      const countries = zoneCityCountries(world, { entityIds: world.countries.filter((c) => c.continent === id).map((c) => c.id) }, cards);
+      return {
+        id,
+        label: CONTINENT_LABELS[id],
+        acquired: countries.reduce((n, c) => n + c.acquired, 0),
+        total: countries.reduce((n, c) => n + c.total, 0),
+        seals: countries.filter((c) => c.seal).length,
+        countries,
+      };
+    }),
     speed,
     upcoming,
     weak,

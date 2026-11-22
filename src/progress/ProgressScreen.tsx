@@ -8,7 +8,7 @@ import { loadCards } from '../game/start.ts';
 import type { Zone } from '../map/zones.ts';
 import { getAllReviews } from '../storage/db.ts';
 import { progressDb } from '../storage/progress-db.ts';
-import { ArrowIcon, BookIcon } from '../ui/icons.tsx';
+import { ArrowIcon, BookIcon, SealIcon } from '../ui/icons.tsx';
 import { ActivityChart, Legend, LineChart, SERIES_COLORS, UpcomingChart } from './charts.tsx';
 import { ResetProgress } from './ResetProgress.tsx';
 import { buildProgressStats, type MasteryCounts, type ProgressStats } from './stats.ts';
@@ -131,6 +131,23 @@ export function ProgressScreen({ world, zones, onPlay, onHome }: Props) {
             </div>
           </section>
 
+          <section class="paper-card progress__card progress__card--wide">
+            <h2 class="progress__expert">Expert · villes</h2>
+            <p class="progress__help">
+              Une ville compte quand tu sais la placer et la nommer (souvenir solide une semaine). Déplie un continent pour voir ses pays.
+            </p>
+            {stats.citiesByContinent.map((continent) => (
+              <details key={continent.id} class="progress__cities">
+                <summary>
+                  <CityBar label={continent.label} acquired={continent.acquired} total={continent.total} seals={continent.seals} />
+                </summary>
+                {continent.countries.map((country) => (
+                  <CityBar key={country.id} label={country.name} acquired={country.acquired} total={country.total} seals={country.seal ? 1 : 0} small />
+                ))}
+              </details>
+            ))}
+          </section>
+
           <section class="paper-card progress__card">
             <h2>Temps de réponse</h2>
             <p class="progress__help">Temps médian des bonnes réponses du premier coup, sans indice, semaine par semaine.</p>
@@ -241,6 +258,25 @@ function MasteryLegend() {
 }
 
 /** Barre empilée des niveaux de maîtrise (du plus solide au plus neuf), avec la part acquise ou maîtrisée. */
+/** Villes acquises sur le total, avec les sceaux Expert. */
+function CityBar({ label, acquired, total, seals, small = false }: { label: string; acquired: number; total: number; seals: number; small?: boolean }) {
+  const share = total ? acquired / total : 0;
+  return (
+    <div class={`city-bar ${small ? 'is-small' : ''}`}>
+      <span class="city-bar__label">
+        {seals > 0 && <SealIcon size={14} />} {label}
+      </span>
+      <span class="city-bar__track" aria-hidden="true">
+        <span style={{ width: `${Math.round(share * 100)}%` }} />
+      </span>
+      <span class="city-bar__value">
+        {acquired} / {total}
+        {!small && seals > 0 && ` · ${seals} sceau${seals > 1 ? 'x' : ''}`}
+      </span>
+    </div>
+  );
+}
+
 function MasteryRow({ label, counts }: { label: string; counts: MasteryCounts }) {
   const strong = counts.total ? Math.round(((counts.acquired + counts.mastered) / counts.total) * 100) : 0;
   return (

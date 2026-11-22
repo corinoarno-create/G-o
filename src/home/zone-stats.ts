@@ -135,7 +135,7 @@ export interface CountryCities {
 }
 
 /** Pays de la zone qui ont des villes, dans l'ordre alphabétique, avec leur progrès. */
-export function zoneCityCountries(world: WorldData, zone: Zone, cards: Map<string, CardRecord>): CountryCities[] {
+export function zoneCityCountries(world: WorldData, zone: Pick<Zone, 'entityIds'>, cards: Map<string, CardRecord>): CountryCities[] {
   const strong = (key: string) => {
     const record = cards.get(key);
     const level = record ? masteryOf(record.card) : 'new';
