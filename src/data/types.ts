@@ -89,3 +89,18 @@ export interface CountryEntity {
   /** Si le drapeau est identique à celui d'une autre entité (ex. Guadeloupe → France), l'identifiant de celle-ci. */
   flagSameAs: string | null;
 }
+
+/** Ville à apprendre (lot 3, mode Expert), hors capitale. Générée par scripts/build-cities.ts. */
+export interface CityEntity {
+  /** « c » + identifiant GeoNames. */
+  id: string;
+  /** Entité (pays ou territoire) où se trouve la ville. */
+  country: string;
+  /** Nom français affiché. */
+  name: string;
+  /** Autres noms acceptés en saisie (« Mumbai » pour Bombay). */
+  aliases: string[];
+  lon: number;
+  lat: number;
+  population: number;
+}

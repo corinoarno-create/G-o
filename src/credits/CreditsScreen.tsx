@@ -22,7 +22,8 @@ const DATA: Credit[] = [
     url: 'https://github.com/mledoze/countries',
     license: 'ODbL 1.0',
   },
-  { what: 'Capitales (noms français, coordonnées)', source: 'Wikidata', url: 'https://www.wikidata.org/', license: 'CC0' },
+  { what: 'Capitales (noms français, coordonnées), noms français des villes', source: 'Wikidata', url: 'https://www.wikidata.org/', license: 'CC0' },
+  { what: 'Villes (coordonnées, population)', source: 'GeoNames (cities15000)', url: 'https://www.geonames.org/', license: 'CC BY 4.0' },
   {
     what: 'Population',
     source: 'Banque mondiale, indicateur SP.POP.TOTL',

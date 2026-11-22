@@ -42,7 +42,8 @@ L'ambiance est **positive** : on célèbre les progrès et on ne punit jamais l'
   - **3** pour les petits pays ;
   - **1 à 2** pour les micro-États et petits territoires (souvent la capitale seulement).
 - La liste se calcule d'abord par population (GeoNames), puis **Claude la corrige** pour privilégier les villes *connues ou influentes*. Une ville historique ou touristique majeure peut remplacer une banlieue très peuplée.
-- Les 10 pays de mon ancien deck Anki gardent leurs villes : voir `data/sources/indices-anki.json`.
+- Les 10 pays de mon ancien deck Anki gardent leurs villes (`data/sources/indices-anki.json`), mais **pas leurs indices** : ils sont réécrits (décision d'Arno, 22/11/2026).
+- **La capitale n'est pas une ville** (déjà travaillée par les exercices de capitales) : les quotas s'entendent hors capitale, et les micro-États n'ont souvent aucune ville.
 
 ### Mode « Départements & États »
 - **France** : les 101 départements (métropole + DROM). On les place, et on apprend aussi **le numéro** et **le chef-lieu**.
@@ -158,7 +159,7 @@ Deux portes, sur un ton positif, sans vocabulaire de voyage (« escales », « i
 - Cela concerne les villes, mais aussi **les drapeaux** (signification des couleurs et symboles), **les capitales**, **les départements** (origine du nom) et **les États**.
 - Le contenu est **généré par Claude pendant le développement** et stocké en JSON dans le dépôt. L'app n'appelle aucune IA : elle reste gratuite et fonctionne hors ligne.
 - Chaque texte généré porte un champ `verifie: false` jusqu'à relecture. Il faut privilégier les faits sûrs et éviter les superlatifs douteux.
-- Les indices de mon ancien deck sont repris : voir `data/sources/indices-anki.json`.
+- Les indices de mon ancien deck ne sont **pas** repris (décision d'Arno, 22/11/2026).
 
 ## 10. Données (open data, licences à respecter et créditer)
 
@@ -262,7 +263,10 @@ Deux portes, sur un ton positif, sans vocabulaire de voyage (« escales », « i
 - [x] **Repères pour placer capitales et villes** (22/11/2026) : des **points d'ancrage qui s'effacent**, et rien d'autre. Affichés dans « Placer les capitales » (`PLACEMENT_EXERCISES` de `GameScreen.tsx`, à étendre aux villes), case « Repères » dans la manche (réglage `landmarks`, coché par défaut).
   - **Points d'ancrage** (`src/game/anchors.ts`) : pour une ville, élément nouveau ou en cours → capitale du pays + 1 ou 2 villes connues ; acquis (≥ 7 j) → la capitale seule ; maîtrisé (≥ 30 j) → aucun. Pour une capitale : les 2 capitales voisines les plus proches (entre 100 et 1 500 km, et à 100 km l'une de l'autre au moins), puis 1, puis aucune. Jamais l'élément demandé, ni une capitale encore à venir dans la manche ; pas dans un défi (même carte pour tous).
   - **Essayés puis abandonnés (décision d'Arno, 22/11/2026)** : fleuves, lacs et limites intérieures (Natural Earth), en jeu comme dans « Explorer la carte ». Même discrets et affichés seulement au zoom, ils brouillaient la carte, perdaient le joueur et ralentissaient le zoom : l'app doit rester claire et ludique, pas devenir un atlas. Pas de routes non plus (elles convergent vers les villes et donneraient la réponse).
-- [ ] Villes : 3, 5 ou 10 par pays + phase de découverte.
+- [ ] **Villes** (lot 3, dans l'Expert) : 3, 5 ou 10 par pays + découverte, avec indices et anecdotes.
+  - [x] **3a. Liste** (22/11/2026) : 793 villes dans 175 pays, choisies à la main dans `data/sources/villes.json` (nom français affiché ; `cherche`, `geonames`, `aussi` pour préciser). Pipeline : `npm run data:download -- cities15000`, `npm run data:cities-candidates` (candidats par pays, noms français et notoriété Wikidata, dans `data/raw/`), `npm run data:cities` → `data/world/cities.json` (identifiant `c` + GeoNames) et `data/world/RAPPORT-VILLES.md` (à relire par Arno). Quotas : `scripts/cities/quotas.ts`. La notoriété Wikidata n'est pas fiable (codes GeoNames mal reliés pour beaucoup de grandes villes) : le choix est fait à la main.
+  - [ ] **3b. Jeu** : placer et nommer les villes (Expert), points d'ancrage, sceau, découverte.
+  - [ ] **3c. Indices et anecdotes** des villes.
 - [ ] Mode Départements & États (numéros, chefs-lieux, capitales d'État).
 - [ ] Indices et anecdotes.
 - [ ] XP, série de jours, badges, carte de conquête.

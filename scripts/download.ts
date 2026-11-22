@@ -1,9 +1,12 @@
 // Télécharge les sources brutes dans data/raw/<source>/ (dossier ignoré par git).
-// Usage : npm run data:download
+// Usage : npm run data:download              (tout)
+//         npm run data:download -- cities15000 (seulement les fichiers dont le nom contient ce filtre)
 // Chaque source va dans son propre dossier ; un fichier sources.json note la date et l'URL.
+import { existsSync } from 'node:fs';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { RAW_DIR, writeJson } from './lib/fs.ts';
+import { RAW_DIR, readJson, writeJson } from './lib/fs.ts';
+import { unzipEntries } from './lib/unzip.ts';
 
 interface Source {
   dir: string;
@@ -12,6 +15,8 @@ interface Source {
   licence: string;
   /** Options de requête (ex. en-têtes pour Wikidata). */
   init?: RequestInit;
+  /** Archive ZIP : nom du fichier à en extraire (enregistré sous `file`). */
+  unzip?: string;
 }
 
 // Requête Wikidata : pour chaque entité qui a un code ISO 3166-1 alpha-2 (P297) et n'est pas dissoute,
@@ -66,6 +71,14 @@ const wikidataUrl = (query: string) =>
   `https://query.wikidata.org/sparql?format=json&query=${encodeURIComponent(query)}`;
 
 const SOURCES: Source[] = [
+  {
+    // Villes de plus de 15 000 habitants : coordonnées et population (lot 3, villes).
+    dir: 'geonames',
+    file: 'cities15000.txt',
+    url: 'https://download.geonames.org/export/dump/cities15000.zip',
+    licence: 'CC BY 4.0 (GeoNames)',
+    unzip: 'cities15000.txt',
+  },
   {
     dir: 'natural-earth',
     file: 'ne_10m_admin_0_map_units.geojson',
@@ -125,8 +138,14 @@ const SOURCES: Source[] = [
 ];
 
 async function main(): Promise<void> {
-  const log: Record<string, { url: string; licence: string; date: string; bytes: number }> = {};
-  for (const source of SOURCES) {
+  // Avec des filtres, on ne télécharge que les fichiers concernés et on garde le journal des autres.
+  const filters = process.argv.slice(2);
+  const logPath = join(RAW_DIR, 'sources.json');
+  type LogEntry = { url: string; licence: string; date: string; bytes: number };
+  const log: Record<string, LogEntry> = filters.length && existsSync(logPath) ? await readJson<Record<string, LogEntry>>(logPath) : {};
+  const selected = filters.length ? SOURCES.filter((source) => filters.some((filter) => source.file.includes(filter))) : SOURCES;
+  if (selected.length === 0) throw new Error(`Aucune source ne correspond à : ${filters.join(', ')}`);
+  for (const source of selected) {
     const dir = join(RAW_DIR, source.dir);
     await mkdir(dir, { recursive: true });
     process.stdout.write(`↓ ${source.dir}/${source.file} … `);
@@ -134,7 +153,12 @@ async function main(): Promise<void> {
     if (!response.ok) {
       throw new Error(`Échec du téléchargement ${source.url} : ${response.status} ${response.statusText}`);
     }
-    const body = Buffer.from(await response.arrayBuffer());
+    let body: Buffer = Buffer.from(await response.arrayBuffer());
+    if (source.unzip) {
+      const extracted = unzipEntries(body).get(source.unzip);
+      if (!extracted) throw new Error(`${source.unzip} absent de l'archive ${source.url}`);
+      body = extracted;
+    }
     await writeFile(join(dir, source.file), body);
     log[`${source.dir}/${source.file}`] = {
       url: source.url.length > 200 ? `${source.url.slice(0, 200)}…` : source.url,
@@ -144,7 +168,7 @@ async function main(): Promise<void> {
     };
     console.log(`${(body.length / 1024 / 1024).toFixed(1)} Mo`);
   }
-  await writeJson(join(RAW_DIR, 'sources.json'), log);
+  await writeJson(logPath, log);
 }
 
 main().catch((error: unknown) => {

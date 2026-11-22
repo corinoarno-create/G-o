@@ -1,0 +1,7505 @@
+[
+  {
+    "id": "c2995469",
+    "country": "fr",
+    "name": "Marseille",
+    "aliases": [],
+    "lon": 5.3811,
+    "lat": 43.297,
+    "population": 877215
+  },
+  {
+    "id": "c2996944",
+    "country": "fr",
+    "name": "Lyon",
+    "aliases": [],
+    "lon": 4.8479,
+    "lat": 45.7491,
+    "population": 520774
+  },
+  {
+    "id": "c2972315",
+    "country": "fr",
+    "name": "Toulouse",
+    "aliases": [],
+    "lon": 1.4437,
+    "lat": 43.6043,
+    "population": 511684
+  },
+  {
+    "id": "c2990440",
+    "country": "fr",
+    "name": "Nice",
+    "aliases": [],
+    "lon": 7.2661,
+    "lat": 43.7031,
+    "population": 342669
+  },
+  {
+    "id": "c2990969",
+    "country": "fr",
+    "name": "Nantes",
+    "aliases": [],
+    "lon": -1.5534,
+    "lat": 47.2173,
+    "population": 325070
+  },
+  {
+    "id": "c2973783",
+    "country": "fr",
+    "name": "Strasbourg",
+    "aliases": [],
+    "lon": 7.7455,
+    "lat": 48.5839,
+    "population": 274845
+  },
+  {
+    "id": "c3031582",
+    "country": "fr",
+    "name": "Bordeaux",
+    "aliases": [],
+    "lon": -0.5805,
+    "lat": 44.8412,
+    "population": 265328
+  },
+  {
+    "id": "c2998324",
+    "country": "fr",
+    "name": "Lille",
+    "aliases": [],
+    "lon": 3.0551,
+    "lat": 50.6339,
+    "population": 238695
+  },
+  {
+    "id": "c2992166",
+    "country": "fr",
+    "name": "Montpellier",
+    "aliases": [],
+    "lon": 3.8764,
+    "lat": 43.6109,
+    "population": 248252
+  },
+  {
+    "id": "c2983990",
+    "country": "fr",
+    "name": "Rennes",
+    "aliases": [],
+    "lon": -1.6743,
+    "lat": 48.1111,
+    "population": 227830
+  },
+  {
+    "id": "c2911298",
+    "country": "de",
+    "name": "Hambourg",
+    "aliases": [
+      "Hamburg"
+    ],
+    "lon": 9.993,
+    "lat": 53.5507,
+    "population": 1973896
+  },
+  {
+    "id": "c2867714",
+    "country": "de",
+    "name": "Munich",
+    "aliases": [],
+    "lon": 11.5755,
+    "lat": 48.1374,
+    "population": 1505005
+  },
+  {
+    "id": "c2886242",
+    "country": "de",
+    "name": "Cologne",
+    "aliases": [
+      "Köln",
+      "Koeln"
+    ],
+    "lon": 6.95,
+    "lat": 50.9333,
+    "population": 1024621
+  },
+  {
+    "id": "c2925533",
+    "country": "de",
+    "name": "Francfort-sur-le-Main",
+    "aliases": [
+      "Francfort",
+      "Frankfurt am Main"
+    ],
+    "lon": 8.6842,
+    "lat": 50.1155,
+    "population": 650000
+  },
+  {
+    "id": "c2825297",
+    "country": "de",
+    "name": "Stuttgart",
+    "aliases": [],
+    "lon": 9.177,
+    "lat": 48.7823,
+    "population": 612663
+  },
+  {
+    "id": "c2934246",
+    "country": "de",
+    "name": "Düsseldorf",
+    "aliases": [
+      "Duesseldorf"
+    ],
+    "lon": 6.7793,
+    "lat": 51.2232,
+    "population": 618685
+  },
+  {
+    "id": "c2879139",
+    "country": "de",
+    "name": "Leipzig",
+    "aliases": [],
+    "lon": 12.3713,
+    "lat": 51.3396,
+    "population": 504971
+  },
+  {
+    "id": "c2935022",
+    "country": "de",
+    "name": "Dresde",
+    "aliases": [
+      "Dresden"
+    ],
+    "lon": 13.7383,
+    "lat": 51.0509,
+    "population": 564904
+  },
+  {
+    "id": "c2944388",
+    "country": "de",
+    "name": "Brême",
+    "aliases": [
+      "Bremen"
+    ],
+    "lon": 8.8072,
+    "lat": 53.0758,
+    "population": 546501
+  },
+  {
+    "id": "c2861650",
+    "country": "de",
+    "name": "Nuremberg",
+    "aliases": [],
+    "lon": 11.0775,
+    "lat": 49.4542,
+    "population": 515543
+  },
+  {
+    "id": "c2643123",
+    "country": "gb",
+    "name": "Manchester",
+    "aliases": [],
+    "lon": -2.2374,
+    "lat": 53.481,
+    "population": 568996
+  },
+  {
+    "id": "c2655603",
+    "country": "gb",
+    "name": "Birmingham",
+    "aliases": [],
+    "lon": -1.8998,
+    "lat": 52.4814,
+    "population": 1157603
+  },
+  {
+    "id": "c2644210",
+    "country": "gb",
+    "name": "Liverpool",
+    "aliases": [],
+    "lon": -2.9779,
+    "lat": 53.4106,
+    "population": 496770
+  },
+  {
+    "id": "c2650225",
+    "country": "gb",
+    "name": "Édimbourg",
+    "aliases": [
+      "Edinburgh"
+    ],
+    "lon": -3.1965,
+    "lat": 55.9521,
+    "population": 514990
+  },
+  {
+    "id": "c2648579",
+    "country": "gb",
+    "name": "Glasgow",
+    "aliases": [],
+    "lon": -4.2576,
+    "lat": 55.8652,
+    "population": 626410
+  },
+  {
+    "id": "c2653822",
+    "country": "gb",
+    "name": "Cardiff",
+    "aliases": [],
+    "lon": -3.18,
+    "lat": 51.48,
+    "population": 372089
+  },
+  {
+    "id": "c2655984",
+    "country": "gb",
+    "name": "Belfast",
+    "aliases": [],
+    "lon": -5.9254,
+    "lat": 54.5968,
+    "population": 348005
+  },
+  {
+    "id": "c2644688",
+    "country": "gb",
+    "name": "Leeds",
+    "aliases": [],
+    "lon": -1.5478,
+    "lat": 53.7965,
+    "population": 536280
+  },
+  {
+    "id": "c2654675",
+    "country": "gb",
+    "name": "Bristol",
+    "aliases": [],
+    "lon": -2.5966,
+    "lat": 51.4552,
+    "population": 479024
+  },
+  {
+    "id": "c2640729",
+    "country": "gb",
+    "name": "Oxford",
+    "aliases": [],
+    "lon": -1.256,
+    "lat": 51.7522,
+    "population": 162100
+  },
+  {
+    "id": "c3173435",
+    "country": "it",
+    "name": "Milan",
+    "aliases": [],
+    "lon": 9.1895,
+    "lat": 45.4643,
+    "population": 1371498
+  },
+  {
+    "id": "c3172394",
+    "country": "it",
+    "name": "Naples",
+    "aliases": [],
+    "lon": 14.2681,
+    "lat": 40.8522,
+    "population": 909048
+  },
+  {
+    "id": "c3165524",
+    "country": "it",
+    "name": "Turin",
+    "aliases": [],
+    "lon": 7.6868,
+    "lat": 45.0705,
+    "population": 847287
+  },
+  {
+    "id": "c3164603",
+    "country": "it",
+    "name": "Venise",
+    "aliases": [
+      "Venice"
+    ],
+    "lon": 12.3326,
+    "lat": 45.4371,
+    "population": 51298
+  },
+  {
+    "id": "c3181928",
+    "country": "it",
+    "name": "Bologne",
+    "aliases": [
+      "Bologna"
+    ],
+    "lon": 11.3387,
+    "lat": 44.4938,
+    "population": 394843
+  },
+  {
+    "id": "c3176959",
+    "country": "it",
+    "name": "Florence",
+    "aliases": [],
+    "lon": 11.2463,
+    "lat": 43.7793,
+    "population": 367150
+  },
+  {
+    "id": "c2523920",
+    "country": "it",
+    "name": "Palerme",
+    "aliases": [
+      "Palermo"
+    ],
+    "lon": 13.3636,
+    "lat": 38.1166,
+    "population": 648260
+  },
+  {
+    "id": "c3182351",
+    "country": "it",
+    "name": "Bari",
+    "aliases": [],
+    "lon": 16.8698,
+    "lat": 41.1207,
+    "population": 316491
+  },
+  {
+    "id": "c2524170",
+    "country": "it",
+    "name": "Messine",
+    "aliases": [
+      "Messina"
+    ],
+    "lon": 15.5526,
+    "lat": 38.1939,
+    "population": 219948
+  },
+  {
+    "id": "c3165926",
+    "country": "it",
+    "name": "Tarente",
+    "aliases": [
+      "Taranto"
+    ],
+    "lon": 17.2471,
+    "lat": 40.4644,
+    "population": 198585
+  },
+  {
+    "id": "c3128760",
+    "country": "es",
+    "name": "Barcelone",
+    "aliases": [
+      "Barcelona"
+    ],
+    "lon": 2.159,
+    "lat": 41.3888,
+    "population": 1686208
+  },
+  {
+    "id": "c2509954",
+    "country": "es",
+    "name": "Valence",
+    "aliases": [
+      "Valencia"
+    ],
+    "lon": -0.3797,
+    "lat": 39.4739,
+    "population": 824340
+  },
+  {
+    "id": "c2510911",
+    "country": "es",
+    "name": "Séville",
+    "aliases": [
+      "Sevilla"
+    ],
+    "lon": -5.9732,
+    "lat": 37.3828,
+    "population": 686741
+  },
+  {
+    "id": "c3104324",
+    "country": "es",
+    "name": "Saragosse",
+    "aliases": [
+      "Zaragoza"
+    ],
+    "lon": -0.8773,
+    "lat": 41.6561,
+    "population": 686986
+  },
+  {
+    "id": "c2514256",
+    "country": "es",
+    "name": "Malaga",
+    "aliases": [],
+    "lon": -4.4203,
+    "lat": 36.7202,
+    "population": 592346
+  },
+  {
+    "id": "c3128026",
+    "country": "es",
+    "name": "Bilbao",
+    "aliases": [],
+    "lon": -2.9253,
+    "lat": 43.2627,
+    "population": 347342
+  },
+  {
+    "id": "c2517117",
+    "country": "es",
+    "name": "Grenade",
+    "aliases": [
+      "Granada"
+    ],
+    "lon": -3.6067,
+    "lat": 37.1882,
+    "population": 233532
+  },
+  {
+    "id": "c2512989",
+    "country": "es",
+    "name": "Palma",
+    "aliases": [
+      "Palma de Majorque"
+    ],
+    "lon": 2.6502,
+    "lat": 39.5694,
+    "population": 438234
+  },
+  {
+    "id": "c2515270",
+    "country": "es",
+    "name": "Las Palmas de Gran Canaria",
+    "aliases": [],
+    "lon": -15.4157,
+    "lat": 28.1018,
+    "population": 383516
+  },
+  {
+    "id": "c3109642",
+    "country": "es",
+    "name": "Saint-Jacques-de-Compostelle",
+    "aliases": [
+      "Santiago de Compostela"
+    ],
+    "lon": -8.5457,
+    "lat": 42.8805,
+    "population": 99536
+  },
+  {
+    "id": "c5128581",
+    "country": "us",
+    "name": "New York",
+    "aliases": [
+      "New York City"
+    ],
+    "lon": -74.006,
+    "lat": 40.7143,
+    "population": 8804190
+  },
+  {
+    "id": "c5368361",
+    "country": "us",
+    "name": "Los Angeles",
+    "aliases": [],
+    "lon": -118.2437,
+    "lat": 34.0522,
+    "population": 3820914
+  },
+  {
+    "id": "c4887398",
+    "country": "us",
+    "name": "Chicago",
+    "aliases": [],
+    "lon": -87.65,
+    "lat": 41.85,
+    "population": 2664452
+  },
+  {
+    "id": "c4699066",
+    "country": "us",
+    "name": "Houston",
+    "aliases": [],
+    "lon": -95.3633,
+    "lat": 29.7633,
+    "population": 2314157
+  },
+  {
+    "id": "c4164138",
+    "country": "us",
+    "name": "Miami",
+    "aliases": [],
+    "lon": -80.1937,
+    "lat": 25.7743,
+    "population": 487014
+  },
+  {
+    "id": "c4930956",
+    "country": "us",
+    "name": "Boston",
+    "aliases": [],
+    "lon": -71.0598,
+    "lat": 42.3584,
+    "population": 653833
+  },
+  {
+    "id": "c5391959",
+    "country": "us",
+    "name": "San Francisco",
+    "aliases": [],
+    "lon": -122.4194,
+    "lat": 37.7749,
+    "population": 827526
+  },
+  {
+    "id": "c5506956",
+    "country": "us",
+    "name": "Las Vegas",
+    "aliases": [],
+    "lon": -115.1372,
+    "lat": 36.175,
+    "population": 641903
+  },
+  {
+    "id": "c4335045",
+    "country": "us",
+    "name": "La Nouvelle-Orléans",
+    "aliases": [
+      "Nouvelle-Orléans",
+      "New Orleans"
+    ],
+    "lon": -90.0751,
+    "lat": 29.9547,
+    "population": 362701
+  },
+  {
+    "id": "c5809844",
+    "country": "us",
+    "name": "Seattle",
+    "aliases": [],
+    "lon": -122.3321,
+    "lat": 47.6062,
+    "population": 780995
+  },
+  {
+    "id": "c6167865",
+    "country": "ca",
+    "name": "Toronto",
+    "aliases": [],
+    "lon": -79.3839,
+    "lat": 43.6533,
+    "population": 2794356
+  },
+  {
+    "id": "c6077243",
+    "country": "ca",
+    "name": "Montréal",
+    "aliases": [],
+    "lon": -73.5878,
+    "lat": 45.5088,
+    "population": 1762949
+  },
+  {
+    "id": "c6173331",
+    "country": "ca",
+    "name": "Vancouver",
+    "aliases": [],
+    "lon": -123.1193,
+    "lat": 49.2497,
+    "population": 662248
+  },
+  {
+    "id": "c5913490",
+    "country": "ca",
+    "name": "Calgary",
+    "aliases": [],
+    "lon": -114.0853,
+    "lat": 51.0501,
+    "population": 1306784
+  },
+  {
+    "id": "c5946768",
+    "country": "ca",
+    "name": "Edmonton",
+    "aliases": [],
+    "lon": -113.4687,
+    "lat": 53.5501,
+    "population": 1010899
+  },
+  {
+    "id": "c6325494",
+    "country": "ca",
+    "name": "Québec",
+    "aliases": [],
+    "lon": -71.2145,
+    "lat": 46.8123,
+    "population": 531902
+  },
+  {
+    "id": "c6183235",
+    "country": "ca",
+    "name": "Winnipeg",
+    "aliases": [],
+    "lon": -97.147,
+    "lat": 49.8844,
+    "population": 749607
+  },
+  {
+    "id": "c6324729",
+    "country": "ca",
+    "name": "Halifax",
+    "aliases": [],
+    "lon": -63.5769,
+    "lat": 44.6427,
+    "population": 471559
+  },
+  {
+    "id": "c6174041",
+    "country": "ca",
+    "name": "Victoria",
+    "aliases": [],
+    "lon": -123.3515,
+    "lat": 48.4359,
+    "population": 289625
+  },
+  {
+    "id": "c6324733",
+    "country": "ca",
+    "name": "St. John's",
+    "aliases": [],
+    "lon": -52.7093,
+    "lat": 47.5649,
+    "population": 110525
+  },
+  {
+    "id": "c4005539",
+    "country": "mx",
+    "name": "Guadalajara",
+    "aliases": [],
+    "lon": -103.3475,
+    "lat": 20.6774,
+    "population": 1385629
+  },
+  {
+    "id": "c3995465",
+    "country": "mx",
+    "name": "Monterrey",
+    "aliases": [],
+    "lon": -100.3172,
+    "lat": 25.6843,
+    "population": 1135512
+  },
+  {
+    "id": "c3521081",
+    "country": "mx",
+    "name": "Puebla",
+    "aliases": [],
+    "lon": -98.2072,
+    "lat": 19.0478,
+    "population": 1692181
+  },
+  {
+    "id": "c3531673",
+    "country": "mx",
+    "name": "Cancún",
+    "aliases": [],
+    "lon": -86.8466,
+    "lat": 21.1743,
+    "population": 888797
+  },
+  {
+    "id": "c3533462",
+    "country": "mx",
+    "name": "Acapulco",
+    "aliases": [
+      "Acapulco de Juárez",
+      "Acapulco de Juarez"
+    ],
+    "lon": -99.9089,
+    "lat": 16.8494,
+    "population": 658609
+  },
+  {
+    "id": "c4014338",
+    "country": "mx",
+    "name": "Chihuahua",
+    "aliases": [],
+    "lon": -106.0889,
+    "lat": 28.6353,
+    "population": 925762
+  },
+  {
+    "id": "c3523349",
+    "country": "mx",
+    "name": "Mérida",
+    "aliases": [],
+    "lon": -89.6232,
+    "lat": 20.967,
+    "population": 1201000
+  },
+  {
+    "id": "c3522507",
+    "country": "mx",
+    "name": "Oaxaca",
+    "aliases": [],
+    "lon": -96.7254,
+    "lat": 17.0603,
+    "population": 255029
+  },
+  {
+    "id": "c3514783",
+    "country": "mx",
+    "name": "Veracruz",
+    "aliases": [],
+    "lon": -96.1429,
+    "lat": 19.181,
+    "population": 428323
+  },
+  {
+    "id": "c3981609",
+    "country": "mx",
+    "name": "Tijuana",
+    "aliases": [],
+    "lon": -117.0037,
+    "lat": 32.5027,
+    "population": 1922523
+  },
+  {
+    "id": "c3448439",
+    "country": "br",
+    "name": "São Paulo",
+    "aliases": [],
+    "lon": -46.6361,
+    "lat": -23.5475,
+    "population": 12400232
+  },
+  {
+    "id": "c3451190",
+    "country": "br",
+    "name": "Rio de Janeiro",
+    "aliases": [],
+    "lon": -43.1822,
+    "lat": -22.9064,
+    "population": 6747815
+  },
+  {
+    "id": "c3450554",
+    "country": "br",
+    "name": "Salvador",
+    "aliases": [],
+    "lon": -38.491,
+    "lat": -12.9756,
+    "population": 2711840
+  },
+  {
+    "id": "c3399415",
+    "country": "br",
+    "name": "Fortaleza",
+    "aliases": [],
+    "lon": -38.5431,
+    "lat": -3.7172,
+    "population": 2400000
+  },
+  {
+    "id": "c3470127",
+    "country": "br",
+    "name": "Belo Horizonte",
+    "aliases": [],
+    "lon": -43.9378,
+    "lat": -19.9208,
+    "population": 2721564
+  },
+  {
+    "id": "c3663517",
+    "country": "br",
+    "name": "Manaus",
+    "aliases": [],
+    "lon": -60.025,
+    "lat": -3.1019,
+    "population": 2219580
+  },
+  {
+    "id": "c3464975",
+    "country": "br",
+    "name": "Curitiba",
+    "aliases": [],
+    "lon": -49.2731,
+    "lat": -25.4278,
+    "population": 1948626
+  },
+  {
+    "id": "c3390760",
+    "country": "br",
+    "name": "Recife",
+    "aliases": [],
+    "lon": -34.8811,
+    "lat": -8.0539,
+    "population": 1653461
+  },
+  {
+    "id": "c3452925",
+    "country": "br",
+    "name": "Porto Alegre",
+    "aliases": [],
+    "lon": -51.2302,
+    "lat": -30.0328,
+    "population": 1488252
+  },
+  {
+    "id": "c3405870",
+    "country": "br",
+    "name": "Belém",
+    "aliases": [],
+    "lon": -48.5044,
+    "lat": -1.4558,
+    "population": 1499641
+  },
+  {
+    "id": "c3860259",
+    "country": "ar",
+    "name": "Córdoba",
+    "aliases": [],
+    "lon": -64.1885,
+    "lat": -31.4065,
+    "population": 2106734
+  },
+  {
+    "id": "c3838583",
+    "country": "ar",
+    "name": "Rosario",
+    "aliases": [],
+    "lon": -60.6393,
+    "lat": -32.9468,
+    "population": 948312
+  },
+  {
+    "id": "c3844421",
+    "country": "ar",
+    "name": "Mendoza",
+    "aliases": [],
+    "lon": -68.8458,
+    "lat": -32.8895,
+    "population": 114893
+  },
+  {
+    "id": "c3838233",
+    "country": "ar",
+    "name": "Salta",
+    "aliases": [],
+    "lon": -65.42,
+    "lat": -24.8065,
+    "population": 520683
+  },
+  {
+    "id": "c3833367",
+    "country": "ar",
+    "name": "Ushuaïa",
+    "aliases": [],
+    "lon": -68.3159,
+    "lat": -54.8108,
+    "population": 56825
+  },
+  {
+    "id": "c7647007",
+    "country": "ar",
+    "name": "San Carlos de Bariloche",
+    "aliases": [],
+    "lon": -71.3082,
+    "lat": -41.1456,
+    "population": 95394
+  },
+  {
+    "id": "c3430863",
+    "country": "ar",
+    "name": "Mar del Plata",
+    "aliases": [],
+    "lon": -57.5562,
+    "lat": -38.0004,
+    "population": 593337
+  },
+  {
+    "id": "c3836873",
+    "country": "ar",
+    "name": "San Miguel de Tucumán",
+    "aliases": [],
+    "lon": -65.2105,
+    "lat": -26.816,
+    "population": 548866
+  },
+  {
+    "id": "c3843123",
+    "country": "ar",
+    "name": "Neuquén",
+    "aliases": [],
+    "lon": -68.0592,
+    "lat": -38.9508,
+    "population": 231198
+  },
+  {
+    "id": "c3429777",
+    "country": "ar",
+    "name": "Puerto Iguazú",
+    "aliases": [],
+    "lon": -54.5735,
+    "lat": -25.5991,
+    "population": 32038
+  },
+  {
+    "id": "c2147714",
+    "country": "au",
+    "name": "Sydney",
+    "aliases": [],
+    "lon": 151.2073,
+    "lat": -33.8678,
+    "population": 5638830
+  },
+  {
+    "id": "c2158177",
+    "country": "au",
+    "name": "Melbourne",
+    "aliases": [],
+    "lon": 144.9633,
+    "lat": -37.814,
+    "population": 5435590
+  },
+  {
+    "id": "c2174003",
+    "country": "au",
+    "name": "Brisbane",
+    "aliases": [],
+    "lon": 153.0281,
+    "lat": -27.4679,
+    "population": 2780063
+  },
+  {
+    "id": "c2063523",
+    "country": "au",
+    "name": "Perth",
+    "aliases": [],
+    "lon": 115.8614,
+    "lat": -31.9522,
+    "population": 2384371
+  },
+  {
+    "id": "c2078025",
+    "country": "au",
+    "name": "Adélaïde",
+    "aliases": [],
+    "lon": 138.5986,
+    "lat": -34.9287,
+    "population": 1469163
+  },
+  {
+    "id": "c2163355",
+    "country": "au",
+    "name": "Hobart",
+    "aliases": [],
+    "lon": 147.3294,
+    "lat": -42.8794,
+    "population": 254930
+  },
+  {
+    "id": "c2073124",
+    "country": "au",
+    "name": "Darwin",
+    "aliases": [],
+    "lon": 130.8419,
+    "lat": -12.4611,
+    "population": 139902
+  },
+  {
+    "id": "c2172797",
+    "country": "au",
+    "name": "Cairns",
+    "aliases": [],
+    "lon": 145.7661,
+    "lat": -16.9237,
+    "population": 153075
+  },
+  {
+    "id": "c2077895",
+    "country": "au",
+    "name": "Alice Springs",
+    "aliases": [],
+    "lon": 133.8836,
+    "lat": -23.6975,
+    "population": 25912
+  },
+  {
+    "id": "c2165087",
+    "country": "au",
+    "name": "Gold Coast",
+    "aliases": [],
+    "lon": 153.4309,
+    "lat": -28.0003,
+    "population": 640778
+  },
+  {
+    "id": "c1796236",
+    "country": "cn",
+    "name": "Shanghai",
+    "aliases": [],
+    "lon": 121.4581,
+    "lat": 31.2222,
+    "population": 24874500
+  },
+  {
+    "id": "c1809858",
+    "country": "cn",
+    "name": "Canton",
+    "aliases": [
+      "Guangzhou"
+    ],
+    "lon": 113.25,
+    "lat": 23.1167,
+    "population": 18676605
+  },
+  {
+    "id": "c1795565",
+    "country": "cn",
+    "name": "Shenzhen",
+    "aliases": [],
+    "lon": 114.0683,
+    "lat": 22.5455,
+    "population": 17494398
+  },
+  {
+    "id": "c1814906",
+    "country": "cn",
+    "name": "Chongqing",
+    "aliases": [],
+    "lon": 106.5577,
+    "lat": 29.5603,
+    "population": 22000000
+  },
+  {
+    "id": "c1815286",
+    "country": "cn",
+    "name": "Chengdu",
+    "aliases": [],
+    "lon": 104.0667,
+    "lat": 30.6667,
+    "population": 20937757
+  },
+  {
+    "id": "c1791247",
+    "country": "cn",
+    "name": "Wuhan",
+    "aliases": [],
+    "lon": 114.2667,
+    "lat": 30.5833,
+    "population": 13739000
+  },
+  {
+    "id": "c1808926",
+    "country": "cn",
+    "name": "Hangzhou",
+    "aliases": [],
+    "lon": 120.1614,
+    "lat": 30.2937,
+    "population": 11936010
+  },
+  {
+    "id": "c1799962",
+    "country": "cn",
+    "name": "Nankin",
+    "aliases": [
+      "Nanjing"
+    ],
+    "lon": 118.7778,
+    "lat": 32.0617,
+    "population": 9314685
+  },
+  {
+    "id": "c1790630",
+    "country": "cn",
+    "name": "Xi'an",
+    "aliases": [],
+    "lon": 108.9286,
+    "lat": 34.2583,
+    "population": 12952907
+  },
+  {
+    "id": "c1280737",
+    "country": "cn",
+    "name": "Lhassa",
+    "aliases": [
+      "Lhasa"
+    ],
+    "lon": 91.1,
+    "lat": 29.65,
+    "population": 867900
+  },
+  {
+    "id": "c1853909",
+    "country": "jp",
+    "name": "Osaka",
+    "aliases": [],
+    "lon": 135.5011,
+    "lat": 34.6938,
+    "population": 2753862
+  },
+  {
+    "id": "c1857910",
+    "country": "jp",
+    "name": "Kyoto",
+    "aliases": [],
+    "lon": 135.7539,
+    "lat": 35.0211,
+    "population": 1463723
+  },
+  {
+    "id": "c1848354",
+    "country": "jp",
+    "name": "Yokohama",
+    "aliases": [],
+    "lon": 139.65,
+    "lat": 35.4333,
+    "population": 3777491
+  },
+  {
+    "id": "c1856057",
+    "country": "jp",
+    "name": "Nagoya",
+    "aliases": [],
+    "lon": 136.9064,
+    "lat": 35.1815,
+    "population": 2332176
+  },
+  {
+    "id": "c2128295",
+    "country": "jp",
+    "name": "Sapporo",
+    "aliases": [],
+    "lon": 141.35,
+    "lat": 43.0667,
+    "population": 1973832
+  },
+  {
+    "id": "c1859171",
+    "country": "jp",
+    "name": "Kobe",
+    "aliases": [],
+    "lon": 135.183,
+    "lat": 34.6913,
+    "population": 1525152
+  },
+  {
+    "id": "c1863967",
+    "country": "jp",
+    "name": "Fukuoka",
+    "aliases": [],
+    "lon": 130.4167,
+    "lat": 33.6,
+    "population": 1612392
+  },
+  {
+    "id": "c1862415",
+    "country": "jp",
+    "name": "Hiroshima",
+    "aliases": [],
+    "lon": 132.45,
+    "lat": 34.4,
+    "population": 1200754
+  },
+  {
+    "id": "c1855612",
+    "country": "jp",
+    "name": "Nara",
+    "aliases": [
+      "Nara-shi"
+    ],
+    "lon": 135.8048,
+    "lat": 34.685,
+    "population": 367353
+  },
+  {
+    "id": "c2111149",
+    "country": "jp",
+    "name": "Sendai",
+    "aliases": [],
+    "lon": 140.8667,
+    "lat": 38.2667,
+    "population": 1096704
+  },
+  {
+    "id": "c1275339",
+    "country": "in",
+    "name": "Bombay",
+    "aliases": [
+      "Mumbai"
+    ],
+    "lon": 72.8826,
+    "lat": 19.0728,
+    "population": 12691836
+  },
+  {
+    "id": "c1275004",
+    "country": "in",
+    "name": "Calcutta",
+    "aliases": [
+      "Kolkata"
+    ],
+    "lon": 88.363,
+    "lat": 22.5626,
+    "population": 4631392
+  },
+  {
+    "id": "c1264527",
+    "country": "in",
+    "name": "Chennai",
+    "aliases": [],
+    "lon": 80.2785,
+    "lat": 13.0878,
+    "population": 4681087
+  },
+  {
+    "id": "c1277333",
+    "country": "in",
+    "name": "Bangalore",
+    "aliases": [
+      "Bengaluru"
+    ],
+    "lon": 77.5937,
+    "lat": 12.9719,
+    "population": 8495492
+  },
+  {
+    "id": "c1269843",
+    "country": "in",
+    "name": "Hyderabad",
+    "aliases": [],
+    "lon": 78.4564,
+    "lat": 17.384,
+    "population": 6993262
+  },
+  {
+    "id": "c1279233",
+    "country": "in",
+    "name": "Ahmedabad",
+    "aliases": [],
+    "lon": 72.5873,
+    "lat": 23.0258,
+    "population": 6357693
+  },
+  {
+    "id": "c1269515",
+    "country": "in",
+    "name": "Jaipur",
+    "aliases": [],
+    "lon": 75.7878,
+    "lat": 26.9196,
+    "population": 3046163
+  },
+  {
+    "id": "c1279259",
+    "country": "in",
+    "name": "Agra",
+    "aliases": [],
+    "lon": 78.0167,
+    "lat": 27.1833,
+    "population": 1430055
+  },
+  {
+    "id": "c1253405",
+    "country": "in",
+    "name": "Varanasi",
+    "aliases": [
+      "Bénarès"
+    ],
+    "lon": 83.0104,
+    "lat": 25.3167,
+    "population": 1164404
+  },
+  {
+    "id": "c1259229",
+    "country": "in",
+    "name": "Pune",
+    "aliases": [],
+    "lon": 73.8554,
+    "lat": 18.5196,
+    "population": 3124458
+  },
+  {
+    "id": "c1625822",
+    "country": "id",
+    "name": "Surabaya",
+    "aliases": [],
+    "lon": 112.7508,
+    "lat": -7.2492,
+    "population": 3018022
+  },
+  {
+    "id": "c1650357",
+    "country": "id",
+    "name": "Bandung",
+    "aliases": [],
+    "lon": 107.6069,
+    "lat": -6.9222,
+    "population": 2528163
+  },
+  {
+    "id": "c1214520",
+    "country": "id",
+    "name": "Medan",
+    "aliases": [],
+    "lon": 98.6667,
+    "lat": 3.5833,
+    "population": 2486283
+  },
+  {
+    "id": "c1621177",
+    "country": "id",
+    "name": "Yogyakarta",
+    "aliases": [],
+    "lon": 110.3647,
+    "lat": -7.8014,
+    "population": 375699
+  },
+  {
+    "id": "c1627896",
+    "country": "id",
+    "name": "Semarang",
+    "aliases": [],
+    "lon": 110.4208,
+    "lat": -6.9931,
+    "population": 1694740
+  },
+  {
+    "id": "c1645528",
+    "country": "id",
+    "name": "Denpasar",
+    "aliases": [],
+    "lon": 115.2167,
+    "lat": -8.65,
+    "population": 670210
+  },
+  {
+    "id": "c1622786",
+    "country": "id",
+    "name": "Makassar",
+    "aliases": [],
+    "lon": 119.4319,
+    "lat": -5.1486,
+    "population": 1474393
+  },
+  {
+    "id": "c1633070",
+    "country": "id",
+    "name": "Palembang",
+    "aliases": [],
+    "lon": 104.7458,
+    "lat": -2.9167,
+    "population": 1801367
+  },
+  {
+    "id": "c1636544",
+    "country": "id",
+    "name": "Manado",
+    "aliases": [],
+    "lon": 124.8489,
+    "lat": 1.4822,
+    "population": 458582
+  },
+  {
+    "id": "c2082600",
+    "country": "id",
+    "name": "Jayapura",
+    "aliases": [],
+    "lon": 140.7181,
+    "lat": -2.5337,
+    "population": 410852
+  },
+  {
+    "id": "c1174872",
+    "country": "pk",
+    "name": "Karachi",
+    "aliases": [],
+    "lon": 67.0104,
+    "lat": 24.8608,
+    "population": 11624219
+  },
+  {
+    "id": "c1172451",
+    "country": "pk",
+    "name": "Lahore",
+    "aliases": [],
+    "lon": 74.3507,
+    "lat": 31.558,
+    "population": 13004135
+  },
+  {
+    "id": "c1166993",
+    "country": "pk",
+    "name": "Rawalpindi",
+    "aliases": [],
+    "lon": 73.0479,
+    "lat": 33.5973,
+    "population": 3357612
+  },
+  {
+    "id": "c1179400",
+    "country": "pk",
+    "name": "Faisalabad",
+    "aliases": [],
+    "lon": 73.0897,
+    "lat": 31.4155,
+    "population": 3800193
+  },
+  {
+    "id": "c1168197",
+    "country": "pk",
+    "name": "Peshawar",
+    "aliases": [],
+    "lon": 71.5785,
+    "lat": 34.008,
+    "population": 4758762
+  },
+  {
+    "id": "c1169825",
+    "country": "pk",
+    "name": "Multan",
+    "aliases": [],
+    "lon": 71.4782,
+    "lat": 30.1968,
+    "population": 2169915
+  },
+  {
+    "id": "c1167528",
+    "country": "pk",
+    "name": "Quetta",
+    "aliases": [],
+    "lon": 67.0014,
+    "lat": 30.1841,
+    "population": 1565546
+  },
+  {
+    "id": "c1176734",
+    "country": "pk",
+    "name": "Hyderabad",
+    "aliases": [],
+    "lon": 68.3772,
+    "lat": 25.3969,
+    "population": 1921275
+  },
+  {
+    "id": "c1177446",
+    "country": "pk",
+    "name": "Gwadar",
+    "aliases": [],
+    "lon": 62.3254,
+    "lat": 25.1216,
+    "population": 70852
+  },
+  {
+    "id": "c1164909",
+    "country": "pk",
+    "name": "Sialkot",
+    "aliases": [],
+    "lon": 74.5313,
+    "lat": 32.4927,
+    "population": 911817
+  },
+  {
+    "id": "c124665",
+    "country": "ir",
+    "name": "Machhad",
+    "aliases": [
+      "Mashhad"
+    ],
+    "lon": 59.6057,
+    "lat": 36.2981,
+    "population": 2307177
+  },
+  {
+    "id": "c418863",
+    "country": "ir",
+    "name": "Ispahan",
+    "aliases": [
+      "Isfahan"
+    ],
+    "lon": 51.6746,
+    "lat": 32.6525,
+    "population": 1547164
+  },
+  {
+    "id": "c115019",
+    "country": "ir",
+    "name": "Chiraz",
+    "aliases": [
+      "Shiraz"
+    ],
+    "lon": 52.5311,
+    "lat": 29.6103,
+    "population": 1249942
+  },
+  {
+    "id": "c113646",
+    "country": "ir",
+    "name": "Tabriz",
+    "aliases": [],
+    "lon": 46.2919,
+    "lat": 38.08,
+    "population": 1424641
+  },
+  {
+    "id": "c119208",
+    "country": "ir",
+    "name": "Qom",
+    "aliases": [],
+    "lon": 50.8764,
+    "lat": 34.6401,
+    "population": 900000
+  },
+  {
+    "id": "c144448",
+    "country": "ir",
+    "name": "Ahvaz",
+    "aliases": [],
+    "lon": 48.6842,
+    "lat": 31.319,
+    "population": 841145
+  },
+  {
+    "id": "c128234",
+    "country": "ir",
+    "name": "Kerman",
+    "aliases": [],
+    "lon": 57.0788,
+    "lat": 30.2832,
+    "population": 577514
+  },
+  {
+    "id": "c111822",
+    "country": "ir",
+    "name": "Yazd",
+    "aliases": [],
+    "lon": 54.3675,
+    "lat": 31.8972,
+    "population": 477905
+  },
+  {
+    "id": "c141681",
+    "country": "ir",
+    "name": "Bandar Abbas",
+    "aliases": [],
+    "lon": 56.2808,
+    "lat": 27.1865,
+    "population": 352173
+  },
+  {
+    "id": "c128226",
+    "country": "ir",
+    "name": "Kermanshah",
+    "aliases": [],
+    "lon": 47.065,
+    "lat": 34.3142,
+    "population": 621100
+  },
+  {
+    "id": "c745044",
+    "country": "tr",
+    "name": "Istanbul",
+    "aliases": [],
+    "lon": 28.9497,
+    "lat": 41.0138,
+    "population": 15701602
+  },
+  {
+    "id": "c311046",
+    "country": "tr",
+    "name": "Izmir",
+    "aliases": [],
+    "lon": 27.1384,
+    "lat": 38.4127,
+    "population": 2938292
+  },
+  {
+    "id": "c750269",
+    "country": "tr",
+    "name": "Bursa",
+    "aliases": [],
+    "lon": 29.0601,
+    "lat": 40.1956,
+    "population": 3101833
+  },
+  {
+    "id": "c323777",
+    "country": "tr",
+    "name": "Antalya",
+    "aliases": [],
+    "lon": 30.6956,
+    "lat": 36.9081,
+    "population": 1335002
+  },
+  {
+    "id": "c325363",
+    "country": "tr",
+    "name": "Adana",
+    "aliases": [],
+    "lon": 35.3253,
+    "lat": 36.9862,
+    "population": 1816750
+  },
+  {
+    "id": "c306571",
+    "country": "tr",
+    "name": "Konya",
+    "aliases": [],
+    "lon": 32.4846,
+    "lat": 37.8714,
+    "population": 1433861
+  },
+  {
+    "id": "c314830",
+    "country": "tr",
+    "name": "Gaziantep",
+    "aliases": [],
+    "lon": 37.3825,
+    "lat": 37.0594,
+    "population": 2222415
+  },
+  {
+    "id": "c738648",
+    "country": "tr",
+    "name": "Trabzon",
+    "aliases": [],
+    "lon": 39.7269,
+    "lat": 41.005,
+    "population": 244083
+  },
+  {
+    "id": "c316541",
+    "country": "tr",
+    "name": "Diyarbakır",
+    "aliases": [
+      "Diyarbakir"
+    ],
+    "lon": 40.2172,
+    "lat": 37.9136,
+    "population": 1833684
+  },
+  {
+    "id": "c315368",
+    "country": "tr",
+    "name": "Erzurum",
+    "aliases": [],
+    "lon": 41.2769,
+    "lat": 39.9086,
+    "population": 767848
+  },
+  {
+    "id": "c361058",
+    "country": "eg",
+    "name": "Alexandrie",
+    "aliases": [
+      "Alexandria"
+    ],
+    "lon": 29.9158,
+    "lat": 31.2018,
+    "population": 5263542
+  },
+  {
+    "id": "c360995",
+    "country": "eg",
+    "name": "Gizeh",
+    "aliases": [
+      "Giza"
+    ],
+    "lon": 31.2086,
+    "lat": 30.0094,
+    "population": 4367343
+  },
+  {
+    "id": "c359792",
+    "country": "eg",
+    "name": "Assouan",
+    "aliases": [
+      "Aswān",
+      "Aswan"
+    ],
+    "lon": 32.8994,
+    "lat": 24.0908,
+    "population": 379774
+  },
+  {
+    "id": "c360502",
+    "country": "eg",
+    "name": "Louxor",
+    "aliases": [
+      "Luxor"
+    ],
+    "lon": 32.6421,
+    "lat": 25.6989,
+    "population": 422407
+  },
+  {
+    "id": "c349340",
+    "country": "eg",
+    "name": "Charm el-Cheikh",
+    "aliases": [
+      "Sharm el-Sheikh"
+    ],
+    "lon": 34.3299,
+    "lat": 27.9158,
+    "population": 38478
+  },
+  {
+    "id": "c361291",
+    "country": "eg",
+    "name": "Hurghada",
+    "aliases": [],
+    "lon": 33.8129,
+    "lat": 27.2574,
+    "population": 207132
+  },
+  {
+    "id": "c360761",
+    "country": "eg",
+    "name": "Mansourah",
+    "aliases": [
+      "Al Mansurah"
+    ],
+    "lon": 31.3807,
+    "lat": 31.0364,
+    "population": 621953
+  },
+  {
+    "id": "c358619",
+    "country": "eg",
+    "name": "Port-Saïd",
+    "aliases": [],
+    "lon": 32.3019,
+    "lat": 31.2653,
+    "population": 780515
+  },
+  {
+    "id": "c359796",
+    "country": "eg",
+    "name": "Suez",
+    "aliases": [],
+    "lon": 32.5263,
+    "lat": 29.9737,
+    "population": 699541
+  },
+  {
+    "id": "c361055",
+    "country": "eg",
+    "name": "Ismaïlia",
+    "aliases": [],
+    "lon": 32.2723,
+    "lat": 30.6043,
+    "population": 429465
+  },
+  {
+    "id": "c498817",
+    "country": "ru",
+    "name": "Saint-Pétersbourg",
+    "aliases": [
+      "Saint Petersburg"
+    ],
+    "lon": 30.3141,
+    "lat": 59.9386,
+    "population": 5351935
+  },
+  {
+    "id": "c1496747",
+    "country": "ru",
+    "name": "Novossibirsk",
+    "aliases": [
+      "Novosibirsk"
+    ],
+    "lon": 82.9317,
+    "lat": 55.0226,
+    "population": 1612833
+  },
+  {
+    "id": "c1486209",
+    "country": "ru",
+    "name": "Iekaterinbourg",
+    "aliases": [
+      "Yekaterinburg"
+    ],
+    "lon": 60.6153,
+    "lat": 56.8573,
+    "population": 1495066
+  },
+  {
+    "id": "c551487",
+    "country": "ru",
+    "name": "Kazan",
+    "aliases": [],
+    "lon": 49.1221,
+    "lat": 55.7887,
+    "population": 1243500
+  },
+  {
+    "id": "c472757",
+    "country": "ru",
+    "name": "Volgograd",
+    "aliases": [],
+    "lon": 44.4976,
+    "lat": 48.7138,
+    "population": 1013533
+  },
+  {
+    "id": "c2013348",
+    "country": "ru",
+    "name": "Vladivostok",
+    "aliases": [],
+    "lon": 131.8735,
+    "lat": 43.1056,
+    "population": 604901
+  },
+  {
+    "id": "c2023469",
+    "country": "ru",
+    "name": "Irkoutsk",
+    "aliases": [
+      "Irkutsk"
+    ],
+    "lon": 104.2908,
+    "lat": 52.2957,
+    "population": 623869
+  },
+  {
+    "id": "c524305",
+    "country": "ru",
+    "name": "Mourmansk",
+    "aliases": [
+      "Murmansk"
+    ],
+    "lon": 33.0992,
+    "lat": 68.9678,
+    "population": 295374
+  },
+  {
+    "id": "c491422",
+    "country": "ru",
+    "name": "Sotchi",
+    "aliases": [
+      "Sochi"
+    ],
+    "lon": 39.7248,
+    "lat": 43.597,
+    "population": 327608
+  },
+  {
+    "id": "c554234",
+    "country": "ru",
+    "name": "Kaliningrad",
+    "aliases": [],
+    "lon": 20.511,
+    "lat": 54.7064,
+    "population": 475056
+  },
+  {
+    "id": "c993800",
+    "country": "za",
+    "name": "Johannesburg",
+    "aliases": [],
+    "lon": 28.0436,
+    "lat": -26.2023,
+    "population": 9418183
+  },
+  {
+    "id": "c3369157",
+    "country": "za",
+    "name": "Le Cap",
+    "aliases": [
+      "Cape Town"
+    ],
+    "lon": 18.4232,
+    "lat": -33.9258,
+    "population": 4772846
+  },
+  {
+    "id": "c1007311",
+    "country": "za",
+    "name": "Durban",
+    "aliases": [],
+    "lon": 31.0292,
+    "lat": -29.8579,
+    "population": 3338026
+  },
+  {
+    "id": "c964420",
+    "country": "za",
+    "name": "Gqeberha",
+    "aliases": [
+      "Port Elizabeth"
+    ],
+    "lon": 25.6149,
+    "lat": -33.9611,
+    "population": 1050078
+  },
+  {
+    "id": "c1018725",
+    "country": "za",
+    "name": "Bloemfontein",
+    "aliases": [],
+    "lon": 26.214,
+    "lat": -29.1211,
+    "population": 556637
+  },
+  {
+    "id": "c1006984",
+    "country": "za",
+    "name": "East London",
+    "aliases": [],
+    "lon": 27.9116,
+    "lat": -33.0153,
+    "population": 478676
+  },
+  {
+    "id": "c965301",
+    "country": "za",
+    "name": "Pietermaritzburg",
+    "aliases": [],
+    "lon": 30.3928,
+    "lat": -29.6168,
+    "population": 839327
+  },
+  {
+    "id": "c990930",
+    "country": "za",
+    "name": "Kimberley",
+    "aliases": [],
+    "lon": 24.7623,
+    "lat": -28.7323,
+    "population": 142089
+  },
+  {
+    "id": "c965289",
+    "country": "za",
+    "name": "Polokwane",
+    "aliases": [],
+    "lon": 29.4689,
+    "lat": -23.9045,
+    "population": 272461
+  },
+  {
+    "id": "c971534",
+    "country": "za",
+    "name": "Mbombela",
+    "aliases": [
+      "Nelspruit"
+    ],
+    "lon": 30.9694,
+    "lat": -25.4751,
+    "population": 110159
+  },
+  {
+    "id": "c2332459",
+    "country": "ng",
+    "name": "Lagos",
+    "aliases": [],
+    "lon": 3.3947,
+    "lat": 6.4541,
+    "population": 15388000
+  },
+  {
+    "id": "c2335204",
+    "country": "ng",
+    "name": "Kano",
+    "aliases": [],
+    "lon": 8.5167,
+    "lat": 12.0001,
+    "population": 4910000
+  },
+  {
+    "id": "c2339354",
+    "country": "ng",
+    "name": "Ibadan",
+    "aliases": [],
+    "lon": 3.9059,
+    "lat": 7.3776,
+    "population": 3649000
+  },
+  {
+    "id": "c2324774",
+    "country": "ng",
+    "name": "Port Harcourt",
+    "aliases": [],
+    "lon": 7.0134,
+    "lat": 4.7774,
+    "population": 2120000
+  },
+  {
+    "id": "c2347283",
+    "country": "ng",
+    "name": "Benin City",
+    "aliases": [],
+    "lon": 5.6258,
+    "lat": 6.3382,
+    "population": 1782000
+  },
+  {
+    "id": "c2343279",
+    "country": "ng",
+    "name": "Enugu",
+    "aliases": [],
+    "lon": 7.4988,
+    "lat": 6.4413,
+    "population": 950000
+  },
+  {
+    "id": "c2337639",
+    "country": "ng",
+    "name": "Ilorin",
+    "aliases": [],
+    "lon": 4.5421,
+    "lat": 8.4966,
+    "population": 1080000
+  },
+  {
+    "id": "c2335953",
+    "country": "ng",
+    "name": "Jos",
+    "aliases": [],
+    "lon": 8.8921,
+    "lat": 9.9285,
+    "population": 1040000
+  },
+  {
+    "id": "c2335727",
+    "country": "ng",
+    "name": "Kaduna",
+    "aliases": [],
+    "lon": 7.4388,
+    "lat": 10.5264,
+    "population": 1850000
+  },
+  {
+    "id": "c2331447",
+    "country": "ng",
+    "name": "Maiduguri",
+    "aliases": [],
+    "lon": 13.1571,
+    "lat": 11.8469,
+    "population": 1110000
+  },
+  {
+    "id": "c1138336",
+    "country": "af",
+    "name": "Kandahar",
+    "aliases": [],
+    "lon": 65.7101,
+    "lat": 31.6133,
+    "population": 523300
+  },
+  {
+    "id": "c1140026",
+    "country": "af",
+    "name": "Hérat",
+    "aliases": [],
+    "lon": 62.1997,
+    "lat": 34.3482,
+    "population": 574300
+  },
+  {
+    "id": "c1133616",
+    "country": "af",
+    "name": "Mazar-e-Charif",
+    "aliases": [
+      "Mazār-e Sharīf",
+      "Mazar-e Sharif"
+    ],
+    "lon": 67.1109,
+    "lat": 36.709,
+    "population": 523300
+  },
+  {
+    "id": "c1139715",
+    "country": "af",
+    "name": "Jalalabad",
+    "aliases": [],
+    "lon": 70.4515,
+    "lat": 34.4265,
+    "population": 271900
+  },
+  {
+    "id": "c1135689",
+    "country": "af",
+    "name": "Kunduz",
+    "aliases": [],
+    "lon": 68.857,
+    "lat": 36.729,
+    "population": 161902
+  },
+  {
+    "id": "c2485926",
+    "country": "dz",
+    "name": "Oran",
+    "aliases": [],
+    "lon": -0.6359,
+    "lat": 35.6991,
+    "population": 803329
+  },
+  {
+    "id": "c2501152",
+    "country": "dz",
+    "name": "Constantine",
+    "aliases": [],
+    "lon": 6.6147,
+    "lat": 36.365,
+    "population": 448028
+  },
+  {
+    "id": "c2506999",
+    "country": "dz",
+    "name": "Annaba",
+    "aliases": [],
+    "lon": 7.7667,
+    "lat": 36.9,
+    "population": 342703
+  },
+  {
+    "id": "c2478216",
+    "country": "dz",
+    "name": "Tamanrasset",
+    "aliases": [
+      "Tamanghasset"
+    ],
+    "lon": 5.5228,
+    "lat": 22.785,
+    "population": 81752
+  },
+  {
+    "id": "c2496049",
+    "country": "dz",
+    "name": "Ghardaïa",
+    "aliases": [],
+    "lon": 3.6735,
+    "lat": 32.4909,
+    "population": 142913
+  },
+  {
+    "id": "c3348313",
+    "country": "ao",
+    "name": "Huambo",
+    "aliases": [],
+    "lon": 15.7392,
+    "lat": -12.7761,
+    "population": 595304
+  },
+  {
+    "id": "c3347939",
+    "country": "ao",
+    "name": "Lobito",
+    "aliases": [],
+    "lon": 13.536,
+    "lat": -12.3644,
+    "population": 393079
+  },
+  {
+    "id": "c3351663",
+    "country": "ao",
+    "name": "Benguela",
+    "aliases": [],
+    "lon": 13.4027,
+    "lat": -12.5767,
+    "population": 555124
+  },
+  {
+    "id": "c3347762",
+    "country": "ao",
+    "name": "Lubango",
+    "aliases": [],
+    "lon": 13.4925,
+    "lat": -14.9172,
+    "population": 600751
+  },
+  {
+    "id": "c2243271",
+    "country": "ao",
+    "name": "Cabinda",
+    "aliases": [],
+    "lon": 12.1948,
+    "lat": -5.562,
+    "population": 550000
+  },
+  {
+    "id": "c105343",
+    "country": "sa",
+    "name": "Djeddah",
+    "aliases": [
+      "Jeddah"
+    ],
+    "lon": 39.1862,
+    "lat": 21.4901,
+    "population": 4697000
+  },
+  {
+    "id": "c104515",
+    "country": "sa",
+    "name": "La Mecque",
+    "aliases": [
+      "Mecque",
+      "Makkah"
+    ],
+    "lon": 39.8256,
+    "lat": 21.4266,
+    "population": 1578722
+  },
+  {
+    "id": "c109223",
+    "country": "sa",
+    "name": "Médine",
+    "aliases": [
+      "Madinah"
+    ],
+    "lon": 39.6142,
+    "lat": 24.4686,
+    "population": 1300000
+  },
+  {
+    "id": "c110336",
+    "country": "sa",
+    "name": "Dammam",
+    "aliases": [],
+    "lon": 50.1033,
+    "lat": 26.4344,
+    "population": 1252523
+  },
+  {
+    "id": "c101628",
+    "country": "sa",
+    "name": "Tabouk",
+    "aliases": [
+      "Tabuk"
+    ],
+    "lon": 36.5715,
+    "lat": 28.3998,
+    "population": 667000
+  },
+  {
+    "id": "c586523",
+    "country": "az",
+    "name": "Gandja",
+    "aliases": [
+      "Ganja"
+    ],
+    "lon": 46.3613,
+    "lat": 40.6816,
+    "population": 330663
+  },
+  {
+    "id": "c584923",
+    "country": "az",
+    "name": "Soumgaït",
+    "aliases": [
+      "Sumgayit"
+    ],
+    "lon": 49.6686,
+    "lat": 40.5897,
+    "population": 427000
+  },
+  {
+    "id": "c147622",
+    "country": "az",
+    "name": "Lankaran",
+    "aliases": [],
+    "lon": 48.8506,
+    "lat": 38.7543,
+    "population": 89300
+  },
+  {
+    "id": "c585514",
+    "country": "az",
+    "name": "Mingachevir",
+    "aliases": [],
+    "lon": 47.0623,
+    "lat": 40.7642,
+    "population": 106048
+  },
+  {
+    "id": "c147429",
+    "country": "az",
+    "name": "Nakhitchevan",
+    "aliases": [
+      "Naxçıvan",
+      "Naxcivan"
+    ],
+    "lon": 45.4122,
+    "lat": 39.2089,
+    "population": 97200
+  },
+  {
+    "id": "c1205733",
+    "country": "bd",
+    "name": "Chittagong",
+    "aliases": [
+      "Chattogram"
+    ],
+    "lon": 91.8317,
+    "lat": 22.3384,
+    "population": 3920222
+  },
+  {
+    "id": "c1336135",
+    "country": "bd",
+    "name": "Khulna",
+    "aliases": [],
+    "lon": 89.5644,
+    "lat": 22.8098,
+    "population": 1500689
+  },
+  {
+    "id": "c1185128",
+    "country": "bd",
+    "name": "Rajshahi",
+    "aliases": [],
+    "lon": 88.6011,
+    "lat": 24.374,
+    "population": 763580
+  },
+  {
+    "id": "c1185099",
+    "country": "bd",
+    "name": "Sylhet",
+    "aliases": [],
+    "lon": 91.872,
+    "lat": 24.899,
+    "population": 237000
+  },
+  {
+    "id": "c1336134",
+    "country": "bd",
+    "name": "Cox's Bazar",
+    "aliases": [],
+    "lon": 92.0096,
+    "lat": 21.4397,
+    "population": 253788
+  },
+  {
+    "id": "c2803138",
+    "country": "be",
+    "name": "Anvers",
+    "aliases": [
+      "Antwerp"
+    ],
+    "lon": 4.4003,
+    "lat": 51.2205,
+    "population": 529247
+  },
+  {
+    "id": "c2797656",
+    "country": "be",
+    "name": "Gand",
+    "aliases": [
+      "Gent"
+    ],
+    "lon": 3.7167,
+    "lat": 51.05,
+    "population": 265086
+  },
+  {
+    "id": "c2792413",
+    "country": "be",
+    "name": "Liège",
+    "aliases": [],
+    "lon": 5.5675,
+    "lat": 50.6337,
+    "population": 195278
+  },
+  {
+    "id": "c2800931",
+    "country": "be",
+    "name": "Bruges",
+    "aliases": [
+      "Brugge"
+    ],
+    "lon": 3.2242,
+    "lat": 51.2089,
+    "population": 118509
+  },
+  {
+    "id": "c2800481",
+    "country": "be",
+    "name": "Charleroi",
+    "aliases": [],
+    "lon": 4.4445,
+    "lat": 50.4114,
+    "population": 200132
+  },
+  {
+    "id": "c2394819",
+    "country": "bj",
+    "name": "Cotonou",
+    "aliases": [],
+    "lon": 2.4183,
+    "lat": 6.3654,
+    "population": 679012
+  },
+  {
+    "id": "c2392204",
+    "country": "bj",
+    "name": "Parakou",
+    "aliases": [],
+    "lon": 2.6303,
+    "lat": 9.3372,
+    "population": 255478
+  },
+  {
+    "id": "c2395915",
+    "country": "bj",
+    "name": "Abomey",
+    "aliases": [],
+    "lon": 1.9912,
+    "lat": 7.1829,
+    "population": 117824
+  },
+  {
+    "id": "c2394560",
+    "country": "bj",
+    "name": "Djougou",
+    "aliases": [],
+    "lon": 1.666,
+    "lat": 9.7085,
+    "population": 94773
+  },
+  {
+    "id": "c2392308",
+    "country": "bj",
+    "name": "Ouidah",
+    "aliases": [],
+    "lon": 2.0851,
+    "lat": 6.3631,
+    "population": 47616
+  },
+  {
+    "id": "c1298824",
+    "country": "mm",
+    "name": "Rangoun",
+    "aliases": [
+      "Yangon"
+    ],
+    "lon": 96.1561,
+    "lat": 16.8053,
+    "population": 4477638
+  },
+  {
+    "id": "c1311874",
+    "country": "mm",
+    "name": "Mandalay",
+    "aliases": [],
+    "lon": 96.0836,
+    "lat": 21.9747,
+    "population": 1208099
+  },
+  {
+    "id": "c1308465",
+    "country": "mm",
+    "name": "Mawlamyine",
+    "aliases": [],
+    "lon": 97.6283,
+    "lat": 16.4905,
+    "population": 438861
+  },
+  {
+    "id": "c1295765",
+    "country": "mm",
+    "name": "Sittwe",
+    "aliases": [],
+    "lon": 92.8983,
+    "lat": 20.1462,
+    "population": 177743
+  },
+  {
+    "id": "c1307741",
+    "country": "mm",
+    "name": "Myitkyina",
+    "aliases": [],
+    "lon": 97.3964,
+    "lat": 25.3833,
+    "population": 90894
+  },
+  {
+    "id": "c3911925",
+    "country": "bo",
+    "name": "La Paz",
+    "aliases": [],
+    "lon": -68.15,
+    "lat": -16.5,
+    "population": 2004652
+  },
+  {
+    "id": "c3904906",
+    "country": "bo",
+    "name": "Santa Cruz de la Sierra",
+    "aliases": [],
+    "lon": -63.1812,
+    "lat": -17.7863,
+    "population": 1831434
+  },
+  {
+    "id": "c3919968",
+    "country": "bo",
+    "name": "Cochabamba",
+    "aliases": [],
+    "lon": -66.1599,
+    "lat": -17.3819,
+    "population": 841276
+  },
+  {
+    "id": "c3907584",
+    "country": "bo",
+    "name": "Potosí",
+    "aliases": [],
+    "lon": -65.7531,
+    "lat": -19.5836,
+    "population": 141251
+  },
+  {
+    "id": "c3909234",
+    "country": "bo",
+    "name": "Oruro",
+    "aliases": [],
+    "lon": -67.0932,
+    "lat": -17.9715,
+    "population": 208684
+  },
+  {
+    "id": "c2362344",
+    "country": "bf",
+    "name": "Bobo-Dioulasso",
+    "aliases": [],
+    "lon": -4.2949,
+    "lat": 11.1806,
+    "population": 904920
+  },
+  {
+    "id": "c2358946",
+    "country": "bf",
+    "name": "Koudougou",
+    "aliases": [],
+    "lon": -2.3669,
+    "lat": 12.2519,
+    "population": 160239
+  },
+  {
+    "id": "c2357043",
+    "country": "bf",
+    "name": "Ouahigouya",
+    "aliases": [],
+    "lon": -2.4179,
+    "lat": 13.5769,
+    "population": 124587
+  },
+  {
+    "id": "c2362909",
+    "country": "bf",
+    "name": "Banfora",
+    "aliases": [],
+    "lon": -4.7528,
+    "lat": 10.6406,
+    "population": 117452
+  },
+  {
+    "id": "c2360886",
+    "country": "bf",
+    "name": "Fada N'Gourma",
+    "aliases": [],
+    "lon": 0.3584,
+    "lat": 12.0616,
+    "population": 73200
+  },
+  {
+    "id": "c425378",
+    "country": "bi",
+    "name": "Bujumbura",
+    "aliases": [],
+    "lon": 29.3614,
+    "lat": -3.3819,
+    "population": 769317
+  },
+  {
+    "id": "c430569",
+    "country": "bi",
+    "name": "Ngozi",
+    "aliases": [],
+    "lon": 29.8306,
+    "lat": -2.9075,
+    "population": 61716
+  },
+  {
+    "id": "c430021",
+    "country": "bi",
+    "name": "Cibitoke",
+    "aliases": [],
+    "lon": 29.1248,
+    "lat": -2.8869,
+    "population": 36959
+  },
+  {
+    "id": "c423549",
+    "country": "bi",
+    "name": "Rumonge",
+    "aliases": [],
+    "lon": 29.4386,
+    "lat": -3.9736,
+    "population": 55599
+  },
+  {
+    "id": "c430952",
+    "country": "bi",
+    "name": "Kayanza",
+    "aliases": [],
+    "lon": 29.6293,
+    "lat": -2.9221,
+    "population": 33682
+  },
+  {
+    "id": "c1822214",
+    "country": "kh",
+    "name": "Siem Reap",
+    "aliases": [],
+    "lon": 103.8606,
+    "lat": 13.3618,
+    "population": 139458
+  },
+  {
+    "id": "c1831797",
+    "country": "kh",
+    "name": "Battambang",
+    "aliases": [],
+    "lon": 103.1982,
+    "lat": 13.1027,
+    "population": 119251
+  },
+  {
+    "id": "c1831142",
+    "country": "kh",
+    "name": "Sihanoukville",
+    "aliases": [],
+    "lon": 103.5296,
+    "lat": 10.6093,
+    "population": 73036
+  },
+  {
+    "id": "c1831112",
+    "country": "kh",
+    "name": "Kampot",
+    "aliases": [],
+    "lon": 104.1815,
+    "lat": 10.6104,
+    "population": 22691
+  },
+  {
+    "id": "c1831173",
+    "country": "kh",
+    "name": "Kampong Cham",
+    "aliases": [],
+    "lon": 105.4635,
+    "lat": 11.9934,
+    "population": 61750
+  },
+  {
+    "id": "c2232593",
+    "country": "cm",
+    "name": "Douala",
+    "aliases": [],
+    "lon": 9.7043,
+    "lat": 4.0483,
+    "population": 1338082
+  },
+  {
+    "id": "c2231320",
+    "country": "cm",
+    "name": "Garoua",
+    "aliases": [],
+    "lon": 13.3977,
+    "lat": 9.3014,
+    "population": 34957
+  },
+  {
+    "id": "c2234974",
+    "country": "cm",
+    "name": "Bamenda",
+    "aliases": [],
+    "lon": 10.146,
+    "lat": 5.9597,
+    "population": 420445
+  },
+  {
+    "id": "c2228373",
+    "country": "cm",
+    "name": "Maroua",
+    "aliases": [],
+    "lon": 14.3159,
+    "lat": 10.591,
+    "population": 314122
+  },
+  {
+    "id": "c2235189",
+    "country": "cm",
+    "name": "Bafoussam",
+    "aliases": [],
+    "lon": 10.4176,
+    "lat": 5.4778,
+    "population": 373268
+  },
+  {
+    "id": "c3868626",
+    "country": "cl",
+    "name": "Valparaíso",
+    "aliases": [],
+    "lon": -71.6296,
+    "lat": -33.036,
+    "population": 282448
+  },
+  {
+    "id": "c3893894",
+    "country": "cl",
+    "name": "Concepción",
+    "aliases": [],
+    "lon": -73.0498,
+    "lat": -36.827,
+    "population": 223574
+  },
+  {
+    "id": "c3899539",
+    "country": "cl",
+    "name": "Antofagasta",
+    "aliases": [],
+    "lon": -70.3975,
+    "lat": -23.6509,
+    "population": 401096
+  },
+  {
+    "id": "c3874960",
+    "country": "cl",
+    "name": "Puerto Montt",
+    "aliases": [],
+    "lon": -72.9424,
+    "lat": -41.4693,
+    "population": 245902
+  },
+  {
+    "id": "c3874787",
+    "country": "cl",
+    "name": "Punta Arenas",
+    "aliases": [],
+    "lon": -70.9092,
+    "lat": -53.1628,
+    "population": 117430
+  },
+  {
+    "id": "c3674962",
+    "country": "co",
+    "name": "Medellín",
+    "aliases": [],
+    "lon": -75.5715,
+    "lat": 6.245,
+    "population": 1999979
+  },
+  {
+    "id": "c3687925",
+    "country": "co",
+    "name": "Cali",
+    "aliases": [],
+    "lon": -76.5199,
+    "lat": 3.4305,
+    "population": 2392877
+  },
+  {
+    "id": "c3689147",
+    "country": "co",
+    "name": "Barranquilla",
+    "aliases": [],
+    "lon": -74.7813,
+    "lat": 10.9685,
+    "population": 1206319
+  },
+  {
+    "id": "c3687238",
+    "country": "co",
+    "name": "Carthagène des Indes",
+    "aliases": [
+      "Carthagène",
+      "Cartagena"
+    ],
+    "lon": -75.4933,
+    "lat": 10.3982,
+    "population": 914552
+  },
+  {
+    "id": "c3688465",
+    "country": "co",
+    "name": "Bucaramanga",
+    "aliases": [],
+    "lon": -73.1189,
+    "lat": 7.125,
+    "population": 581130
+  },
+  {
+    "id": "c1877449",
+    "country": "kp",
+    "name": "Hamhung",
+    "aliases": [],
+    "lon": 127.5364,
+    "lat": 39.9183,
+    "population": 559056
+  },
+  {
+    "id": "c2044757",
+    "country": "kp",
+    "name": "Chongjin",
+    "aliases": [],
+    "lon": 129.7758,
+    "lat": 41.7956,
+    "population": 327000
+  },
+  {
+    "id": "c1873757",
+    "country": "kp",
+    "name": "Nampo",
+    "aliases": [
+      "Namp’o",
+      "Namp'o"
+    ],
+    "lon": 125.4078,
+    "lat": 38.7375,
+    "population": 455000
+  },
+  {
+    "id": "c1876373",
+    "country": "kp",
+    "name": "Kaesong",
+    "aliases": [],
+    "lon": 126.5544,
+    "lat": 37.9708,
+    "population": 338155
+  },
+  {
+    "id": "c1866923",
+    "country": "kp",
+    "name": "Wonsan",
+    "aliases": [],
+    "lon": 127.4436,
+    "lat": 39.1528,
+    "population": 329207
+  },
+  {
+    "id": "c1838524",
+    "country": "kr",
+    "name": "Busan",
+    "aliases": [],
+    "lon": 129.03,
+    "lat": 35.1017,
+    "population": 3285147
+  },
+  {
+    "id": "c1843564",
+    "country": "kr",
+    "name": "Incheon",
+    "aliases": [],
+    "lon": 126.7052,
+    "lat": 37.4565,
+    "population": 3015482
+  },
+  {
+    "id": "c1835329",
+    "country": "kr",
+    "name": "Daegu",
+    "aliases": [],
+    "lon": 128.6012,
+    "lat": 35.871,
+    "population": 2365523
+  },
+  {
+    "id": "c1841811",
+    "country": "kr",
+    "name": "Gwangju",
+    "aliases": [],
+    "lon": 126.9156,
+    "lat": 35.1547,
+    "population": 1401235
+  },
+  {
+    "id": "c1835235",
+    "country": "kr",
+    "name": "Daejeon",
+    "aliases": [],
+    "lon": 127.3848,
+    "lat": 36.3502,
+    "population": 1441203
+  },
+  {
+    "id": "c2293538",
+    "country": "ci",
+    "name": "Abidjan",
+    "aliases": [],
+    "lon": -4.0017,
+    "lat": 5.3544,
+    "population": 6321017
+  },
+  {
+    "id": "c2290956",
+    "country": "ci",
+    "name": "Bouaké",
+    "aliases": [],
+    "lon": -5.0303,
+    "lat": 7.6939,
+    "population": 832371
+  },
+  {
+    "id": "c2282006",
+    "country": "ci",
+    "name": "San-Pédro",
+    "aliases": [],
+    "lon": -6.6363,
+    "lat": 4.7485,
+    "population": 390654
+  },
+  {
+    "id": "c2286304",
+    "country": "ci",
+    "name": "Korhogo",
+    "aliases": [],
+    "lon": -5.6296,
+    "lat": 9.458,
+    "population": 440926
+  },
+  {
+    "id": "c2290486",
+    "country": "ci",
+    "name": "Daloa",
+    "aliases": [],
+    "lon": -6.4502,
+    "lat": 6.8774,
+    "population": 421871
+  },
+  {
+    "id": "c3536729",
+    "country": "cu",
+    "name": "Santiago de Cuba",
+    "aliases": [],
+    "lon": -75.8217,
+    "lat": 20.0229,
+    "population": 555865
+  },
+  {
+    "id": "c3566067",
+    "country": "cu",
+    "name": "Camagüey",
+    "aliases": [
+      "Camagueey"
+    ],
+    "lon": -77.9169,
+    "lat": 21.3808,
+    "population": 347562
+  },
+  {
+    "id": "c3556969",
+    "country": "cu",
+    "name": "Holguín",
+    "aliases": [],
+    "lon": -76.2631,
+    "lat": 20.8872,
+    "population": 319102
+  },
+  {
+    "id": "c3537906",
+    "country": "cu",
+    "name": "Santa Clara",
+    "aliases": [],
+    "lon": -79.9658,
+    "lat": 22.4071,
+    "population": 250512
+  },
+  {
+    "id": "c3534915",
+    "country": "cu",
+    "name": "Trinidad",
+    "aliases": [],
+    "lon": -79.9835,
+    "lat": 21.7996,
+    "population": 60206
+  },
+  {
+    "id": "c292223",
+    "country": "ae",
+    "name": "Dubaï",
+    "aliases": [],
+    "lon": 55.3093,
+    "lat": 25.0773,
+    "population": 3790000
+  },
+  {
+    "id": "c292672",
+    "country": "ae",
+    "name": "Charjah",
+    "aliases": [
+      "Sharjah"
+    ],
+    "lon": 55.4122,
+    "lat": 25.3342,
+    "population": 1800000
+  },
+  {
+    "id": "c292913",
+    "country": "ae",
+    "name": "Al-Aïn",
+    "aliases": [
+      "Al Ain City"
+    ],
+    "lon": 55.7606,
+    "lat": 24.1917,
+    "population": 846747
+  },
+  {
+    "id": "c292932",
+    "country": "ae",
+    "name": "Ajman",
+    "aliases": [],
+    "lon": 55.4788,
+    "lat": 25.4018,
+    "population": 490035
+  },
+  {
+    "id": "c291074",
+    "country": "ae",
+    "name": "Ras el Khaïmah",
+    "aliases": [
+      "Ras Al Khaimah"
+    ],
+    "lon": 55.9432,
+    "lat": 25.7895,
+    "population": 351943
+  },
+  {
+    "id": "c3657509",
+    "country": "ec",
+    "name": "Guayaquil",
+    "aliases": [],
+    "lon": -79.8862,
+    "lat": -2.1962,
+    "population": 2723665
+  },
+  {
+    "id": "c3658666",
+    "country": "ec",
+    "name": "Cuenca",
+    "aliases": [],
+    "lon": -78.9963,
+    "lat": -2.8953,
+    "population": 636996
+  },
+  {
+    "id": "c3654410",
+    "country": "ec",
+    "name": "Manta",
+    "aliases": [],
+    "lon": -80.7314,
+    "lat": -0.9494,
+    "population": 264281
+  },
+  {
+    "id": "c3660689",
+    "country": "ec",
+    "name": "Ambato",
+    "aliases": [],
+    "lon": -78.6167,
+    "lat": -1.2491,
+    "population": 387309
+  },
+  {
+    "id": "c3654667",
+    "country": "ec",
+    "name": "Loja",
+    "aliases": [],
+    "lon": -79.2042,
+    "lat": -3.9931,
+    "population": 274112
+  },
+  {
+    "id": "c338832",
+    "country": "et",
+    "name": "Dire Dawa",
+    "aliases": [],
+    "lon": 41.8661,
+    "lat": 9.5931,
+    "population": 343000
+  },
+  {
+    "id": "c331180",
+    "country": "et",
+    "name": "Mekele",
+    "aliases": [
+      "Mek'ele"
+    ],
+    "lon": 39.4753,
+    "lat": 13.4967,
+    "population": 457900
+  },
+  {
+    "id": "c336014",
+    "country": "et",
+    "name": "Gondar",
+    "aliases": [
+      "Gonder"
+    ],
+    "lon": 37.4667,
+    "lat": 12.6,
+    "population": 466000
+  },
+  {
+    "id": "c342884",
+    "country": "et",
+    "name": "Bahir Dar",
+    "aliases": [],
+    "lon": 37.3908,
+    "lat": 11.5936,
+    "population": 350000
+  },
+  {
+    "id": "c343137",
+    "country": "et",
+    "name": "Hawassa",
+    "aliases": [
+      "Awasa"
+    ],
+    "lon": 38.4763,
+    "lat": 7.0621,
+    "population": 422200
+  },
+  {
+    "id": "c2298890",
+    "country": "gh",
+    "name": "Kumasi",
+    "aliases": [],
+    "lon": -1.6244,
+    "lat": 6.6885,
+    "population": 2544530
+  },
+  {
+    "id": "c2294877",
+    "country": "gh",
+    "name": "Tamale",
+    "aliases": [],
+    "lon": -0.8393,
+    "lat": 9.4008,
+    "population": 464316
+  },
+  {
+    "id": "c2295458",
+    "country": "gh",
+    "name": "Sekondi-Takoradi",
+    "aliases": [],
+    "lon": -1.7577,
+    "lat": 4.9268,
+    "population": 138872
+  },
+  {
+    "id": "c2302357",
+    "country": "gh",
+    "name": "Cape Coast",
+    "aliases": [],
+    "lon": -1.2466,
+    "lat": 5.1053,
+    "population": 212426
+  },
+  {
+    "id": "c2295021",
+    "country": "gh",
+    "name": "Sunyani",
+    "aliases": [],
+    "lon": -2.3268,
+    "lat": 7.3399,
+    "population": 92825
+  },
+  {
+    "id": "c734077",
+    "country": "gr",
+    "name": "Thessalonique",
+    "aliases": [
+      "Thessaloníki",
+      "Thessaloniki"
+    ],
+    "lon": 22.9349,
+    "lat": 40.6407,
+    "population": 317778
+  },
+  {
+    "id": "c255683",
+    "country": "gr",
+    "name": "Patras",
+    "aliases": [
+      "Pátra",
+      "Patra"
+    ],
+    "lon": 21.7351,
+    "lat": 38.2462,
+    "population": 168034
+  },
+  {
+    "id": "c261745",
+    "country": "gr",
+    "name": "Héraklion",
+    "aliases": [
+      "Irákleion",
+      "Irakleion"
+    ],
+    "lon": 25.1434,
+    "lat": 35.3279,
+    "population": 137154
+  },
+  {
+    "id": "c258576",
+    "country": "gr",
+    "name": "Larissa",
+    "aliases": [
+      "Lárisa",
+      "Larisa"
+    ],
+    "lon": 22.4211,
+    "lat": 39.6285,
+    "population": 146926
+  },
+  {
+    "id": "c400666",
+    "country": "gr",
+    "name": "Rhodes",
+    "aliases": [],
+    "lon": 28.222,
+    "lat": 36.4356,
+    "population": 56128
+  },
+  {
+    "id": "c3590979",
+    "country": "gt",
+    "name": "Quetzaltenango",
+    "aliases": [],
+    "lon": -91.5232,
+    "lat": 14.8446,
+    "population": 180706
+  },
+  {
+    "id": "c3595803",
+    "country": "gt",
+    "name": "Escuintla",
+    "aliases": [],
+    "lon": -90.7882,
+    "lat": 14.301,
+    "population": 156313
+  },
+  {
+    "id": "c3599699",
+    "country": "gt",
+    "name": "Antigua Guatemala",
+    "aliases": [],
+    "lon": -90.7332,
+    "lat": 14.5564,
+    "population": 46054
+  },
+  {
+    "id": "c3591062",
+    "country": "gt",
+    "name": "Puerto Barrios",
+    "aliases": [],
+    "lon": -88.5979,
+    "lat": 15.7272,
+    "population": 100593
+  },
+  {
+    "id": "c3598119",
+    "country": "gt",
+    "name": "Cobán",
+    "aliases": [],
+    "lon": -90.3745,
+    "lat": 15.4703,
+    "population": 212047
+  },
+  {
+    "id": "c2416969",
+    "country": "gn",
+    "name": "Nzérékoré",
+    "aliases": [],
+    "lon": -8.8179,
+    "lat": 7.7562,
+    "population": 226426
+  },
+  {
+    "id": "c2419992",
+    "country": "gn",
+    "name": "Kankan",
+    "aliases": [],
+    "lon": -9.3057,
+    "lat": 10.3854,
+    "population": 221428
+  },
+  {
+    "id": "c2419533",
+    "country": "gn",
+    "name": "Kindia",
+    "aliases": [],
+    "lon": -12.8658,
+    "lat": 10.0569,
+    "population": 161024
+  },
+  {
+    "id": "c2418362",
+    "country": "gn",
+    "name": "Labé",
+    "aliases": [],
+    "lon": -12.2833,
+    "lat": 11.3182,
+    "population": 107571
+  },
+  {
+    "id": "c2422924",
+    "country": "gn",
+    "name": "Boké",
+    "aliases": [],
+    "lon": -14.2905,
+    "lat": 10.9322,
+    "population": 63736
+  },
+  {
+    "id": "c3728474",
+    "country": "ht",
+    "name": "Cap-Haïtien",
+    "aliases": [],
+    "lon": -72.1981,
+    "lat": 19.7594,
+    "population": 134815
+  },
+  {
+    "id": "c3728097",
+    "country": "ht",
+    "name": "Les Cayes",
+    "aliases": [],
+    "lon": -73.7495,
+    "lat": 18.192,
+    "population": 125799
+  },
+  {
+    "id": "c3724696",
+    "country": "ht",
+    "name": "Gonaïves",
+    "aliases": [],
+    "lon": -72.6893,
+    "lat": 19.4476,
+    "population": 84961
+  },
+  {
+    "id": "c3723779",
+    "country": "ht",
+    "name": "Jacmel",
+    "aliases": [],
+    "lon": -72.5369,
+    "lat": 18.2357,
+    "population": 137966
+  },
+  {
+    "id": "c3718420",
+    "country": "ht",
+    "name": "Port-de-Paix",
+    "aliases": [],
+    "lon": -72.8304,
+    "lat": 19.9398,
+    "population": 306217
+  },
+  {
+    "id": "c3601782",
+    "country": "hn",
+    "name": "San Pedro Sula",
+    "aliases": [],
+    "lon": -88.0259,
+    "lat": 15.5059,
+    "population": 801259
+  },
+  {
+    "id": "c3608248",
+    "country": "hn",
+    "name": "La Ceiba",
+    "aliases": [],
+    "lon": -86.7822,
+    "lat": 15.7597,
+    "population": 222055
+  },
+  {
+    "id": "c3613528",
+    "country": "hn",
+    "name": "Choluteca",
+    "aliases": [
+      "Ciudad Choluteca"
+    ],
+    "lon": -87.1788,
+    "lat": 13.3057,
+    "population": 75872
+  },
+  {
+    "id": "c3613321",
+    "country": "hn",
+    "name": "Comayagua",
+    "aliases": [],
+    "lon": -87.6397,
+    "lat": 14.4558,
+    "population": 58784
+  },
+  {
+    "id": "c3600026",
+    "country": "hn",
+    "name": "Puerto Cortés",
+    "aliases": [
+      "Puerto Cortez"
+    ],
+    "lon": -87.9297,
+    "lat": 15.8256,
+    "population": 142311
+  },
+  {
+    "id": "c99532",
+    "country": "iq",
+    "name": "Bassorah",
+    "aliases": [
+      "Basrah"
+    ],
+    "lon": 47.7804,
+    "lat": 30.5085,
+    "population": 1326564
+  },
+  {
+    "id": "c99072",
+    "country": "iq",
+    "name": "Mossoul",
+    "aliases": [
+      "Mosul"
+    ],
+    "lon": 43.1189,
+    "lat": 36.335,
+    "population": 1683000
+  },
+  {
+    "id": "c95446",
+    "country": "iq",
+    "name": "Erbil",
+    "aliases": [],
+    "lon": 44.0094,
+    "lat": 36.1912,
+    "population": 1612700
+  },
+  {
+    "id": "c94787",
+    "country": "iq",
+    "name": "Kirkouk",
+    "aliases": [
+      "Kirkuk"
+    ],
+    "lon": 44.3922,
+    "lat": 35.4681,
+    "population": 1031000
+  },
+  {
+    "id": "c98860",
+    "country": "iq",
+    "name": "Nadjaf",
+    "aliases": [
+      "Najaf"
+    ],
+    "lon": 44.3463,
+    "lat": 32.0259,
+    "population": 482576
+  },
+  {
+    "id": "c293397",
+    "country": "il",
+    "name": "Tel Aviv-Jaffa",
+    "aliases": [
+      "Tel Aviv"
+    ],
+    "lon": 34.7806,
+    "lat": 32.0809,
+    "population": 432892
+  },
+  {
+    "id": "c294801",
+    "country": "il",
+    "name": "Haïfa",
+    "aliases": [],
+    "lon": 34.9993,
+    "lat": 32.813,
+    "population": 285316
+  },
+  {
+    "id": "c295277",
+    "country": "il",
+    "name": "Eilat",
+    "aliases": [],
+    "lon": 34.9482,
+    "lat": 29.5581,
+    "population": 56004
+  },
+  {
+    "id": "c295530",
+    "country": "il",
+    "name": "Beer-Sheva",
+    "aliases": [
+      "Beersheba"
+    ],
+    "lon": 34.7913,
+    "lat": 31.2518,
+    "population": 186600
+  },
+  {
+    "id": "c294098",
+    "country": "il",
+    "name": "Nazareth",
+    "aliases": [],
+    "lon": 35.2972,
+    "lat": 32.7009,
+    "population": 77445
+  },
+  {
+    "id": "c250090",
+    "country": "jo",
+    "name": "Zarqa",
+    "aliases": [],
+    "lon": 36.088,
+    "lat": 32.0728,
+    "population": 792665
+  },
+  {
+    "id": "c248946",
+    "country": "jo",
+    "name": "Irbid",
+    "aliases": [],
+    "lon": 35.85,
+    "lat": 32.5556,
+    "population": 569068
+  },
+  {
+    "id": "c250774",
+    "country": "jo",
+    "name": "Aqaba",
+    "aliases": [],
+    "lon": 35.0078,
+    "lat": 29.5267,
+    "population": 95048
+  },
+  {
+    "id": "c248370",
+    "country": "jo",
+    "name": "Madaba",
+    "aliases": [],
+    "lon": 35.7939,
+    "lat": 31.716,
+    "population": 82335
+  },
+  {
+    "id": "c248875",
+    "country": "jo",
+    "name": "Jerash",
+    "aliases": [
+      "Jarash"
+    ],
+    "lon": 35.8993,
+    "lat": 32.2808,
+    "population": 27046
+  },
+  {
+    "id": "c1526384",
+    "country": "kz",
+    "name": "Almaty",
+    "aliases": [],
+    "lon": 76.9115,
+    "lat": 43.2525,
+    "population": 1977011
+  },
+  {
+    "id": "c1518980",
+    "country": "kz",
+    "name": "Chymkent",
+    "aliases": [
+      "Shymkent"
+    ],
+    "lon": 69.6004,
+    "lat": 42.3099,
+    "population": 1200000
+  },
+  {
+    "id": "c609655",
+    "country": "kz",
+    "name": "Karaganda",
+    "aliases": [
+      "Karagandy"
+    ],
+    "lon": 73.1021,
+    "lat": 49.8019,
+    "population": 497777
+  },
+  {
+    "id": "c610612",
+    "country": "kz",
+    "name": "Aktaou",
+    "aliases": [
+      "Aktau"
+    ],
+    "lon": 51.1739,
+    "lat": 43.6611,
+    "population": 147443
+  },
+  {
+    "id": "c1520316",
+    "country": "kz",
+    "name": "Öskemen",
+    "aliases": [
+      "Oust-Kamenogorsk",
+      "Ust-Kamenogorsk"
+    ],
+    "lon": 82.6059,
+    "lat": 49.9714,
+    "population": 319067
+  },
+  {
+    "id": "c186301",
+    "country": "ke",
+    "name": "Mombasa",
+    "aliases": [],
+    "lon": 39.6636,
+    "lat": -4.0547,
+    "population": 1208333
+  },
+  {
+    "id": "c191245",
+    "country": "ke",
+    "name": "Kisumu",
+    "aliases": [],
+    "lon": 34.7617,
+    "lat": -0.1022,
+    "population": 397957
+  },
+  {
+    "id": "c184622",
+    "country": "ke",
+    "name": "Nakuru",
+    "aliases": [],
+    "lon": 36.0722,
+    "lat": -0.3072,
+    "population": 570674
+  },
+  {
+    "id": "c198629",
+    "country": "ke",
+    "name": "Eldoret",
+    "aliases": [],
+    "lon": 35.2699,
+    "lat": 0.5204,
+    "population": 475716
+  },
+  {
+    "id": "c187968",
+    "country": "ke",
+    "name": "Malindi",
+    "aliases": [],
+    "lon": 40.1169,
+    "lat": -3.218,
+    "population": 119859
+  },
+  {
+    "id": "c88319",
+    "country": "ly",
+    "name": "Benghazi",
+    "aliases": [],
+    "lon": 20.0686,
+    "lat": 32.1149,
+    "population": 757490
+  },
+  {
+    "id": "c2214846",
+    "country": "ly",
+    "name": "Misrata",
+    "aliases": [
+      "Misratah"
+    ],
+    "lon": 15.0925,
+    "lat": 32.3754,
+    "population": 355657
+  },
+  {
+    "id": "c2212775",
+    "country": "ly",
+    "name": "Sebha",
+    "aliases": [
+      "Sabha"
+    ],
+    "lon": 14.4283,
+    "lat": 27.0377,
+    "population": 149329
+  },
+  {
+    "id": "c81302",
+    "country": "ly",
+    "name": "Tobrouk",
+    "aliases": [
+      "Tobruk"
+    ],
+    "lon": 23.9539,
+    "lat": 32.0896,
+    "population": 141499
+  },
+  {
+    "id": "c2210554",
+    "country": "ly",
+    "name": "Syrte",
+    "aliases": [
+      "Sirte"
+    ],
+    "lon": 16.5887,
+    "lat": 31.2089,
+    "population": 106705
+  },
+  {
+    "id": "c1053384",
+    "country": "mg",
+    "name": "Toamasina",
+    "aliases": [],
+    "lon": 49.4023,
+    "lat": -18.1492,
+    "population": 345107
+  },
+  {
+    "id": "c1062663",
+    "country": "mg",
+    "name": "Mahajanga",
+    "aliases": [],
+    "lon": 46.3167,
+    "lat": -15.7167,
+    "population": 260556
+  },
+  {
+    "id": "c1064890",
+    "country": "mg",
+    "name": "Fianarantsoa",
+    "aliases": [],
+    "lon": 47.0857,
+    "lat": -21.4527,
+    "population": 203105
+  },
+  {
+    "id": "c1055429",
+    "country": "mg",
+    "name": "Toliara",
+    "aliases": [],
+    "lon": 43.6667,
+    "lat": -23.35,
+    "population": 178725
+  },
+  {
+    "id": "c1069129",
+    "country": "mg",
+    "name": "Antsiranana",
+    "aliases": [],
+    "lon": 49.2919,
+    "lat": -12.3173,
+    "population": 136959
+  },
+  {
+    "id": "c1735106",
+    "country": "my",
+    "name": "George Town",
+    "aliases": [],
+    "lon": 100.3354,
+    "lat": 5.4112,
+    "population": 158336
+  },
+  {
+    "id": "c1732752",
+    "country": "my",
+    "name": "Johor Bahru",
+    "aliases": [],
+    "lon": 103.7578,
+    "lat": 1.4655,
+    "population": 858118
+  },
+  {
+    "id": "c1733432",
+    "country": "my",
+    "name": "Kota Kinabalu",
+    "aliases": [],
+    "lon": 116.0724,
+    "lat": 5.9749,
+    "population": 500421
+  },
+  {
+    "id": "c1735634",
+    "country": "my",
+    "name": "Kuching",
+    "aliases": [],
+    "lon": 110.3333,
+    "lat": 1.55,
+    "population": 402738
+  },
+  {
+    "id": "c1734759",
+    "country": "my",
+    "name": "Malacca",
+    "aliases": [],
+    "lon": 102.2405,
+    "lat": 2.196,
+    "population": 579000
+  },
+  {
+    "id": "c931755",
+    "country": "mw",
+    "name": "Blantyre",
+    "aliases": [],
+    "lon": 35.0085,
+    "lat": -15.785,
+    "population": 902588
+  },
+  {
+    "id": "c925475",
+    "country": "mw",
+    "name": "Mzuzu",
+    "aliases": [],
+    "lon": 34.0207,
+    "lat": -11.4656,
+    "population": 249564
+  },
+  {
+    "id": "c923295",
+    "country": "mw",
+    "name": "Zomba",
+    "aliases": [],
+    "lon": 35.3188,
+    "lat": -15.386,
+    "population": 118440
+  },
+  {
+    "id": "c927246",
+    "country": "mw",
+    "name": "Mangochi",
+    "aliases": [],
+    "lon": 35.2645,
+    "lat": -14.4781,
+    "population": 60338
+  },
+  {
+    "id": "c235715",
+    "country": "mw",
+    "name": "Karonga",
+    "aliases": [],
+    "lon": 33.9333,
+    "lat": -9.9333,
+    "population": 69486
+  },
+  {
+    "id": "c2449067",
+    "country": "ml",
+    "name": "Tombouctou",
+    "aliases": [
+      "Timbuktu"
+    ],
+    "lon": -3.0074,
+    "lat": 16.7735,
+    "population": 84208
+  },
+  {
+    "id": "c2457163",
+    "country": "ml",
+    "name": "Gao",
+    "aliases": [],
+    "lon": -0.0447,
+    "lat": 16.2717,
+    "population": 133110
+  },
+  {
+    "id": "c2453348",
+    "country": "ml",
+    "name": "Mopti",
+    "aliases": [],
+    "lon": -4.183,
+    "lat": 14.4843,
+    "population": 186187
+  },
+  {
+    "id": "c2451478",
+    "country": "ml",
+    "name": "Ségou",
+    "aliases": [],
+    "lon": -6.2595,
+    "lat": 13.4403,
+    "population": 205787
+  },
+  {
+    "id": "c2455518",
+    "country": "ml",
+    "name": "Kayes",
+    "aliases": [],
+    "lon": -11.4439,
+    "lat": 14.4478,
+    "population": 194716
+  },
+  {
+    "id": "c2553604",
+    "country": "ma",
+    "name": "Casablanca",
+    "aliases": [],
+    "lon": -7.6114,
+    "lat": 33.5883,
+    "population": 3665954
+  },
+  {
+    "id": "c2542997",
+    "country": "ma",
+    "name": "Marrakech",
+    "aliases": [
+      "Marrakesh"
+    ],
+    "lon": -7.9999,
+    "lat": 31.6342,
+    "population": 995871
+  },
+  {
+    "id": "c2548885",
+    "country": "ma",
+    "name": "Fès",
+    "aliases": [],
+    "lon": -5.0003,
+    "lat": 34.0331,
+    "population": 1191905
+  },
+  {
+    "id": "c2530335",
+    "country": "ma",
+    "name": "Tanger",
+    "aliases": [
+      "Tangier"
+    ],
+    "lon": -5.7998,
+    "lat": 35.7673,
+    "population": 1035141
+  },
+  {
+    "id": "c2561668",
+    "country": "ma",
+    "name": "Agadir",
+    "aliases": [],
+    "lon": -9.5981,
+    "lat": 30.4202,
+    "population": 698310
+  },
+  {
+    "id": "c2377457",
+    "country": "mr",
+    "name": "Nouadhibou",
+    "aliases": [],
+    "lon": -17.0384,
+    "lat": 20.9419,
+    "population": 146048
+  },
+  {
+    "id": "c2378538",
+    "country": "mr",
+    "name": "Kiffa",
+    "aliases": [],
+    "lon": -11.4021,
+    "lat": 16.6207,
+    "population": 62051
+  },
+  {
+    "id": "c2376898",
+    "country": "mr",
+    "name": "Rosso",
+    "aliases": [],
+    "lon": -15.805,
+    "lat": 16.5138,
+    "population": 15870
+  },
+  {
+    "id": "c2375558",
+    "country": "mr",
+    "name": "Zouérate",
+    "aliases": [
+      "Zouérat",
+      "Zouerat"
+    ],
+    "lon": -12.4713,
+    "lat": 22.7354,
+    "population": 55183
+  },
+  {
+    "id": "c2381334",
+    "country": "mr",
+    "name": "Atar",
+    "aliases": [],
+    "lon": -13.0464,
+    "lat": 20.5188,
+    "population": 31133
+  },
+  {
+    "id": "c2031405",
+    "country": "mn",
+    "name": "Erdenet",
+    "aliases": [],
+    "lon": 104.0833,
+    "lat": 49.0333,
+    "population": 97814
+  },
+  {
+    "id": "c2031964",
+    "country": "mn",
+    "name": "Darkhan",
+    "aliases": [
+      "Darhan"
+    ],
+    "lon": 105.9228,
+    "lat": 49.4867,
+    "population": 83883
+  },
+  {
+    "id": "c2032054",
+    "country": "mn",
+    "name": "Choibalsan",
+    "aliases": [],
+    "lon": 114.5326,
+    "lat": 48.0726,
+    "population": 44835
+  },
+  {
+    "id": "c1516048",
+    "country": "mn",
+    "name": "Khovd",
+    "aliases": [],
+    "lon": 91.6419,
+    "lat": 48.0056,
+    "population": 29800
+  },
+  {
+    "id": "c2029945",
+    "country": "mn",
+    "name": "Mörön",
+    "aliases": [
+      "Moeroen"
+    ],
+    "lon": 100.1625,
+    "lat": 49.6342,
+    "population": 39404
+  },
+  {
+    "id": "c1052373",
+    "country": "mz",
+    "name": "Beira",
+    "aliases": [],
+    "lon": 34.8389,
+    "lat": -19.8436,
+    "population": 687764
+  },
+  {
+    "id": "c1033356",
+    "country": "mz",
+    "name": "Nampula",
+    "aliases": [],
+    "lon": 39.2666,
+    "lat": -15.1165,
+    "population": 770379
+  },
+  {
+    "id": "c1028918",
+    "country": "mz",
+    "name": "Pemba",
+    "aliases": [],
+    "lon": 40.5178,
+    "lat": -12.9739,
+    "population": 232932
+  },
+  {
+    "id": "c1028434",
+    "country": "mz",
+    "name": "Quelimane",
+    "aliases": [],
+    "lon": 36.8883,
+    "lat": -17.8786,
+    "population": 349842
+  },
+  {
+    "id": "c1026014",
+    "country": "mz",
+    "name": "Tete",
+    "aliases": [],
+    "lon": 33.5867,
+    "lat": -16.1564,
+    "population": 357000
+  },
+  {
+    "id": "c1282898",
+    "country": "np",
+    "name": "Pokhara",
+    "aliases": [],
+    "lon": 83.9685,
+    "lat": 28.2669,
+    "population": 600051
+  },
+  {
+    "id": "c1283582",
+    "country": "np",
+    "name": "Biratnagar",
+    "aliases": [],
+    "lon": 87.2701,
+    "lat": 26.4551,
+    "population": 244750
+  },
+  {
+    "id": "c1283613",
+    "country": "np",
+    "name": "Bharatpur",
+    "aliases": [],
+    "lon": 84.4365,
+    "lat": 27.6803,
+    "population": 369377
+  },
+  {
+    "id": "c1283581",
+    "country": "np",
+    "name": "Birgunj",
+    "aliases": [
+      "Birgañj",
+      "Birganj"
+    ],
+    "lon": 84.8805,
+    "lat": 27.0174,
+    "population": 268273
+  },
+  {
+    "id": "c6941099",
+    "country": "np",
+    "name": "Nepalgunj",
+    "aliases": [],
+    "lon": 81.6167,
+    "lat": 28.05,
+    "population": 166258
+  },
+  {
+    "id": "c2437798",
+    "country": "ne",
+    "name": "Zinder",
+    "aliases": [],
+    "lon": 8.9881,
+    "lat": 13.8072,
+    "population": 318874
+  },
+  {
+    "id": "c2441291",
+    "country": "ne",
+    "name": "Maradi",
+    "aliases": [],
+    "lon": 7.1017,
+    "lat": 13.5,
+    "population": 361702
+  },
+  {
+    "id": "c2448085",
+    "country": "ne",
+    "name": "Agadez",
+    "aliases": [],
+    "lon": 7.9911,
+    "lat": 16.9733,
+    "population": 149549
+  },
+  {
+    "id": "c2439376",
+    "country": "ne",
+    "name": "Tahoua",
+    "aliases": [],
+    "lon": 5.2692,
+    "lat": 14.8888,
+    "population": 159468
+  },
+  {
+    "id": "c2445488",
+    "country": "ne",
+    "name": "Dosso",
+    "aliases": [],
+    "lon": 3.1937,
+    "lat": 13.049,
+    "population": 79406
+  },
+  {
+    "id": "c233346",
+    "country": "ug",
+    "name": "Gulu",
+    "aliases": [],
+    "lon": 32.299,
+    "lat": 2.7746,
+    "population": 177400
+  },
+  {
+    "id": "c229268",
+    "country": "ug",
+    "name": "Mbarara",
+    "aliases": [],
+    "lon": 30.6485,
+    "lat": -0.6047,
+    "population": 221300
+  },
+  {
+    "id": "c233114",
+    "country": "ug",
+    "name": "Jinja",
+    "aliases": [],
+    "lon": 33.2032,
+    "lat": 0.439,
+    "population": 93061
+  },
+  {
+    "id": "c233508",
+    "country": "ug",
+    "name": "Entebbe",
+    "aliases": [],
+    "lon": 32.4795,
+    "lat": 0.0562,
+    "population": 102600
+  },
+  {
+    "id": "c229278",
+    "country": "ug",
+    "name": "Mbale",
+    "aliases": [],
+    "lon": 34.175,
+    "lat": 1.0821,
+    "population": 111300
+  },
+  {
+    "id": "c1216265",
+    "country": "uz",
+    "name": "Samarcande",
+    "aliases": [
+      "Samarkand"
+    ],
+    "lon": 66.9645,
+    "lat": 39.6546,
+    "population": 595200
+  },
+  {
+    "id": "c1217662",
+    "country": "uz",
+    "name": "Boukhara",
+    "aliases": [
+      "Bukhara"
+    ],
+    "lon": 64.4307,
+    "lat": 39.7703,
+    "population": 280187
+  },
+  {
+    "id": "c1513604",
+    "country": "uz",
+    "name": "Khiva",
+    "aliases": [
+      "Xiva"
+    ],
+    "lon": 60.3641,
+    "lat": 41.3856,
+    "population": 115000
+  },
+  {
+    "id": "c1513157",
+    "country": "uz",
+    "name": "Namangan",
+    "aliases": [],
+    "lon": 71.6726,
+    "lat": 40.9983,
+    "population": 713220
+  },
+  {
+    "id": "c601294",
+    "country": "uz",
+    "name": "Noukous",
+    "aliases": [
+      "Nukus"
+    ],
+    "lon": 59.6058,
+    "lat": 42.4586,
+    "population": 332500
+  },
+  {
+    "id": "c2092740",
+    "country": "pg",
+    "name": "Lae",
+    "aliases": [],
+    "lon": 146.9961,
+    "lat": -6.7233,
+    "population": 76255
+  },
+  {
+    "id": "c2090409",
+    "country": "pg",
+    "name": "Mount Hagen",
+    "aliases": [],
+    "lon": 144.2306,
+    "lat": -5.8575,
+    "population": 33623
+  },
+  {
+    "id": "c2091996",
+    "country": "pg",
+    "name": "Madang",
+    "aliases": [],
+    "lon": 145.787,
+    "lat": -5.2215,
+    "population": 27419
+  },
+  {
+    "id": "c2096742",
+    "country": "pg",
+    "name": "Goroka",
+    "aliases": [],
+    "lon": 145.3867,
+    "lat": -6.085,
+    "population": 18503
+  },
+  {
+    "id": "c2083537",
+    "country": "pg",
+    "name": "Wewak",
+    "aliases": [],
+    "lon": 143.6323,
+    "lat": -3.5496,
+    "population": 18230
+  },
+  {
+    "id": "c2747891",
+    "country": "nl",
+    "name": "Rotterdam",
+    "aliases": [],
+    "lon": 4.4792,
+    "lat": 51.9225,
+    "population": 868135
+  },
+  {
+    "id": "c2747373",
+    "country": "nl",
+    "name": "La Haye",
+    "aliases": [
+      "Den Haag",
+      "The Hague"
+    ],
+    "lon": 4.2986,
+    "lat": 52.0767,
+    "population": 474292
+  },
+  {
+    "id": "c2745912",
+    "country": "nl",
+    "name": "Utrecht",
+    "aliases": [],
+    "lon": 5.1222,
+    "lat": 52.0908,
+    "population": 376435
+  },
+  {
+    "id": "c2756253",
+    "country": "nl",
+    "name": "Eindhoven",
+    "aliases": [],
+    "lon": 5.4778,
+    "lat": 51.4408,
+    "population": 235691
+  },
+  {
+    "id": "c2755251",
+    "country": "nl",
+    "name": "Groningue",
+    "aliases": [
+      "Groningen"
+    ],
+    "lon": 6.5667,
+    "lat": 53.2192,
+    "population": 244807
+  },
+  {
+    "id": "c3947322",
+    "country": "pe",
+    "name": "Arequipa",
+    "aliases": [],
+    "lon": -71.5375,
+    "lat": -16.399,
+    "population": 1195700
+  },
+  {
+    "id": "c3941584",
+    "country": "pe",
+    "name": "Cuzco",
+    "aliases": [
+      "Cusco"
+    ],
+    "lon": -71.967,
+    "lat": -13.5319,
+    "population": 428450
+  },
+  {
+    "id": "c3691175",
+    "country": "pe",
+    "name": "Trujillo",
+    "aliases": [],
+    "lon": -79.03,
+    "lat": -8.116,
+    "population": 1067700
+  },
+  {
+    "id": "c3696183",
+    "country": "pe",
+    "name": "Iquitos",
+    "aliases": [],
+    "lon": -73.2529,
+    "lat": -3.7481,
+    "population": 377609
+  },
+  {
+    "id": "c3931276",
+    "country": "pe",
+    "name": "Puno",
+    "aliases": [],
+    "lon": -70.022,
+    "lat": -15.84,
+    "population": 128637
+  },
+  {
+    "id": "c1717512",
+    "country": "ph",
+    "name": "Cebu",
+    "aliases": [
+      "Cebu City"
+    ],
+    "lon": 123.8907,
+    "lat": 10.3167,
+    "population": 965332
+  },
+  {
+    "id": "c1715348",
+    "country": "ph",
+    "name": "Davao",
+    "aliases": [],
+    "lon": 125.6128,
+    "lat": 7.0731,
+    "population": 1848947
+  },
+  {
+    "id": "c1679432",
+    "country": "ph",
+    "name": "Zamboanga",
+    "aliases": [],
+    "lon": 122.0739,
+    "lat": 6.9103,
+    "population": 1018849
+  },
+  {
+    "id": "c1728930",
+    "country": "ph",
+    "name": "Baguio",
+    "aliases": [],
+    "lon": 120.5931,
+    "lat": 16.4164,
+    "population": 272714
+  },
+  {
+    "id": "c1711005",
+    "country": "ph",
+    "name": "Iloilo",
+    "aliases": [],
+    "lon": 122.5644,
+    "lat": 10.6969,
+    "population": 473728
+  },
+  {
+    "id": "c3094802",
+    "country": "pl",
+    "name": "Cracovie",
+    "aliases": [
+      "Kraków",
+      "Krakow"
+    ],
+    "lon": 19.9366,
+    "lat": 50.0614,
+    "population": 816614
+  },
+  {
+    "id": "c3099434",
+    "country": "pl",
+    "name": "Gdańsk",
+    "aliases": [],
+    "lon": 18.6491,
+    "lat": 54.3523,
+    "population": 487371
+  },
+  {
+    "id": "c3081368",
+    "country": "pl",
+    "name": "Wrocław",
+    "aliases": [
+      "Wroclaw"
+    ],
+    "lon": 17.0301,
+    "lat": 51.1029,
+    "population": 672545
+  },
+  {
+    "id": "c3088171",
+    "country": "pl",
+    "name": "Poznań",
+    "aliases": [],
+    "lon": 16.9299,
+    "lat": 52.4069,
+    "population": 536151
+  },
+  {
+    "id": "c3093133",
+    "country": "pl",
+    "name": "Łódź",
+    "aliases": [
+      "Lodz"
+    ],
+    "lon": 19.4739,
+    "lat": 51.7706,
+    "population": 639890
+  },
+  {
+    "id": "c2735943",
+    "country": "pt",
+    "name": "Porto",
+    "aliases": [],
+    "lon": -8.611,
+    "lat": 41.1485,
+    "population": 252687
+  },
+  {
+    "id": "c2742032",
+    "country": "pt",
+    "name": "Braga",
+    "aliases": [],
+    "lon": -8.4231,
+    "lat": 41.5514,
+    "population": 193324
+  },
+  {
+    "id": "c2740637",
+    "country": "pt",
+    "name": "Coimbra",
+    "aliases": [],
+    "lon": -8.42,
+    "lat": 40.2069,
+    "population": 140796
+  },
+  {
+    "id": "c2268339",
+    "country": "pt",
+    "name": "Faro",
+    "aliases": [],
+    "lon": -7.9272,
+    "lat": 37.0187,
+    "population": 70347
+  },
+  {
+    "id": "c2267827",
+    "country": "pt",
+    "name": "Funchal",
+    "aliases": [],
+    "lon": -16.9255,
+    "lat": 32.6657,
+    "population": 105795
+  },
+  {
+    "id": "c922704",
+    "country": "cd",
+    "name": "Lubumbashi",
+    "aliases": [],
+    "lon": 27.4794,
+    "lat": -11.6609,
+    "population": 2221925
+  },
+  {
+    "id": "c212730",
+    "country": "cd",
+    "name": "Kisangani",
+    "aliases": [],
+    "lon": 25.191,
+    "lat": 0.5153,
+    "population": 1602144
+  },
+  {
+    "id": "c216281",
+    "country": "cd",
+    "name": "Goma",
+    "aliases": [],
+    "lon": 29.2285,
+    "lat": -1.6741,
+    "population": 78200
+  },
+  {
+    "id": "c209228",
+    "country": "cd",
+    "name": "Mbuji-Mayi",
+    "aliases": [],
+    "lon": 23.5898,
+    "lat": -6.136,
+    "population": 2101332
+  },
+  {
+    "id": "c2313002",
+    "country": "cd",
+    "name": "Matadi",
+    "aliases": [],
+    "lon": 13.4631,
+    "lat": -5.8386,
+    "population": 425662
+  },
+  {
+    "id": "c3492914",
+    "country": "do",
+    "name": "Santiago de los Caballeros",
+    "aliases": [],
+    "lon": -70.6908,
+    "lat": 19.4504,
+    "population": 1200000
+  },
+  {
+    "id": "c3500957",
+    "country": "do",
+    "name": "La Romana",
+    "aliases": [],
+    "lon": -68.9663,
+    "lat": 18.4233,
+    "population": 208437
+  },
+  {
+    "id": "c3493032",
+    "country": "do",
+    "name": "San Pedro de Macorís",
+    "aliases": [],
+    "lon": -69.3086,
+    "lat": 18.4539,
+    "population": 217899
+  },
+  {
+    "id": "c3493175",
+    "country": "do",
+    "name": "Puerto Plata",
+    "aliases": [],
+    "lon": -70.6884,
+    "lat": 19.7934,
+    "population": 146000
+  },
+  {
+    "id": "c3493240",
+    "country": "do",
+    "name": "Higüey",
+    "aliases": [
+      "Salvaleón de Higüey",
+      "Salvaleon de Higueey"
+    ],
+    "lon": -68.708,
+    "lat": 18.615,
+    "population": 123787
+  },
+  {
+    "id": "c681290",
+    "country": "ro",
+    "name": "Cluj-Napoca",
+    "aliases": [],
+    "lon": 23.6,
+    "lat": 46.7667,
+    "population": 286598
+  },
+  {
+    "id": "c665087",
+    "country": "ro",
+    "name": "Timișoara",
+    "aliases": [],
+    "lon": 21.2257,
+    "lat": 45.7537,
+    "population": 250849
+  },
+  {
+    "id": "c675810",
+    "country": "ro",
+    "name": "Iași",
+    "aliases": [],
+    "lon": 27.6,
+    "lat": 47.1667,
+    "population": 378954
+  },
+  {
+    "id": "c680963",
+    "country": "ro",
+    "name": "Constanța",
+    "aliases": [],
+    "lon": 28.6343,
+    "lat": 44.1807,
+    "population": 317832
+  },
+  {
+    "id": "c683844",
+    "country": "ro",
+    "name": "Brașov",
+    "aliases": [],
+    "lon": 25.6061,
+    "lat": 45.6486,
+    "population": 253200
+  },
+  {
+    "id": "c203112",
+    "country": "rw",
+    "name": "Butare",
+    "aliases": [
+      "Huye"
+    ],
+    "lon": 29.7394,
+    "lat": -2.5967,
+    "population": 62823
+  },
+  {
+    "id": "c202905",
+    "country": "rw",
+    "name": "Gisenyi",
+    "aliases": [
+      "Rubavu"
+    ],
+    "lon": 29.2564,
+    "lat": -1.7028,
+    "population": 172357
+  },
+  {
+    "id": "c201521",
+    "country": "rw",
+    "name": "Ruhengeri",
+    "aliases": [
+      "Musanze"
+    ],
+    "lon": 29.635,
+    "lat": -1.4998,
+    "population": 153368
+  },
+  {
+    "id": "c202326",
+    "country": "rw",
+    "name": "Cyangugu",
+    "aliases": [
+      "Rusizi"
+    ],
+    "lon": 28.9075,
+    "lat": -2.4846,
+    "population": 43866
+  },
+  {
+    "id": "c203104",
+    "country": "rw",
+    "name": "Byumba",
+    "aliases": [],
+    "lon": 30.0675,
+    "lat": -1.5763,
+    "population": 43134
+  },
+  {
+    "id": "c2246452",
+    "country": "sn",
+    "name": "Saint-Louis",
+    "aliases": [],
+    "lon": -16.4896,
+    "lat": 16.0179,
+    "population": 254171
+  },
+  {
+    "id": "c2244802",
+    "country": "sn",
+    "name": "Thiès",
+    "aliases": [],
+    "lon": -16.926,
+    "lat": 14.7894,
+    "population": 317763
+  },
+  {
+    "id": "c2244322",
+    "country": "sn",
+    "name": "Touba",
+    "aliases": [],
+    "lon": -15.8753,
+    "lat": 14.8623,
+    "population": 1120824
+  },
+  {
+    "id": "c2243940",
+    "country": "sn",
+    "name": "Ziguinchor",
+    "aliases": [],
+    "lon": -16.2733,
+    "lat": 12.568,
+    "population": 214874
+  },
+  {
+    "id": "c2250805",
+    "country": "sn",
+    "name": "Kaolack",
+    "aliases": [],
+    "lon": -16.0726,
+    "lat": 14.152,
+    "population": 298904
+  },
+  {
+    "id": "c55671",
+    "country": "so",
+    "name": "Kismaayo",
+    "aliases": [
+      "Kismayo"
+    ],
+    "lon": 42.5454,
+    "lat": -0.3582,
+    "population": 234852
+  },
+  {
+    "id": "c64536",
+    "country": "so",
+    "name": "Baidoa",
+    "aliases": [],
+    "lon": 43.6498,
+    "lat": 3.1138,
+    "population": 129839
+  },
+  {
+    "id": "c64013",
+    "country": "so",
+    "name": "Bosaso",
+    "aliases": [],
+    "lon": 49.1816,
+    "lat": 11.2842,
+    "population": 74287
+  },
+  {
+    "id": "c58933",
+    "country": "so",
+    "name": "Garowe",
+    "aliases": [
+      "Garoowe"
+    ],
+    "lon": 48.4828,
+    "lat": 8.4021,
+    "population": 57300
+  },
+  {
+    "id": "c59611",
+    "country": "so",
+    "name": "Galkayo",
+    "aliases": [
+      "Gaalkacyo"
+    ],
+    "lon": 47.4308,
+    "lat": 6.7697,
+    "population": 61200
+  },
+  {
+    "id": "c377039",
+    "country": "sd",
+    "name": "Port-Soudan",
+    "aliases": [
+      "Port Sudan"
+    ],
+    "lon": 37.2164,
+    "lat": 19.6175,
+    "population": 489725
+  },
+  {
+    "id": "c372753",
+    "country": "sd",
+    "name": "Kassala",
+    "aliases": [],
+    "lon": 36.4,
+    "lat": 15.451,
+    "population": 401477
+  },
+  {
+    "id": "c379003",
+    "country": "sd",
+    "name": "El-Obeid",
+    "aliases": [],
+    "lon": 30.2167,
+    "lat": 13.1842,
+    "population": 393311
+  },
+  {
+    "id": "c369004",
+    "country": "sd",
+    "name": "Nyala",
+    "aliases": [],
+    "lon": 24.8807,
+    "lat": 12.0489,
+    "population": 565734
+  },
+  {
+    "id": "c364103",
+    "country": "sd",
+    "name": "Wad Madani",
+    "aliases": [
+      "Wad Medani"
+    ],
+    "lon": 33.5199,
+    "lat": 14.4012,
+    "population": 332714
+  },
+  {
+    "id": "c363885",
+    "country": "ss",
+    "name": "Wau",
+    "aliases": [],
+    "lon": 27.9897,
+    "lat": 7.7011,
+    "population": 127384
+  },
+  {
+    "id": "c370737",
+    "country": "ss",
+    "name": "Malakal",
+    "aliases": [],
+    "lon": 31.6605,
+    "lat": 9.5334,
+    "population": 160765
+  },
+  {
+    "id": "c363619",
+    "country": "ss",
+    "name": "Yei",
+    "aliases": [],
+    "lon": 30.6764,
+    "lat": 4.0944,
+    "population": 260720
+  },
+  {
+    "id": "c377241",
+    "country": "ss",
+    "name": "Bor",
+    "aliases": [],
+    "lon": 31.5586,
+    "lat": 6.2089,
+    "population": 26782
+  },
+  {
+    "id": "c364367",
+    "country": "ss",
+    "name": "Aweil",
+    "aliases": [],
+    "lon": 27.3919,
+    "lat": 8.7619,
+    "population": 38745
+  },
+  {
+    "id": "c1248991",
+    "country": "lk",
+    "name": "Colombo",
+    "aliases": [],
+    "lon": 79.8487,
+    "lat": 6.9355,
+    "population": 648034
+  },
+  {
+    "id": "c1241622",
+    "country": "lk",
+    "name": "Kandy",
+    "aliases": [],
+    "lon": 80.6336,
+    "lat": 7.2906,
+    "population": 111701
+  },
+  {
+    "id": "c1246294",
+    "country": "lk",
+    "name": "Galle",
+    "aliases": [],
+    "lon": 80.2103,
+    "lat": 6.0461,
+    "population": 93118
+  },
+  {
+    "id": "c1242833",
+    "country": "lk",
+    "name": "Jaffna",
+    "aliases": [],
+    "lon": 80.0074,
+    "lat": 9.6685,
+    "population": 169102
+  },
+  {
+    "id": "c1226260",
+    "country": "lk",
+    "name": "Trincomalee",
+    "aliases": [],
+    "lon": 81.2289,
+    "lat": 8.5778,
+    "population": 108420
+  },
+  {
+    "id": "c2711537",
+    "country": "se",
+    "name": "Göteborg",
+    "aliases": [
+      "Gothenburg"
+    ],
+    "lon": 11.9668,
+    "lat": 57.7072,
+    "population": 608462
+  },
+  {
+    "id": "c2692969",
+    "country": "se",
+    "name": "Malmö",
+    "aliases": [
+      "Malmoe"
+    ],
+    "lon": 13.0007,
+    "lat": 55.6059,
+    "population": 362133
+  },
+  {
+    "id": "c2666199",
+    "country": "se",
+    "name": "Uppsala",
+    "aliases": [],
+    "lon": 17.6389,
+    "lat": 59.8588,
+    "population": 177074
+  },
+  {
+    "id": "c602150",
+    "country": "se",
+    "name": "Umeå",
+    "aliases": [],
+    "lon": 20.2597,
+    "lat": 63.8284,
+    "population": 130224
+  },
+  {
+    "id": "c605155",
+    "country": "se",
+    "name": "Kiruna",
+    "aliases": [],
+    "lon": 20.2251,
+    "lat": 67.8557,
+    "population": 17037
+  },
+  {
+    "id": "c170063",
+    "country": "sy",
+    "name": "Alep",
+    "aliases": [
+      "Aleppo"
+    ],
+    "lon": 37.1612,
+    "lat": 36.2012,
+    "population": 2098210
+  },
+  {
+    "id": "c169577",
+    "country": "sy",
+    "name": "Homs",
+    "aliases": [],
+    "lon": 36.7256,
+    "lat": 34.7241,
+    "population": 775404
+  },
+  {
+    "id": "c170017",
+    "country": "sy",
+    "name": "Hama",
+    "aliases": [
+      "Ḩamāh",
+      "Hamah"
+    ],
+    "lon": 36.7578,
+    "lat": 35.1318,
+    "population": 460602
+  },
+  {
+    "id": "c173576",
+    "country": "sy",
+    "name": "Lattaquié",
+    "aliases": [
+      "Latakia"
+    ],
+    "lon": 35.7909,
+    "lat": 35.5313,
+    "population": 709000
+  },
+  {
+    "id": "c170794",
+    "country": "sy",
+    "name": "Deir ez-Zor",
+    "aliases": [],
+    "lon": 40.1408,
+    "lat": 35.3359,
+    "population": 271800
+  },
+  {
+    "id": "c1514879",
+    "country": "tj",
+    "name": "Khodjent",
+    "aliases": [
+      "Khujand"
+    ],
+    "lon": 69.6222,
+    "lat": 40.2826,
+    "population": 191000
+  },
+  {
+    "id": "c1221194",
+    "country": "tj",
+    "name": "Kulob",
+    "aliases": [],
+    "lon": 69.7845,
+    "lat": 37.9146,
+    "population": 214700
+  },
+  {
+    "id": "c1220747",
+    "country": "tj",
+    "name": "Bokhtar",
+    "aliases": [],
+    "lon": 68.7776,
+    "lat": 37.8365,
+    "population": 110800
+  },
+  {
+    "id": "c1220253",
+    "country": "tj",
+    "name": "Istaravchan",
+    "aliases": [
+      "Istaravshan"
+    ],
+    "lon": 69.0033,
+    "lat": 39.9142,
+    "population": 273500
+  },
+  {
+    "id": "c1221328",
+    "country": "tj",
+    "name": "Khorog",
+    "aliases": [
+      "Khorugh"
+    ],
+    "lon": 71.5534,
+    "lat": 37.4904,
+    "population": 30500
+  },
+  {
+    "id": "c1673820",
+    "country": "tw",
+    "name": "Kaohsiung",
+    "aliases": [],
+    "lon": 120.3133,
+    "lat": 22.6163,
+    "population": 2737660
+  },
+  {
+    "id": "c1668399",
+    "country": "tw",
+    "name": "Taichung",
+    "aliases": [],
+    "lon": 120.6839,
+    "lat": 24.1469,
+    "population": 2850285
+  },
+  {
+    "id": "c1668355",
+    "country": "tw",
+    "name": "Tainan",
+    "aliases": [],
+    "lon": 120.2051,
+    "lat": 22.9926,
+    "population": 1856642
+  },
+  {
+    "id": "c1674504",
+    "country": "tw",
+    "name": "Hualien",
+    "aliases": [
+      "Hualien City"
+    ],
+    "lon": 121.6044,
+    "lat": 23.9769,
+    "population": 99458
+  },
+  {
+    "id": "c1678228",
+    "country": "tw",
+    "name": "Keelung",
+    "aliases": [],
+    "lon": 121.7409,
+    "lat": 25.1309,
+    "population": 362487
+  },
+  {
+    "id": "c160263",
+    "country": "tz",
+    "name": "Dar es Salaam",
+    "aliases": [],
+    "lon": 39.2695,
+    "lat": -6.8235,
+    "population": 5383728
+  },
+  {
+    "id": "c161325",
+    "country": "tz",
+    "name": "Arusha",
+    "aliases": [],
+    "lon": 36.6833,
+    "lat": -3.3667,
+    "population": 617631
+  },
+  {
+    "id": "c152224",
+    "country": "tz",
+    "name": "Mwanza",
+    "aliases": [],
+    "lon": 32.9,
+    "lat": -2.5167,
+    "population": 1104521
+  },
+  {
+    "id": "c148730",
+    "country": "tz",
+    "name": "Zanzibar",
+    "aliases": [],
+    "lon": 39.1979,
+    "lat": -6.1639,
+    "population": 709809
+  },
+  {
+    "id": "c154380",
+    "country": "tz",
+    "name": "Mbeya",
+    "aliases": [],
+    "lon": 33.45,
+    "lat": -8.9,
+    "population": 541603
+  },
+  {
+    "id": "c2427455",
+    "country": "td",
+    "name": "Moundou",
+    "aliases": [],
+    "lon": 16.0772,
+    "lat": 8.5744,
+    "population": 196124
+  },
+  {
+    "id": "c245785",
+    "country": "td",
+    "name": "Abéché",
+    "aliases": [],
+    "lon": 20.8324,
+    "lat": 13.8292,
+    "population": 139983
+  },
+  {
+    "id": "c2425791",
+    "country": "td",
+    "name": "Sarh",
+    "aliases": [],
+    "lon": 18.3833,
+    "lat": 9.1456,
+    "population": 138928
+  },
+  {
+    "id": "c2427637",
+    "country": "td",
+    "name": "Mongo",
+    "aliases": [],
+    "lon": 18.6884,
+    "lat": 12.1851,
+    "population": 53768
+  },
+  {
+    "id": "c2434910",
+    "country": "td",
+    "name": "Bongor",
+    "aliases": [],
+    "lon": 15.3743,
+    "lat": 10.2809,
+    "population": 63699
+  },
+  {
+    "id": "c3078610",
+    "country": "cz",
+    "name": "Brno",
+    "aliases": [],
+    "lon": 16.608,
+    "lat": 49.1952,
+    "population": 404296
+  },
+  {
+    "id": "c3068799",
+    "country": "cz",
+    "name": "Ostrava",
+    "aliases": [],
+    "lon": 18.282,
+    "lat": 49.8347,
+    "population": 280853
+  },
+  {
+    "id": "c3068160",
+    "country": "cz",
+    "name": "Plzeň",
+    "aliases": [
+      "Pilsen"
+    ],
+    "lon": 13.3776,
+    "lat": 49.7475,
+    "population": 187863
+  },
+  {
+    "id": "c3069011",
+    "country": "cz",
+    "name": "Olomouc",
+    "aliases": [],
+    "lon": 17.2518,
+    "lat": 49.5955,
+    "population": 99496
+  },
+  {
+    "id": "c3071961",
+    "country": "cz",
+    "name": "Liberec",
+    "aliases": [],
+    "lon": 15.0562,
+    "lat": 50.7671,
+    "population": 102951
+  },
+  {
+    "id": "c1153671",
+    "country": "th",
+    "name": "Chiang Mai",
+    "aliases": [],
+    "lon": 98.9847,
+    "lat": 18.7904,
+    "population": 127240
+  },
+  {
+    "id": "c1151254",
+    "country": "th",
+    "name": "Phuket",
+    "aliases": [],
+    "lon": 98.3981,
+    "lat": 7.8906,
+    "population": 79308
+  },
+  {
+    "id": "c1614295",
+    "country": "th",
+    "name": "Pattaya",
+    "aliases": [],
+    "lon": 100.8833,
+    "lat": 12.9333,
+    "population": 116417
+  },
+  {
+    "id": "c1610780",
+    "country": "th",
+    "name": "Hat Yai",
+    "aliases": [],
+    "lon": 100.4767,
+    "lat": 7.0084,
+    "population": 191696
+  },
+  {
+    "id": "c1607532",
+    "country": "th",
+    "name": "Ayutthaya",
+    "aliases": [
+      "Phra Nakhon Si Ayutthaya"
+    ],
+    "lon": 100.5774,
+    "lat": 14.3517,
+    "population": 50830
+  },
+  {
+    "id": "c2467454",
+    "country": "tn",
+    "name": "Sfax",
+    "aliases": [],
+    "lon": 10.7603,
+    "lat": 34.7406,
+    "population": 280566
+  },
+  {
+    "id": "c2464915",
+    "country": "tn",
+    "name": "Sousse",
+    "aliases": [],
+    "lon": 10.637,
+    "lat": 35.8254,
+    "population": 221715
+  },
+  {
+    "id": "c2473449",
+    "country": "tn",
+    "name": "Kairouan",
+    "aliases": [],
+    "lon": 10.0963,
+    "lat": 35.6781,
+    "population": 139070
+  },
+  {
+    "id": "c2472706",
+    "country": "tn",
+    "name": "Bizerte",
+    "aliases": [],
+    "lon": 9.8739,
+    "lat": 37.2744,
+    "population": 138430
+  },
+  {
+    "id": "c2468369",
+    "country": "tn",
+    "name": "Gabès",
+    "aliases": [],
+    "lon": 10.0982,
+    "lat": 33.8815,
+    "population": 110075
+  },
+  {
+    "id": "c706483",
+    "country": "ua",
+    "name": "Kharkiv",
+    "aliases": [],
+    "lon": 36.2548,
+    "lat": 49.9818,
+    "population": 1421125
+  },
+  {
+    "id": "c698740",
+    "country": "ua",
+    "name": "Odessa",
+    "aliases": [
+      "Odesa"
+    ],
+    "lon": 30.7438,
+    "lat": 46.4857,
+    "population": 907000
+  },
+  {
+    "id": "c702550",
+    "country": "ua",
+    "name": "Lviv",
+    "aliases": [],
+    "lon": 24.0232,
+    "lat": 49.8383,
+    "population": 986000
+  },
+  {
+    "id": "c709930",
+    "country": "ua",
+    "name": "Dnipro",
+    "aliases": [],
+    "lon": 35.0407,
+    "lat": 48.4666,
+    "population": 975000
+  },
+  {
+    "id": "c687700",
+    "country": "ua",
+    "name": "Zaporijia",
+    "aliases": [
+      "Zaporizhzhya"
+    ],
+    "lon": 35.1171,
+    "lat": 47.8517,
+    "population": 710052
+  },
+  {
+    "id": "c3633009",
+    "country": "ve",
+    "name": "Maracaibo",
+    "aliases": [],
+    "lon": -71.6109,
+    "lat": 10.6423,
+    "population": 1752602
+  },
+  {
+    "id": "c3625549",
+    "country": "ve",
+    "name": "Valencia",
+    "aliases": [],
+    "lon": -68.0004,
+    "lat": 10.1615,
+    "population": 1619470
+  },
+  {
+    "id": "c3648522",
+    "country": "ve",
+    "name": "Barquisimeto",
+    "aliases": [],
+    "lon": -69.357,
+    "lat": 10.0647,
+    "population": 1240714
+  },
+  {
+    "id": "c3645528",
+    "country": "ve",
+    "name": "Ciudad Guayana",
+    "aliases": [],
+    "lon": -62.641,
+    "lat": 8.3512,
+    "population": 978202
+  },
+  {
+    "id": "c3632308",
+    "country": "ve",
+    "name": "Mérida",
+    "aliases": [],
+    "lon": -71.1692,
+    "lat": 8.579,
+    "population": 300000
+  },
+  {
+    "id": "c1566083",
+    "country": "vn",
+    "name": "Hô Chi Minh-Ville",
+    "aliases": [
+      "Ho Chi Minh City"
+    ],
+    "lon": 106.6297,
+    "lat": 10.823,
+    "population": 14002598
+  },
+  {
+    "id": "c1581298",
+    "country": "vn",
+    "name": "Hải Phòng",
+    "aliases": [
+      "Haiphong"
+    ],
+    "lon": 106.6835,
+    "lat": 20.8648,
+    "population": 2625200
+  },
+  {
+    "id": "c1583992",
+    "country": "vn",
+    "name": "Đà Nẵng",
+    "aliases": [
+      "Da Nang"
+    ],
+    "lon": 108.2208,
+    "lat": 16.0678,
+    "population": 1276000
+  },
+  {
+    "id": "c1580240",
+    "country": "vn",
+    "name": "Huế",
+    "aliases": [],
+    "lon": 107.5955,
+    "lat": 16.4619,
+    "population": 1380000
+  },
+  {
+    "id": "c1572151",
+    "country": "vn",
+    "name": "Nha Trang",
+    "aliases": [],
+    "lon": 109.1943,
+    "lat": 12.2451,
+    "population": 579000
+  },
+  {
+    "id": "c415189",
+    "country": "ye",
+    "name": "Aden",
+    "aliases": [],
+    "lon": 45.0385,
+    "lat": 12.7796,
+    "population": 1079670
+  },
+  {
+    "id": "c70225",
+    "country": "ye",
+    "name": "Taïz",
+    "aliases": [],
+    "lon": 44.0209,
+    "lat": 13.5795,
+    "population": 940600
+  },
+  {
+    "id": "c79415",
+    "country": "ye",
+    "name": "Al-Hodeïda",
+    "aliases": [
+      "Al Ḩudaydah",
+      "Al Hudaydah"
+    ],
+    "lon": 42.9545,
+    "lat": 14.7978,
+    "population": 734699
+  },
+  {
+    "id": "c78754",
+    "country": "ye",
+    "name": "Moukalla",
+    "aliases": [
+      "Mukalla"
+    ],
+    "lon": 49.1242,
+    "lat": 14.5425,
+    "population": 594951
+  },
+  {
+    "id": "c74477",
+    "country": "ye",
+    "name": "Ibb",
+    "aliases": [],
+    "lon": 44.1833,
+    "lat": 13.9667,
+    "population": 771514
+  },
+  {
+    "id": "c911148",
+    "country": "zm",
+    "name": "Kitwe",
+    "aliases": [],
+    "lon": 28.2132,
+    "lat": -12.8024,
+    "population": 665961
+  },
+  {
+    "id": "c901344",
+    "country": "zm",
+    "name": "Ndola",
+    "aliases": [],
+    "lon": 28.6366,
+    "lat": -12.9587,
+    "population": 627503
+  },
+  {
+    "id": "c910111",
+    "country": "zm",
+    "name": "Livingstone",
+    "aliases": [],
+    "lon": 25.8543,
+    "lat": -17.8419,
+    "population": 178361
+  },
+  {
+    "id": "c916095",
+    "country": "zm",
+    "name": "Kabwe",
+    "aliases": [],
+    "lon": 28.4464,
+    "lat": -14.4469,
+    "population": 288598
+  },
+  {
+    "id": "c918702",
+    "country": "zm",
+    "name": "Chipata",
+    "aliases": [],
+    "lon": 32.65,
+    "lat": -13.6333,
+    "population": 327059
+  },
+  {
+    "id": "c894701",
+    "country": "zw",
+    "name": "Bulawayo",
+    "aliases": [],
+    "lon": 28.5833,
+    "lat": -20.15,
+    "population": 665952
+  },
+  {
+    "id": "c884979",
+    "country": "zw",
+    "name": "Mutare",
+    "aliases": [],
+    "lon": 32.6709,
+    "lat": -18.9707,
+    "population": 224802
+  },
+  {
+    "id": "c890422",
+    "country": "zw",
+    "name": "Gweru",
+    "aliases": [],
+    "lon": 29.8167,
+    "lat": -19.45,
+    "population": 158200
+  },
+  {
+    "id": "c879431",
+    "country": "zw",
+    "name": "Victoria Falls",
+    "aliases": [],
+    "lon": 25.8307,
+    "lat": -17.9328,
+    "population": 35215
+  },
+  {
+    "id": "c886763",
+    "country": "zw",
+    "name": "Masvingo",
+    "aliases": [],
+    "lon": 30.8277,
+    "lat": -20.0637,
+    "population": 90286
+  },
+  {
+    "id": "c3185728",
+    "country": "al",
+    "name": "Durrës",
+    "aliases": [],
+    "lon": 19.4547,
+    "lat": 41.3236,
+    "population": 195920
+  },
+  {
+    "id": "c3183719",
+    "country": "al",
+    "name": "Vlorë",
+    "aliases": [],
+    "lon": 19.4838,
+    "lat": 40.4696,
+    "population": 115261
+  },
+  {
+    "id": "c3184081",
+    "country": "al",
+    "name": "Shkodër",
+    "aliases": [],
+    "lon": 19.5126,
+    "lat": 42.0683,
+    "population": 95553
+  },
+  {
+    "id": "c616635",
+    "country": "am",
+    "name": "Gyumri",
+    "aliases": [],
+    "lon": 43.8464,
+    "lat": 40.7931,
+    "population": 114667
+  },
+  {
+    "id": "c616530",
+    "country": "am",
+    "name": "Vanadzor",
+    "aliases": [],
+    "lon": 44.497,
+    "lat": 40.8074,
+    "population": 78100
+  },
+  {
+    "id": "c616062",
+    "country": "am",
+    "name": "Etchmiadzin",
+    "aliases": [
+      "Vagharshapat"
+    ],
+    "lon": 44.2946,
+    "lat": 40.1656,
+    "population": 47989
+  },
+  {
+    "id": "c2778067",
+    "country": "at",
+    "name": "Graz",
+    "aliases": [],
+    "lon": 15.442,
+    "lat": 47.0673,
+    "population": 303270
+  },
+  {
+    "id": "c2766824",
+    "country": "at",
+    "name": "Salzbourg",
+    "aliases": [
+      "Salzburg"
+    ],
+    "lon": 13.044,
+    "lat": 47.7994,
+    "population": 157245
+  },
+  {
+    "id": "c2775220",
+    "country": "at",
+    "name": "Innsbruck",
+    "aliases": [],
+    "lon": 11.3945,
+    "lat": 47.2627,
+    "population": 132493
+  },
+  {
+    "id": "c629634",
+    "country": "by",
+    "name": "Brest",
+    "aliases": [],
+    "lon": 23.7175,
+    "lat": 52.1089,
+    "population": 347138
+  },
+  {
+    "id": "c627904",
+    "country": "by",
+    "name": "Hrodna",
+    "aliases": [
+      "Grodno"
+    ],
+    "lon": 23.8289,
+    "lat": 53.6758,
+    "population": 363718
+  },
+  {
+    "id": "c627907",
+    "country": "by",
+    "name": "Homiel",
+    "aliases": [
+      "Gomel",
+      "Homyel'"
+    ],
+    "lon": 30.9754,
+    "lat": 52.4345,
+    "population": 501193
+  },
+  {
+    "id": "c3204541",
+    "country": "ba",
+    "name": "Banja Luka",
+    "aliases": [],
+    "lon": 17.2063,
+    "lat": 44.7788,
+    "population": 221106
+  },
+  {
+    "id": "c3194828",
+    "country": "ba",
+    "name": "Mostar",
+    "aliases": [],
+    "lon": 17.8081,
+    "lat": 43.3433,
+    "population": 104518
+  },
+  {
+    "id": "c3188582",
+    "country": "ba",
+    "name": "Tuzla",
+    "aliases": [],
+    "lon": 18.6671,
+    "lat": 44.5384,
+    "population": 142486
+  },
+  {
+    "id": "c933778",
+    "country": "bw",
+    "name": "Francistown",
+    "aliases": [],
+    "lon": 27.5078,
+    "lat": -21.17,
+    "population": 103417
+  },
+  {
+    "id": "c933366",
+    "country": "bw",
+    "name": "Maun",
+    "aliases": [],
+    "lon": 23.4167,
+    "lat": -19.9833,
+    "population": 85350
+  },
+  {
+    "id": "c933088",
+    "country": "bw",
+    "name": "Serowe",
+    "aliases": [],
+    "lon": 26.7108,
+    "lat": -22.3875,
+    "population": 55676
+  },
+  {
+    "id": "c728193",
+    "country": "bg",
+    "name": "Plovdiv",
+    "aliases": [],
+    "lon": 24.75,
+    "lat": 42.1539,
+    "population": 329489
+  },
+  {
+    "id": "c726050",
+    "country": "bg",
+    "name": "Varna",
+    "aliases": [],
+    "lon": 27.9102,
+    "lat": 43.2191,
+    "population": 318737
+  },
+  {
+    "id": "c732770",
+    "country": "bg",
+    "name": "Bourgas",
+    "aliases": [
+      "Burgas"
+    ],
+    "lon": 27.4689,
+    "lat": 42.5065,
+    "population": 210646
+  },
+  {
+    "id": "c146384",
+    "country": "cy",
+    "name": "Limassol",
+    "aliases": [],
+    "lon": 33.0379,
+    "lat": 34.6841,
+    "population": 154000
+  },
+  {
+    "id": "c146400",
+    "country": "cy",
+    "name": "Larnaca",
+    "aliases": [],
+    "lon": 33.6279,
+    "lat": 34.9221,
+    "population": 72000
+  },
+  {
+    "id": "c146214",
+    "country": "cy",
+    "name": "Paphos",
+    "aliases": [],
+    "lon": 32.4245,
+    "lat": 34.7768,
+    "population": 35961
+  },
+  {
+    "id": "c3622247",
+    "country": "cr",
+    "name": "Limón",
+    "aliases": [],
+    "lon": -83.036,
+    "lat": 9.9907,
+    "population": 63081
+  },
+  {
+    "id": "c3622228",
+    "country": "cr",
+    "name": "Puntarenas",
+    "aliases": [],
+    "lon": -84.8379,
+    "lat": 9.9769,
+    "population": 35650
+  },
+  {
+    "id": "c3623076",
+    "country": "cr",
+    "name": "Liberia",
+    "aliases": [],
+    "lon": -85.4378,
+    "lat": 10.6352,
+    "population": 45380
+  },
+  {
+    "id": "c3190261",
+    "country": "hr",
+    "name": "Split",
+    "aliases": [],
+    "lon": 16.4392,
+    "lat": 43.5089,
+    "population": 149830
+  },
+  {
+    "id": "c3191648",
+    "country": "hr",
+    "name": "Rijeka",
+    "aliases": [],
+    "lon": 14.4424,
+    "lat": 45.3267,
+    "population": 107964
+  },
+  {
+    "id": "c3201047",
+    "country": "hr",
+    "name": "Dubrovnik",
+    "aliases": [],
+    "lon": 18.1091,
+    "lat": 42.6413,
+    "population": 26922
+  },
+  {
+    "id": "c2624652",
+    "country": "dk",
+    "name": "Aarhus",
+    "aliases": [
+      "Århus",
+      "Arhus"
+    ],
+    "lon": 10.2108,
+    "lat": 56.1567,
+    "population": 285273
+  },
+  {
+    "id": "c2615876",
+    "country": "dk",
+    "name": "Odense",
+    "aliases": [],
+    "lon": 10.3883,
+    "lat": 55.3959,
+    "population": 180863
+  },
+  {
+    "id": "c2624886",
+    "country": "dk",
+    "name": "Aalborg",
+    "aliases": [],
+    "lon": 9.9187,
+    "lat": 57.048,
+    "population": 142937
+  },
+  {
+    "id": "c225284",
+    "country": "dj",
+    "name": "Ali Sabieh",
+    "aliases": [
+      "Ali Sabih"
+    ],
+    "lon": 42.7125,
+    "lat": 11.1558,
+    "population": 50006
+  },
+  {
+    "id": "c223890",
+    "country": "dj",
+    "name": "Dikhil",
+    "aliases": [],
+    "lon": 42.3697,
+    "lat": 11.1045,
+    "population": 32801
+  },
+  {
+    "id": "c220782",
+    "country": "dj",
+    "name": "Tadjourah",
+    "aliases": [
+      "Tadjoura"
+    ],
+    "lon": 42.8822,
+    "lat": 11.7878,
+    "population": 19533
+  },
+  {
+    "id": "c333287",
+    "country": "er",
+    "name": "Keren",
+    "aliases": [],
+    "lon": 38.4511,
+    "lat": 15.7779,
+    "population": 74800
+  },
+  {
+    "id": "c330546",
+    "country": "er",
+    "name": "Massaoua",
+    "aliases": [
+      "Massawa"
+    ],
+    "lon": 39.4746,
+    "lat": 15.6081,
+    "population": 23100
+  },
+  {
+    "id": "c343386",
+    "country": "er",
+    "name": "Assab",
+    "aliases": [],
+    "lon": 42.7394,
+    "lat": 13.0092,
+    "population": 21300
+  },
+  {
+    "id": "c588335",
+    "country": "ee",
+    "name": "Tartu",
+    "aliases": [],
+    "lon": 26.7251,
+    "lat": 58.3806,
+    "population": 91407
+  },
+  {
+    "id": "c590031",
+    "country": "ee",
+    "name": "Narva",
+    "aliases": [],
+    "lon": 28.1903,
+    "lat": 59.3772,
+    "population": 54409
+  },
+  {
+    "id": "c589580",
+    "country": "ee",
+    "name": "Pärnu",
+    "aliases": [
+      "Paernu"
+    ],
+    "lon": 24.4971,
+    "lat": 58.3859,
+    "population": 40228
+  },
+  {
+    "id": "c934995",
+    "country": "sz",
+    "name": "Manzini",
+    "aliases": [],
+    "lon": 31.38,
+    "lat": -26.4988,
+    "population": 110537
+  },
+  {
+    "id": "c634963",
+    "country": "fi",
+    "name": "Tampere",
+    "aliases": [],
+    "lon": 23.7871,
+    "lat": 61.4991,
+    "population": 260646
+  },
+  {
+    "id": "c633679",
+    "country": "fi",
+    "name": "Turku",
+    "aliases": [],
+    "lon": 22.2687,
+    "lat": 60.4515,
+    "population": 206655
+  },
+  {
+    "id": "c638936",
+    "country": "fi",
+    "name": "Rovaniemi",
+    "aliases": [],
+    "lon": 25.6887,
+    "lat": 66.499,
+    "population": 65670
+  },
+  {
+    "id": "c2396518",
+    "country": "ga",
+    "name": "Port-Gentil",
+    "aliases": [],
+    "lon": 8.7815,
+    "lat": -0.7193,
+    "population": 164018
+  },
+  {
+    "id": "c2400555",
+    "country": "ga",
+    "name": "Franceville",
+    "aliases": [],
+    "lon": 13.5836,
+    "lat": -1.6333,
+    "population": 132895
+  },
+  {
+    "id": "c2396646",
+    "country": "ga",
+    "name": "Oyem",
+    "aliases": [],
+    "lon": 11.5793,
+    "lat": 1.5995,
+    "population": 72939
+  },
+  {
+    "id": "c2413753",
+    "country": "gm",
+    "name": "Brikama",
+    "aliases": [],
+    "lon": -16.6494,
+    "lat": 13.2714,
+    "population": 97233
+  },
+  {
+    "id": "c2413515",
+    "country": "gm",
+    "name": "Farafenni",
+    "aliases": [],
+    "lon": -15.6,
+    "lat": 13.5667,
+    "population": 32883
+  },
+  {
+    "id": "c613607",
+    "country": "ge",
+    "name": "Koutaïssi",
+    "aliases": [
+      "Kutaisi"
+    ],
+    "lon": 42.6946,
+    "lat": 42.2679,
+    "population": 135201
+  },
+  {
+    "id": "c615532",
+    "country": "ge",
+    "name": "Batoumi",
+    "aliases": [
+      "Batumi"
+    ],
+    "lon": 41.6306,
+    "lat": 41.6408,
+    "population": 186949
+  },
+  {
+    "id": "c614455",
+    "country": "ge",
+    "name": "Gori",
+    "aliases": [],
+    "lon": 44.1129,
+    "lat": 41.9853,
+    "population": 41933
+  },
+  {
+    "id": "c2309527",
+    "country": "gq",
+    "name": "Malabo",
+    "aliases": [],
+    "lon": 8.7817,
+    "lat": 3.7558,
+    "population": 155963
+  },
+  {
+    "id": "c2310046",
+    "country": "gq",
+    "name": "Bata",
+    "aliases": [],
+    "lon": 9.7658,
+    "lat": 1.8639,
+    "population": 173046
+  },
+  {
+    "id": "c2309332",
+    "country": "gq",
+    "name": "Ebebiyín",
+    "aliases": [],
+    "lon": 11.3301,
+    "lat": 2.1522,
+    "population": 24831
+  },
+  {
+    "id": "c2375254",
+    "country": "gw",
+    "name": "Bafatá",
+    "aliases": [],
+    "lon": -14.6617,
+    "lat": 12.1658,
+    "population": 33502
+  },
+  {
+    "id": "c2372532",
+    "country": "gw",
+    "name": "Gabú",
+    "aliases": [],
+    "lon": -14.2222,
+    "lat": 12.28,
+    "population": 49371
+  },
+  {
+    "id": "c721472",
+    "country": "hu",
+    "name": "Debrecen",
+    "aliases": [],
+    "lon": 21.6244,
+    "lat": 47.5317,
+    "population": 202402
+  },
+  {
+    "id": "c715429",
+    "country": "hu",
+    "name": "Szeged",
+    "aliases": [],
+    "lon": 20.1482,
+    "lat": 46.253,
+    "population": 160766
+  },
+  {
+    "id": "c3046526",
+    "country": "hu",
+    "name": "Pécs",
+    "aliases": [],
+    "lon": 18.2281,
+    "lat": 46.0762,
+    "population": 145347
+  },
+  {
+    "id": "c2965140",
+    "country": "ie",
+    "name": "Cork",
+    "aliases": [],
+    "lon": -8.4706,
+    "lat": 51.898,
+    "population": 224004
+  },
+  {
+    "id": "c2964180",
+    "country": "ie",
+    "name": "Galway",
+    "aliases": [],
+    "lon": -9.0509,
+    "lat": 53.2725,
+    "population": 85910
+  },
+  {
+    "id": "c2962943",
+    "country": "ie",
+    "name": "Limerick",
+    "aliases": [],
+    "lon": -8.6231,
+    "lat": 52.6647,
+    "population": 102287
+  },
+  {
+    "id": "c3489460",
+    "country": "jm",
+    "name": "Montego Bay",
+    "aliases": [],
+    "lon": -77.9188,
+    "lat": 18.4712,
+    "population": 82867
+  },
+  {
+    "id": "c3488465",
+    "country": "jm",
+    "name": "Spanish Town",
+    "aliases": [],
+    "lon": -76.9574,
+    "lat": 17.9911,
+    "population": 145018
+  },
+  {
+    "id": "c3489239",
+    "country": "jm",
+    "name": "Ocho Rios",
+    "aliases": [],
+    "lon": -77.1031,
+    "lat": 18.4076,
+    "population": 26503
+  },
+  {
+    "id": "c1527534",
+    "country": "kg",
+    "name": "Och",
+    "aliases": [
+      "Osh"
+    ],
+    "lon": 72.7985,
+    "lat": 40.5283,
+    "population": 322164
+  },
+  {
+    "id": "c1528249",
+    "country": "kg",
+    "name": "Djalal-Abad",
+    "aliases": [
+      "Manas"
+    ],
+    "lon": 72.9931,
+    "lat": 40.945,
+    "population": 123239
+  },
+  {
+    "id": "c1528121",
+    "country": "kg",
+    "name": "Karakol",
+    "aliases": [],
+    "lon": 78.392,
+    "lat": 42.4905,
+    "population": 84351
+  },
+  {
+    "id": "c786712",
+    "country": "xk",
+    "name": "Prizren",
+    "aliases": [],
+    "lon": 20.7397,
+    "lat": 42.2139,
+    "population": 171464
+  },
+  {
+    "id": "c787157",
+    "country": "xk",
+    "name": "Peja",
+    "aliases": [
+      "Peć",
+      "Pejë",
+      "Peje"
+    ],
+    "lon": 20.2883,
+    "lat": 42.6591,
+    "population": 48962
+  },
+  {
+    "id": "c789225",
+    "country": "xk",
+    "name": "Mitrovica",
+    "aliases": [
+      "Mitrovicë",
+      "Mitrovice"
+    ],
+    "lon": 20.8667,
+    "lat": 42.8833,
+    "population": 107045
+  },
+  {
+    "id": "c285799",
+    "country": "kw",
+    "name": "Al Jahra",
+    "aliases": [],
+    "lon": 47.6581,
+    "lat": 29.3375,
+    "population": 24281
+  },
+  {
+    "id": "c285839",
+    "country": "kw",
+    "name": "Al Ahmadi",
+    "aliases": [],
+    "lon": 48.0839,
+    "lat": 29.0769,
+    "population": 637411
+  },
+  {
+    "id": "c1655559",
+    "country": "la",
+    "name": "Luang Prabang",
+    "aliases": [],
+    "lon": 102.1525,
+    "lat": 19.8933,
+    "population": 55027
+  },
+  {
+    "id": "c1653316",
+    "country": "la",
+    "name": "Savannakhet",
+    "aliases": [],
+    "lon": 104.7622,
+    "lat": 16.5703,
+    "population": 125760
+  },
+  {
+    "id": "c1654379",
+    "country": "la",
+    "name": "Paksé",
+    "aliases": [],
+    "lon": 105.799,
+    "lat": 15.1202,
+    "population": 77900
+  },
+  {
+    "id": "c932035",
+    "country": "ls",
+    "name": "Teyateyaneng",
+    "aliases": [],
+    "lon": 27.749,
+    "lat": -29.1472,
+    "population": 27272
+  },
+  {
+    "id": "c932614",
+    "country": "ls",
+    "name": "Mafeteng",
+    "aliases": [],
+    "lon": 27.2374,
+    "lat": -29.823,
+    "population": 45287
+  },
+  {
+    "id": "c932521",
+    "country": "ls",
+    "name": "Maputsoe",
+    "aliases": [],
+    "lon": 27.8992,
+    "lat": -28.8866,
+    "population": 61916
+  },
+  {
+    "id": "c460413",
+    "country": "lv",
+    "name": "Daugavpils",
+    "aliases": [],
+    "lon": 26.5333,
+    "lat": 55.8833,
+    "population": 78126
+  },
+  {
+    "id": "c457954",
+    "country": "lv",
+    "name": "Liepāja",
+    "aliases": [],
+    "lon": 21.0109,
+    "lat": 56.5047,
+    "population": 67421
+  },
+  {
+    "id": "c459201",
+    "country": "lv",
+    "name": "Jūrmala",
+    "aliases": [],
+    "lon": 23.7704,
+    "lat": 56.968,
+    "population": 52001
+  },
+  {
+    "id": "c266826",
+    "country": "lb",
+    "name": "Tripoli",
+    "aliases": [],
+    "lon": 35.8442,
+    "lat": 34.4335,
+    "population": 229398
+  },
+  {
+    "id": "c268064",
+    "country": "lb",
+    "name": "Saïda",
+    "aliases": [
+      "Sidon"
+    ],
+    "lon": 35.3715,
+    "lat": 33.5575,
+    "population": 163554
+  },
+  {
+    "id": "c267008",
+    "country": "lb",
+    "name": "Tyr",
+    "aliases": [
+      "Tyre"
+    ],
+    "lon": 35.1939,
+    "lat": 33.2733,
+    "population": 135204
+  },
+  {
+    "id": "c2277060",
+    "country": "lr",
+    "name": "Gbarnga",
+    "aliases": [],
+    "lon": -9.4712,
+    "lat": 6.9954,
+    "population": 86031
+  },
+  {
+    "id": "c2278158",
+    "country": "lr",
+    "name": "Buchanan",
+    "aliases": [],
+    "lon": -10.0496,
+    "lat": 5.8769,
+    "population": 75854
+  },
+  {
+    "id": "c2276492",
+    "country": "lr",
+    "name": "Harper",
+    "aliases": [],
+    "lon": -7.7108,
+    "lat": 4.3782,
+    "population": 35503
+  },
+  {
+    "id": "c598316",
+    "country": "lt",
+    "name": "Kaunas",
+    "aliases": [],
+    "lon": 23.9091,
+    "lat": 54.9016,
+    "population": 289380
+  },
+  {
+    "id": "c598098",
+    "country": "lt",
+    "name": "Klaipėda",
+    "aliases": [],
+    "lon": 21.1391,
+    "lat": 55.7068,
+    "population": 172292
+  },
+  {
+    "id": "c594739",
+    "country": "lt",
+    "name": "Šiauliai",
+    "aliases": [],
+    "lon": 23.3167,
+    "lat": 55.9333,
+    "population": 99462
+  },
+  {
+    "id": "c792578",
+    "country": "mk",
+    "name": "Bitola",
+    "aliases": [],
+    "lon": 21.3355,
+    "lat": 41.0323,
+    "population": 69287
+  },
+  {
+    "id": "c787487",
+    "country": "mk",
+    "name": "Ohrid",
+    "aliases": [],
+    "lon": 20.8017,
+    "lat": 41.117,
+    "population": 42033
+  },
+  {
+    "id": "c788886",
+    "country": "mk",
+    "name": "Kumanovo",
+    "aliases": [],
+    "lon": 21.7159,
+    "lat": 42.1328,
+    "population": 75051
+  },
+  {
+    "id": "c934570",
+    "country": "mu",
+    "name": "Curepipe",
+    "aliases": [],
+    "lon": 57.5259,
+    "lat": -20.3163,
+    "population": 78618
+  },
+  {
+    "id": "c933945",
+    "country": "mu",
+    "name": "Vacoas",
+    "aliases": [],
+    "lon": 57.4783,
+    "lat": -20.2981,
+    "population": 115289
+  },
+  {
+    "id": "c618605",
+    "country": "md",
+    "name": "Bălți",
+    "aliases": [],
+    "lon": 27.9285,
+    "lat": 47.7629,
+    "population": 125000
+  },
+  {
+    "id": "c617239",
+    "country": "md",
+    "name": "Tiraspol",
+    "aliases": [],
+    "lon": 29.6284,
+    "lat": 46.8428,
+    "population": 157000
+  },
+  {
+    "id": "c618456",
+    "country": "md",
+    "name": "Cahul",
+    "aliases": [],
+    "lon": 28.1952,
+    "lat": 45.9046,
+    "population": 34492
+  },
+  {
+    "id": "c3359638",
+    "country": "na",
+    "name": "Walvis Bay",
+    "aliases": [],
+    "lon": 14.5053,
+    "lat": -22.9575,
+    "population": 73598
+  },
+  {
+    "id": "c3352844",
+    "country": "na",
+    "name": "Swakopmund",
+    "aliases": [],
+    "lon": 14.5266,
+    "lat": -22.6784,
+    "population": 53009
+  },
+  {
+    "id": "c3353383",
+    "country": "na",
+    "name": "Rundu",
+    "aliases": [],
+    "lon": 19.7731,
+    "lat": -17.918,
+    "population": 75180
+  },
+  {
+    "id": "c3618030",
+    "country": "ni",
+    "name": "León",
+    "aliases": [],
+    "lon": -86.8786,
+    "lat": 12.4353,
+    "population": 144538
+  },
+  {
+    "id": "c3619136",
+    "country": "ni",
+    "name": "Granada",
+    "aliases": [],
+    "lon": -85.9537,
+    "lat": 11.9306,
+    "population": 89409
+  },
+  {
+    "id": "c3620680",
+    "country": "ni",
+    "name": "Bluefields",
+    "aliases": [],
+    "lon": -83.7645,
+    "lat": 12.0129,
+    "population": 44373
+  },
+  {
+    "id": "c3161732",
+    "country": "no",
+    "name": "Bergen",
+    "aliases": [],
+    "lon": 5.3242,
+    "lat": 60.393,
+    "population": 294029
+  },
+  {
+    "id": "c3133880",
+    "country": "no",
+    "name": "Trondheim",
+    "aliases": [],
+    "lon": 10.3951,
+    "lat": 63.4305,
+    "population": 216518
+  },
+  {
+    "id": "c3133895",
+    "country": "no",
+    "name": "Tromsø",
+    "aliases": [
+      "Tromso"
+    ],
+    "lon": 18.9551,
+    "lat": 69.6489,
+    "population": 41915
+  },
+  {
+    "id": "c2193733",
+    "country": "nz",
+    "name": "Auckland",
+    "aliases": [],
+    "lon": 174.7635,
+    "lat": -36.8485,
+    "population": 1547200
+  },
+  {
+    "id": "c2192362",
+    "country": "nz",
+    "name": "Christchurch",
+    "aliases": [],
+    "lon": 172.6333,
+    "lat": -43.5333,
+    "population": 419200
+  },
+  {
+    "id": "c2191562",
+    "country": "nz",
+    "name": "Dunedin",
+    "aliases": [],
+    "lon": 170.5036,
+    "lat": -45.8742,
+    "population": 132800
+  },
+  {
+    "id": "c286621",
+    "country": "om",
+    "name": "Salalah",
+    "aliases": [],
+    "lon": 54.0924,
+    "lat": 17.0151,
+    "population": 163140
+  },
+  {
+    "id": "c286282",
+    "country": "om",
+    "name": "Sohar",
+    "aliases": [],
+    "lon": 56.7094,
+    "lat": 24.3474,
+    "population": 108274
+  },
+  {
+    "id": "c286987",
+    "country": "om",
+    "name": "Nizwa",
+    "aliases": [],
+    "lon": 57.5333,
+    "lat": 22.9333,
+    "population": 72076
+  },
+  {
+    "id": "c281133",
+    "country": "ps",
+    "name": "Gaza",
+    "aliases": [],
+    "lon": 34.4667,
+    "lat": 31.5016,
+    "population": 410000
+  },
+  {
+    "id": "c285066",
+    "country": "ps",
+    "name": "Hébron",
+    "aliases": [],
+    "lon": 35.0938,
+    "lat": 31.5294,
+    "population": 160470
+  },
+  {
+    "id": "c282615",
+    "country": "ps",
+    "name": "Naplouse",
+    "aliases": [
+      "Nablus"
+    ],
+    "lon": 35.2544,
+    "lat": 32.2211,
+    "population": 130326
+  },
+  {
+    "id": "c3712076",
+    "country": "pa",
+    "name": "Colón",
+    "aliases": [],
+    "lon": -79.9002,
+    "lat": 9.3603,
+    "population": 78000
+  },
+  {
+    "id": "c3711668",
+    "country": "pa",
+    "name": "David",
+    "aliases": [],
+    "lon": -82.4309,
+    "lat": 8.4273,
+    "population": 82907
+  },
+  {
+    "id": "c3701117",
+    "country": "pa",
+    "name": "Santiago de Veraguas",
+    "aliases": [],
+    "lon": -80.9833,
+    "lat": 8.1,
+    "population": 45355
+  },
+  {
+    "id": "c3439101",
+    "country": "py",
+    "name": "Ciudad del Este",
+    "aliases": [],
+    "lon": -54.6507,
+    "lat": -25.5036,
+    "population": 301815
+  },
+  {
+    "id": "c3438735",
+    "country": "py",
+    "name": "Encarnación",
+    "aliases": [],
+    "lon": -55.8666,
+    "lat": -27.3318,
+    "population": 74983
+  },
+  {
+    "id": "c3438834",
+    "country": "py",
+    "name": "Concepción",
+    "aliases": [],
+    "lon": -57.4324,
+    "lat": -23.3998,
+    "population": 48123
+  },
+  {
+    "id": "c4566880",
+    "country": "pr",
+    "name": "Ponce",
+    "aliases": [],
+    "lon": -66.624,
+    "lat": 18.0103,
+    "population": 137491
+  },
+  {
+    "id": "c4566385",
+    "country": "pr",
+    "name": "Mayagüez",
+    "aliases": [
+      "Mayagueez"
+    ],
+    "lon": -67.1396,
+    "lat": 18.2011,
+    "population": 73077
+  },
+  {
+    "id": "c4562635",
+    "country": "pr",
+    "name": "Arecibo",
+    "aliases": [],
+    "lon": -66.7157,
+    "lat": 18.4724,
+    "population": 87754
+  },
+  {
+    "id": "c289962",
+    "country": "qa",
+    "name": "Al Khor",
+    "aliases": [
+      "Al Khawr"
+    ],
+    "lon": 51.5058,
+    "lat": 25.6839,
+    "population": 18923
+  },
+  {
+    "id": "c2389086",
+    "country": "cf",
+    "name": "Berbérati",
+    "aliases": [],
+    "lon": 15.7922,
+    "lat": 4.2612,
+    "population": 103713
+  },
+  {
+    "id": "c240604",
+    "country": "cf",
+    "name": "Bambari",
+    "aliases": [],
+    "lon": 20.6757,
+    "lat": 5.768,
+    "population": 83029
+  },
+  {
+    "id": "c2387926",
+    "country": "cf",
+    "name": "Bouar",
+    "aliases": [],
+    "lon": 15.596,
+    "lat": 5.934,
+    "population": 71680
+  },
+  {
+    "id": "c2255414",
+    "country": "cg",
+    "name": "Pointe-Noire",
+    "aliases": [],
+    "lon": 11.8635,
+    "lat": -4.7761,
+    "population": 1032000
+  },
+  {
+    "id": "c2258261",
+    "country": "cg",
+    "name": "Dolisie",
+    "aliases": [],
+    "lon": 12.6666,
+    "lat": -4.1983,
+    "population": 121000
+  },
+  {
+    "id": "c2255564",
+    "country": "cg",
+    "name": "Ouesso",
+    "aliases": [],
+    "lon": 16.0517,
+    "lat": 1.6136,
+    "population": 40667
+  },
+  {
+    "id": "c3583334",
+    "country": "sv",
+    "name": "Santa Ana",
+    "aliases": [],
+    "lon": -89.5568,
+    "lat": 13.9883,
+    "population": 176661
+  },
+  {
+    "id": "c3583446",
+    "country": "sv",
+    "name": "San Miguel",
+    "aliases": [],
+    "lon": -88.1821,
+    "lat": 13.4826,
+    "population": 247126
+  },
+  {
+    "id": "c3583102",
+    "country": "sv",
+    "name": "Sonsonate",
+    "aliases": [],
+    "lon": -89.723,
+    "lat": 13.7173,
+    "population": 59468
+  },
+  {
+    "id": "c3194360",
+    "country": "rs",
+    "name": "Novi Sad",
+    "aliases": [],
+    "lon": 19.8369,
+    "lat": 45.2517,
+    "population": 215400
+  },
+  {
+    "id": "c787657",
+    "country": "rs",
+    "name": "Niš",
+    "aliases": [],
+    "lon": 21.9033,
+    "lat": 43.3247,
+    "population": 250000
+  },
+  {
+    "id": "c789128",
+    "country": "rs",
+    "name": "Kragujevac",
+    "aliases": [],
+    "lon": 20.9167,
+    "lat": 44.0167,
+    "population": 147473
+  },
+  {
+    "id": "c2410048",
+    "country": "sl",
+    "name": "Bo",
+    "aliases": [],
+    "lon": -11.7383,
+    "lat": 7.9647,
+    "population": 233684
+  },
+  {
+    "id": "c2407790",
+    "country": "sl",
+    "name": "Kenema",
+    "aliases": [],
+    "lon": -11.1902,
+    "lat": 7.8769,
+    "population": 255110
+  },
+  {
+    "id": "c2406407",
+    "country": "sl",
+    "name": "Makeni",
+    "aliases": [],
+    "lon": -12.0442,
+    "lat": 8.886,
+    "population": 85116
+  },
+  {
+    "id": "c724443",
+    "country": "sk",
+    "name": "Košice",
+    "aliases": [],
+    "lon": 21.258,
+    "lat": 48.7144,
+    "population": 225044
+  },
+  {
+    "id": "c3056508",
+    "country": "sk",
+    "name": "Žilina",
+    "aliases": [],
+    "lon": 18.7394,
+    "lat": 49.2231,
+    "population": 81219
+  },
+  {
+    "id": "c3061186",
+    "country": "sk",
+    "name": "Banská Bystrica",
+    "aliases": [],
+    "lon": 19.1493,
+    "lat": 48.7395,
+    "population": 74590
+  },
+  {
+    "id": "c3195506",
+    "country": "si",
+    "name": "Maribor",
+    "aliases": [],
+    "lon": 15.6459,
+    "lat": 46.5558,
+    "population": 96209
+  },
+  {
+    "id": "c3197753",
+    "country": "si",
+    "name": "Koper",
+    "aliases": [],
+    "lon": 13.7296,
+    "lat": 45.5482,
+    "population": 25753
+  },
+  {
+    "id": "c3202781",
+    "country": "si",
+    "name": "Celje",
+    "aliases": [],
+    "lon": 15.2604,
+    "lat": 46.2309,
+    "population": 38059
+  },
+  {
+    "id": "c64435",
+    "country": "sol",
+    "name": "Berbera",
+    "aliases": [],
+    "lon": 45.0143,
+    "lat": 10.4396,
+    "population": 242344
+  },
+  {
+    "id": "c63795",
+    "country": "sol",
+    "name": "Burao",
+    "aliases": [],
+    "lon": 45.5336,
+    "lat": 9.5221,
+    "population": 99270
+  },
+  {
+    "id": "c64021",
+    "country": "sol",
+    "name": "Borama",
+    "aliases": [],
+    "lon": 43.1828,
+    "lat": 9.9361,
+    "population": 597842
+  },
+  {
+    "id": "c2657896",
+    "country": "ch",
+    "name": "Zurich",
+    "aliases": [
+      "Zuerich"
+    ],
+    "lon": 8.55,
+    "lat": 47.3667,
+    "population": 415367
+  },
+  {
+    "id": "c2660646",
+    "country": "ch",
+    "name": "Genève",
+    "aliases": [
+      "Geneva"
+    ],
+    "lon": 6.1457,
+    "lat": 46.2022,
+    "population": 201741
+  },
+  {
+    "id": "c2661604",
+    "country": "ch",
+    "name": "Bâle",
+    "aliases": [
+      "Basel"
+    ],
+    "lon": 7.5733,
+    "lat": 47.5584,
+    "population": 177595
+  },
+  {
+    "id": "c1649539",
+    "country": "tl",
+    "name": "Baucau",
+    "aliases": [
+      "Baukau"
+    ],
+    "lon": 126.4563,
+    "lat": -8.4757,
+    "population": 16000
+  },
+  {
+    "id": "c1636670",
+    "country": "tl",
+    "name": "Maliana",
+    "aliases": [],
+    "lon": 125.2197,
+    "lat": -8.9917,
+    "population": 22000
+  },
+  {
+    "id": "c1626459",
+    "country": "tl",
+    "name": "Suai",
+    "aliases": [],
+    "lon": 125.2565,
+    "lat": -9.3129,
+    "population": 21539
+  },
+  {
+    "id": "c2364104",
+    "country": "tg",
+    "name": "Sokodé",
+    "aliases": [],
+    "lon": 1.1333,
+    "lat": 8.9833,
+    "population": 117811
+  },
+  {
+    "id": "c2366152",
+    "country": "tg",
+    "name": "Kara",
+    "aliases": [],
+    "lon": 1.1861,
+    "lat": 9.5511,
+    "population": 104207
+  },
+  {
+    "id": "c2367886",
+    "country": "tg",
+    "name": "Atakpamé",
+    "aliases": [],
+    "lon": 1.1333,
+    "lat": 7.5333,
+    "population": 80683
+  },
+  {
+    "id": "c3573738",
+    "country": "tt",
+    "name": "San Fernando",
+    "aliases": [],
+    "lon": -61.4683,
+    "lat": 10.2797,
+    "population": 55419
+  },
+  {
+    "id": "c3574810",
+    "country": "tt",
+    "name": "Chaguanas",
+    "aliases": [],
+    "lon": -61.4167,
+    "lat": 10.5167,
+    "population": 67433
+  },
+  {
+    "id": "c3575051",
+    "country": "tt",
+    "name": "Arima",
+    "aliases": [],
+    "lon": -61.2823,
+    "lat": 10.6374,
+    "population": 35000
+  },
+  {
+    "id": "c1219649",
+    "country": "tm",
+    "name": "Türkmenabat",
+    "aliases": [
+      "Tuerkmenabat"
+    ],
+    "lon": 63.5786,
+    "lat": 39.0733,
+    "population": 230861
+  },
+  {
+    "id": "c1218667",
+    "country": "tm",
+    "name": "Mary",
+    "aliases": [],
+    "lon": 61.8303,
+    "lat": 37.5938,
+    "population": 167027
+  },
+  {
+    "id": "c601594",
+    "country": "tm",
+    "name": "Türkmenbaşy",
+    "aliases": [
+      "Tuerkmenbasy"
+    ],
+    "lon": 52.9552,
+    "lat": 40.0222,
+    "population": 91745
+  },
+  {
+    "id": "c3440714",
+    "country": "uy",
+    "name": "Salto",
+    "aliases": [],
+    "lon": -57.9598,
+    "lat": -31.3881,
+    "population": 114084
+  },
+  {
+    "id": "c3441243",
+    "country": "uy",
+    "name": "Paysandú",
+    "aliases": [],
+    "lon": -58.0807,
+    "lat": -32.3171,
+    "population": 81550
+  },
+  {
+    "id": "c3443013",
+    "country": "uy",
+    "name": "Colonia del Sacramento",
+    "aliases": [],
+    "lon": -57.8398,
+    "lat": -34.4626,
+    "population": 32164
+  },
+  {
+    "id": "c3572375",
+    "country": "bs",
+    "name": "Freeport",
+    "aliases": [],
+    "lon": -78.7,
+    "lat": 26.5333,
+    "population": 26910
+  },
+  {
+    "id": "c3582677",
+    "country": "bz",
+    "name": "Belize City",
+    "aliases": [],
+    "lon": -88.1976,
+    "lat": 17.4995,
+    "population": 65222
+  },
+  {
+    "id": "c1252484",
+    "country": "bt",
+    "name": "Phuntsholing",
+    "aliases": [],
+    "lon": 89.3884,
+    "lat": 26.8516,
+    "population": 27658
+  },
+  {
+    "id": "c1820491",
+    "country": "bn",
+    "name": "Kuala Belait",
+    "aliases": [],
+    "lon": 114.2312,
+    "lat": 4.5836,
+    "population": 31178
+  },
+  {
+    "id": "c3374462",
+    "country": "cv",
+    "name": "Mindelo",
+    "aliases": [],
+    "lon": -24.9804,
+    "lat": 16.8901,
+    "population": 69013
+  },
+  {
+    "id": "c146617",
+    "country": "cyn",
+    "name": "Famagouste",
+    "aliases": [
+      "Gazimağusa",
+      "Famagusta"
+    ],
+    "lon": 33.9414,
+    "lat": 35.1249,
+    "population": 42526
+  },
+  {
+    "id": "c921753",
+    "country": "km",
+    "name": "Mutsamudu",
+    "aliases": [
+      "Moutsamoudou"
+    ],
+    "lon": 44.3994,
+    "lat": -12.1667,
+    "population": 26313
+  },
+  {
+    "id": "c2204506",
+    "country": "fj",
+    "name": "Lautoka",
+    "aliases": [],
+    "lon": 177.4505,
+    "lat": -17.6169,
+    "population": 52500
+  },
+  {
+    "id": "c3578599",
+    "country": "gp",
+    "name": "Pointe-à-Pitre",
+    "aliases": [],
+    "lon": -61.5346,
+    "lat": 16.2364,
+    "population": 15181
+  },
+  {
+    "id": "c3377408",
+    "country": "gy",
+    "name": "Linden",
+    "aliases": [],
+    "lon": -58.3072,
+    "lat": 6.0082,
+    "population": 44690
+  },
+  {
+    "id": "c3380387",
+    "country": "gf",
+    "name": "Saint-Laurent-du-Maroni",
+    "aliases": [],
+    "lon": -54.0292,
+    "lat": 5.5015,
+    "population": 24287
+  },
+  {
+    "id": "c2633274",
+    "country": "is",
+    "name": "Akureyri",
+    "aliases": [],
+    "lon": -18.0878,
+    "lat": 65.6835,
+    "population": 19219
+  },
+  {
+    "id": "c935214",
+    "country": "re",
+    "name": "Saint-Pierre",
+    "aliases": [],
+    "lon": 55.4781,
+    "lat": -21.3393,
+    "population": 84077
+  },
+  {
+    "id": "c2960596",
+    "country": "lu",
+    "name": "Esch-sur-Alzette",
+    "aliases": [],
+    "lon": 5.9806,
+    "lat": 49.4958,
+    "population": 36625
+  },
+  {
+    "id": "c3194494",
+    "country": "me",
+    "name": "Nikšić",
+    "aliases": [],
+    "lon": 18.9445,
+    "lat": 42.7731,
+    "population": 58212
+  },
+  {
+    "id": "c2463447",
+    "country": "eh",
+    "name": "Dakhla",
+    "aliases": [],
+    "lon": -15.958,
+    "lat": 23.6848,
+    "population": 106277
+  }
+]
