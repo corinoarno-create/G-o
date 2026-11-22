@@ -53,13 +53,19 @@ describe('zoneProgress', () => {
   });
 
   it('met l’expert à part : il ne compte pas dans la part du carnet, et compte les sceaux', () => {
-    const cards = new Map([card('fr', 'locate-capital', '2026-12-20T00:00:00Z', 12), card('de', 'locate-capital', '2026-11-17T00:00:00Z', 2)]);
+    const cards = new Map([
+      card('fr', 'locate-capital', '2026-12-20T00:00:00Z', 12), // acquise, mais les villes de France manquent
+      card('mc', 'locate-capital', '2026-12-20T00:00:00Z', 12), // Monaco : pas d'autre ville, sceau obtenu
+      card('de', 'locate-capital', '2026-11-17T00:00:00Z', 2),
+    ]);
     const progress = zoneProgress(world, europe, cards, now);
     expect(progress.share).toBe(0);
     expect(progress.due).toBe(0); // la révision expert due n'est pas une révision du carnet
     const expert = progress.categories.find((c) => c.category === 'expert')!;
     expect(expert.expert).toBe(true);
-    expect(expert.rows[0]).toMatchObject({ skill: 'locate-capital', strong: 1, due: 1 });
+    expect(expert.rows[0]).toMatchObject({ skill: 'locate-capital', strong: 2, due: 1 });
+    expect(expert.rows.map((row) => row.skill)).toEqual(['locate-capital', 'locate-city', 'name-city']);
+    expect(expert.rows[1]!.total).toBeGreaterThan(100); // villes d'Europe
     expect(progress.expert.seals).toBe(1);
     expect(progress.expert.sealable).toBeGreaterThan(40);
     expect(progress.expert.share).toBeGreaterThan(0);

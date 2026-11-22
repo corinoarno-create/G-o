@@ -74,7 +74,7 @@ export function buildHomeSummary(
     }
     entityMastery.set(entity.id, count ? sum / (3 * count) : 0);
   }
-  const seals = new Set(world.countries.filter((entity) => hasSeal(entity, cards)).map((entity) => entity.id));
+  const seals = new Set(world.countries.filter((entity) => hasSeal(world, entity, cards)).map((entity) => entity.id));
   const continents = (['europe', 'americas', 'africa', 'asia', 'oceania'] as ContinentId[]).map((id) => {
     const stats = byContinent.get(id) ?? { strong: 0, total: 0 };
     return { id, label: CONTINENT_LABELS[id], share: stats.total ? stats.strong / stats.total : 0 };

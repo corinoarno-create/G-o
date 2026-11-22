@@ -5,6 +5,7 @@ import type { WorldData } from '../data/world.ts';
 import { MASTERY_LABELS } from '../engine/srs.ts';
 import type { QuestionRef } from './questions.ts';
 import type { SessionSummary } from './session.ts';
+import { answerLabel } from './items.ts';
 
 interface Props {
   world: WorldData;
@@ -41,11 +42,8 @@ const CONFETTI_COLORS = ['#e3b76b', '#a8c28a', '#e7a7a0', '#9dc3dd', '#c9a8d4', 
 export function EndScreen({ world, title, summary, onReplayMissed, onRestart, restartLabel, onExit, notice, onChallenge }: Props) {
   /** Ce qu'il fallait répondre, selon l'exercice : « Lima (Pérou) », « Pérou »… */
   const answerOf = ({ exercise, entityId }: QuestionRef) => {
-    const entity = world.byId.get(entityId);
-    if (!entity) return entityId;
-    if (exercise === 'name-capital' || exercise === 'locate-capital' || exercise === 'capital-to-country') return `${entity.capital?.name ?? '—'} (${entity.name})`;
-    if (exercise === 'flag-to-country' || exercise === 'country-to-flag') return `${entity.name} (drapeau)`;
-    return entity.name;
+    if (exercise === 'flag-to-country' || exercise === 'country-to-flag') return `${answerLabel(world, exercise, entityId)} (drapeau)`;
+    return answerLabel(world, exercise, entityId);
   };
   // Confettis légers, calculés une fois.
   const confetti = useMemo(

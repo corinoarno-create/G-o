@@ -4,7 +4,8 @@ import { CATEGORIES, defaultFavoriteName, DEFAULT_CHOICE, migrateStoredChoice, m
 describe('catégories et modes', () => {
   it('associent chaque mode à un exercice', () => {
     const exercises = CATEGORIES.flatMap((category) => category.modes.map((mode) => mode.exercise));
-    expect(new Set(exercises).size).toBe(7); // tous les exercices, chacun une fois
+    expect(new Set(exercises).size).toBe(exercises.length); // chaque exercice une seule fois
+    expect(exercises).toHaveLength(9); // tous les exercices, villes comprises
   });
 
   it('retombent sur le premier mode de la catégorie si le mode n’y existe pas', () => {

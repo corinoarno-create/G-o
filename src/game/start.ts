@@ -6,7 +6,8 @@ import type { Zone } from '../map/zones.ts';
 import { getAllCards, getSetting } from '../storage/db.ts';
 import { progressDb } from '../storage/progress-db.ts';
 import type { CardRecord } from '../storage/schema.ts';
-import { EXERCISES, type ExerciseId } from './exercises.ts';
+import type { ExerciseId } from './exercises.ts';
+import { itemIds } from './items.ts';
 import { planBuilder, planReview, requestTitle, type GameRequest } from './plans.ts';
 import type { QuestionRef } from './questions.ts';
 import { AnswerRecorder } from './recorder.ts';
@@ -32,11 +33,7 @@ export const getSrs = () => (srs ??= createSrs());
 
 /** Entités de la zone qui peuvent être demandées dans cet exercice. */
 export function eligibleIds(world: WorldData, exercise: ExerciseId, zone: Zone): string[] {
-  const definition = EXERCISES[exercise];
-  return zone.entityIds.filter((id) => {
-    const entity = world.byId.get(id);
-    return entity !== undefined && definition.eligible(entity);
-  });
+  return itemIds(world, exercise, zone.entityIds);
 }
 
 /** Toutes les cartes mémoire enregistrées, par clé. */

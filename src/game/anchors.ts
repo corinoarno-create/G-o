@@ -5,7 +5,7 @@
 // nouveau, de moins en moins à mesure qu'il est retenu, et plus du tout une fois maîtrisé, pour que la note
 // reste honnête. On ne montre jamais l'élément demandé, ni une capitale encore à venir dans la manche
 // (elle donnerait la réponse d'une question suivante).
-import type { CountryEntity } from '../data/types.ts';
+import type { CityEntity, CountryEntity } from '../data/types.ts';
 import type { WorldData } from '../data/world.ts';
 import { distanceKm } from '../engine/geo.ts';
 import type { MasteryLevel } from '../engine/srs.ts';
@@ -51,15 +51,63 @@ export function capitalAnchors(world: WorldData, entity: CountryEntity, mastery:
     }, []);
 }
 
-/** Exercices dont la réponse est une capitale : montrer cette capitale en repère la dévoilerait. */
-const CAPITAL_EXERCISES = new Set(['locate-capital', 'capital-to-country', 'name-capital']);
+/** Exercices dont la réponse est une capitale ou une ville : la montrer en repère la dévoilerait. */
+const REVEALING_EXERCISES = new Set(['locate-capital', 'capital-to-country', 'name-capital', 'locate-city', 'name-city']);
 
-/** Entités dont une question sur la capitale reste à venir dans la manche (clés « exercice|entité »). */
+/**
+ * Éléments dont une question sur la capitale ou la ville reste à venir dans la manche (clés « exercice|élément ») :
+ * le pays pour une capitale, la ville pour une ville.
+ */
 export function pendingCapitalEntities(queue: readonly string[]): Set<string> {
   const ids = new Set<string>();
   for (const key of queue) {
     const separator = key.indexOf('|');
-    if (CAPITAL_EXERCISES.has(key.slice(0, separator))) ids.add(key.slice(separator + 1));
+    if (REVEALING_EXERCISES.has(key.slice(0, separator))) ids.add(key.slice(separator + 1));
   }
   return ids;
+}
+
+/** Nombre de villes connues montrées en plus de la capitale, selon la maîtrise de la ville demandée. */
+export const CITY_ANCHORS: Record<MasteryLevel, { capital: boolean; cities: number }> = {
+  new: { capital: true, cities: 2 },
+  learning: { capital: true, cities: 2 },
+  acquired: { capital: true, cities: 0 },
+  mastered: { capital: false, cities: 0 },
+};
+
+/**
+ * Points d'ancrage pour placer une ville : la capitale de son pays, puis une ou deux villes du pays que je sais
+ * déjà placer (acquises), les plus proches. Ils s'effacent quand la ville demandée est retenue.
+ * @param known villes que je sais placer (identifiants).
+ */
+export function cityAnchors(
+  world: WorldData,
+  city: CityEntity,
+  mastery: MasteryLevel,
+  known: ReadonlySet<string>,
+  excluded: ReadonlySet<string> = new Set(),
+): Anchor[] {
+  const rule = CITY_ANCHORS[mastery];
+  const country = world.byId.get(city.country);
+  const origin: [number, number] = [city.lon, city.lat];
+  const anchors: Anchor[] = [];
+  const farEnough = (lonLat: [number, number]) =>
+    distanceKm(origin, lonLat) >= ANCHOR_SETTINGS.minKm && anchors.every((other) => distanceKm(other.lonLat, lonLat) >= ANCHOR_SETTINGS.minKm);
+  if (rule.capital && country?.capital && !excluded.has(country.id)) {
+    const lonLat: [number, number] = [country.capital.lon, country.capital.lat];
+    if (farEnough(lonLat)) anchors.push({ entityId: country.id, name: country.capital.name, lonLat });
+  }
+  const others = (world.citiesByCountry.get(city.country) ?? [])
+    .filter((other) => other.id !== city.id && known.has(other.id) && !excluded.has(other.id))
+    .map((other) => ({ other, distance: distanceKm(origin, [other.lon, other.lat]) }))
+    .sort((a, b) => a.distance - b.distance);
+  let added = 0;
+  for (const { other } of others) {
+    if (added >= rule.cities) break;
+    const lonLat: [number, number] = [other.lon, other.lat];
+    if (!farEnough(lonLat)) continue;
+    anchors.push({ entityId: other.id, name: other.name, lonLat });
+    added += 1;
+  }
+  return anchors;
 }

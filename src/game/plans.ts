@@ -5,6 +5,7 @@ import type { Zone } from '../map/zones.ts';
 import type { CardRecord } from '../storage/schema.ts';
 import type { ChallengePlay } from '../challenge/types.ts';
 import { EXERCISES, type ExerciseId } from './exercises.ts';
+import { isEligible, itemIds } from './items.ts';
 import { EXERCISES_FOR_SKILL, type QuestionRef } from './questions.ts';
 import { selectItems, shuffle, type ContentType, type Rng } from './selection.ts';
 
@@ -20,10 +21,7 @@ export type GameRequest =
   | { kind: 'questions'; title: string; zone: Zone; questions: QuestionRef[]; restart?: GameRequest; challenge?: ChallengePlay };
 
 /** L'élément peut-il être demandé dans cet exercice ? */
-const eligible = (world: WorldData, question: QuestionRef) => {
-  const entity = world.byId.get(question.entityId);
-  return entity !== undefined && EXERCISES[question.exercise].eligible(entity);
-};
+const eligible = (world: WorldData, question: QuestionRef) => isEligible(world, question.exercise, question.entityId);
 
 /**
  * Toutes les révisions dues d'un volet, les plus en retard d'abord. Un drapeau dû est demandé dans un sens
@@ -81,7 +79,7 @@ export function planBuilder(
   rng: Rng = Math.random,
 ): QuestionRef[] {
   const exercise = EXERCISES[request.exercise];
-  const ids = request.zone.entityIds.filter((id) => eligible(world, { entityId: id, exercise: request.exercise }));
+  const ids = itemIds(world, request.exercise, request.zone.entityIds);
   return selectItems(ids, exercise.skill, cards, request, now, rng).map((entityId) => ({ entityId, exercise: request.exercise }));
 }
 

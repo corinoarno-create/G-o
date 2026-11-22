@@ -1,6 +1,6 @@
 // Exercices de la V1 (§ 4) : ce qu'on demande, comment on répond, quelle compétence FSRS est travaillée.
 import { SUBREGION_LABELS } from '../data/labels.ts';
-import type { CountryEntity } from '../data/types.ts';
+import type { CityEntity, CountryEntity } from '../data/types.ts';
 import type { WorldData } from '../data/world.ts';
 import { distanceKm } from '../engine/geo.ts';
 import type { AnswerMode } from '../engine/grading.ts';
@@ -13,7 +13,9 @@ export type ExerciseId =
   | 'name-country' // Saisir : un pays est mis en évidence, je tape son nom
   | 'name-capital' // Capitales : un pays, je tape sa capitale
   | 'flag-to-country' // Drapeaux : un drapeau, je tape le pays ou je clique dessus sur la carte
-  | 'country-to-flag'; // Drapeaux : un pays, je choisis son drapeau parmi quatre
+  | 'country-to-flag' // Drapeaux : un pays, je choisis son drapeau parmi quatre
+  | 'locate-city' // Expert : un nom de ville (et son pays), je la place au plus près (distance)
+  | 'name-city'; // Expert : une ville est pointée sur la carte, je tape son nom
 
 export interface Exercise {
   id: ExerciseId;
@@ -22,8 +24,10 @@ export interface Exercise {
   skill: Skill;
   /** Façon principale de répondre (sert aussi aux temps de référence). */
   answerMode: AnswerMode;
-  /** L'entité peut-elle être demandée dans cet exercice ? */
+  /** L'entité peut-elle être demandée dans cet exercice ? (Exercices de villes : jamais un pays, voir items.ts.) */
   eligible: (entity: CountryEntity) => boolean;
+  /** Ce qu'on demande : un pays (ou sa capitale, son drapeau), ou une ville. */
+  kind: 'country' | 'city';
 }
 
 /** Drapeau propre (pas celui de l'État de rattachement, pas un drapeau non officiel). */
@@ -39,6 +43,7 @@ export const EXERCISES: Record<ExerciseId, Exercise> = {
     skill: 'locate-country',
     answerMode: 'pin',
     eligible: always,
+    kind: 'country',
   },
   'locate-capital': {
     id: 'locate-capital',
@@ -47,6 +52,7 @@ export const EXERCISES: Record<ExerciseId, Exercise> = {
     skill: 'locate-capital',
     answerMode: 'pin',
     eligible: (entity) => entity.capital !== null,
+    kind: 'country',
   },
   'capital-to-country': {
     id: 'capital-to-country',
@@ -55,6 +61,7 @@ export const EXERCISES: Record<ExerciseId, Exercise> = {
     skill: 'capital-country',
     answerMode: 'pin',
     eligible: (entity) => entity.capital !== null,
+    kind: 'country',
   },
   'name-country': {
     id: 'name-country',
@@ -63,6 +70,7 @@ export const EXERCISES: Record<ExerciseId, Exercise> = {
     skill: 'name-country',
     answerMode: 'type',
     eligible: always,
+    kind: 'country',
   },
   'name-capital': {
     id: 'name-capital',
@@ -71,6 +79,7 @@ export const EXERCISES: Record<ExerciseId, Exercise> = {
     skill: 'name-capital',
     answerMode: 'type',
     eligible: (entity) => entity.capital !== null,
+    kind: 'country',
   },
   'flag-to-country': {
     id: 'flag-to-country',
@@ -79,6 +88,7 @@ export const EXERCISES: Record<ExerciseId, Exercise> = {
     skill: 'flag',
     answerMode: 'type',
     eligible: hasOwnFlag,
+    kind: 'country',
   },
   'country-to-flag': {
     id: 'country-to-flag',
@@ -87,6 +97,25 @@ export const EXERCISES: Record<ExerciseId, Exercise> = {
     skill: 'flag',
     answerMode: 'choice',
     eligible: hasOwnFlag,
+    kind: 'country',
+  },
+  'locate-city': {
+    id: 'locate-city',
+    label: 'Placer les villes',
+    description: 'Une ville s’affiche, avec son pays : place-la au plus près, on mesure l’écart en km.',
+    skill: 'locate-city',
+    answerMode: 'pin',
+    eligible: () => false,
+    kind: 'city',
+  },
+  'name-city': {
+    id: 'name-city',
+    label: 'Nommer les villes',
+    description: 'Une ville est pointée sur la carte : tape son nom.',
+    skill: 'name-city',
+    answerMode: 'type',
+    eligible: () => false,
+    kind: 'city',
   },
 };
 
@@ -139,6 +168,8 @@ export interface Hint {
   outline?: string;
   /** Pour le choix de drapeaux : propositions retirées par l'indice. */
   eliminate?: string[];
+  /** Points (lon, lat) à inclure dans le cadrage (ville à placer : un coin de la région où chercher). */
+  points?: [number, number][];
 }
 
 /** Nombre d'essais avant de montrer la réponse, selon la façon de répondre. */
@@ -191,6 +222,27 @@ export function showFrame(world: WorldData, entity: CountryEntity): { ids: strin
   return { ids: [entity.id], points, minKm: SHOW_FRAME.minKm };
 }
 
+/**
+ * Point décalé de `km` dans une direction propre à l'élément (toujours la même pour lui) : le cadrage d'un
+ * indice inclut ce point et la ville, pour que la ville ne tombe jamais pile au centre de l'écran.
+ */
+export function offsetPoint([lon, lat]: [number, number], km: number, seed: string): [number, number] {
+  let hash = 0;
+  for (const char of seed) hash = (hash * 31 + char.charCodeAt(0)) | 0;
+  const angle = ((hash >>> 0) % 360) * (Math.PI / 180);
+  const dLat = (km / 111.195) * Math.sin(angle);
+  const dLon = ((km / 111.195) * Math.cos(angle)) / Math.max(Math.cos((lat * Math.PI) / 180), 0.2);
+  return [lon + dLon, lat + dLat];
+}
+
+/** Indice de lieu pour une ville : la carte se cadre sur une région de plus en plus petite autour d'elle. */
+export const CITY_HINT = {
+  /** 1er indice : la ville est dans une vue d'environ 800 km, décalée. */
+  wide: { offsetKm: 250, minKm: 800 },
+  /** 2e indice : vue d'environ 300 km. */
+  close: { offsetKm: 80, minKm: 300 },
+};
+
 /** « Commence par « Ou… » (11 lettres). » */
 export function letterHint(name: string, level: HintLevel): string {
   return `Commence par « ${name.slice(0, level)}… » (${letterCount(name)} lettres).`;
@@ -206,7 +258,7 @@ export function hintFor(
   exercise: ExerciseId,
   entity: CountryEntity,
   level: HintLevel,
-  options: { world?: WorldData; choices?: string[]; eliminated?: string[] } = {},
+  options: { world?: WorldData; choices?: string[]; eliminated?: string[]; city?: CityEntity } = {},
 ): Hint {
   const region = SUBREGION_LABELS[entity.subregion];
   const focus = (lvl: HintLevel) => (options.world ? placeFocus(options.world, entity, lvl) : [entity.id]);
@@ -225,6 +277,20 @@ export function hintFor(
       return { text: letterHint(entity.name, level) };
     case 'name-capital':
       return { text: letterHint(entity.capital?.name ?? '?', level) };
+    case 'locate-city': {
+      const city = options.city;
+      if (!city) return { text: 'Cherche bien !' };
+      const { offsetKm, minKm } = level === 1 ? CITY_HINT.wide : CITY_HINT.close;
+      const point: [number, number] = [city.lon, city.lat];
+      return {
+        text: level === 1 ? `Elle est dans cette partie du ${entityNoun(entity)}.` : 'Encore plus près : c’est par ici.',
+        focus: [],
+        focusKm: minKm,
+        points: [point, offsetPoint(point, offsetKm, city.id)],
+      };
+    }
+    case 'name-city':
+      return { text: letterHint(options.city?.name ?? '?', level) };
     case 'country-to-flag': {
       const eliminated = new Set(options.eliminated ?? []);
       const next = (options.choices ?? []).find((id) => id !== entity.id && !eliminated.has(id));

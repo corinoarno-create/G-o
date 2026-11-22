@@ -12,6 +12,7 @@ import { ArrowIcon, BookIcon } from '../ui/icons.tsx';
 import { ActivityChart, Legend, LineChart, SERIES_COLORS, UpcomingChart } from './charts.tsx';
 import { ResetProgress } from './ResetProgress.tsx';
 import { buildProgressStats, type MasteryCounts, type ProgressStats } from './stats.ts';
+import { answerLabel } from '../game/items.ts';
 import './progress.css';
 
 interface Props {
@@ -182,11 +183,7 @@ export function ProgressScreen({ world, zones, onPlay, onHome }: Props) {
               <>
                 <ol class="progress__weak">
                   {stats.weak.map((item) => {
-                    const entity = world.byId.get(item.entityId);
-                    const name =
-                      item.skill === 'name-capital' || item.skill === 'locate-capital' || item.skill === 'capital-country'
-                        ? `${entity?.capital?.name ?? '?'} (${entity?.name ?? item.entityId})`
-                        : (entity?.name ?? item.entityId);
+                    const name = answerLabel(world, item.exercise, item.entityId);
                     return (
                       <li key={`${item.entityId}:${item.skill}`}>
                         <span class="progress__weak-name">{name}</span>
@@ -209,7 +206,7 @@ export function ProgressScreen({ world, zones, onPlay, onHome }: Props) {
 
           <section class="paper-card progress__card progress__card--wide progress__danger">
             <h2>Repartir de zéro</h2>
-            <ResetProgress zones={zones} onReset={() => setVersion((v) => v + 1)} />
+            <ResetProgress world={world} zones={zones} onReset={() => setVersion((v) => v + 1)} />
           </section>
         </main>
       )}

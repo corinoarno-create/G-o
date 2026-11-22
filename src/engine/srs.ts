@@ -12,7 +12,9 @@ export type Skill =
   | 'locate-capital' // placer la capitale sur la carte (au plus près)
   | 'capital-country' // retrouver le pays d'une capitale (clic sur le pays)
   | 'name-capital' // donner la capitale du pays
-  | 'flag'; // reconnaître le drapeau
+  | 'flag' // reconnaître le drapeau
+  | 'locate-city' // placer une ville sur la carte (au plus près, Expert)
+  | 'name-city'; // nommer une ville pointée sur la carte (Expert)
 
 export const SKILL_LABELS: Record<Skill, string> = {
   'locate-country': 'Placer le pays',
@@ -21,6 +23,8 @@ export const SKILL_LABELS: Record<Skill, string> = {
   'capital-country': 'Capitale → pays',
   'name-capital': 'Donner la capitale',
   flag: 'Reconnaître le drapeau',
+  'locate-city': 'Placer la ville',
+  'name-city': 'Nommer la ville',
 };
 
 /**
@@ -31,7 +35,7 @@ export const SKILL_LABELS: Record<Skill, string> = {
  */
 export type Track = 'carnet' | 'expert';
 
-export const EXPERT_SKILLS: ReadonlySet<Skill> = new Set<Skill>(['locate-capital']);
+export const EXPERT_SKILLS: ReadonlySet<Skill> = new Set<Skill>(['locate-capital', 'locate-city', 'name-city']);
 
 export const trackOf = (skill: Skill): Track => (EXPERT_SKILLS.has(skill) ? 'expert' : 'carnet');
 

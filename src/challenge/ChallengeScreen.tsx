@@ -12,6 +12,7 @@ import { answerPlay, drawChallenge, loadMyChallenges, markSeen } from './challen
 import { SharePanel } from './SharePanel.tsx';
 import { challengeStatus, friendsFrom, ranking, type Friend } from './summary.ts';
 import type { Challenge } from './types.ts';
+import { answerLabel } from '../game/items.ts';
 import './challenge.css';
 
 interface Props {
@@ -36,10 +37,7 @@ export function formatTime(ms: number): string {
 
 /** Nom affiché d'une question : la capitale pour les exercices de capitales, sinon le pays. */
 function questionLabel(world: WorldData, exercise: Challenge['exercise'], entityId: string): string {
-  const entity = world.byId.get(entityId);
-  if (!entity) return entityId;
-  const capitalExercise = exercise === 'locate-capital' || exercise === 'name-capital' || exercise === 'capital-to-country';
-  return capitalExercise && entity.capital ? `${entity.capital.name} (${entity.name})` : entity.name;
+  return answerLabel(world, exercise, entityId);
 }
 
 /** Titre de la comparaison, toujours positif. */

@@ -1,6 +1,7 @@
 // Remise à zéro de la progression : tout, ou une zone du monde (éventuellement une seule catégorie),
 // pour la retravailler en profondeur. Toujours après une confirmation qui dit ce qui sera effacé.
 import { useState } from 'preact/hooks';
+import type { WorldData } from '../data/world.ts';
 import type { Skill } from '../engine/srs.ts';
 import type { Zone } from '../map/zones.ts';
 import { downloadText, exportBackup } from '../storage/backup.ts';
@@ -9,12 +10,13 @@ import { progressDb } from '../storage/progress-db.ts';
 import { requestSync } from '../sync/sync.ts';
 
 type Scope = 'zone' | 'all';
-type Category = 'all' | 'countries' | 'capitals' | 'flags';
+type Category = 'all' | 'countries' | 'capitals' | 'flags' | 'cities';
 
 const CATEGORY_SKILLS: Record<Exclude<Category, 'all'>, Skill[]> = {
   countries: ['locate-country', 'name-country'],
   capitals: ['locate-capital', 'capital-country', 'name-capital'],
   flags: ['flag'],
+  cities: ['locate-city', 'name-city'],
 };
 
 const CATEGORY_LABELS: Record<Category, string> = {
@@ -22,15 +24,17 @@ const CATEGORY_LABELS: Record<Category, string> = {
   countries: 'Pays',
   capitals: 'Capitales',
   flags: 'Drapeaux',
+  cities: 'Villes',
 };
 
 interface Props {
+  world: WorldData;
   zones: Zone[];
   /** Appelé après un effacement, pour recalculer les statistiques. */
   onReset: () => void;
 }
 
-export function ResetProgress({ zones, onReset }: Props) {
+export function ResetProgress({ world, zones, onReset }: Props) {
   const regions = zones.filter((zone) => zone.kind !== 'world');
   const continents = regions.filter((zone) => zone.kind === 'continent');
   const [scope, setScope] = useState<Scope>('zone');
@@ -48,7 +52,8 @@ export function ResetProgress({ zones, onReset }: Props) {
       scope === 'all'
         ? {}
         : {
-            entityIds: new Set(zone?.entityIds ?? []),
+            // Les villes d'un pays sont effacées avec lui (leurs cartes portent l'identifiant de la ville).
+            entityIds: new Set((zone?.entityIds ?? []).flatMap((id) => [id, ...(world.citiesByCountry.get(id) ?? []).map((city) => city.id)])),
             ...(category === 'all' ? {} : { skills: new Set(CATEGORY_SKILLS[category]) }),
           };
     const label =

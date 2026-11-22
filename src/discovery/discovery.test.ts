@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { buildWorldData, countries } from '../data/world.ts';
-import { buildChoices, discoveryFamily, nextQueue, recognizeQuestion } from './discovery.ts';
+import { buildChoices, cityAsEntity, choiceLabel, discoveryFamily, nextQueue, recognizeQuestion } from './discovery.ts';
 
 const topology = JSON.parse(readFileSync(join(import.meta.dirname, '../../data/world/world.topo.json'), 'utf8'));
 const world = buildWorldData(topology, countries);
@@ -17,6 +17,17 @@ describe('discoveryFamily', () => {
     expect(discoveryFamily('locate-country')).toBe('country');
     expect(discoveryFamily('capital-to-country')).toBe('capital');
     expect(discoveryFamily('country-to-flag')).toBe('flag');
+    expect(discoveryFamily('name-city')).toBe('city');
+  });
+});
+
+describe('découverte des villes', () => {
+  it('présente une ville comme un point à reconnaître, sans dévoiler son pays', () => {
+    const lyon = world.cities.find((city) => city.name === 'Lyon')!;
+    const asEntity = cityAsEntity(world, lyon)!;
+    expect(asEntity).toMatchObject({ id: lyon.id, name: 'France', capital: { name: 'Lyon' } });
+    expect(recognizeQuestion('locate-city', asEntity)).toMatchObject({ ask: 'Quelle est cette ville ?', pin: [lyon.lon, lyon.lat], choiceKind: 'capital' });
+    expect(choiceLabel(world, lyon.id, 'capital')).toBe('Lyon');
   });
 });
 

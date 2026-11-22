@@ -76,15 +76,17 @@ describe('buildHomeSummary', () => {
       card('fr', 'locate-country', '2026-11-17T00:00:00Z'),
       card('de', 'locate-capital', '2026-11-16T00:00:00Z', 2), // en cours
       card('it', 'locate-capital', '2026-11-25T00:00:00Z', 45),
+      card('mc', 'locate-capital', '2026-11-25T00:00:00Z', 45),
     ]);
     const summary = buildHomeSummary(world, cards, new Map(), now);
     expect(summary.due).toBe(1);
     expect(summary.dueByExercise.map((d) => d.exercise)).toEqual(['locate-country']);
     expect(summary.expert).toMatchObject({ due: 1, reviewBatch: 1 });
     expect(summary.expert.dueByExercise.map((d) => d.exercise)).toEqual(['locate-capital']);
-    // La capitale de l'Italie, maîtrisée, ne colore pas le carnet… mais donne un sceau.
+    // Une capitale maîtrisée ne colore pas le carnet. Monaco, sans autre ville, a son sceau ;
+    // l'Italie, dont les villes ne sont pas encore acquises, pas encore.
     expect(summary.entityMastery.get('it')).toBe(0);
-    expect([...summary.seals]).toEqual(['it']);
+    expect([...summary.seals]).toEqual(['mc']);
   });
 
   it('regroupe les révisions dues par exercice', () => {

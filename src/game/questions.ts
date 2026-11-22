@@ -24,4 +24,6 @@ export const EXERCISES_FOR_SKILL: Record<Skill, ExerciseId[]> = {
   'capital-country': ['capital-to-country'],
   'name-capital': ['name-capital'],
   flag: ['flag-to-country', 'country-to-flag'],
+  'locate-city': ['locate-city'],
+  'name-city': ['name-city'],
 };

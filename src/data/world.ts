@@ -5,10 +5,11 @@ import { geoArea } from 'd3-geo';
 import { feature, mesh } from 'topojson-client';
 import type { Feature, MultiLineString, MultiPolygon, Polygon } from 'geojson';
 import type { GeometryCollection, Topology } from 'topojson-specification';
+import citiesJson from '../../data/world/cities.json';
 import countriesJson from '../../data/world/countries.json';
 import topologyUrl from '../../data/world/world.topo.json?url';
 import { removeSeams } from './seams.ts';
-import type { CountryEntity } from './types.ts';
+import type { CityEntity, CountryEntity } from './types.ts';
 
 export type Shape = Feature<Polygon | MultiPolygon, { eid: string }>;
 
@@ -25,9 +26,15 @@ export interface WorldData {
   borders: MultiLineString;
   /** Côtes. */
   coastlines: MultiLineString;
+  /** Villes à apprendre (mode Expert), hors capitales. */
+  cities: CityEntity[];
+  cityById: Map<string, CityEntity>;
+  /** Villes de chaque pays, dans l'ordre de la liste. */
+  citiesByCountry: Map<string, CityEntity[]>;
 }
 
 export const countries = countriesJson as unknown as CountryEntity[];
+export const cities = citiesJson as unknown as CityEntity[];
 
 /** Part minimale de la plus grande terre pour qu'une terre compte dans le cadrage. */
 const MAIN_PART_RATIO = 0.1;
@@ -55,7 +62,7 @@ type WorldTopology = Topology<{
 }>;
 
 /** Construit les données à partir de la topologie (séparé du chargement pour les tests). */
-export function buildWorldData(topology: WorldTopology, list: CountryEntity[] = countries): WorldData {
+export function buildWorldData(topology: WorldTopology, list: CountryEntity[] = countries, cityList: CityEntity[] = cities): WorldData {
   const entities = feature(topology, topology.objects.entities).features as Shape[];
   const neutral = feature(topology, topology.objects.neutral).features as Shape[];
   const shapes = new Map(entities.map((shape) => [shape.properties.eid, shape]));
@@ -67,6 +74,12 @@ export function buildWorldData(topology: WorldTopology, list: CountryEntity[] = 
   };
   const borders = removeSeams(mesh(topology, all, (a, b) => a !== b));
   const coastlines = removeSeams(mesh(topology, all, (a, b) => a === b));
+  const citiesByCountry = new Map<string, CityEntity[]>();
+  for (const city of cityList) {
+    const group = citiesByCountry.get(city.country) ?? [];
+    group.push(city);
+    citiesByCountry.set(city.country, group);
+  }
   return {
     countries: list,
     byId: new Map(list.map((c) => [c.id, c])),
@@ -75,6 +88,9 @@ export function buildWorldData(topology: WorldTopology, list: CountryEntity[] = 
     neutral,
     borders,
     coastlines,
+    cities: cityList,
+    cityById: new Map(cityList.map((city) => [city.id, city])),
+    citiesByCountry,
   };
 }
 

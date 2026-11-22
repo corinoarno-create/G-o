@@ -18,7 +18,7 @@ import type { HighlightKind, MapInsets, MapLabel, MapLine, MapPick, MapPin, Worl
 import { WorldMapView } from '../map/WorldMapView.tsx';
 import { getSetting, putSetting } from '../storage/db.ts';
 import { progressDb } from '../storage/progress-db.ts';
-import { capitalAnchors, pendingCapitalEntities } from './anchors.ts';
+import { capitalAnchors, cityAnchors, pendingCapitalEntities } from './anchors.ts';
 import { entityNoun, EXERCISES, hasOwnFlag, hintFor, MAX_TRIES, showFrame, type Hint, type HintLevel } from './exercises.ts';
 import { parseQuestionKey, questionKey } from './questions.ts';
 import { seededRng } from './selection.ts';
@@ -42,15 +42,21 @@ const SUCCESS_FLASH_MS = 1200;
 /** Exercices où l'élément demandé est montré sur la carte (on peut donc zoomer dessus sans rien dévoiler). */
 const SHOWS_TARGET = new Set(['name-country', 'name-capital', 'country-to-flag']);
 
+/** Exercices jugés à la distance d'un point (capitale ou ville) : on clique n'importe où, même dans la mer. */
+const POINT_EXERCISES = new Set(['locate-capital', 'locate-city']);
+
+/** Exercices de villes : la carte se cadre sur le pays de la ville (on sait dans quel pays chercher). */
+const CITY_FRAME_KM = 600;
+
 /** Exercices sur les capitales : la bonne capitale est pointée sur la carte une fois la réponse donnée. */
-const CAPITAL_EXERCISES = new Set(['locate-capital', 'capital-to-country', 'name-capital']);
+const CAPITAL_EXERCISES = new Set(['locate-capital', 'capital-to-country', 'name-capital', 'locate-city', 'name-city']);
 
 /**
  * Exercices de placement au plus près (jugés à la distance) : la carte montre des capitales voisines pour s'y
  * retrouver, de moins en moins à mesure que l'élément est retenu. Pas de fleuves ni de limites intérieures :
  * essayés le 22/11/2026, ils brouillaient la carte et ralentissaient le zoom (décision d'Arno).
  */
-const PLACEMENT_EXERCISES = new Set(['locate-capital']);
+const PLACEMENT_EXERCISES = new Set(['locate-capital', 'locate-city']);
 
 const formatKm = (km: number) => `${Math.round(km).toLocaleString('fr-FR')} km`;
 
@@ -158,7 +164,11 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
   const itemKey = currentItem(consolidation);
   const question = itemKey ? parseQuestionKey(itemKey) : null;
   const exercise = EXERCISES[question?.exercise ?? 'locate-country'];
-  const entity = question ? world.byId.get(question.entityId) : undefined;
+  // Ville (mode Expert) : la question porte sur la ville, `entity` est son pays.
+  const city = question ? world.cityById.get(question.entityId) : undefined;
+  const entity = question ? world.byId.get(city ? city.country : question.entityId) : undefined;
+  /** Point à trouver : la ville, ou la capitale du pays. */
+  const targetPoint: [number, number] | null = city ? [city.lon, city.lat] : entity?.capital ? [entity.capital.lon, entity.capital.lat] : null;
   const maxTries = MAX_TRIES[exercise.answerMode];
   // Manche qui enchaîne plusieurs exercices (révisions du jour) : on affiche l'exercice en cours.
   const mixed = useMemo(() => new Set(game.questions.map((q) => q.exercise)).size > 1, [game]);
@@ -169,10 +179,22 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
   // (fixés au début de la question). Pas dans un défi : tous les joueurs doivent avoir la même carte.
   const anchors = useMemo(() => {
     if (!showLandmarks || !entity || game.challenge) return [];
-    const record = game.recorder.cards.get(cardKey(entity.id, exercise.skill));
-    const mastery = record ? masteryOf(record.card) : 'new';
-    return capitalAnchors(world, entity, mastery, pendingCapitalEntities(consolidation.queue));
-  }, [consolidation, showLandmarks, entity, exercise.skill]);
+    const levelOf = (id: string, skill: typeof exercise.skill) => {
+      const record = game.recorder.cards.get(cardKey(id, skill));
+      return record ? masteryOf(record.card) : 'new';
+    };
+    const pending = pendingCapitalEntities(consolidation.queue);
+    if (city) {
+      // Villes que je sais déjà placer : elles servent de repères pour les autres villes du pays.
+      const known = new Set(
+        (world.citiesByCountry.get(city.country) ?? [])
+          .filter((other) => ['acquired', 'mastered'].includes(levelOf(other.id, 'locate-city')))
+          .map((other) => other.id),
+      );
+      return cityAnchors(world, city, levelOf(city.id, exercise.skill), known, pending);
+    }
+    return capitalAnchors(world, entity, levelOf(entity.id, exercise.skill), pending);
+  }, [consolidation, showLandmarks, entity, city, exercise.skill]);
   const anchorLabels = useMemo<MapLabel[]>(() => anchors.map((a) => ({ lonLat: a.lonLat, text: a.name, kind: 'anchor' })), [anchors]);
 
   // Propositions de drapeaux : fixées par question, pour qu'un nouvel essai montre les mêmes.
@@ -222,6 +244,10 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
         const shown = showFrame(world, entity);
         mapRef.current?.flyTo(shown.ids, 600, shown.points, shown.minKm);
         flew.current = true;
+      } else if (city) {
+        // Ville : on sait dans quel pays elle est, la carte s'y cadre (la ville nommée est montrée en plus).
+        mapRef.current?.flyTo([entity.id], 600, exercise.id === 'name-city' ? [[city.lon, city.lat]] : [], CITY_FRAME_KM);
+        flew.current = true;
       } else if (flew.current) {
         mapRef.current?.resetView(500);
         flew.current = false;
@@ -254,7 +280,7 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
     const info = firstTry.current;
     log.current.push({
       exercise: exercise.id,
-      entityId: entity!.id,
+      entityId: question!.entityId,
       correct: solvedFirstTime,
       firstAttempt: next.outcome.firstAttempt,
       responseMs: info?.responseMs ?? 0,
@@ -270,22 +296,24 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
   /** Monte l'indice au niveau donné (il ne redescend jamais). */
   const raiseHint = (level: HintLevel) => {
     if (!entity || hintLevel >= level) return;
-    const next = hintFor(exercise.id, entity, level, { world, choices, eliminated });
+    const next = hintFor(exercise.id, entity, level, { world, choices, eliminated, city });
     setHintLevel(level);
     setHint(next);
     if (next.eliminate?.length) setEliminated((list) => [...list, ...next.eliminate!]);
     // L'indice de lieu sert aussi à rendre les petites îles cliquables : la carte zoome sur la région.
-    if (next.focus?.length) setFrame({ state: consolidation, ids: next.focus, points: [], minKm: next.focusKm ?? 800 });
+    if (next.focus?.length || next.points?.length) {
+      setFrame({ state: consolidation, ids: next.focus ?? [], points: next.points ?? [], minKm: next.focusKm ?? 800 });
+    }
   };
 
   const answer = (input: AnswerInput, giveUp = false) => {
     if (!entity || !itemKey || reveal) return;
-    const evaluation = evaluateAnswer(exercise.id, entity, input, world);
+    const evaluation = evaluateAnswer(exercise.id, entity, input, world, Math.random, city);
     const correct = evaluation.correct && !giveUp;
     const isFirstTry = (consolidation.attempts[itemKey] ?? 0) === 0 && tries === 0;
     const responseMs = performance.now() - questionShownAt.current;
     const recorded = game.recorder.record({
-      entityId: entity.id,
+      entityId: question!.entityId,
       skill: exercise.skill,
       mode: evaluation.mode,
       correct,
@@ -311,10 +339,9 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
     if (correct) {
       // Validation instantanée : on enchaîne tout de suite, le « ✓ » s'affiche par-dessus.
       const next = resolve(tries === 0);
-      const capitalPin =
-        CAPITAL_EXERCISES.has(exercise.id) && entity.capital ? ([entity.capital.lon, entity.capital.lat] as [number, number]) : null;
+      const capitalPin = CAPITAL_EXERCISES.has(exercise.id) ? targetPoint : null;
       const line =
-        exercise.id === 'locate-capital' && click && capitalPin && evaluation.distanceKm !== undefined
+        POINT_EXERCISES.has(exercise.id) && click && capitalPin && evaluation.distanceKm !== undefined
           ? { from: click, to: capitalPin, label: formatKm(evaluation.distanceKm) }
           : null;
       setSuccess({ key: Date.now(), text: evaluation.message, entityId: entity.id, pin: capitalPin, line });
@@ -331,9 +358,7 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
       setWrongMark(null);
       const ids = [entity.id, ...(evaluation.chosenEntityId ? [evaluation.chosenEntityId] : [])];
       const points =
-        exercise.id === 'locate-capital' && entity.capital
-          ? [[entity.capital.lon, entity.capital.lat] as [number, number], ...(click ? [click] : [])]
-          : [];
+        POINT_EXERCISES.has(exercise.id) && targetPoint ? [targetPoint, ...(click ? [click] : [])] : [];
       if (exercise.answerMode === 'pin' || exercise.id === 'flag-to-country') setFrame({ state: consolidation, ids, points, minKm: 1000 });
       return;
     }
@@ -363,7 +388,7 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
     if (reveal || !entity) return;
     const pinExercise = exercise.answerMode === 'pin' || exercise.id === 'flag-to-country';
     if (!pinExercise) return;
-    if (exercise.id !== 'locate-capital' && !pick.entityId) return; // clic dans la mer : on ignore
+    if (!POINT_EXERCISES.has(exercise.id) && !pick.entityId) return; // clic dans la mer : on ignore
     if (device === 'mobile') setPending(pick);
     else answer({ kind: 'pin', entityId: pick.entityId, lonLat: pick.lonLat });
   };
@@ -382,7 +407,7 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
   const onType = (value: string) => {
     setTyped(value);
     // Validation instantanée : dès que le nom est exactement juste, c'est validé.
-    if (entity && isExactTypedAnswer(exercise.id, entity, value, world)) answer({ kind: 'type', text: value });
+    if (entity && isExactTypedAnswer(exercise.id, entity, value, world, city)) answer({ kind: 'type', text: value });
   };
 
   const toggleLandmarks = () => {
@@ -400,8 +425,9 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
   // Couleurs sur la carte : doré = élément demandé, bleu = sélection, rouge = erreur, vert = bonne réponse.
   const highlights = useMemo(() => {
     const map = new Map<string, HighlightKind>();
-    if (success) map.set(success.entityId, 'correct');
-    if (!entity) return map;
+    if (success && !success.pin) map.set(success.entityId, 'correct');
+    // Ville : on ne colore pas son pays (c'est le point qui compte).
+    if (!entity || city) return map;
     if (reveal) {
       const chosen = reveal.evaluation.chosenEntityId;
       if (chosen && chosen !== entity.id && exercise.id !== 'country-to-flag') map.set(chosen, 'wrong');
@@ -414,46 +440,49 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
     if (wrongMark?.entityId && wrongMark.entityId !== entity.id && exercise.id !== 'country-to-flag') {
       map.set(wrongMark.entityId, 'wrong');
     }
-    if (pending?.entityId && exercise.id !== 'locate-capital') map.set(pending.entityId, 'selected');
+    if (pending?.entityId && !POINT_EXERCISES.has(exercise.id)) map.set(pending.entityId, 'selected');
     return map;
-  }, [entity, exercise.id, reveal, pending, wrongMark, success, hint]);
+  }, [entity, city, exercise.id, reveal, pending, wrongMark, success, hint]);
 
   const pins = useMemo<MapPin[]>(() => {
     const list: MapPin[] = anchors.map((a) => ({ lonLat: a.lonLat, kind: 'anchor' }));
     if (success?.pin) list.push({ lonLat: success.pin, kind: 'correct' });
-    const capital = entity?.capital ? ([entity.capital.lon, entity.capital.lat] as [number, number]) : null;
+    const capital = targetPoint;
     if (reveal) {
-      if (exercise.id === 'locate-capital' && reveal.click) list.push({ lonLat: reveal.click, kind: 'wrong' });
+      if (POINT_EXERCISES.has(exercise.id) && reveal.click) list.push({ lonLat: reveal.click, kind: 'wrong' });
       if (capital && CAPITAL_EXERCISES.has(exercise.id)) list.push({ lonLat: capital, kind: 'correct' });
       return list;
     }
-    if (exercise.id === 'locate-capital') {
+    // Nommer une ville : elle est pointée sur la carte.
+    if (exercise.id === 'name-city' && capital) list.push({ lonLat: capital, kind: 'target' });
+    if (POINT_EXERCISES.has(exercise.id)) {
       if (wrongMark?.lonLat) list.push({ lonLat: wrongMark.lonLat, kind: 'wrong' });
       if (pending?.lonLat) list.push({ lonLat: pending.lonLat, kind: 'selected' });
     }
     return list;
-  }, [entity, exercise.id, reveal, pending, wrongMark, success, anchors]);
+  }, [entity, exercise.id, reveal, pending, wrongMark, success, anchors, targetPoint?.[0], targetPoint?.[1]]);
 
   // Placer une capitale : un pointillé se dessine de mon clic jusqu'à la vraie position (jamais avant la fin
   // de la question, sinon il donnerait la réponse).
   const lines = useMemo<MapLine[]>(() => {
     if (success?.line) return [success.line];
-    const capital = entity?.capital;
-    if (reveal && exercise.id === 'locate-capital' && reveal.click && capital) {
+    if (reveal && POINT_EXERCISES.has(exercise.id) && reveal.click && targetPoint) {
       const distance = reveal.evaluation.distanceKm;
-      return [{ from: reveal.click, to: [capital.lon, capital.lat], label: distance !== undefined ? formatKm(distance) : undefined }];
+      return [{ from: reveal.click, to: targetPoint, label: distance !== undefined ? formatKm(distance) : undefined }];
     }
     return [];
-  }, [success, reveal, entity, exercise.id]);
+  }, [success, reveal, entity, exercise.id, targetPoint?.[0], targetPoint?.[1]]);
 
   const suggestions = useMemo(() => {
     if (!autocomplete || exercise.answerMode !== 'type' || reveal) return [];
     const names =
-      exercise.id === 'name-capital'
-        ? world.countries.flatMap((c) => (c.capital ? [c.capital.name] : []))
-        : world.countries.map((c) => c.name);
+      exercise.id === 'name-city'
+        ? (world.citiesByCountry.get(entity?.id ?? '') ?? []).map((c) => c.name)
+        : exercise.id === 'name-capital'
+          ? world.countries.flatMap((c) => (c.capital ? [c.capital.name] : []))
+          : world.countries.map((c) => c.name);
     return suggest(typed, names);
-  }, [autocomplete, exercise, reveal, typed, world]);
+  }, [autocomplete, exercise, reveal, typed, world, entity]);
 
   const { solved, total } = progress(consolidation);
   const flag = entity ? flagUrl(entity.flag) : null;
@@ -495,7 +524,7 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
           pins={pins}
           lines={lines}
           magnify
-          markerIds={SHOWS_TARGET.has(exercise.id) && entity ? [entity.id] : null}
+          markerIds={city ? [] : SHOWS_TARGET.has(exercise.id) && entity ? [entity.id] : null}
           insets={insets}
           labels={anchorLabels}
           onPick={onPick}
@@ -515,6 +544,7 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
             exerciseId={exercise.id}
             entityName={entity.name}
             capitalName={entity.capital?.name ?? ''}
+            cityName={city?.name ?? ''}
             flag={flag}
             noun={entityNoun(entity)}
           />
@@ -565,7 +595,7 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
                     class="game__input"
                     value={typed}
                     onInput={(event) => onType(event.currentTarget.value)}
-                    placeholder={exercise.id === 'name-capital' ? 'Capitale…' : 'Nom du pays…'}
+                    placeholder={exercise.id === 'name-capital' ? 'Capitale…' : exercise.id === 'name-city' ? 'Nom de la ville…' : 'Nom du pays…'}
                     autocomplete="off"
                     autocapitalize="sentences"
                     spellcheck={false}
@@ -612,7 +642,7 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
               {pending && (
                 <div class="game__confirm">
                   {/* Surtout pas le nom du pays touché : il donnerait la réponse. */}
-                  <span>{exercise.id === 'locate-capital' ? 'Ce point ?' : `Ce ${entityNoun(entity)} ?`}</span>
+                  <span>{POINT_EXERCISES.has(exercise.id) ? 'Ce point ?' : `Ce ${entityNoun(entity)} ?`}</span>
                   <button
                     type="button"
                     class="btn btn--teal"
@@ -681,8 +711,23 @@ function Route({ solved, total }: { solved: number; total: number }) {
   );
 }
 
-function Prompt(props: { exerciseId: string; entityName: string; capitalName: string; flag: string | null; noun: string }) {
+function Prompt(props: { exerciseId: string; entityName: string; capitalName: string; cityName: string; flag: string | null; noun: string }) {
   switch (props.exerciseId) {
+    case 'locate-city':
+      return (
+        <>
+          <p class="game__ask">Où est…</p>
+          <h2 class="game__subject">{props.cityName}</h2>
+          <p class="game__context">{props.entityName}</p>
+        </>
+      );
+    case 'name-city':
+      return (
+        <>
+          <p class="game__ask">Quelle est cette ville ?</p>
+          <h2 class="game__subject game__subject--small">{props.entityName}</h2>
+        </>
+      );
     case 'locate-country':
       return (
         <>

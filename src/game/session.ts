@@ -1,12 +1,13 @@
 // Logique d'une manche, sans affichage : propositions de drapeaux,
 // évaluation des réponses (avec des messages positifs) et bilan de fin de manche.
-import type { CountryEntity } from '../data/types.ts';
+import type { CityEntity, CountryEntity } from '../data/types.ts';
 import type { WorldData } from '../data/world.ts';
 import { judgeAreaPin, judgePointPin, type PinCloseness } from '../engine/geo.ts';
 import type { AnswerMode } from '../engine/grading.ts';
 import type { MasteryLevel } from '../engine/srs.ts';
 import { matchAnswer, normalize } from '../engine/text-match.ts';
 import { capitalAnswers, countryAnswers, rivalAnswers, type ExerciseId } from './exercises.ts';
+import { cityAnswers, cityRivals } from './items.ts';
 import type { QuestionRef } from './questions.ts';
 import { shuffle, type Rng } from './selection.ts';
 
@@ -58,19 +59,35 @@ const PRAISES = ['Bravo !', 'Exact !', 'Parfait !', 'Bien vu !', 'Excellent !'];
 
 const formatKm = (km: number) => `${Math.round(km).toLocaleString('fr-FR')} km`;
 
-/** Évalue une réponse. */
+/** Ce qu'on attend en saisie : le nom, les réponses acceptées, les confusions possibles. */
+function typedTarget(exercise: ExerciseId, entity: CountryEntity, world: WorldData, city?: CityEntity) {
+  if (exercise === 'name-city' && city) {
+    return { expected: city.name, accepted: cityAnswers(city), rivals: cityRivals(world, city), label: `${city.name} (${entity.name})`, other: 'une autre ville' };
+  }
+  if (exercise === 'name-capital') {
+    const expected = entity.capital!.name;
+    return { expected, accepted: capitalAnswers(entity), rivals: rivalAnswers(world, 'capitals', entity.id), label: `${expected} (${entity.name})`, other: 'une autre capitale' };
+  }
+  return { expected: entity.name, accepted: countryAnswers(entity), rivals: rivalAnswers(world, 'countries', entity.id), label: entity.name, other: 'un autre pays' };
+}
+
+/**
+ * Évalue une réponse. `entity` est le pays de la question ; pour une ville (mode Expert), `city` est la ville
+ * demandée et `entity` son pays.
+ */
 export function evaluateAnswer(
   exercise: ExerciseId,
   entity: CountryEntity,
   input: AnswerInput,
   world: WorldData,
   rng: Rng = Math.random,
+  city?: CityEntity,
 ): Evaluation {
   const praise = PRAISES[Math.floor(rng() * PRAISES.length)]!;
   const nameOf = (id: string | null | undefined) => (id ? (world.byId.get(id)?.name ?? null) : null);
 
   // Réponse par clic sur un pays (Placer les pays, ou Drapeau → pays par la carte).
-  if (input.kind === 'pin' && exercise !== 'locate-capital') {
+  if (input.kind === 'pin' && exercise !== 'locate-capital' && exercise !== 'locate-city') {
     const result = judgeAreaPin(input.entityId, entity.id, input.lonLat, world.shapes.get(entity.id));
     const clicked = nameOf(input.entityId);
     let message = praise;
@@ -91,14 +108,14 @@ export function evaluateAnswer(
     };
   }
 
-  // Placer une capitale : distance au point exact.
+  // Placer une capitale ou une ville : distance au point exact (tolérance selon la taille du pays).
   if (input.kind === 'pin') {
-    const capital = entity.capital!;
-    const answerLabel = `${capital.name} (${entity.name})`;
+    const target = exercise === 'locate-city' && city ? city : entity.capital!;
+    const answerLabel = `${target.name} (${entity.name})`;
     if (!input.lonLat) {
-      return { correct: false, mode: 'pin', expected: capital.name, answerLabel, message: 'Voici la bonne réponse.' };
+      return { correct: false, mode: 'pin', expected: target.name, answerLabel, message: 'Voici la bonne réponse.' };
     }
-    const result = judgePointPin(input.lonLat, [capital.lon, capital.lat], entity.areaKm2);
+    const result = judgePointPin(input.lonLat, [target.lon, target.lat], entity.areaKm2);
     const distance = formatKm(result.distanceKm);
     const message = result.correct
       ? result.distanceKm < 1
@@ -110,7 +127,7 @@ export function evaluateAnswer(
     return {
       correct: result.correct,
       mode: 'pin',
-      expected: capital.name,
+      expected: target.name,
       answerLabel,
       message,
       closeness: result.closeness,
@@ -135,24 +152,21 @@ export function evaluateAnswer(
     };
   }
 
-  // Saisie : nom du pays ou de la capitale.
-  const capitalQuestion = exercise === 'name-capital';
-  const expected = capitalQuestion ? entity.capital!.name : entity.name;
-  const accepted = capitalQuestion ? capitalAnswers(entity) : countryAnswers(entity);
-  const rivals = rivalAnswers(world, capitalQuestion ? 'capitals' : 'countries', entity.id);
+  // Saisie : nom du pays, de la capitale ou de la ville.
+  const { expected, accepted, rivals, label, other } = typedTarget(exercise, entity, world, city);
   const match = matchAnswer(input.text, accepted, rivals);
   const answerLength = normalize(expected).replace(/ /g, '').length;
   let message: string;
   if (match.status === 'exact') message = praise;
   else if (match.status === 'close') message = `${praise} On écrit « ${match.matched} ».`;
   else if (match.confusedWith) {
-    message = `« ${match.confusedWith} » : c'est ${capitalQuestion ? 'une autre capitale' : 'un autre pays'}.`;
+    message = `« ${match.confusedWith} » : c'est ${other}.`;
   } else message = input.text.trim() ? 'Pas tout à fait.' : 'Voici la bonne réponse.';
   return {
     correct: match.status !== 'wrong',
     mode: 'type',
     expected,
-    answerLabel: capitalQuestion ? `${expected} (${entity.name})` : expected,
+    answerLabel: label,
     message,
     typed: input.text,
     answerLength,
@@ -197,7 +211,7 @@ export function summarize(log: SessionLogEntry[], durationMs: number): SessionSu
   const first = log.filter((entry) => entry.firstAttempt);
   const firstTryCorrect = first.filter((entry) => entry.correct).length;
   const distances = first
-    .filter((entry) => entry.exercise === 'locate-capital')
+    .filter((entry) => entry.exercise === 'locate-capital' || entry.exercise === 'locate-city')
     .map((entry) => entry.distanceKm)
     .filter((d): d is number => d !== undefined && Number.isFinite(d));
   const promoted = first.flatMap((entry) => {
@@ -222,9 +236,7 @@ export function summarize(log: SessionLogEntry[], durationMs: number): SessionSu
  * Sert à valider dès que le nom est juste, sans attendre Entrée. Une saisie approchée (petite faute)
  * n'est pas validée en cours de frappe : on attend Entrée, pour ne pas couper la fin du mot.
  */
-export function isExactTypedAnswer(exercise: ExerciseId, entity: CountryEntity, text: string, world: WorldData): boolean {
-  const capitalQuestion = exercise === 'name-capital';
-  const accepted = capitalQuestion ? capitalAnswers(entity) : countryAnswers(entity);
-  const rivals = rivalAnswers(world, capitalQuestion ? 'capitals' : 'countries', entity.id);
+export function isExactTypedAnswer(exercise: ExerciseId, entity: CountryEntity, text: string, world: WorldData, city?: CityEntity): boolean {
+  const { accepted, rivals } = typedTarget(exercise, entity, world, city);
   return matchAnswer(text, accepted, rivals).status === 'exact';
 }

@@ -11,7 +11,7 @@ import type { HighlightKind, MapInsets, MapLabel, MapPin, WorldMap } from '../ma
 import { WorldMapView } from '../map/WorldMapView.tsx';
 import { CloseIcon, CompassRose, PushPin } from '../ui/icons.tsx';
 import type { PreparedDiscovery } from './start.ts';
-import { buildChoices, choiceLabel, discoveryFamily, nextQueue, recognizeQuestion, type DiscoveryPhase } from './discovery.ts';
+import { buildChoices, choiceLabel, cityAsEntity, discoveryFamily, nextQueue, recognizeQuestion, type DiscoveryPhase } from './discovery.ts';
 import '../game/game.css';
 import './discovery.css';
 
@@ -28,10 +28,14 @@ const capitalOf = (entity: CountryEntity): [number, number] | null => (entity.ca
 export function DiscoveryScreen({ world, discovery, onDone, onQuit }: Props) {
   const { exercise, zone } = discovery;
   const family = discoveryFamily(exercise);
-  const group = useMemo(
-    () => discovery.entityIds.map((id) => world.byId.get(id)).filter((e): e is CountryEntity => e !== undefined),
-    [discovery, world],
-  );
+  /** Ce qu'on apprend est un point sur la carte (une capitale ou une ville). */
+  const pointFamily = family === 'capital' || family === 'city';
+  // Une ville est présentée comme un pays dont elle serait la capitale (voir cityAsEntity).
+  const entityOf = (id: string): CountryEntity | null => {
+    const city = world.cityById.get(id);
+    return city ? cityAsEntity(world, city) : (world.byId.get(id) ?? null);
+  };
+  const group = useMemo(() => discovery.entityIds.map(entityOf).filter((e): e is CountryEntity => e !== null), [discovery, world]);
   const [phase, setPhase] = useState<DiscoveryPhase>('observe');
   const [index, setIndex] = useState(0);
   const [queue, setQueue] = useState<string[]>([]);
@@ -66,7 +70,7 @@ export function DiscoveryScreen({ world, discovery, onDone, onQuit }: Props) {
   }, []);
 
   const observed = group[index];
-  const asked = phase === 'recognize' ? world.byId.get(queue[0] ?? '') : undefined;
+  const asked = phase === 'recognize' ? group.find((entity) => entity.id === queue[0]) : undefined;
   const question = asked ? recognizeQuestion(exercise, asked) : null;
 
   // Propositions fixées par élément, pour qu'un nouvel essai montre les mêmes.
@@ -75,7 +79,13 @@ export function DiscoveryScreen({ world, discovery, onDone, onQuit }: Props) {
     if (!asked) return [];
     let cached = choicesCache.current.get(asked.id);
     if (!cached) {
-      const pool = question?.choiceKind === 'capital' ? world.countries.filter((c) => c.capital) : world.countries;
+      // Villes : les autres villes de la zone ; capitales : les pays qui en ont une.
+      const pool =
+        family === 'city'
+          ? zone.entityIds.flatMap((id) => (world.citiesByCountry.get(id) ?? []).map((city) => cityAsEntity(world, city)!))
+          : question?.choiceKind === 'capital'
+            ? world.countries.filter((c) => c.capital)
+            : world.countries;
       cached = buildChoices(asked, group, pool);
       choicesCache.current.set(asked.id, cached);
     }
@@ -89,7 +99,7 @@ export function DiscoveryScreen({ world, discovery, onDone, onQuit }: Props) {
       const map = mapRef.current;
       if (!map) return;
       if (phase === 'observe' && observed) {
-        const capital = family === 'capital' ? capitalOf(observed) : null;
+        const capital = pointFamily ? capitalOf(observed) : null;
         map.flyTo([observed.id], 700, capital ? [capital] : [], 1500);
       } else if (phase === 'recognize' && asked && question) {
         // L'élément est montré sur la carte : on le cadre comme à l'étape Observer (une petite île
@@ -179,25 +189,25 @@ export function DiscoveryScreen({ world, discovery, onDone, onQuit }: Props) {
   }, [phase, observed, question, missed, asked]);
 
   const pins = useMemo<MapPin[]>(() => {
-    if (phase === 'observe' && observed && family === 'capital') {
+    if (phase === 'observe' && observed && pointFamily) {
       const capital = capitalOf(observed);
       return capital ? [{ lonLat: capital, kind: 'target' }] : [];
     }
     return question?.pin ? [{ lonLat: question.pin, kind: 'target' }] : [];
-  }, [phase, observed, question, family]);
+  }, [phase, observed, question, pointFamily]);
 
   // Étiquettes : l'élément observé en grand, ceux déjà vus en petit, pour les situer les uns par rapport aux autres.
   const labels = useMemo<MapLabel[]>(() => {
     if (phase !== 'observe') return [];
     return group.slice(0, index + 1).map((entity, i) => {
-      const capital = family === 'capital' ? capitalOf(entity) : null;
+      const capital = pointFamily ? capitalOf(entity) : null;
       return {
         lonLat: capital ?? entity.anchor,
-        text: family === 'capital' ? (entity.capital?.name ?? entity.name) : entity.name,
+        text: pointFamily ? (entity.capital?.name ?? entity.name) : entity.name,
         kind: i === index ? 'current' : 'seen',
       };
     });
-  }, [phase, index, group, family]);
+  }, [phase, index, group, pointFamily]);
 
   if (group.length === 0) {
     return (
@@ -235,6 +245,7 @@ export function DiscoveryScreen({ world, discovery, onDone, onQuit }: Props) {
           highlights={highlights}
           pins={pins}
           labels={labels}
+          markerIds={family === 'city' ? [] : null}
           insets={insets}
           onReady={(map) => (mapRef.current = map)}
         />
@@ -318,6 +329,17 @@ export function DiscoveryScreen({ world, discovery, onDone, onQuit }: Props) {
 /** Fiche de l'élément observé : son nom, et selon l'exercice sa capitale ou son drapeau. */
 function ObserveCard({ entity, family, flag }: { entity: CountryEntity; family: string; flag: string | null }) {
   const region = SUBREGION_LABELS[entity.subregion];
+  if (family === 'city') {
+    return (
+      <>
+        <p class="game__ask">Observe · ville</p>
+        <h2 class="game__subject">{entity.capital?.name}</h2>
+        <p class="discovery__detail">
+          {entityNoun(entity) === 'pays' ? 'Pays' : 'Territoire'} : <strong>{entity.name}</strong>
+        </p>
+      </>
+    );
+  }
   if (family === 'capital') {
     return (
       <>

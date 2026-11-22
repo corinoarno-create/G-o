@@ -89,6 +89,16 @@ export function buildProgressStats(world: WorldData, cards: Map<string, CardReco
       byContinent.set(entity.continent, continentCounts);
     }
   }
+  // Villes (mode Expert) : comptées par compétence seulement (l'expert ne compte pas par continent).
+  for (const city of world.cities) {
+    for (const skill of ['locate-city', 'name-city'] as const) {
+      const record = cards.get(cardKey(city.id, skill));
+      const level = record ? masteryOf(record.card) : 'new';
+      const skillCounts = bySkill.get(skill)!;
+      skillCounts[level] += 1;
+      skillCounts.total += 1;
+    }
+  }
   const totals = [...bySkill.values()].reduce(
     (sum, counts) => ({ acquired: sum.acquired + counts.acquired, mastered: sum.mastered + counts.mastered }),
     { acquired: 0, mastered: 0 },
@@ -147,7 +157,7 @@ export function buildProgressStats(world: WorldData, cards: Map<string, CardReco
 
   // Points faibles : cartes déjà vues, classées comme le contenu « Points faibles » du constructeur.
   const weak = [...cards.values()]
-    .filter((record) => record.card.reps > 0 && masteryOf(record.card) !== 'mastered' && world.byId.has(record.entityId))
+    .filter((record) => record.card.reps > 0 && masteryOf(record.card) !== 'mastered' && (world.byId.has(record.entityId) || world.cityById.has(record.entityId)))
     .sort((a, b) => weakness(b.card, now) - weakness(a.card, now))
     .slice(0, WEAK_COUNT)
     .map((record) => {

@@ -49,7 +49,11 @@ export const CATEGORIES: Category[] = [
     id: 'expert',
     label: 'Expert',
     expert: true,
-    modes: [{ id: 'capital-pin', label: 'Placer les capitales', exercise: 'locate-capital' }],
+    modes: [
+      { id: 'capital-pin', label: 'Placer les capitales', exercise: 'locate-capital' },
+      { id: 'city-pin', label: 'Placer les villes', exercise: 'locate-city' },
+      { id: 'city-type', label: 'Nommer les villes', exercise: 'name-city' },
+    ],
   },
 ];
 
