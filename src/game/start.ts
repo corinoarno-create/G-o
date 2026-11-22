@@ -62,7 +62,7 @@ export async function prepareGame(world: WorldData, worldZone: Zone, request: Ga
       questions = planBuilder(world, request, recorder.cards, now);
       break;
     case 'review':
-      questions = planReview(world, recorder.cards, now);
+      questions = planReview(world, recorder.cards, now, Math.random, request.track ?? 'carnet');
       break;
     case 'discovery':
       // Normalement préparée par prepareDiscovery ; ici, à défaut, une manche de nouveautés.

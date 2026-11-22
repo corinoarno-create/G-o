@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { CATEGORIES, defaultFavoriteName, DEFAULT_CHOICE, modeOf, sanitizeChoice } from './options.ts';
+import { CATEGORIES, defaultFavoriteName, DEFAULT_CHOICE, migrateStoredChoice, modeOf, sanitizeChoice } from './options.ts';
 
 describe('catégories et modes', () => {
   it('associent chaque mode à un exercice', () => {
@@ -38,5 +38,18 @@ describe('sanitizeChoice', () => {
       count: 10,
       content: 'due',
     });
+  });
+});
+
+describe('migrateStoredChoice', () => {
+  it('range l’ancien « Capitales → Placer » dans l’Expert', () => {
+    const old = { zoneId: 'europe', category: 'capitals', mode: 'pin', count: 20, content: 'mix' };
+    expect(sanitizeChoice(migrateStoredChoice(old))).toMatchObject({ category: 'expert', mode: 'capital-pin', count: 20 });
+    expect(modeOf(sanitizeChoice(migrateStoredChoice(old))).exercise).toBe('locate-capital');
+  });
+
+  it('ne touche pas aux autres choix', () => {
+    const choice = { zoneId: 'world', category: 'capitals', mode: 'type', count: 10, content: 'mix' };
+    expect(migrateStoredChoice(choice)).toBe(choice);
   });
 });

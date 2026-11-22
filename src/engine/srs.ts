@@ -23,6 +23,21 @@ export const SKILL_LABELS: Record<Skill, string> = {
   flag: 'Reconnaître le drapeau',
 };
 
+/**
+ * Deux volets (lot 2, 22/11/2026) :
+ * - le **carnet** : ce que j'entretiens (pays, capitales, drapeaux) ; il colore la carte de conquête ;
+ * - l'**expert** : la précision (placer les capitales, puis les villes) ; un bonus qui ne fait jamais baisser
+ *   le carnet, avec ses propres révisions et un sceau doré par pays.
+ */
+export type Track = 'carnet' | 'expert';
+
+export const EXPERT_SKILLS: ReadonlySet<Skill> = new Set<Skill>(['locate-capital']);
+
+export const trackOf = (skill: Skill): Track => (EXPERT_SKILLS.has(skill) ? 'expert' : 'carnet');
+
+/** Compétences d'un volet, dans l'ordre de SKILL_LABELS. */
+export const skillsOf = (track: Track): Skill[] => (Object.keys(SKILL_LABELS) as Skill[]).filter((skill) => trackOf(skill) === track);
+
 /** Identifiant d'une carte mémoire : « fr:name-capital ». */
 export const cardKey = (entityId: string, skill: Skill) => `${entityId}:${skill}`;
 

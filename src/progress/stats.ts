@@ -4,7 +4,7 @@ import { CONTINENT_LABELS } from '../data/labels.ts';
 import type { ContinentId } from '../data/types.ts';
 import type { WorldData } from '../data/world.ts';
 import { median, type AnswerMode } from '../engine/grading.ts';
-import { cardKey, masteryOf, parseCardKey, SKILL_LABELS, type MasteryLevel, type Skill } from '../engine/srs.ts';
+import { cardKey, masteryOf, parseCardKey, SKILL_LABELS, trackOf, type MasteryLevel, type Skill } from '../engine/srs.ts';
 import { EXERCISES, type ExerciseId } from '../game/exercises.ts';
 import { EXERCISES_FOR_SKILL } from '../game/questions.ts';
 import { weakness } from '../game/selection.ts';
@@ -36,7 +36,9 @@ export interface ProgressStats {
   };
   /** Premières réponses justes et fausses, jour par jour (le plus ancien d'abord). */
   activity: Array<{ day: Date; correct: number; wrong: number }>;
-  masteryBySkill: Array<{ skill: Skill; label: string; counts: MasteryCounts }>;
+  /** Par compétence ; celles du volet Expert sont marquées (affichées à part). */
+  masteryBySkill: Array<{ skill: Skill; label: string; counts: MasteryCounts; expert: boolean }>;
+  /** Par continent : le carnet seul (sans l'expert), comme sur l'accueil. */
   masteryByContinent: Array<{ id: ContinentId; label: string; counts: MasteryCounts }>;
   /** Temps médians (ms) semaine par semaine, et écart médian (km) pour « Placer la capitale ». */
   speed: Array<{ weekStart: Date; medians: Record<AnswerMode, number | null>; capitalKm: number | null }>;
@@ -80,6 +82,7 @@ export function buildProgressStats(world: WorldData, cards: Map<string, CardReco
       const skillCounts = bySkill.get(skill)!;
       skillCounts[level] += 1;
       skillCounts.total += 1;
+      if (trackOf(skill) === 'expert') continue;
       const continentCounts = byContinent.get(entity.continent) ?? emptyCounts();
       continentCounts[level] += 1;
       continentCounts.total += 1;
@@ -161,7 +164,7 @@ export function buildProgressStats(world: WorldData, cards: Map<string, CardReco
       mastered: totals.mastered,
     },
     activity,
-    masteryBySkill: skills.map((skill) => ({ skill, label: SKILL_LABELS[skill], counts: bySkill.get(skill)! })),
+    masteryBySkill: skills.map((skill) => ({ skill, label: SKILL_LABELS[skill], counts: bySkill.get(skill)!, expert: trackOf(skill) === 'expert' })),
     masteryByContinent: (['europe', 'americas', 'africa', 'asia', 'oceania'] as ContinentId[]).map((id) => ({
       id,
       label: CONTINENT_LABELS[id],

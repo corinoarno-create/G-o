@@ -16,6 +16,7 @@ import {
   COUNTS,
   defaultFavoriteName,
   modeOf,
+  migrateStoredChoice,
   sanitizeChoice,
   type BuilderChoice,
 } from './options.ts';
@@ -57,7 +58,7 @@ export function SessionBuilder({ world, zones, zoneId, onZoneChange, onStart, on
       ]);
       setCards(loadedCards);
       setFavorites(loadedFavorites.sort((a, b) => a.name.localeCompare(b.name, 'fr')));
-      if (last) setChoice((current) => ({ ...sanitizeChoice(last), zoneId: current.zoneId }));
+      if (last) setChoice((current) => ({ ...sanitizeChoice(migrateStoredChoice(last)), zoneId: current.zoneId }));
     })();
   }, []);
 
@@ -135,7 +136,7 @@ export function SessionBuilder({ world, zones, zoneId, onZoneChange, onStart, on
           <ul class="builder__favorites">
             {favorites.map((favorite) => (
               <li key={favorite.id}>
-                <button type="button" class="builder__favorite" onClick={() => start(sanitizeChoice(favorite.config))}>
+                <button type="button" class="builder__favorite" onClick={() => start(sanitizeChoice(migrateStoredChoice(favorite.config)))}>
                   ▶ {favorite.name}
                 </button>
                 <button

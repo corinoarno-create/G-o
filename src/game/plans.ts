@@ -1,6 +1,6 @@
 // Composition des manches : révisions du jour (accueil, § 7) et manches choisies dans une région du carnet (§ 6).
 import type { WorldData } from '../data/world.ts';
-import { isDue, parseCardKey } from '../engine/srs.ts';
+import { isDue, parseCardKey, trackOf, type Track } from '../engine/srs.ts';
 import type { Zone } from '../map/zones.ts';
 import type { CardRecord } from '../storage/schema.ts';
 import type { ChallengePlay } from '../challenge/types.ts';
@@ -12,7 +12,8 @@ import { selectItems, shuffle, type ContentType, type Rng } from './selection.ts
 export const REVIEW_BATCH = 50;
 export type GameRequest =
   | { kind: 'builder'; exercise: ExerciseId; zone: Zone; count: number | 'all'; content: ContentType }
-  | { kind: 'review' }
+  /** Révisions du jour d'un volet : le carnet (par défaut) ou l'expert, révisés séparément. */
+  | { kind: 'review'; track?: Track }
   /** Découverte en 3 temps d'éléments jamais vus (voir src/discovery/). */
   | { kind: 'discovery'; exercise: ExerciseId; zone: Zone }
   /** Questions fixées d'avance ; `restart` est la manche proposée ensuite (« 5 de plus »). */
@@ -25,12 +26,18 @@ const eligible = (world: WorldData, question: QuestionRef) => {
 };
 
 /**
- * Toutes les révisions dues, les plus en retard d'abord. Un drapeau dû est demandé dans un sens
+ * Toutes les révisions dues d'un volet, les plus en retard d'abord. Un drapeau dû est demandé dans un sens
  * ou dans l'autre (au hasard), puisque les deux sens travaillent la même compétence.
  */
-export function dueQuestions(world: WorldData, cards: Map<string, CardRecord>, now: Date, rng: Rng = Math.random): QuestionRef[] {
+export function dueQuestions(
+  world: WorldData,
+  cards: Map<string, CardRecord>,
+  now: Date,
+  rng: Rng = Math.random,
+  track: Track = 'carnet',
+): QuestionRef[] {
   return [...cards.values()]
-    .filter((record) => record.card.reps > 0 && isDue(record.card, now))
+    .filter((record) => record.card.reps > 0 && isDue(record.card, now) && trackOf(parseCardKey(record.key).skill) === track)
     .sort((a, b) => a.card.dueAt.getTime() - b.card.dueAt.getTime())
     .map((record) => {
       const { entityId, skill } = parseCardKey(record.key);
@@ -54,9 +61,15 @@ export function groupByExercise(questions: QuestionRef[], rng: Rng = Math.random
   return [...groups.values()].sort((a, b) => b.length - a.length).flatMap((group) => shuffle(group, rng));
 }
 
-/** Révisions du jour : les dues, par séries de 50 au plus, regroupées par exercice. */
-export function planReview(world: WorldData, cards: Map<string, CardRecord>, now: Date, rng: Rng = Math.random): QuestionRef[] {
-  return groupByExercise(dueQuestions(world, cards, now, rng).slice(0, REVIEW_BATCH), rng);
+/** Révisions du jour d'un volet : les dues, par séries de 50 au plus, regroupées par exercice. */
+export function planReview(
+  world: WorldData,
+  cards: Map<string, CardRecord>,
+  now: Date,
+  rng: Rng = Math.random,
+  track: Track = 'carnet',
+): QuestionRef[] {
+  return groupByExercise(dueQuestions(world, cards, now, rng, track).slice(0, REVIEW_BATCH), rng);
 }
 
 /** Manche du constructeur : un exercice, une zone, un type de contenu. */
@@ -78,7 +91,7 @@ export function requestTitle(request: GameRequest): string {
     case 'builder':
       return `${EXERCISES[request.exercise].label} · ${request.zone.label}`;
     case 'review':
-      return 'Révision';
+      return request.track === 'expert' ? 'Révision Expert' : 'Révision';
     case 'discovery':
       return `Découverte · ${EXERCISES[request.exercise].label} · ${request.zone.label}`;
     case 'questions':

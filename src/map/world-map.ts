@@ -104,8 +104,8 @@ export type HighlightKind = 'selected' | 'target' | 'correct' | 'wrong';
 /** Repère ponctuel sur la carte : point cliqué, bonne position d'une capitale… */
 export interface MapPin {
   lonLat: [number, number];
-  /** anchor : point d'ancrage pour se repérer (une capitale voisine), petit et discret. */
-  kind: 'selected' | 'correct' | 'wrong' | 'target' | 'anchor';
+  /** anchor : point d'ancrage pour se repérer (une capitale voisine), petit et discret ; seal : sceau Expert (carnet). */
+  kind: 'selected' | 'correct' | 'wrong' | 'target' | 'anchor' | 'seal';
 }
 
 /** Étiquette posée sur la carte (nom d'un élément qu'on découvre), taille constante à l'écran. */
@@ -345,10 +345,11 @@ export class WorldMap {
       element.setAttribute('class', `map-pin is-${pin.kind}`);
       const halo = document.createElementNS(SVG_NS, 'circle');
       halo.setAttribute('class', 'map-pin__halo');
-      halo.setAttribute('r', pin.kind === 'anchor' ? '0' : '11');
+      const small = pin.kind === 'anchor' || pin.kind === 'seal';
+      halo.setAttribute('r', small ? '0' : '11');
       const dot = document.createElementNS(SVG_NS, 'circle');
       dot.setAttribute('class', 'map-pin__dot');
-      dot.setAttribute('r', pin.kind === 'anchor' ? '3' : '5');
+      dot.setAttribute('r', pin.kind === 'seal' ? '3.5' : small ? '3' : '5');
       element.append(halo, dot);
       this.pinLayer.appendChild(element);
       return { pin, element, base: null };

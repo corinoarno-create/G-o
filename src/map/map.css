@@ -12,6 +12,8 @@
   --map-wrong: #d9534f;
   --map-marker: var(--paper-light);
   --map-marker-stroke: var(--ink);
+  /* Sceau Expert (carte du carnet) */
+  --map-seal: #e0a91c;
 }
 
 .map-frame {
@@ -350,6 +352,12 @@
 .map-pin.is-anchor .map-pin__dot {
   fill: var(--paper-light);
   stroke: var(--ink-soft);
+  stroke-width: 1.2px;
+}
+
+.map-pin.is-seal .map-pin__dot {
+  fill: var(--map-seal);
+  stroke: #8a5f06;
   stroke-width: 1.2px;
 }
 

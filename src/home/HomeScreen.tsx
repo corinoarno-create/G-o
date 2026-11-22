@@ -8,7 +8,7 @@ import type { WorldData } from '../data/world.ts';
 import type { AnswerMode, TimingStats } from '../engine/grading.ts';
 import { loadCards, type GameRequest } from '../game/start.ts';
 import { detectDevice } from '../lib/device.ts';
-import type { MapFill, MapPick } from '../map/world-map.ts';
+import type { MapFill, MapPick, MapPin } from '../map/world-map.ts';
 import { WorldMapView } from '../map/WorldMapView.tsx';
 import type { Zone } from '../map/zones.ts';
 import { installApp, usePwa } from '../pwa/pwa.ts';
@@ -20,7 +20,7 @@ import '../challenge/challenge.css';
 import { getTiming } from '../storage/db.ts';
 import { progressDb } from '../storage/progress-db.ts';
 import type { CardRecord } from '../storage/schema.ts';
-import { ArrowIcon, BookIcon, ChartIcon, CompassLogo, GlobeIcon, MapIcon, TrophyIcon } from '../ui/icons.tsx';
+import { ArrowIcon, BookIcon, ChartIcon, CompassLogo, GlobeIcon, MapIcon, SealIcon, TrophyIcon } from '../ui/icons.tsx';
 import { buildHomeSummary, formatWhen, type HomeSummary } from './summary.ts';
 import { percent } from './zone-stats.ts';
 import { ZoneSheet } from './ZoneSheet.tsx';
@@ -123,6 +123,15 @@ export function HomeScreen({ world, zones, onPlay, onExplore, onProgress, onCred
       );
     }
     return map;
+  }, [summary, world]);
+
+  // Sceaux Expert : un point doré sur la capitale de chaque pays dont tout le volet expert est acquis.
+  const sealPins = useMemo<MapPin[]>(() => {
+    if (!summary) return [];
+    return [...summary.seals].flatMap((id) => {
+      const capital = world.byId.get(id)?.capital;
+      return capital ? [{ lonLat: [capital.lon, capital.lat] as [number, number], kind: 'seal' as const }] : [];
+    });
   }, [summary, world]);
 
   // Toucher un pays sur la carte ouvre sa région.
@@ -228,6 +237,25 @@ export function HomeScreen({ world, zones, onPlay, onExplore, onProgress, onCred
               ) : (
                 <p>Ton carnet est encore vierge : choisis une région dans ton carnet pour découvrir tes premiers pays.</p>
               )}
+              {summary && (summary.expert.due > 0 || summary.expert.nextDueAt) && (
+                <div class="home__expert">
+                  <SealIcon size={20} />
+                  {summary.expert.due > 0 ? (
+                    <>
+                      <p>
+                        <strong>Expert</strong> : {summary.expert.due} à revoir · ≈ {summary.expert.estimatedMinutes} min
+                      </p>
+                      <button type="button" class="btn btn--gold home__expert-go" onClick={() => onPlay({ kind: 'review', track: 'expert' })}>
+                        Réviser l’expert
+                      </button>
+                    </>
+                  ) : (
+                    <p>
+                      <strong>Expert</strong> : à jour, prochaine révision {formatWhen(summary.expert.nextDueAt!, now)}.
+                    </p>
+                  )}
+                </div>
+              )}
             </section>
 
             <section class="paper-card home__carnet" aria-label="Mon carnet de voyage">
@@ -239,7 +267,7 @@ export function HomeScreen({ world, zones, onPlay, onExplore, onProgress, onCred
               </div>
               <p class="home__carnet-help">Choisis une région pour voir ta progression, découvrir ou jouer.</p>
               <div class="home__map">
-                <WorldMapView world={world} zone={zones[0]!} fills={fills} clickOnly onPick={pickOnMap} />
+                <WorldMapView world={world} zone={zones[0]!} fills={fills} pins={sealPins} clickOnly onPick={pickOnMap} />
               </div>
               {progress && (
                 <ul class="home__legend">
@@ -255,6 +283,11 @@ export function HomeScreen({ world, zones, onPlay, onExplore, onProgress, onCred
                   <li>
                     <span class="home__swatch is-new" /> À explorer <strong>{progress.new}</strong>
                   </li>
+                  {summary!.seals.size > 0 && (
+                    <li class="home__legend-seal">
+                      <span class="home__seal-dot" /> Sceau Expert <strong>{summary!.seals.size}</strong>
+                    </li>
+                  )}
                 </ul>
               )}
               <div class="home__tiles">

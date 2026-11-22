@@ -3,7 +3,7 @@
 import type { ExerciseId } from '../game/exercises.ts';
 import type { ContentType } from '../game/selection.ts';
 
-export type CategoryId = 'countries' | 'capitals' | 'flags';
+export type CategoryId = 'countries' | 'capitals' | 'flags' | 'expert';
 
 export interface ModeOption {
   id: string;
@@ -15,9 +15,11 @@ export interface Category {
   id: CategoryId;
   label: string;
   modes: ModeOption[];
+  /** Volet Expert (la précision) : style doré à part, révisions séparées, ne compte pas dans le carnet. */
+  expert?: boolean;
 }
 
-/** Catégories de la V1 ; les villes, départements et États viendront en V2. */
+/** Catégories ; les villes rejoindront l'Expert, les départements et États viendront ensuite. */
 export const CATEGORIES: Category[] = [
   {
     id: 'countries',
@@ -32,7 +34,6 @@ export const CATEGORIES: Category[] = [
     label: 'Capitales',
     modes: [
       { id: 'country', label: 'Quel pays ?', exercise: 'capital-to-country' },
-      { id: 'pin', label: 'Placer', exercise: 'locate-capital' },
       { id: 'type', label: 'Saisir', exercise: 'name-capital' },
     ],
   },
@@ -43,6 +44,12 @@ export const CATEGORIES: Category[] = [
       { id: 'flag-to-country', label: 'Drapeau → pays', exercise: 'flag-to-country' },
       { id: 'country-to-flag', label: 'Pays → drapeau', exercise: 'country-to-flag' },
     ],
+  },
+  {
+    id: 'expert',
+    label: 'Expert',
+    expert: true,
+    modes: [{ id: 'capital-pin', label: 'Placer les capitales', exercise: 'locate-capital' }],
   },
 ];
 
@@ -88,6 +95,18 @@ export const countLabel = (count: number | 'all') => (count === 'all' ? 'tout' :
 export function defaultFavoriteName(choice: BuilderChoice, zoneLabel: string): string {
   const content = choice.content === 'mix' ? [] : [CONTENT_TYPES.find((c) => c.id === choice.content)!.label];
   return [categoryOf(choice.category).label, zoneLabel, modeOf(choice).label, ...content, countLabel(choice.count)].join(' · ');
+}
+
+/**
+ * Choix enregistré avant le lot 2 (22/11/2026) : « Capitales → Placer » est devenu « Expert → Placer les
+ * capitales ». À appliquer seulement à ce qu'on relit en base (pas à un changement de catégorie en cours).
+ */
+export function migrateStoredChoice<T>(value: T): T {
+  const raw = value as Partial<BuilderChoice> | null;
+  if (raw && typeof raw === 'object' && raw.category === 'capitals' && raw.mode === 'pin') {
+    return { ...raw, category: 'expert', mode: 'capital-pin' } as T;
+  }
+  return value;
 }
 
 /** Vérifie un choix relu en base (favori ou dernière session) et complète ce qui manque. */

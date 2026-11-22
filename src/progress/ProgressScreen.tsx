@@ -109,12 +109,20 @@ export function ProgressScreen({ world, zones, onPlay, onHome }: Props) {
             <div class="progress__columns">
               <div>
                 <h3>Par compétence</h3>
-                {stats.masteryBySkill.map((row) => (
-                  <MasteryRow key={row.skill} label={row.label} counts={row.counts} />
-                ))}
+                {stats.masteryBySkill
+                  .filter((row) => !row.expert)
+                  .map((row) => (
+                    <MasteryRow key={row.skill} label={row.label} counts={row.counts} />
+                  ))}
+                <h3 class="progress__expert">Expert</h3>
+                {stats.masteryBySkill
+                  .filter((row) => row.expert)
+                  .map((row) => (
+                    <MasteryRow key={row.skill} label={row.label} counts={row.counts} />
+                  ))}
               </div>
               <div>
-                <h3>Par continent</h3>
+                <h3>Par continent (carnet)</h3>
                 {stats.masteryByContinent.map((row) => (
                   <MasteryRow key={row.id} label={row.label} counts={row.counts} />
                 ))}

@@ -354,3 +354,8 @@
     font-size: 0.84rem;
   }
 }
+
+/* Volet Expert : doré, à part du carnet. */
+.progress__expert {
+  color: #8a5f06;
+}

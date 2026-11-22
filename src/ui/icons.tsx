@@ -157,3 +157,13 @@ export function SendIcon({ size = 18 }: IconProps) {
     </svg>
   );
 }
+
+/** Sceau de cire (mode Expert) : un rond festonné avec une étoile. */
+export function SealIcon({ size = 18 }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true" {...stroke}>
+      <path d="M12 2.5l2 1.6 2.5-.4 1 2.3 2.3 1-.4 2.5 1.6 2-1.6 2 .4 2.5-2.3 1-1 2.3-2.5-.4-2 1.6-2-1.6-2.5.4-1-2.3-2.3-1 .4-2.5-1.6-2 1.6-2-.4-2.5 2.3-1 1-2.3 2.5.4z" />
+      <path d="M12 8.2l1.1 2.3 2.5.3-1.8 1.7.5 2.5-2.3-1.2-2.3 1.2.5-2.5-1.8-1.7 2.5-.3z" />
+    </svg>
+  );
+}

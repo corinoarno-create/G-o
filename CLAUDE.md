@@ -119,7 +119,7 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 *(Refonte décidée avec Arno le 20/11/2026, maquette : https://claude.ai/artifact/8Ztubwty76T4Xey2DmbzyD)*
 - On choisit ce qu'on joue **en passant par sa progression** : une case du carnet (Europe, Amérique, Afrique, Asie, Océanie, **Monde**) ouvre la **fiche de la région** (`src/home/ZoneSheet.tsx`). Toucher un pays sur la carte du carnet ouvre aussi son continent.
 - La fiche montre la carte de la région colorée selon la maîtrise (téléphone), des **pastilles de sous-régions** (continents seulement ; le Monde couvre tout), et **ma progression** par compétence : part acquise, révisions dues, éléments jamais vus (`src/home/zone-stats.ts`).
-- Puis : catégorie (pays, capitales, drapeaux), exercice, et deux onglets :
+- Puis : catégorie (pays, capitales, drapeaux, **Expert**), exercice, et deux onglets :
   - **Jouer** : nombre de questions (10, 20, 50, tout) et contenu (mélange, à réviser, nouveaux, points faibles) — l'ancien constructeur, ciblé sur la zone ;
   - **Découvrir** : la découverte en 3 temps, sur 5 éléments jamais vus de l'exercice choisi.
 - **Les derniers choix de chaque région sont retenus** (réglage `zoneChoices`) ; il n'y a plus de favoris. Après une manche, l'accueil rouvre la fiche d'où elle est partie.
@@ -129,7 +129,7 @@ Ces seuils sont des **paramètres** réglables, pas des constantes enfouies dans
 ## 7. Accueil
 
 Deux portes, sur un ton positif, sans vocabulaire de voyage (« escales », « itinéraires ») :
-- **Révision** : l'app choisit ce que je dois revoir aujourd'hui (FSRS) : nombre d'éléments, durée estimée, détail par exercice, bouton « Réviser ». La manche est regroupée par exercice (séries de 50 au plus). Rien de dû : « Tout est à jour », avec la date de la prochaine révision.
+- **Révision** : l'app choisit ce que je dois revoir aujourd'hui (FSRS) : nombre d'éléments, durée estimée, détail par exercice, bouton « Réviser ». La manche est regroupée par exercice (séries de 50 au plus). Rien de dû : « Tout est à jour », avec la date de la prochaine révision. Elle ne contient que le **carnet** ; les révisions **Expert** sont à part, sur une ligne dorée en dessous (« Expert : 3 à revoir · ≈ 1 min », bouton « Réviser l'expert », ou la date de la prochaine), qui n'apparaît que si j'ai déjà joué en Expert. Du retard en Expert n'assombrit jamais l'accueil.
 - **Mon carnet de voyage** : la carte de conquête et les 6 cases de régions (voir § 6). C'est le jeu principal.
 - L'**entretien rapide**, la carte « À découvrir » et « Mes itinéraires » ont disparu (20/11/2026) : la progression de chaque région dit ce qu'il faut entretenir ou découvrir.
 - Plus tard : un **défi du jour** (petit quiz thématique).
@@ -253,7 +253,12 @@ Deux portes, sur un ton positif, sans vocabulaire de voyage (« escales », « i
   - **Relever** : même série, même ordre, mêmes propositions de drapeaux (tirage reproductible) ; connexion Google demandée une seule fois par appareil. Les scores des autres ne se voient qu'après avoir joué. Un défi **compte pour la mémoire** comme une manche normale.
   - **Score** (`src/challenge/scoring.ts`, demande d'Arno) : 100 points par bonne réponse du premier coup + bonus de rapidité de 0 à 50 (plein sous 2 s, nul à 12 s au clic, 10 s pour un choix, 15 s en saisie) ; avec un indice, 50 points sans bonus ; à égalité, le temps total départage. Écart médian en km affiché pour les capitales placées.
   - **Pages** : page d'un défi (invitation, classement, détail question par question, « Revanche », envoi) ; « Mes défis » (à relever, résultats, en attente, mes amis avec le bilan des face-à-face et « Défier ») ; pastille de nouveautés sur l'accueil (onglet « Défis » sur téléphone). Un score qui n'a pas pu partir est gardé et renvoyé au retour du réseau.
-- [ ] **3. Ensemble** : voir le carnet de l'autre, petit classement à deux.
+- [ ] ~~**3. Ensemble**~~ : abandonné (décision d'Arno, 22/11/2026).
+- [x] **Mode Expert** (lot 2, 22/11/2026) : deux volets de compétences (`Track`, `EXPERT_SKILLS` dans `src/engine/srs.ts`).
+  - **Carnet** : placer et nommer les pays, capitale → pays, donner la capitale, drapeaux. Lui seul colore la carte de conquête et donne les pourcentages (accueil, cases, fiche, progression par continent).
+  - **Expert** : la précision, ouvert dès le départ. Pour l'instant « Placer les capitales » ; les villes (placer, nommer) le rejoindront. 4e catégorie « Expert » (dorée) dans la fiche de région, avec son bloc de progression à part (part acquise, sceaux) ; les anciens choix « Capitales → Placer » sont convertis à la relecture (`migrateStoredChoice`).
+  - **Révisions séparées** : `{ kind: 'review', track: 'expert' }`, « Révision Expert ».
+  - **Sceau Expert** (`src/home/expert.ts`) : un point doré sur la capitale d'un pays, sur la carte du carnet, quand tout son volet expert est acquis (avec les villes : la capitale **et** les villes).
 - [x] **Repères pour placer capitales et villes** (22/11/2026) : des **points d'ancrage qui s'effacent**, et rien d'autre. Affichés dans « Placer les capitales » (`PLACEMENT_EXERCISES` de `GameScreen.tsx`, à étendre aux villes), case « Repères » dans la manche (réglage `landmarks`, coché par défaut).
   - **Points d'ancrage** (`src/game/anchors.ts`) : pour une ville, élément nouveau ou en cours → capitale du pays + 1 ou 2 villes connues ; acquis (≥ 7 j) → la capitale seule ; maîtrisé (≥ 30 j) → aucun. Pour une capitale : les 2 capitales voisines les plus proches (entre 100 et 1 500 km, et à 100 km l'une de l'autre au moins), puis 1, puis aucune. Jamais l'élément demandé, ni une capitale encore à venir dans la manche ; pas dans un défi (même carte pour tous).
   - **Essayés puis abandonnés (décision d'Arno, 22/11/2026)** : fleuves, lacs et limites intérieures (Natural Earth), en jeu comme dans « Explorer la carte ». Même discrets et affichés seulement au zoom, ils brouillaient la carte, perdaient le joueur et ralentissaient le zoom : l'app doit rester claire et ludique, pas devenir un atlas. Pas de routes non plus (elles convergent vers les villes et donneraient la réponse).

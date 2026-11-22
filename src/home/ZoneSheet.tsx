@@ -8,6 +8,7 @@ import {
   CONTENT_TYPES,
   COUNTS,
   modeOf,
+  migrateStoredChoice,
   sanitizeChoice,
   type BuilderChoice,
   type CategoryId,
@@ -23,7 +24,7 @@ import type { Zone } from '../map/zones.ts';
 import { getSetting, putSetting } from '../storage/db.ts';
 import { progressDb } from '../storage/progress-db.ts';
 import type { CardRecord } from '../storage/schema.ts';
-import { ArrowIcon, BackIcon, CloseIcon, TrophyIcon } from '../ui/icons.tsx';
+import { ArrowIcon, BackIcon, CloseIcon, SealIcon, TrophyIcon } from '../ui/icons.tsx';
 import { drawChallenge } from '../challenge/challenges.ts';
 import { connectedAccount, useSync } from '../sync/sync.ts';
 import { percent, zoneProgress } from './zone-stats.ts';
@@ -38,7 +39,7 @@ interface StoredChoice extends BuilderChoice {
   tab: Tab;
 }
 
-const NOUNS: Record<CategoryId, string> = { countries: 'pays', capitals: 'capitales', flags: 'drapeaux' };
+const NOUNS: Record<CategoryId, string> = { countries: 'pays', capitals: 'capitales', flags: 'drapeaux', expert: 'capitales' };
 
 /** Message quand un type de contenu ne propose rien, toujours sur un ton positif. */
 const EMPTY_MESSAGES: Record<ContentType, string> = {
@@ -80,7 +81,7 @@ export function ZoneSheet({ world, zones, tileId, cards, fills, layout, onPlay, 
       const stored = await getSetting<Record<string, unknown>>(await progressDb(), ZONE_CHOICES_KEY, {});
       const raw = stored[tileId] as Partial<StoredChoice> | undefined;
       if (cancelled || !raw) return;
-      const sane = sanitizeChoice(raw);
+      const sane = sanitizeChoice(migrateStoredChoice(raw));
       // La sous-région retenue doit appartenir à cette région.
       const zoneId = sane.zoneId === tileId || subzones.some((zone) => zone.id === sane.zoneId) ? sane.zoneId : tileId;
       setChoice({ ...sane, zoneId, tab: raw.tab === 'discover' ? 'discover' : 'play' });
@@ -202,7 +203,17 @@ export function ZoneSheet({ world, zones, tileId, cards, fills, layout, onPlay, 
             </tr>
           </thead>
           {progress.categories.map((category) => (
-            <tbody key={category.category}>
+            <tbody key={category.category} class={category.expert ? 'zone__expert' : undefined}>
+              {category.expert && (
+                <tr class="zone__expert-head">
+                  <th scope="rowgroup" colSpan={4}>
+                    <SealIcon size={16} /> Expert
+                    <span>
+                      {progress.expert.seals} sceau{progress.expert.seals > 1 ? 'x' : ''} sur {progress.expert.sealable} · ne compte pas dans le carnet
+                    </span>
+                  </th>
+                </tr>
+              )}
               {category.rows.map((row) => {
                 const share = row.total ? row.strong / row.total : 0;
                 return (
@@ -234,10 +245,10 @@ export function ZoneSheet({ world, zones, tileId, cards, fills, layout, onPlay, 
               key={category.id}
               role="radio"
               aria-checked={choice.category === category.id}
-              class={`zone__pill ${choice.category === category.id ? 'is-active' : ''}`}
+              class={`zone__pill ${category.expert ? 'zone__pill--expert' : ''} ${choice.category === category.id ? 'is-active' : ''}`}
               onClick={() => update({ category: category.id })}
             >
-              {category.label}
+              {category.expert && <SealIcon size={15} />} {category.label}
             </button>
           ))}
         </div>
@@ -339,7 +350,7 @@ export function ZoneSheet({ world, zones, tileId, cards, fills, layout, onPlay, 
                   <strong>
                     {counts.fresh} {noun}
                   </strong>{' '}
-                  encore jamais {choice.category === 'capitals' ? 'vues' : 'vus'} ici.
+                  encore jamais {choice.category === 'capitals' || choice.category === 'expert' ? 'vues' : 'vus'} ici.
                 </p>
                 <p class="zone__help">
                   Par groupes de 5, en trois temps : observer sur la carte, reconnaître parmi 4 propositions, puis retrouver seul.

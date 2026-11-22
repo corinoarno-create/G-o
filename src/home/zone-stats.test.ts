@@ -49,7 +49,20 @@ describe('zoneProgress', () => {
     expect(locate).toMatchObject({ strong: 1, due: 1, fresh: europe.entityIds.length - 2 });
     expect(progress.due).toBe(1);
     expect(progress.share).toBeGreaterThan(0);
-    expect(progress.categories.map((c) => c.category)).toEqual(['countries', 'capitals', 'flags']);
+    expect(progress.categories.map((c) => c.category)).toEqual(['countries', 'capitals', 'flags', 'expert']);
+  });
+
+  it('met l’expert à part : il ne compte pas dans la part du carnet, et compte les sceaux', () => {
+    const cards = new Map([card('fr', 'locate-capital', '2026-12-20T00:00:00Z', 12), card('de', 'locate-capital', '2026-11-17T00:00:00Z', 2)]);
+    const progress = zoneProgress(world, europe, cards, now);
+    expect(progress.share).toBe(0);
+    expect(progress.due).toBe(0); // la révision expert due n'est pas une révision du carnet
+    const expert = progress.categories.find((c) => c.category === 'expert')!;
+    expect(expert.expert).toBe(true);
+    expect(expert.rows[0]).toMatchObject({ skill: 'locate-capital', strong: 1, due: 1 });
+    expect(progress.expert.seals).toBe(1);
+    expect(progress.expert.sealable).toBeGreaterThan(40);
+    expect(progress.expert.share).toBeGreaterThan(0);
   });
 });
 

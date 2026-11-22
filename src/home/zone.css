@@ -316,3 +316,37 @@
     width: 50px;
   }
 }
+
+/* Volet Expert (la précision) : doré, à part du carnet. */
+.zone__pill--expert {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-color: #b8860b;
+  color: #8a5f06;
+  background: #fff8e1;
+}
+
+.zone__pill--expert.is-active {
+  border-color: #8a5f06;
+  background: #8a5f06;
+  color: #fff8e1;
+}
+
+.zone__expert-head th {
+  padding-top: 12px;
+  color: #8a5f06;
+  font: 700 0.95rem var(--font-body);
+  text-align: left;
+}
+
+.zone__expert-head svg {
+  vertical-align: -3px;
+}
+
+.zone__expert-head span {
+  margin-left: 6px;
+  color: var(--ink-soft);
+  font-weight: 400;
+  font-size: 0.8rem;
+}

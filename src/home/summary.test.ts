@@ -63,12 +63,28 @@ describe('buildHomeSummary', () => {
   it('colore chaque pays selon sa maîtrise, et résume chaque continent', () => {
     const cards = new Map([card('fr', 'flag', '2026-12-20T00:00:00Z', 45), card('fr', 'locate-country', '2026-12-20T00:00:00Z', 45)]);
     const { entityMastery, continents } = buildHomeSummary(world, cards, new Map(), now);
-    // France : 2 compétences maîtrisées sur 6 → 2 × 3 / (6 × 3).
-    expect(entityMastery.get('fr')).toBeCloseTo(1 / 3);
+    // France : 2 compétences maîtrisées sur les 5 du carnet (placer la capitale est dans l'expert) → 2 × 3 / (5 × 3).
+    expect(entityMastery.get('fr')).toBeCloseTo(2 / 5);
     expect(entityMastery.get('de')).toBe(0);
     const europe = continents.find((c) => c.id === 'europe')!;
     expect(europe.share).toBeGreaterThan(0);
     expect(continents.find((c) => c.id === 'asia')!.share).toBe(0);
+  });
+
+  it('sépare les révisions de l’expert, qui ne comptent pas dans le carnet', () => {
+    const cards = new Map([
+      card('fr', 'locate-country', '2026-11-17T00:00:00Z'),
+      card('de', 'locate-capital', '2026-11-16T00:00:00Z', 2), // en cours
+      card('it', 'locate-capital', '2026-11-25T00:00:00Z', 45),
+    ]);
+    const summary = buildHomeSummary(world, cards, new Map(), now);
+    expect(summary.due).toBe(1);
+    expect(summary.dueByExercise.map((d) => d.exercise)).toEqual(['locate-country']);
+    expect(summary.expert).toMatchObject({ due: 1, reviewBatch: 1 });
+    expect(summary.expert.dueByExercise.map((d) => d.exercise)).toEqual(['locate-capital']);
+    // La capitale de l'Italie, maîtrisée, ne colore pas le carnet… mais donne un sceau.
+    expect(summary.entityMastery.get('it')).toBe(0);
+    expect([...summary.seals]).toEqual(['it']);
   });
 
   it('regroupe les révisions dues par exercice', () => {
