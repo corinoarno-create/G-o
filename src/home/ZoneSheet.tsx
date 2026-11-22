@@ -16,6 +16,7 @@ import {
   type GameMode,
 } from '../builder/options.ts';
 import type { WorldData } from '../data/world.ts';
+import { normalize } from '../engine/text-match.ts';
 import { EXERCISES } from '../game/exercises.ts';
 import type { GameRequest } from '../game/plans.ts';
 import { availableFor, contentCounts, type ContentType } from '../game/selection.ts';
@@ -84,6 +85,8 @@ function defaultChoice(tileId: string): StoredChoice {
 
 export function ZoneSheet({ world, zones, tileId, cards, fills, layout, onPlay, onClose }: Props) {
   const [choice, setChoice] = useState<StoredChoice>(() => defaultChoice(tileId));
+  /** Recherche d'un pays (mode Expert, villes). */
+  const [countrySearch, setCountrySearch] = useState('');
   const tile = zones.find((zone) => zone.id === tileId) ?? zones[0]!;
   // Sous-régions d'un continent ; le Monde couvre tout, sans découpage.
   const subzones = tile.kind === 'continent' ? zones.filter((zone) => zone.parent === tile.id) : [];
@@ -91,6 +94,7 @@ export function ZoneSheet({ world, zones, tileId, cards, fills, layout, onPlay, 
   // Derniers choix retenus pour cette région.
   useEffect(() => {
     setChoice(defaultChoice(tileId));
+    setCountrySearch('');
     let cancelled = false;
     void (async () => {
       const stored = await getSetting<Record<string, unknown>>(await progressDb(), ZONE_CHOICES_KEY, {});
@@ -139,6 +143,25 @@ export function ZoneSheet({ world, zones, tileId, cards, fills, layout, onPlay, 
   const available = availableFor(choice.content, counts);
   const questions = choice.count === 'all' ? available : Math.min(choice.count, available);
   const noun = NOUNS[choice.category];
+  // Recherche : on filtre les pays par leur nom (ou un autre nom accepté), aux accents près.
+  const search = normalize(countrySearch);
+  const shownCountries = search
+    ? cityCountries.filter((country) =>
+        [country.name, ...(world.byId.get(country.id)?.aliases ?? [])].some((name) => normalize(name).includes(search)),
+      )
+    : cityCountries;
+  const onSearch = (value: string) => {
+    setCountrySearch(value);
+    const key = normalize(value);
+    if (!key) return;
+    // La recherche porte sur les villes : on y passe, et un seul pays trouvé est choisi tout de suite.
+    const matches = (cityMode ? cityCountries : zoneCityCountries(world, regionZone, cards)).filter((country) =>
+      [country.name, ...(world.byId.get(country.id)?.aliases ?? [])].some((name) => normalize(name).includes(key)),
+    );
+    const patch: Partial<StoredChoice> = cityMode ? {} : { category: 'cities' };
+    if (matches.length === 1) patch.countryId = matches[0]!.id;
+    if (Object.keys(patch).length) update(patch);
+  };
   const switchMode = (next: GameMode) => {
     if (next !== gameMode) update({ category: categoriesOf(next)[0]!.id });
   };
@@ -291,6 +314,18 @@ export function ZoneSheet({ world, zones, tileId, cards, fills, layout, onPlay, 
               {category.label}
             </button>
           ))}
+          {gameMode === 'expert' && (
+            <input
+              type="search"
+              class="zone__search"
+              value={countrySearch}
+              onInput={(event) => onSearch(event.currentTarget.value)}
+              placeholder="Chercher un pays…"
+              aria-label="Chercher un pays pour ses villes"
+              autocomplete="off"
+              spellcheck={false}
+            />
+          )}
         </div>
         <p class="zone__label">Exercice</p>
         <div class="zone__pills" role="radiogroup" aria-label="Exercice">
@@ -326,7 +361,8 @@ export function ZoneSheet({ world, zones, tileId, cards, fills, layout, onPlay, 
                   <span class="zone__country-name">Toute la région</span>
                 </button>
               )}
-              {cityCountries.map((country) => (
+              {shownCountries.length === 0 && <p class="zone__help">Aucun pays de cette région ne porte ce nom.</p>}
+              {shownCountries.map((country) => (
                 <button
                   type="button"
                   key={country.id}

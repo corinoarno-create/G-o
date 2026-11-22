@@ -232,6 +232,24 @@
   color: var(--paper-light);
 }
 
+/* Recherche d'un pays (mode Expert), à côté des catégories. */
+.zone__search {
+  flex: 1;
+  min-width: 140px;
+  min-height: 40px;
+  padding: 6px 14px;
+  border: 1.5px solid #b8860b;
+  border-radius: 999px;
+  background: #fffdf7;
+  color: var(--ink);
+  font: 600 0.9rem var(--font-body);
+}
+
+.zone__search:focus {
+  outline: 2px solid #e0a91c;
+  outline-offset: 1px;
+}
+
 .zone__help {
   margin: 8px 0 0;
   font-size: 0.85rem;
