@@ -202,6 +202,11 @@ export class WorldMap {
   /** Zone et échelle pour lesquelles les tracés ont été calculés. */
   private geometryKey: string | null = null;
   private geometryScale = 1;
+  /**
+   * Tracé avec lequel les pays ont été dessinés. Les repères, chargés plus tard, doivent être tracés avec lui
+   * et non avec la projection actuelle : la transformation `layout` compense l'écart, pour les deux à la fois.
+   */
+  private geometryPath: GeoPath = this.path;
   private geometryTranslate: [number, number] = [0, 0];
   /** Surface (px², à l'échelle des tracés) de chaque entité. */
   private readonly geometryAreas = new Map<string, number>();
@@ -371,7 +376,7 @@ export class WorldMap {
     const fragment = document.createDocumentFragment();
     const add = (geometries: Array<MultiLineString | Polygon | MultiPolygon>, className: string) => {
       for (const geometry of geometries) {
-        const d = this.path(geometry);
+        const d = this.geometryPath(geometry);
         if (!d) continue;
         const element = document.createElementNS(SVG_NS, 'path');
         element.setAttribute('d', d);
@@ -660,6 +665,7 @@ export class WorldMap {
   private buildGeometry(key: string): void {
     this.geometryKey = key;
     this.geometryScale = this.projection.scale();
+    this.geometryPath = this.path;
     const [tx, ty] = this.projection.translate();
     this.geometryTranslate = [tx, ty];
     const fragment = document.createDocumentFragment();
