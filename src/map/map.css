@@ -14,6 +14,8 @@
   --map-marker-stroke: var(--ink);
   /* Fleuves et lacs (repères de placement) */
   --map-river: #2f6db5;
+  /* Limites intérieures (régions, États) : sépia clair */
+  --map-admin1: #b39a78;
 }
 
 .map-frame {
@@ -156,7 +158,7 @@
 }
 
 /* Repères pour placer capitales et villes : fleuves et lacs à l'aquarelle bleue, limites intérieures en
-   pointillé sépia léger, au second plan derrière les frontières. Affluents et limites intérieures n'apparaissent
+   trait sépia clair, au second plan derrière les frontières. Affluents et limites intérieures n'apparaissent
    qu'à l'échelle d'un pays (.is-detailed). */
 .map-landmarks.is-hidden {
   display: none;
@@ -191,11 +193,12 @@
   pointer-events: none;
 }
 
+/* Trait plein plutôt que pointillé : bien plus rapide à dessiner, et plus lisible. Plus clair et plus fin que
+   les frontières (encre foncée), pour ne pas s'y confondre. */
 .map-admin1 {
-  stroke: var(--ink-soft);
-  stroke-width: 0.7px;
-  stroke-opacity: 0.45;
-  stroke-dasharray: 1.5 3.5;
+  stroke: var(--map-admin1);
+  stroke-width: 0.8px;
+  stroke-opacity: 0.85;
 }
 
 .map-landmarks:not(.is-detailed) .map-river.is-minor,

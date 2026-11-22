@@ -70,9 +70,17 @@ export const MAP_SETTINGS = {
    * sont dessinés : plus tôt, le détail faisait brouillon (retours d'Arno, 22/11/2026).
    */
   landmarkDetailKmPerPx: 1.8,
+  /** À partir de ce zoom (par rapport au cadrage de la zone), seuls les repères proches de l'écran sont dessinés. */
+  cullMinZoom: 1.5,
 };
 
 const EARTH_RADIUS_KM = 6371;
+
+interface CullablePath {
+  element: SVGPathElement;
+  bounds: Bounds;
+  shown: boolean;
+}
 
 const KM_PER_DEGREE = 111.195;
 
@@ -237,6 +245,8 @@ export class WorldMap {
   private landmarks: Landmarks | null = null;
   private landmarksVisible = false;
   private landmarkGroup: SVGGElement | null = null;
+  /** Tracés des repères et leur emprise (coordonnées des tracés) : une fois zoomé, seuls ceux proches de l'écran restent affichés. */
+  private landmarkPaths: CullablePath[] = [];
 
   constructor(
     private readonly container: HTMLElement,
@@ -342,6 +352,7 @@ export class WorldMap {
     this.viewport.setAttribute('transform', `${t.toString()} translate(${x},${y}) scale(${k})`);
     this.baseSvg.style.transform = '';
     this.updateLandmarkDetail();
+    this.cullPaths();
   }
 
   /** Affiche les affluents et les limites intérieures seulement une fois assez zoomé (au repos, pas pendant un geste). */
@@ -349,6 +360,29 @@ export class WorldMap {
     if (!this.landmarkGroup) return;
     const kmPerPx = EARTH_RADIUS_KM / (this.projection.scale() * this.committed.k);
     this.landmarkGroup.classList.toggle('is-detailed', kmPerPx <= MAP_SETTINGS.landmarkDetailKmPerPx);
+  }
+
+  /**
+   * Fluidité : une fois zoomé, la plupart des repères sont loin de l'écran ; on ne garde que ceux qui le touchent,
+   * avec une marge d'un écran tout autour (un déplacement ou un dézoom jusqu'à ×3 pendant le geste ne montre pas
+   * de trou avant le redessin). Peu zoomé, tout reste affiché.
+   */
+  private cullPaths(): void {
+    if (this.width === 0) return;
+    const t = this.committed;
+    const { k, x, y } = this.layout;
+    const all = t.k < MAP_SETTINGS.cullMinZoom;
+    const toGeometry = (sx: number, sy: number): [number, number] => [((sx - t.x) / t.k - x) / k, ((sy - t.y) / t.k - y) / k];
+    const [x0, y0] = toGeometry(-this.width, -this.height);
+    const [x1, y1] = toGeometry(this.width * 2, this.height * 2);
+    for (const entry of this.landmarkPaths) {
+      const [[bx0, by0], [bx1, by1]] = entry.bounds;
+      const shown = all || (bx1 >= x0 && bx0 <= x1 && by1 >= y0 && by0 <= y1);
+      if (shown !== entry.shown) {
+        entry.shown = shown;
+        entry.element.style.display = shown ? '' : 'none';
+      }
+    }
   }
 
   /**
@@ -370,6 +404,7 @@ export class WorldMap {
     const group = this.landmarkGroup;
     if (!group) return;
     group.replaceChildren();
+    this.landmarkPaths = [];
     group.classList.toggle('is-hidden', !this.landmarksVisible);
     if (!this.landmarks) return;
     const chunked = chunkedLandmarks(this.landmarks);
@@ -382,6 +417,7 @@ export class WorldMap {
         element.setAttribute('d', d);
         element.setAttribute('class', className);
         fragment.appendChild(element);
+        this.landmarkPaths.push({ element, bounds: this.geometryPath.bounds(geometry) as Bounds, shown: true });
       }
     };
     add(chunked.admin1, 'map-admin1');
@@ -390,6 +426,7 @@ export class WorldMap {
     add(chunked.riversMajor, 'map-river');
     group.appendChild(fragment);
     this.updateLandmarkDetail();
+    this.cullPaths();
   }
 
   /** Affiche une zone : recalcule la projection et les tracés, puis remet le zoom à zéro. */
@@ -669,7 +706,8 @@ export class WorldMap {
     const [tx, ty] = this.projection.translate();
     this.geometryTranslate = [tx, ty];
     const fragment = document.createDocumentFragment();
-    const addPath = (d: string | null, className: string, id?: string) => {
+    const addPath = (geometry: Parameters<GeoPath>[0], className: string, id?: string) => {
+      const d = this.path(geometry);
       if (!d) return null;
       const element = document.createElementNS(SVG_NS, 'path');
       element.setAttribute('d', d);
@@ -679,10 +717,10 @@ export class WorldMap {
       return element;
     };
     const chunked = chunkedWorld(this.world);
-    addPath(this.path({ type: 'Sphere' }), 'map-sphere');
+    addPath({ type: 'Sphere' }, 'map-sphere');
     // Quadrillage en pointillés, façon carte marine.
-    for (const chunk of chunked.graticule) addPath(this.path(chunk), 'map-graticule');
-    for (const shape of this.world.neutral) addPath(this.path(shape), 'map-neutral');
+    for (const chunk of chunked.graticule) addPath(chunk, 'map-graticule');
+    for (const shape of this.world.neutral) addPath(shape, 'map-neutral');
     this.shapes.clear();
     this.geometryAreas.clear();
     for (const [id, shape] of this.world.shapes) {
@@ -690,7 +728,7 @@ export class WorldMap {
       const continent = this.world.byId.get(id)?.continent;
       const elements: SVGPathElement[] = [];
       for (const chunk of chunked.shapes.get(id) ?? []) {
-        const element = addPath(this.path(chunk), 'map-entity', id);
+        const element = addPath(chunk, 'map-entity', id);
         if (!element) continue; // partie hors du champ de la projection
         if (continent) element.setAttribute('data-continent', continent);
         elements.push(element);
@@ -704,8 +742,8 @@ export class WorldMap {
     this.landmarkGroup.setAttribute('class', 'map-landmarks');
     fragment.appendChild(this.landmarkGroup);
     // Traits par-dessus les surfaces : frontières et côtes, sans les lignes de découpe des données.
-    for (const chunk of chunked.coastlines) addPath(this.path(chunk), 'map-coastline');
-    for (const chunk of chunked.borders) addPath(this.path(chunk), 'map-borders');
+    for (const chunk of chunked.coastlines) addPath(chunk, 'map-coastline');
+    for (const chunk of chunked.borders) addPath(chunk, 'map-borders');
     this.viewport.replaceChildren(fragment);
     this.drawLandmarks();
   }
