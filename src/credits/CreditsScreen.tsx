@@ -11,7 +11,7 @@ interface Credit {
 
 const DATA: Credit[] = [
   {
-    what: 'Frontières des pays et territoires ; fleuves, lacs et limites intérieures (repères de placement)',
+    what: 'Frontières des pays et territoires',
     source: 'Natural Earth (1:10m, v5.1.2)',
     url: 'https://www.naturalearthdata.com/',
     license: 'Domaine public',

@@ -1,10 +1,6 @@
 // Carte à explorer : choisir une zone, toucher un pays pour voir sa fiche,
-// et composer une manche avec le constructeur de session. Les repères (fleuves, lacs, limites intérieures)
-// peuvent être affichés (réglage `exploreLandmarks`, décoché par défaut).
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'preact/hooks';
-import { loadLandmarks, type Landmarks } from '../data/landmarks.ts';
-import { getSetting, putSetting } from '../storage/db.ts';
-import { progressDb } from '../storage/progress-db.ts';
+// et composer une manche avec le constructeur de session.
+import { useLayoutEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { flagUrl } from '../data/flags.ts';
 import { CONTINENT_LABELS, STATUS_LABELS, SUBREGION_LABELS } from '../data/labels.ts';
 import type { WorldData } from '../data/world.ts';
@@ -38,21 +34,6 @@ export function Sandbox({ world, zoneId, onZoneChange, onPlay, onHome, initialBu
   const mapAreaRef = useRef<HTMLElement>(null);
   const builderRef = useRef<HTMLElement>(null);
   const [insets, setInsets] = useState<MapInsets>({ top: 0, bottom: 0 });
-  const [landmarksOn, setLandmarksOn] = useState(false);
-  const [landmarks, setLandmarks] = useState<Landmarks | null>(null);
-  useEffect(() => {
-    void progressDb()
-      .then((db) => getSetting(db, 'exploreLandmarks', false))
-      .then(setLandmarksOn);
-  }, []);
-  useEffect(() => {
-    if (landmarksOn && !landmarks) loadLandmarks().then(setLandmarks, () => undefined);
-  }, [landmarksOn]);
-  const toggleLandmarks = () => {
-    const value = !landmarksOn;
-    setLandmarksOn(value);
-    void progressDb().then((db) => putSetting(db, 'exploreLandmarks', value));
-  };
 
   // Quand le constructeur est ouvert, la zone est cadrée dans la partie visible de la carte :
   // au-dessus du panneau sur téléphone, à sa droite sur PC.
@@ -114,9 +95,6 @@ export function Sandbox({ world, zoneId, onZoneChange, onPlay, onHome, initialBu
           </select>
         </label>
         <span class="sandbox__count">{zone.entityIds.length} entités</span>
-        <label class="sandbox__toggle" title="Fleuves, lacs et limites intérieures">
-          <input type="checkbox" checked={landmarksOn} onChange={toggleLandmarks} /> Repères
-        </label>
         <button type="button" class="btn btn--terracotta sandbox__play" onClick={() => setBuilderOpen(true)}>
           Jouer
         </button>
@@ -130,8 +108,6 @@ export function Sandbox({ world, zoneId, onZoneChange, onPlay, onHome, initialBu
           insets={insets}
           onPick={setPick}
           focusIds={focusIds}
-          landmarks={landmarks}
-          showLandmarks={landmarksOn}
         />
       </main>
 

@@ -8,7 +8,6 @@
 // et seule la toute première réponse à un élément met à jour la mémoire (FSRS).
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { flagUrl } from '../data/flags.ts';
-import { loadLandmarks, type Landmarks } from '../data/landmarks.ts';
 import type { WorldData } from '../data/world.ts';
 import { createConsolidation, currentItem, isFinished, progress, submitAnswer, type ConsolidationState } from '../engine/consolidation.ts';
 import type { AnswerMode } from '../engine/grading.ts';
@@ -47,8 +46,9 @@ const SHOWS_TARGET = new Set(['name-country', 'name-capital', 'country-to-flag']
 const CAPITAL_EXERCISES = new Set(['locate-capital', 'capital-to-country', 'name-capital']);
 
 /**
- * Exercices de placement au plus près (jugés à la distance) : la carte montre des repères pour s'y retrouver
- * (fleuves, lacs, limites intérieures, capitales voisines qui s'effacent avec la maîtrise).
+ * Exercices de placement au plus près (jugés à la distance) : la carte montre des capitales voisines pour s'y
+ * retrouver, de moins en moins à mesure que l'élément est retenu. Pas de fleuves ni de limites intérieures :
+ * essayés le 22/11/2026, ils brouillaient la carte et ralentissaient le zoom (décision d'Arno).
  */
 const PLACEMENT_EXERCISES = new Set(['locate-capital']);
 
@@ -115,9 +115,8 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
     line: MapLine | null;
   } | null>(null);
   const [autocomplete, setAutocomplete] = useState(game.autocomplete);
-  // Repères de placement : réglage mémorisé (affichés par défaut), données chargées à la première utilisation.
+  // Points d'ancrage (capitales voisines) : réglage mémorisé, affichés par défaut.
   const [landmarksOn, setLandmarksOn] = useState(true);
-  const [landmarks, setLandmarks] = useState<Landmarks | null>(null);
   useEffect(() => {
     void progressDb()
       .then((db) => getSetting(db, 'landmarks', true))
@@ -165,9 +164,6 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
   const mixed = useMemo(() => new Set(game.questions.map((q) => q.exercise)).size > 1, [game]);
   const placement = PLACEMENT_EXERCISES.has(exercise.id);
   const showLandmarks = placement && landmarksOn;
-  useEffect(() => {
-    if (showLandmarks && !landmarks) loadLandmarks().then(setLandmarks, () => undefined); // hors ligne sans cache : tant pis
-  }, [showLandmarks]);
 
   // Points d'ancrage : quelques capitales voisines, d'autant moins que la capitale demandée est retenue
   // (fixés au début de la question). Pas dans un défi : tous les joueurs doivent avoir la même carte.
@@ -502,8 +498,6 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
           markerIds={SHOWS_TARGET.has(exercise.id) && entity ? [entity.id] : null}
           insets={insets}
           labels={anchorLabels}
-          landmarks={landmarks}
-          showLandmarks={showLandmarks}
           onPick={onPick}
           onReady={(map) => (mapRef.current = map)}
         />
@@ -642,7 +636,7 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
                   </span>
                 )}
                 {placement && (
-                  <label class="game__toggle" title="Fleuves, limites intérieures et capitales voisines, pour se repérer">
+                  <label class="game__toggle" title="Capitales voisines, pour se repérer">
                     <input type="checkbox" checked={landmarksOn} onChange={toggleLandmarks} /> Repères
                   </label>
                 )}
