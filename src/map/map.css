@@ -383,6 +383,48 @@
 }
 
 /* Étiquettes de noms (découverte), à l'encre avec un liseré de papier. */
+/* Lieux de la carte libre : villes (points sépia) et capitales (points cerclés), cliquables. */
+.map-place {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.map-place__hit {
+  fill: transparent;
+}
+
+.map-place__dot {
+  fill: var(--paper-light);
+  stroke: var(--ink);
+  stroke-width: 1.3px;
+}
+
+.map-place.is-capital .map-place__dot {
+  fill: var(--ink);
+  stroke: var(--paper-light);
+  stroke-width: 1.2px;
+}
+
+.map-place:hover .map-place__dot {
+  fill: var(--map-target);
+}
+
+.map-place__label {
+  pointer-events: none;
+  text-anchor: middle;
+  paint-order: stroke;
+  stroke: var(--paper-light);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  fill: var(--ink-soft);
+  font: 600 11px var(--font-body);
+}
+
+.map-place.is-capital .map-place__label {
+  fill: var(--ink);
+  font-weight: 800;
+}
+
 .map-label {
   pointer-events: none;
   text-anchor: middle;

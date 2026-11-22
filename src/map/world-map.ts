@@ -63,6 +63,8 @@ export const MAP_SETTINGS = {
    */
   magnifyRadius: 26,
   magnifyFactor: 4,
+  /** Lieux (carte libre) : en dessous de tant de km par pixel, on écrit le nom des capitales, puis des villes. */
+  placeLabelKmPerPx: { capital: 12, city: 5 },
 };
 
 const KM_PER_DEGREE = 111.195;
@@ -116,9 +118,19 @@ export interface MapLabel {
   kind: 'current' | 'seen' | 'anchor';
 }
 
+/** Lieu cliquable sur la carte libre : une ville ou une capitale. */
+export interface MapPlace {
+  id: string;
+  lonLat: [number, number];
+  name: string;
+  kind: 'city' | 'capital';
+}
+
 export interface MapPick {
   /** Entité cliquée (forme ou cercle de repère), ou null pour un clic sur la mer ou une zone neutre. */
   entityId: string | null;
+  /** Lieu cliqué (ville ou capitale), quand les lieux sont affichés. */
+  placeId?: string;
   /** Point cliqué [longitude, latitude] : sert à mesurer la distance en mode Épingler. */
   lonLat: [number, number] | null;
 }
@@ -187,6 +199,9 @@ export class WorldMap {
   private lines: Array<{ line: MapLine; element: SVGGElement }> = [];
   private labels: Array<{ label: MapLabel; element: SVGTextElement; base: [number, number] | null }> = [];
   private readonly labelLayer: SVGGElement;
+  /** Lieux cliquables (villes, capitales) de la carte libre. */
+  private readonly placeLayer: SVGGElement;
+  private places: Array<{ place: MapPlace; element: SVGGElement; label: SVGTextElement; base: [number, number] | null }> = [];
   private lineCount = 0;
   /** Emprise (lon/lat) de chaque entité, pour ne mesurer la distance qu'aux pays proches d'un clic. */
   private geoBoxes: Map<string, [[number, number], [number, number]]> | null = null;
@@ -215,6 +230,8 @@ export class WorldMap {
     this.markerLayer.setAttribute('class', 'map-markers');
     this.pinLayer = this.overlaySvg.appendChild(document.createElementNS(SVG_NS, 'g'));
     this.pinLayer.setAttribute('class', 'map-pins');
+    this.placeLayer = this.overlaySvg.appendChild(document.createElementNS(SVG_NS, 'g'));
+    this.placeLayer.setAttribute('class', 'map-places');
     this.labelLayer = this.overlaySvg.appendChild(document.createElementNS(SVG_NS, 'g'));
     this.labelLayer.setAttribute('class', 'map-labels');
     container.appendChild(this.element);
@@ -231,6 +248,7 @@ export class WorldMap {
         this.updatePins();
         this.updateLines();
         this.updateLabels();
+        this.updatePlaces();
       })
       .on('end', () => {
         // Le mouvement est fini : on redessine nettement, sauf si un autre geste suit aussitôt.
@@ -631,9 +649,59 @@ export class WorldMap {
     }
   }
 
+  /** Affiche des lieux cliquables (villes, capitales), avec leur nom une fois assez zoomé. Liste vide : aucun. */
+  setPlaces(places: MapPlace[]): void {
+    this.placeLayer.replaceChildren();
+    this.places = places.map((place) => {
+      const element = document.createElementNS(SVG_NS, 'g');
+      element.setAttribute('class', `map-place is-${place.kind}`);
+      element.setAttribute('data-place', place.id);
+      const hit = document.createElementNS(SVG_NS, 'circle');
+      hit.setAttribute('class', 'map-place__hit');
+      hit.setAttribute('r', COARSE ? '12' : '8');
+      const dot = document.createElementNS(SVG_NS, 'circle');
+      dot.setAttribute('class', 'map-place__dot');
+      dot.setAttribute('r', place.kind === 'capital' ? '3.5' : '2.8');
+      const label = document.createElementNS(SVG_NS, 'text');
+      label.setAttribute('class', 'map-place__label');
+      label.setAttribute('y', '-6');
+      label.textContent = place.name;
+      element.append(hit, dot, label);
+      this.placeLayer.appendChild(element);
+      return { place, element, label, base: null };
+    });
+    this.projectPins();
+  }
+
+  /** Les lieux suivent la carte ; ceux hors de l'écran sont masqués, les noms n'apparaissent qu'au zoom. */
+  private updatePlaces(): void {
+    if (this.places.length === 0) return;
+    const kmPerPx = 6371 / (this.projection.scale() * this.transform.k);
+    const showLabel = {
+      capital: kmPerPx <= MAP_SETTINGS.placeLabelKmPerPx.capital,
+      city: kmPerPx <= MAP_SETTINGS.placeLabelKmPerPx.city,
+    };
+    const margin = 20;
+    for (const entry of this.places) {
+      const { element, label, base, place } = entry;
+      if (!base) {
+        element.style.display = 'none';
+        continue;
+      }
+      const [x, y] = this.transform.apply(base);
+      const onScreen = x > -margin && x < this.width + margin && y > -margin && y < this.height + margin;
+      element.style.display = onScreen ? '' : 'none';
+      if (!onScreen) continue;
+      element.setAttribute('transform', `translate(${x.toFixed(1)},${y.toFixed(1)})`);
+      label.style.display = showLabel[place.kind] ? '' : 'none';
+    }
+  }
+
   private projectPins(): void {
     for (const entry of this.pins) entry.base = this.projection(entry.pin.lonLat);
     for (const entry of this.labels) entry.base = this.projection(entry.label.lonLat);
+    for (const entry of this.places) entry.base = this.projection(entry.place.lonLat);
+    this.updatePlaces();
     this.updatePins();
     this.updateLines();
     this.updateLabels();
@@ -791,6 +859,12 @@ export class WorldMap {
     const [px, py] = pointer(event, this.element);
     const [x, y] = this.transform.invert([px, py]);
     const lonLat = this.projection.invert?.([x, y]) ?? null;
+    // Lieu (ville ou capitale) de la carte libre.
+    const place = event.target instanceof Element ? event.target.closest('[data-place]') : null;
+    if (place) {
+      this.options.onPick?.({ entityId: null, placeId: place.getAttribute('data-place') ?? undefined, lonLat: lonLat ? [lonLat[0], lonLat[1]] : null });
+      return;
+    }
     const onMarker = target !== null && this.markerLayer.contains(target);
     // Loupe : un clic au milieu de plusieurs petits pays fait zoomer au lieu de répondre.
     if (this.options.magnify && this.markersNear(px, py, MAP_SETTINGS.magnifyRadius) >= 2) {

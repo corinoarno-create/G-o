@@ -1,10 +1,16 @@
 // Carte à explorer : choisir une zone, toucher un pays pour voir sa fiche,
-// et composer une manche avec le constructeur de session.
-import { useLayoutEffect, useMemo, useRef, useState } from 'preact/hooks';
+// et composer une manche avec le constructeur de session. La case « Villes » montre les villes et les capitales :
+// toucher une ville ouvre sa fiche (réglage `exploreCities`, décoché par défaut).
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'preact/hooks';
+import { cardKey, MASTERY_LABELS, masteryOf } from '../engine/srs.ts';
+import { loadCards } from '../game/start.ts';
+import { getSetting, putSetting } from '../storage/db.ts';
+import { progressDb } from '../storage/progress-db.ts';
+import type { CardRecord } from '../storage/schema.ts';
 import { flagUrl } from '../data/flags.ts';
 import { CONTINENT_LABELS, STATUS_LABELS, SUBREGION_LABELS } from '../data/labels.ts';
 import type { WorldData } from '../data/world.ts';
-import type { HighlightKind, MapInsets, MapPick } from '../map/world-map.ts';
+import type { HighlightKind, MapInsets, MapPick, MapPin, MapPlace } from '../map/world-map.ts';
 import { WorldMapView } from '../map/WorldMapView.tsx';
 import { buildZones } from '../map/zones.ts';
 import type { GameRequest } from '../game/start.ts';
@@ -34,6 +40,36 @@ export function Sandbox({ world, zoneId, onZoneChange, onPlay, onHome, initialBu
   const mapAreaRef = useRef<HTMLElement>(null);
   const builderRef = useRef<HTMLElement>(null);
   const [insets, setInsets] = useState<MapInsets>({ top: 0, bottom: 0 });
+  // Villes et capitales sur la carte (réglage retenu), et mes cartes mémoire pour la fiche d'une ville.
+  const [showCities, setShowCities] = useState(false);
+  const [cards, setCards] = useState<Map<string, CardRecord> | null>(null);
+  useEffect(() => {
+    void progressDb()
+      .then((db) => getSetting(db, 'exploreCities', false))
+      .then(setShowCities);
+  }, []);
+  useEffect(() => {
+    if (showCities && !cards) void loadCards().then(setCards);
+  }, [showCities]);
+  const toggleCities = () => {
+    const value = !showCities;
+    setShowCities(value);
+    if (!value && pick?.placeId) setPick(null);
+    void progressDb().then((db) => putSetting(db, 'exploreCities', value));
+  };
+  const places = useMemo<MapPlace[]>(() => {
+    if (!showCities) return [];
+    const capitals = world.countries.flatMap((c) =>
+      c.capital ? [{ id: `cap:${c.id}`, lonLat: [c.capital.lon, c.capital.lat] as [number, number], name: c.capital.name, kind: 'capital' as const }] : [],
+    );
+    const cities = world.cities.map((city) => ({ id: city.id, lonLat: [city.lon, city.lat] as [number, number], name: city.name, kind: 'city' as const }));
+    return [...cities, ...capitals];
+  }, [showCities, world]);
+  // Toucher une capitale ouvre la fiche de son pays ; une ville, la sienne.
+  const onPick = (next: MapPick) => {
+    if (next.placeId?.startsWith('cap:')) setPick({ entityId: next.placeId.slice(4), lonLat: next.lonLat });
+    else setPick(next);
+  };
 
   // Quand le constructeur est ouvert, la zone est cadrée dans la partie visible de la carte :
   // au-dessus du panneau sur téléphone, à sa droite sur PC.
@@ -63,11 +99,17 @@ export function Sandbox({ world, zoneId, onZoneChange, onPlay, onHome, initialBu
   const [focusIds, setFocusIds] = useState<string[] | null>(null);
   const zone = zones.find((z) => z.id === zoneId) ?? zones[0]!;
 
-  const entity = pick?.entityId ? world.byId.get(pick.entityId) : undefined;
+  const city = pick?.placeId ? world.cityById.get(pick.placeId) : undefined;
+  const entity = city ? world.byId.get(city.country) : pick?.entityId ? world.byId.get(pick.entityId) : undefined;
   const highlights = useMemo(
-    () => new Map<string, HighlightKind>(entity ? [[entity.id, 'selected']] : []),
-    [entity],
+    () => new Map<string, HighlightKind>(entity && !city ? [[entity.id, 'selected']] : []),
+    [entity, city],
   );
+  const cityPins = useMemo<MapPin[]>(() => (city ? [{ lonLat: [city.lon, city.lat], kind: 'target' }] : []), [city]);
+  const levelOf = (id: string, skill: 'locate-city' | 'name-city') => {
+    const record = cards?.get(cardKey(id, skill));
+    return MASTERY_LABELS[record ? masteryOf(record.card) : 'new'];
+  };
   const sovereign = entity?.sovereign ? world.byId.get(entity.sovereign) : undefined;
   const flag = flagUrl(entity?.flag ?? null);
 
@@ -95,6 +137,9 @@ export function Sandbox({ world, zoneId, onZoneChange, onPlay, onHome, initialBu
           </select>
         </label>
         <span class="sandbox__count">{zone.entityIds.length} entités</span>
+        <label class="sandbox__toggle" title="Villes et capitales : touche une ville pour ouvrir sa fiche">
+          <input type="checkbox" checked={showCities} onChange={toggleCities} /> Villes
+        </label>
         <button type="button" class="btn btn--terracotta sandbox__play" onClick={() => setBuilderOpen(true)}>
           Jouer
         </button>
@@ -106,8 +151,10 @@ export function Sandbox({ world, zoneId, onZoneChange, onPlay, onHome, initialBu
           zone={zone}
           highlights={highlights}
           insets={insets}
-          onPick={setPick}
+          onPick={onPick}
           focusIds={focusIds}
+          places={places}
+          pins={cityPins}
         />
       </main>
 
@@ -126,13 +173,50 @@ export function Sandbox({ world, zoneId, onZoneChange, onPlay, onHome, initialBu
 
       <aside class="sandbox__card paper-card tilt-left" aria-live="polite" hidden={builderOpen}>
         <span class="tape tape--right tape--teal" />
-        {!pick && <p class="sandbox__hint hand">Touche un pays pour ouvrir sa page du carnet.</p>}
+        {!pick && (
+          <p class="sandbox__hint hand">{showCities ? 'Touche un pays ou une ville pour ouvrir sa fiche.' : 'Touche un pays pour ouvrir sa page du carnet.'}</p>
+        )}
+        {city && entity && (
+          <>
+            <div class="sandbox__head">
+              {flag && <img class="sandbox__flag" src={flag} alt="" width={64} height={48} />}
+              <div>
+                <h2 class="sandbox__name">{city.name}</h2>
+                <p class="sandbox__meta">
+                  Ville · {entity.name}
+                </p>
+              </div>
+              <button type="button" class="sandbox__close" onClick={() => setPick(null)} aria-label="Fermer">
+                ×
+              </button>
+            </div>
+            <dl class="sandbox__facts">
+              {city.aliases.length > 0 && (
+                <>
+                  <dt>Aussi</dt>
+                  <dd>{city.aliases.join(', ')}</dd>
+                </>
+              )}
+              <dt>Population</dt>
+              <dd>{city.population.toLocaleString('fr-FR')}</dd>
+              <dt>Placer</dt>
+              <dd>{levelOf(city.id, 'locate-city')}</dd>
+              <dt>Nommer</dt>
+              <dd>{levelOf(city.id, 'name-city')}</dd>
+            </dl>
+            <div class="sandbox__actions">
+              <button type="button" class="btn btn--teal" onClick={() => setFocusIds([entity.id])}>
+                Voir {entity.name}
+              </button>
+            </div>
+          </>
+        )}
         {pick && !entity && (
           <p class="sandbox__hint">
             Mer ou zone neutre{pick.lonLat ? ` — ${formatLonLat(pick.lonLat)}` : ''}
           </p>
         )}
-        {entity && (
+        {entity && !city && (
           <>
             <div class="sandbox__head">
               {flag && <img class="sandbox__flag" src={flag} alt="" width={64} height={48} />}

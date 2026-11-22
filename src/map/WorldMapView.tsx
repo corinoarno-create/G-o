@@ -10,6 +10,7 @@ import {
   type MapLine,
   type MapPick,
   type MapPin,
+  type MapPlace,
 } from './world-map.ts';
 import type { Zone } from './zones.ts';
 import './map.css';
@@ -38,6 +39,8 @@ interface Props {
   markerIds?: string[] | null;
   /** Quand cette valeur change, la carte zoome sur ces entités. */
   focusIds?: string[] | null;
+  /** Lieux cliquables (villes, capitales) de la carte libre. */
+  places?: MapPlace[];
   /** Donne accès au moteur de carte pour les commandes ponctuelles (cadrer, recentrer). */
   onReady?: (map: WorldMap | null) => void;
 }
@@ -57,6 +60,7 @@ export function WorldMapView({
   onPick,
   focusIds,
   markerIds,
+  places,
   onReady,
 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -93,6 +97,7 @@ export function WorldMapView({
   useEffect(() => mapRef.current?.setLabels(labels ?? []), [world, zone, labels]);
   useEffect(() => mapRef.current?.setFills(fills ?? new Map()), [world, zone, fills]);
   useEffect(() => mapRef.current?.setMarkerFilter(markerIds ?? null), [world, zone, markerIds?.join(',')]);
+  useEffect(() => mapRef.current?.setPlaces(places ?? []), [world, zone, places]);
   useEffect(() => {
     if (focusIds?.length) mapRef.current?.flyTo(focusIds, undefined, [], 800);
   }, [focusIds]);
