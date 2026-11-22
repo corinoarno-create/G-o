@@ -165,6 +165,7 @@ Deux portes, sur un ton positif, sans vocabulaire de voyage (« escales », « i
 | Besoin | Source | Licence |
 |---|---|---|
 | Frontières des pays et territoires | Natural Earth v5.1.2 (admin 0 map units + zones disputées, 1:10m) | Domaine public |
+| Repères : fleuves, lacs, limites intérieures | Natural Earth v5.1.2 (rivers + lake centerlines, lakes, admin 1 lines, 1:10m) | Domaine public |
 | Liste, codes, régions, noms FR des pays | mledoze/countries | ODbL 1.0 |
 | Capitales (noms FR, coordonnées), population de secours | Wikidata (requête SPARQL) | CC0 |
 | Population | Banque mondiale (SP.POP.TOTL) | CC BY 4.0 |
@@ -254,6 +255,11 @@ Deux portes, sur un ton positif, sans vocabulaire de voyage (« escales », « i
   - **Score** (`src/challenge/scoring.ts`, demande d'Arno) : 100 points par bonne réponse du premier coup + bonus de rapidité de 0 à 50 (plein sous 2 s, nul à 12 s au clic, 10 s pour un choix, 15 s en saisie) ; avec un indice, 50 points sans bonus ; à égalité, le temps total départage. Écart médian en km affiché pour les capitales placées.
   - **Pages** : page d'un défi (invitation, classement, détail question par question, « Revanche », envoi) ; « Mes défis » (à relever, résultats, en attente, mes amis avec le bilan des face-à-face et « Défier ») ; pastille de nouveautés sur l'accueil (onglet « Défis » sur téléphone). Un score qui n'a pas pu partir est gardé et renvoyé au retour du réseau.
 - [ ] **3. Ensemble** : voir le carnet de l'autre, petit classement à deux.
+- [x] **Repères pour placer capitales et villes** (décidé et fait le 22/11/2026) : pas de routes (elles convergent vers les villes et donneraient la réponse). Affichés dans « Placer les capitales » (`PLACEMENT_EXERCISES` de `GameScreen.tsx`, à étendre aux villes), case « Repères » dans la manche (réglage `landmarks`, coché par défaut).
+  - **Limites intérieures** (régions, États, provinces de 1er niveau, Natural Earth admin 1) en pointillé sépia fin, visibles une fois zoomé. Pour chaque pays, seul son niveau le plus grossier (régions et non départements en France) ; pas pour les pays de moins de 20 000 km² ni les pays émiettés en communes (Royaume-Uni, Slovénie…, `scripts/world/landmarks.ts`).
+  - **Repères qui s'effacent** (`src/game/anchors.ts`) : pour une ville, élément nouveau ou en cours → capitale du pays + 1 ou 2 villes connues ; acquis (≥ 7 j) → la capitale seule ; maîtrisé (≥ 30 j) → aucun. Pour une capitale : les 2 capitales voisines les plus proches (entre 100 et 1 500 km, et à 100 km l'une de l'autre au moins), puis 1, puis aucune. Jamais l'élément demandé, ni une capitale encore à venir dans la manche ; pas dans un défi (même carte pour tous).
+  - **Fleuves et lacs** (gardés, décision d'Arno du 22/11/2026) : Natural Earth 1:10m jusqu'au rang 7 (niveau du Rhône et du Pô), trait bleu, découpés en cases comme les côtes ; grands fleuves (rang ≤ 4) dès la vue d'ensemble ; affluents et limites intérieures (pointillé espacé et pâle) seulement à l'échelle d'un pays, sous 1,8 km par pixel (`MAP_SETTINGS.landmarkDetailKmPerPx`) : plus tôt, ils faisaient brouillon (retours d'Arno, 22/11/2026). Limites peut-être trop discrètes : à revoir après essai sur téléphone.
+  - **Données** : `npm run data:download -- rivers lakes admin_1` puis `npm run data:landmarks` → `data/world/landmarks.topo.json` (≈ 860 Ko, 330 Ko compressé), chargé au premier exercice de placement (`src/data/landmarks.ts`). Mesure (1re sélection de 1 010 villes, seuil 15 km) : 41 % de villes côtières (déjà repérées) ; parmi les villes de l'intérieur, 13 % près d'un fleuve majeur (rang Natural Earth ≤ 3), 20 % (≤ 5), 30 % (≤ 7, niveau du Rhône et du Pô), 36 % (tous). Capitales : 53 % côtières ; intérieur 16 / 21 / 36 / 41 %.
 - [ ] Villes : 3, 5 ou 10 par pays + phase de découverte.
 - [ ] Mode Départements & États (numéros, chefs-lieux, capitales d'État).
 - [ ] Indices et anecdotes.

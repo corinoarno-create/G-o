@@ -1,5 +1,6 @@
 // Composant Preact autour du moteur de carte (WorldMap), avec les boutons de zoom.
 import { useEffect, useRef } from 'preact/hooks';
+import type { Landmarks } from '../data/landmarks.ts';
 import type { WorldData } from '../data/world.ts';
 import {
   WorldMap,
@@ -38,6 +39,9 @@ interface Props {
   markerIds?: string[] | null;
   /** Quand cette valeur change, la carte zoome sur ces entités. */
   focusIds?: string[] | null;
+  /** Repères (fleuves, lacs, limites intérieures) : données chargées, et s'il faut les montrer. */
+  landmarks?: Landmarks | null;
+  showLandmarks?: boolean;
   /** Donne accès au moteur de carte pour les commandes ponctuelles (cadrer, recentrer). */
   onReady?: (map: WorldMap | null) => void;
 }
@@ -57,6 +61,8 @@ export function WorldMapView({
   onPick,
   focusIds,
   markerIds,
+  landmarks,
+  showLandmarks = false,
   onReady,
 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -93,6 +99,10 @@ export function WorldMapView({
   useEffect(() => mapRef.current?.setLabels(labels ?? []), [world, zone, labels]);
   useEffect(() => mapRef.current?.setFills(fills ?? new Map()), [world, zone, fills]);
   useEffect(() => mapRef.current?.setMarkerFilter(markerIds ?? null), [world, zone, markerIds?.join(',')]);
+  useEffect(() => {
+    mapRef.current?.setLandmarksVisible(showLandmarks);
+    mapRef.current?.setLandmarks(landmarks ?? null);
+  }, [world, landmarks, showLandmarks]);
   useEffect(() => {
     if (focusIds?.length) mapRef.current?.flyTo(focusIds, undefined, [], 800);
   }, [focusIds]);

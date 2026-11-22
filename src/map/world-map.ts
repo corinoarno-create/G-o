@@ -13,6 +13,7 @@ import { pointer, select, type Selection } from 'd3-selection';
 import 'd3-transition';
 import { zoom, zoomIdentity, type D3ZoomEvent, type ZoomBehavior, type ZoomTransform } from 'd3-zoom';
 import type { MultiLineString, MultiPolygon, Polygon } from 'geojson';
+import type { Landmarks } from '../data/landmarks.ts';
 import type { WorldData } from '../data/world.ts';
 import { distanceKm, distanceToShapeKm } from '../engine/geo.ts';
 import { chunkLines, chunkPolygons } from './chunks.ts';
@@ -63,7 +64,15 @@ export const MAP_SETTINGS = {
    */
   magnifyRadius: 26,
   magnifyFactor: 4,
+  /**
+   * Repères (placer capitales et villes) : affluents et limites intérieures n'apparaissent qu'à l'échelle d'un
+   * pays (≈ la France entière à l'écran), quand on zoome pour affiner son clic. Avant, seuls les grands fleuves
+   * sont dessinés : plus tôt, le détail faisait brouillon (retours d'Arno, 22/11/2026).
+   */
+  landmarkDetailKmPerPx: 1.8,
 };
+
+const EARTH_RADIUS_KM = 6371;
 
 const KM_PER_DEGREE = 111.195;
 
@@ -76,6 +85,29 @@ interface ChunkedWorld {
 }
 
 const chunkCache = new WeakMap<WorldData, ChunkedWorld>();
+
+interface ChunkedLandmarks {
+  riversMajor: MultiLineString[];
+  riversMinor: MultiLineString[];
+  lakes: Array<Polygon | MultiPolygon>;
+  admin1: MultiLineString[];
+}
+
+const landmarkCache = new WeakMap<Landmarks, ChunkedLandmarks>();
+
+function chunkedLandmarks(landmarks: Landmarks): ChunkedLandmarks {
+  let chunked = landmarkCache.get(landmarks);
+  if (!chunked) {
+    chunked = {
+      riversMajor: chunkLines(landmarks.riversMajor),
+      riversMinor: chunkLines(landmarks.riversMinor),
+      lakes: landmarks.lakes.flatMap((lake) => chunkPolygons(lake)),
+      admin1: chunkLines(landmarks.admin1),
+    };
+    landmarkCache.set(landmarks, chunked);
+  }
+  return chunked;
+}
 
 function chunkedWorld(world: WorldData): ChunkedWorld {
   let chunked = chunkCache.get(world);
@@ -104,15 +136,16 @@ export type HighlightKind = 'selected' | 'target' | 'correct' | 'wrong';
 /** Repère ponctuel sur la carte : point cliqué, bonne position d'une capitale… */
 export interface MapPin {
   lonLat: [number, number];
-  kind: 'selected' | 'correct' | 'wrong' | 'target';
+  /** anchor : point d'ancrage pour se repérer (une capitale voisine), petit et discret. */
+  kind: 'selected' | 'correct' | 'wrong' | 'target' | 'anchor';
 }
 
 /** Étiquette posée sur la carte (nom d'un élément qu'on découvre), taille constante à l'écran. */
 export interface MapLabel {
   lonLat: [number, number];
   text: string;
-  /** current : l'élément qu'on regarde ; seen : déjà vu (plus discret). */
-  kind: 'current' | 'seen';
+  /** current : l'élément qu'on regarde ; seen : déjà vu (plus discret) ; anchor : nom d'un point d'ancrage. */
+  kind: 'current' | 'seen' | 'anchor';
 }
 
 export interface MapPick {
@@ -195,6 +228,10 @@ export class WorldMap {
   private lastFrame: { ids: string[]; points: [number, number][]; minKm: number } | null = null;
   /** Seuls ces cercles de repère sont affichés (null : tous). */
   private markerFilter: Set<string> | null = null;
+  /** Repères (fleuves, lacs, limites intérieures), dessinés dans leur propre groupe sous les côtes. */
+  private landmarks: Landmarks | null = null;
+  private landmarksVisible = false;
+  private landmarkGroup: SVGGElement | null = null;
 
   constructor(
     private readonly container: HTMLElement,
@@ -299,6 +336,55 @@ export class WorldMap {
     const { k, x, y } = this.layout;
     this.viewport.setAttribute('transform', `${t.toString()} translate(${x},${y}) scale(${k})`);
     this.baseSvg.style.transform = '';
+    this.updateLandmarkDetail();
+  }
+
+  /** Affiche les affluents et les limites intérieures seulement une fois assez zoomé (au repos, pas pendant un geste). */
+  private updateLandmarkDetail(): void {
+    if (!this.landmarkGroup) return;
+    const kmPerPx = EARTH_RADIUS_KM / (this.projection.scale() * this.committed.k);
+    this.landmarkGroup.classList.toggle('is-detailed', kmPerPx <= MAP_SETTINGS.landmarkDetailKmPerPx);
+  }
+
+  /**
+   * Donne les repères à dessiner (fleuves, lacs, limites intérieures) ; null les retire.
+   * Ils sont tracés une fois par zone, puis simplement montrés ou cachés (setLandmarksVisible).
+   */
+  setLandmarks(landmarks: Landmarks | null): void {
+    if (landmarks === this.landmarks) return;
+    this.landmarks = landmarks;
+    if (this.geometryKey) this.drawLandmarks();
+  }
+
+  setLandmarksVisible(visible: boolean): void {
+    this.landmarksVisible = visible;
+    this.landmarkGroup?.classList.toggle('is-hidden', !visible);
+  }
+
+  private drawLandmarks(): void {
+    const group = this.landmarkGroup;
+    if (!group) return;
+    group.replaceChildren();
+    group.classList.toggle('is-hidden', !this.landmarksVisible);
+    if (!this.landmarks) return;
+    const chunked = chunkedLandmarks(this.landmarks);
+    const fragment = document.createDocumentFragment();
+    const add = (geometries: Array<MultiLineString | Polygon | MultiPolygon>, className: string) => {
+      for (const geometry of geometries) {
+        const d = this.path(geometry);
+        if (!d) continue;
+        const element = document.createElementNS(SVG_NS, 'path');
+        element.setAttribute('d', d);
+        element.setAttribute('class', className);
+        fragment.appendChild(element);
+      }
+    };
+    add(chunked.admin1, 'map-admin1');
+    add(chunked.lakes, 'map-lake');
+    add(chunked.riversMinor, 'map-river is-minor');
+    add(chunked.riversMajor, 'map-river');
+    group.appendChild(fragment);
+    this.updateLandmarkDetail();
   }
 
   /** Affiche une zone : recalcule la projection et les tracés, puis remet le zoom à zéro. */
@@ -344,10 +430,10 @@ export class WorldMap {
       element.setAttribute('class', `map-pin is-${pin.kind}`);
       const halo = document.createElementNS(SVG_NS, 'circle');
       halo.setAttribute('class', 'map-pin__halo');
-      halo.setAttribute('r', '11');
+      halo.setAttribute('r', pin.kind === 'anchor' ? '0' : '11');
       const dot = document.createElementNS(SVG_NS, 'circle');
       dot.setAttribute('class', 'map-pin__dot');
-      dot.setAttribute('r', '5');
+      dot.setAttribute('r', pin.kind === 'anchor' ? '3' : '5');
       element.append(halo, dot);
       this.pinLayer.appendChild(element);
       return { pin, element, base: null };
@@ -607,10 +693,15 @@ export class WorldMap {
       this.shapes.set(id, elements);
       this.geometryAreas.set(id, this.path.area(shape));
     }
+    // Repères (placer capitales et villes) : au-dessus des pays, sous les côtes et les frontières.
+    this.landmarkGroup = document.createElementNS(SVG_NS, 'g');
+    this.landmarkGroup.setAttribute('class', 'map-landmarks');
+    fragment.appendChild(this.landmarkGroup);
     // Traits par-dessus les surfaces : frontières et côtes, sans les lignes de découpe des données.
     for (const chunk of chunked.coastlines) addPath(this.path(chunk), 'map-coastline');
     for (const chunk of chunked.borders) addPath(this.path(chunk), 'map-borders');
     this.viewport.replaceChildren(fragment);
+    this.drawLandmarks();
   }
 
   /** Cercles de repère pour les entités de la zone trop petites pour être touchées. */
@@ -638,13 +729,13 @@ export class WorldMap {
   }
 
   private updateLabels(): void {
-    for (const { element, base } of this.labels) {
+    for (const { label, element, base } of this.labels) {
       element.style.display = base ? '' : 'none';
       if (!base) continue;
       const [x, y] = this.transform.apply(base);
       element.setAttribute('x', x.toFixed(1));
       // Au-dessus du point, pour ne pas cacher le pays ou la capitale.
-      element.setAttribute('y', (y - 14).toFixed(1));
+      element.setAttribute('y', (y - (label.kind === 'anchor' ? 7 : 14)).toFixed(1));
     }
   }
 

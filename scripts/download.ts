@@ -1,9 +1,11 @@
 // Télécharge les sources brutes dans data/raw/<source>/ (dossier ignoré par git).
-// Usage : npm run data:download
+// Usage : npm run data:download            (tout)
+//         npm run data:download -- rivers   (seulement les fichiers dont le nom contient « rivers »)
 // Chaque source va dans son propre dossier ; un fichier sources.json note la date et l'URL.
+import { existsSync } from 'node:fs';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { RAW_DIR, writeJson } from './lib/fs.ts';
+import { RAW_DIR, readJson, writeJson } from './lib/fs.ts';
 
 interface Source {
   dir: string;
@@ -80,6 +82,25 @@ const SOURCES: Source[] = [
     url: 'https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_10m_admin_0_disputed_areas.geojson',
     licence: 'Domaine public (Natural Earth)',
   },
+  // Repères pour placer capitales et villes (scripts/build-landmarks.ts).
+  {
+    dir: 'natural-earth',
+    file: 'ne_10m_rivers_lake_centerlines.geojson',
+    url: 'https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_10m_rivers_lake_centerlines.geojson',
+    licence: 'Domaine public (Natural Earth)',
+  },
+  {
+    dir: 'natural-earth',
+    file: 'ne_10m_lakes.geojson',
+    url: 'https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_10m_lakes.geojson',
+    licence: 'Domaine public (Natural Earth)',
+  },
+  {
+    dir: 'natural-earth',
+    file: 'ne_10m_admin_1_states_provinces_lines.geojson',
+    url: 'https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_10m_admin_1_states_provinces_lines.geojson',
+    licence: 'Domaine public (Natural Earth)',
+  },
   {
     // Drapeaux absents de flag-icons (entités sans code ISO officiel).
     dir: 'wikimedia',
@@ -125,8 +146,14 @@ const SOURCES: Source[] = [
 ];
 
 async function main(): Promise<void> {
-  const log: Record<string, { url: string; licence: string; date: string; bytes: number }> = {};
-  for (const source of SOURCES) {
+  // Avec des filtres, on ne télécharge que les fichiers concernés et on garde le journal des autres.
+  const filters = process.argv.slice(2);
+  const logPath = join(RAW_DIR, 'sources.json');
+  type LogEntry = { url: string; licence: string; date: string; bytes: number };
+  const log: Record<string, LogEntry> = filters.length && existsSync(logPath) ? await readJson<Record<string, LogEntry>>(logPath) : {};
+  const selected = filters.length ? SOURCES.filter((source) => filters.some((filter) => source.file.includes(filter))) : SOURCES;
+  if (selected.length === 0) throw new Error(`Aucune source ne correspond à : ${filters.join(', ')}`);
+  for (const source of selected) {
     const dir = join(RAW_DIR, source.dir);
     await mkdir(dir, { recursive: true });
     process.stdout.write(`↓ ${source.dir}/${source.file} … `);
@@ -144,7 +171,7 @@ async function main(): Promise<void> {
     };
     console.log(`${(body.length / 1024 / 1024).toFixed(1)} Mo`);
   }
-  await writeJson(join(RAW_DIR, 'sources.json'), log);
+  await writeJson(logPath, log);
 }
 
 main().catch((error: unknown) => {

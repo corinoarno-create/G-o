@@ -12,7 +12,8 @@
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "data:download": "node scripts/download.ts",
-    "data:world": "node scripts/build-world.ts"
+    "data:world": "node scripts/build-world.ts",
+    "data:landmarks": "node scripts/build-landmarks.ts"
   },
   "dependencies": {
     "@fontsource/caveat": "^5.3.0",

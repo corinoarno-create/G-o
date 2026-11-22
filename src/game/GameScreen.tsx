@@ -8,16 +8,18 @@
 // et seule la toute première réponse à un élément met à jour la mémoire (FSRS).
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { flagUrl } from '../data/flags.ts';
+import { loadLandmarks, type Landmarks } from '../data/landmarks.ts';
 import type { WorldData } from '../data/world.ts';
 import { createConsolidation, currentItem, isFinished, progress, submitAnswer, type ConsolidationState } from '../engine/consolidation.ts';
 import type { AnswerMode } from '../engine/grading.ts';
-import type { MasteryLevel } from '../engine/srs.ts';
+import { cardKey, masteryOf, type MasteryLevel } from '../engine/srs.ts';
 import { suggest } from '../engine/text-match.ts';
 import { detectDevice } from '../lib/device.ts';
-import type { HighlightKind, MapInsets, MapLine, MapPick, MapPin, WorldMap } from '../map/world-map.ts';
+import type { HighlightKind, MapInsets, MapLabel, MapLine, MapPick, MapPin, WorldMap } from '../map/world-map.ts';
 import { WorldMapView } from '../map/WorldMapView.tsx';
-import { putSetting } from '../storage/db.ts';
+import { getSetting, putSetting } from '../storage/db.ts';
 import { progressDb } from '../storage/progress-db.ts';
+import { capitalAnchors, pendingCapitalEntities } from './anchors.ts';
 import { entityNoun, EXERCISES, hasOwnFlag, hintFor, MAX_TRIES, showFrame, type Hint, type HintLevel } from './exercises.ts';
 import { parseQuestionKey, questionKey } from './questions.ts';
 import { seededRng } from './selection.ts';
@@ -43,6 +45,12 @@ const SHOWS_TARGET = new Set(['name-country', 'name-capital', 'country-to-flag']
 
 /** Exercices sur les capitales : la bonne capitale est pointée sur la carte une fois la réponse donnée. */
 const CAPITAL_EXERCISES = new Set(['locate-capital', 'capital-to-country', 'name-capital']);
+
+/**
+ * Exercices de placement au plus près (jugés à la distance) : la carte montre des repères pour s'y retrouver
+ * (fleuves, lacs, limites intérieures, capitales voisines qui s'effacent avec la maîtrise).
+ */
+const PLACEMENT_EXERCISES = new Set(['locate-capital']);
 
 const formatKm = (km: number) => `${Math.round(km).toLocaleString('fr-FR')} km`;
 
@@ -107,6 +115,14 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
     line: MapLine | null;
   } | null>(null);
   const [autocomplete, setAutocomplete] = useState(game.autocomplete);
+  // Repères de placement : réglage mémorisé (affichés par défaut), données chargées à la première utilisation.
+  const [landmarksOn, setLandmarksOn] = useState(true);
+  const [landmarks, setLandmarks] = useState<Landmarks | null>(null);
+  useEffect(() => {
+    void progressDb()
+      .then((db) => getSetting(db, 'landmarks', true))
+      .then(setLandmarksOn);
+  }, []);
 
   const log = useRef<SessionLogEntry[]>([]);
   const startedAt = useRef(performance.now());
@@ -147,6 +163,21 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
   const maxTries = MAX_TRIES[exercise.answerMode];
   // Manche qui enchaîne plusieurs exercices (révisions du jour) : on affiche l'exercice en cours.
   const mixed = useMemo(() => new Set(game.questions.map((q) => q.exercise)).size > 1, [game]);
+  const placement = PLACEMENT_EXERCISES.has(exercise.id);
+  const showLandmarks = placement && landmarksOn;
+  useEffect(() => {
+    if (showLandmarks && !landmarks) loadLandmarks().then(setLandmarks, () => undefined); // hors ligne sans cache : tant pis
+  }, [showLandmarks]);
+
+  // Points d'ancrage : quelques capitales voisines, d'autant moins que la capitale demandée est retenue
+  // (fixés au début de la question). Pas dans un défi : tous les joueurs doivent avoir la même carte.
+  const anchors = useMemo(() => {
+    if (!showLandmarks || !entity || game.challenge) return [];
+    const record = game.recorder.cards.get(cardKey(entity.id, exercise.skill));
+    const mastery = record ? masteryOf(record.card) : 'new';
+    return capitalAnchors(world, entity, mastery, pendingCapitalEntities(consolidation.queue));
+  }, [consolidation, showLandmarks, entity, exercise.skill]);
+  const anchorLabels = useMemo<MapLabel[]>(() => anchors.map((a) => ({ lonLat: a.lonLat, text: a.name, kind: 'anchor' })), [anchors]);
 
   // Propositions de drapeaux : fixées par question, pour qu'un nouvel essai montre les mêmes.
   const flagPool = useMemo(() => world.countries.filter(hasOwnFlag), [world]);
@@ -358,6 +389,12 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
     if (entity && isExactTypedAnswer(exercise.id, entity, value, world)) answer({ kind: 'type', text: value });
   };
 
+  const toggleLandmarks = () => {
+    const value = !landmarksOn;
+    setLandmarksOn(value);
+    void progressDb().then((db) => putSetting(db, 'landmarks', value));
+  };
+
   const toggleAutocomplete = () => {
     const value = !autocomplete;
     setAutocomplete(value);
@@ -386,7 +423,7 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
   }, [entity, exercise.id, reveal, pending, wrongMark, success, hint]);
 
   const pins = useMemo<MapPin[]>(() => {
-    const list: MapPin[] = [];
+    const list: MapPin[] = anchors.map((a) => ({ lonLat: a.lonLat, kind: 'anchor' }));
     if (success?.pin) list.push({ lonLat: success.pin, kind: 'correct' });
     const capital = entity?.capital ? ([entity.capital.lon, entity.capital.lat] as [number, number]) : null;
     if (reveal) {
@@ -399,7 +436,7 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
       if (pending?.lonLat) list.push({ lonLat: pending.lonLat, kind: 'selected' });
     }
     return list;
-  }, [entity, exercise.id, reveal, pending, wrongMark, success]);
+  }, [entity, exercise.id, reveal, pending, wrongMark, success, anchors]);
 
   // Placer une capitale : un pointillé se dessine de mon clic jusqu'à la vraie position (jamais avant la fin
   // de la question, sinon il donnerait la réponse).
@@ -464,6 +501,9 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
           magnify
           markerIds={SHOWS_TARGET.has(exercise.id) && entity ? [entity.id] : null}
           insets={insets}
+          labels={anchorLabels}
+          landmarks={landmarks}
+          showLandmarks={showLandmarks}
           onPick={onPick}
           onReady={(map) => (mapRef.current = map)}
         />
@@ -600,6 +640,11 @@ export function GameScreen({ world, game, onFinish, onQuit }: Props) {
                   <span class="game__tries">
                     essai {tries + 1} sur {maxTries}
                   </span>
+                )}
+                {placement && (
+                  <label class="game__toggle" title="Fleuves, limites intérieures et capitales voisines, pour se repérer">
+                    <input type="checkbox" checked={landmarksOn} onChange={toggleLandmarks} /> Repères
+                  </label>
                 )}
                 {exercise.answerMode === 'type' && (
                   <label class="game__toggle">
