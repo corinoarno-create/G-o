@@ -45,8 +45,13 @@ describe('sanitizeChoice', () => {
 describe('migrateStoredChoice', () => {
   it('range l’ancien « Capitales → Placer » dans l’Expert', () => {
     const old = { zoneId: 'europe', category: 'capitals', mode: 'pin', count: 20, content: 'mix' };
-    expect(sanitizeChoice(migrateStoredChoice(old))).toMatchObject({ category: 'expert', mode: 'capital-pin', count: 20 });
+    expect(sanitizeChoice(migrateStoredChoice(old))).toMatchObject({ category: 'expert-capitals', mode: 'capital-pin', count: 20 });
     expect(modeOf(sanitizeChoice(migrateStoredChoice(old))).exercise).toBe('locate-capital');
+  });
+
+  it('découpe l’ancienne catégorie « Expert » en Capitales et Villes du mode Expert', () => {
+    expect(migrateStoredChoice({ category: 'expert', mode: 'city-type' })).toMatchObject({ category: 'cities', mode: 'city-type' });
+    expect(migrateStoredChoice({ category: 'expert', mode: 'capital-pin' })).toMatchObject({ category: 'expert-capitals' });
   });
 
   it('ne touche pas aux autres choix', () => {

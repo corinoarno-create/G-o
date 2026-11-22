@@ -11,6 +11,7 @@ import { progressDb } from '../storage/progress-db.ts';
 import type { CardRecord, FavoriteRecord } from '../storage/schema.ts';
 import {
   CATEGORIES,
+  categoryLabel,
   categoryOf,
   CONTENT_TYPES,
   COUNTS,
@@ -187,7 +188,7 @@ export function SessionBuilder({ world, zones, zoneId, onZoneChange, onStart, on
               class={choice.category === category.id ? 'is-active' : ''}
               onClick={() => update({ category: category.id })}
             >
-              {category.label}
+              {categoryLabel(category)}
             </button>
           ))}
         </div>

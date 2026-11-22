@@ -6,7 +6,7 @@ import { buildWorldData, countries } from '../data/world.ts';
 import type { Skill } from '../engine/srs.ts';
 import { buildZones } from '../map/zones.ts';
 import type { CardRecord } from '../storage/schema.ts';
-import { percent, zoneProgress } from './zone-stats.ts';
+import { percent, zoneCityCountries, zoneProgress } from './zone-stats.ts';
 
 const topology = JSON.parse(readFileSync(join(import.meta.dirname, '../../data/world/world.topo.json'), 'utf8'));
 const world = buildWorldData(topology, countries);
@@ -49,7 +49,7 @@ describe('zoneProgress', () => {
     expect(locate).toMatchObject({ strong: 1, due: 1, fresh: europe.entityIds.length - 2 });
     expect(progress.due).toBe(1);
     expect(progress.share).toBeGreaterThan(0);
-    expect(progress.categories.map((c) => c.category)).toEqual(['countries', 'capitals', 'flags', 'expert']);
+    expect(progress.categories.map((c) => c.category)).toEqual(['countries', 'capitals', 'flags', 'expert-capitals', 'cities']);
   });
 
   it('met l’expert à part : il ne compte pas dans la part du carnet, et compte les sceaux', () => {
@@ -61,14 +61,32 @@ describe('zoneProgress', () => {
     const progress = zoneProgress(world, europe, cards, now);
     expect(progress.share).toBe(0);
     expect(progress.due).toBe(0); // la révision expert due n'est pas une révision du carnet
-    const expert = progress.categories.find((c) => c.category === 'expert')!;
+    const expert = progress.categories.find((c) => c.category === 'expert-capitals')!;
     expect(expert.expert).toBe(true);
     expect(expert.rows[0]).toMatchObject({ skill: 'locate-capital', strong: 2, due: 1 });
-    expect(expert.rows.map((row) => row.skill)).toEqual(['locate-capital', 'locate-city', 'name-city']);
-    expect(expert.rows[1]!.total).toBeGreaterThan(100); // villes d'Europe
+    const cities = progress.categories.find((c) => c.category === 'cities')!;
+    expect(cities.expert).toBe(true);
+    expect(cities.rows.map((row) => row.skill)).toEqual(['locate-city', 'name-city']);
+    expect(cities.rows[0]!.total).toBeGreaterThan(100); // villes d'Europe
     expect(progress.expert.seals).toBe(1);
     expect(progress.expert.sealable).toBeGreaterThan(40);
     expect(progress.expert.share).toBeGreaterThan(0);
+  });
+});
+
+describe('zoneCityCountries', () => {
+  it('donne le progrès des villes pays par pays (placer et nommer)', () => {
+    const lyon = world.cities.find((c) => c.name === 'Lyon')!;
+    const marseille = world.cities.find((c) => c.name === 'Marseille')!;
+    const cards = new Map([
+      card(lyon.id, 'locate-city', '2026-12-20T00:00:00Z', 12),
+      card(lyon.id, 'name-city', '2026-12-20T00:00:00Z', 12),
+      card(marseille.id, 'locate-city', '2026-12-20T00:00:00Z', 12), // pas encore nommée
+    ]);
+    const list = zoneCityCountries(world, europe, cards);
+    expect(list.find((c) => c.id === 'fr')).toMatchObject({ name: 'France', total: 10, acquired: 1, fresh: 8, seal: false });
+    expect(list.some((c) => c.id === 'mc')).toBe(false); // Monaco n'a pas de ville
+    expect(list.map((c) => c.name)).toEqual([...list.map((c) => c.name)].sort((a, b) => a.localeCompare(b, 'fr')));
   });
 });
 

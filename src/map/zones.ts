@@ -24,7 +24,7 @@ export interface ZoneView {
   box: GeoBox | null;
 }
 
-export type ZoneKind = 'world' | 'continent' | 'subregion';
+export type ZoneKind = 'world' | 'continent' | 'subregion' | 'country';
 
 export interface Zone {
   id: string;
@@ -89,6 +89,13 @@ export function zoneFromEntities(
     .filter((shape): shape is Shape => shape !== undefined);
   const box = BOX_OVERRIDES[base.id] ?? boxOf(framing);
   return { ...base, entityIds, view: { projection: 'azimuthal', box } };
+}
+
+/** Zone d'un seul pays (pour apprendre ses villes pays par pays), cadrée sur lui. */
+export function countryZone(world: WorldData, id: string): Zone | null {
+  const entity = world.byId.get(id);
+  if (!entity) return null;
+  return zoneFromEntities(world, { id: `country:${id}`, label: entity.name, kind: 'country', parent: entity.continent }, [id]);
 }
 
 /** Toutes les zones : Monde, puis chaque continent suivi de ses sous-régions. */

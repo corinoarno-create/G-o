@@ -61,11 +61,11 @@ const LAYOUT: Array<{ category: CategoryId; label: string; rows: Array<{ skill: 
     ],
   },
   { category: 'flags', label: 'Drapeaux', rows: [{ skill: 'flag', label: 'Reconnaître les drapeaux' }] },
+  { category: 'expert-capitals', label: 'Capitales', rows: [{ skill: 'locate-capital', label: 'Placer les capitales' }] },
   {
-    category: 'expert',
-    label: 'Expert',
+    category: 'cities',
+    label: 'Villes',
     rows: [
-      { skill: 'locate-capital', label: 'Placer les capitales' },
       { skill: 'locate-city', label: 'Placer les villes' },
       { skill: 'name-city', label: 'Nommer les villes' },
     ],
@@ -119,4 +119,44 @@ export function zoneProgress(world: WorldData, zone: Zone, cards: Map<string, Ca
 export function percent(share: number): string {
   if (share <= 0) return '0 %';
   return `${Math.max(1, Math.round(share * 100))} %`;
+}
+
+/** Progrès des villes d'un pays (mode Expert) : une ville compte quand je sais la placer et la nommer. */
+export interface CountryCities {
+  id: string;
+  name: string;
+  /** Villes du pays. */
+  total: number;
+  /** Villes acquises dans les deux exercices (placer et nommer). */
+  acquired: number;
+  /** Villes jamais vues (ni placées ni nommées). */
+  fresh: number;
+  seal: boolean;
+}
+
+/** Pays de la zone qui ont des villes, dans l'ordre alphabétique, avec leur progrès. */
+export function zoneCityCountries(world: WorldData, zone: Zone, cards: Map<string, CardRecord>): CountryCities[] {
+  const strong = (key: string) => {
+    const record = cards.get(key);
+    const level = record ? masteryOf(record.card) : 'new';
+    return level === 'acquired' || level === 'mastered';
+  };
+  const seen = (key: string) => (cards.get(key)?.card.reps ?? 0) > 0;
+  return zone.entityIds
+    .flatMap((id) => {
+      const entity = world.byId.get(id);
+      const list = world.citiesByCountry.get(id) ?? [];
+      if (!entity || list.length === 0) return [];
+      return [
+        {
+          id,
+          name: entity.name,
+          total: list.length,
+          acquired: list.filter((city) => strong(cardKey(city.id, 'locate-city')) && strong(cardKey(city.id, 'name-city'))).length,
+          fresh: list.filter((city) => !seen(cardKey(city.id, 'locate-city')) && !seen(cardKey(city.id, 'name-city'))).length,
+          seal: hasSeal(world, entity, cards),
+        },
+      ];
+    })
+    .sort((a, b) => a.name.localeCompare(b.name, 'fr'));
 }

@@ -333,20 +333,106 @@
   color: #fff8e1;
 }
 
-.zone__expert-head th {
-  padding-top: 12px;
-  color: #8a5f06;
-  font: 700 0.95rem var(--font-body);
-  text-align: left;
+
+
+/* Modes de jeu : Initié (encre) et Expert (doré), en tête de la fiche. */
+.zone__modes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin: 12px 0 4px;
+  padding: 4px;
+  border: 1.5px solid var(--ink-soft);
+  border-radius: 999px;
+  background: #fffdf7;
 }
 
-.zone__expert-head svg {
+.zone__mode {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 38px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font: 800 0.95rem var(--font-body);
+  cursor: pointer;
+}
+
+.zone__mode--initie.is-active {
+  background: var(--ink);
+  color: var(--paper-light);
+}
+
+.zone__mode--expert {
+  color: #8a5f06;
+}
+
+.zone__mode--expert.is-active {
+  background: #8a5f06;
+  color: #fff8e1;
+}
+
+.zone__expert-note {
+  margin: 0 0 6px;
+  color: #8a5f06;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.zone__expert-note svg {
   vertical-align: -3px;
 }
 
-.zone__expert-head span {
-  margin-left: 6px;
+/* Villes : choix du pays, avec son progrès (villes placées et nommées). */
+.zone__countries {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 6px;
+  max-height: 260px;
+  overflow-y: auto;
+  padding: 2px;
+}
+
+.zone__country {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 2px 8px;
+  padding: 6px 10px;
+  border: 1.5px solid #d9c9a3;
+  border-radius: 10px;
+  background: #fffdf7;
+  color: var(--ink);
+  font: 700 0.85rem var(--font-body);
+  text-align: left;
+  cursor: pointer;
+}
+
+.zone__country.is-active {
+  border-color: #8a5f06;
+  background: #fff1c9;
+}
+
+.zone__country-name {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--ink);
+}
+
+.zone__country-name svg {
+  color: #8a5f06;
+}
+
+.zone__country-count {
   color: var(--ink-soft);
-  font-weight: 400;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
+}
+
+.zone__country .zone__bar {
+  width: 100%;
 }
